@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
   loginUser: {
-    userId:""
+    userId:"Default"
   }
 }
 const userSlice = createSlice({
@@ -22,3 +22,4 @@ export default userSlice.reducer;
 export const {
   setUserId
 } = userSlice.actions
+export const selectUser = (state) => state.user
