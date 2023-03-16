@@ -1,16 +1,19 @@
-import './App.css'
-import { BrowserRouter, Link,Routes, Route, RouterProvider } from 'react-router-dom'
-import Main from './pages/main/Main'
-import router from './router/index'
+import "./App.css";
+import {
+  BrowserRouter,
+  Link,
+  Routes,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import router from "./router/index";
 
 function App() {
-
   return (
     <div>
-    <RouterProvider router={router}>
-    </RouterProvider>
+      <RouterProvider router={router}></RouterProvider>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
