@@ -1,13 +1,13 @@
 import React from "react";
 import Navbar from "../navbar/navbar";
 
-const Main = () => {
+const Landding = () => {
   return (
     <div>
       <Navbar />
-      황산나래, 지혁주 Main.jsx에서 작성된 내용
+      안녕 이봐 황산나래
     </div>
   );
 };
 
-export default Main;
+export default Landding;
