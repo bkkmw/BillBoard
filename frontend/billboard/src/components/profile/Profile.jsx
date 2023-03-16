@@ -2,13 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { selectUser } from "../../store/user";
 import { useSelector } from "react-redux";
+import ProfileInfo from "./ProfileInfo";
+
 const Profile = () => {
   const userId = useSelector(selectUser).loginUser.userId;
   return (
     <div>
-      Projile.jsx에서 작성한 내용
+      <ProfileInfo />
       <Link to="/">메인페이지로</Link>
-      <div>유저이름:{userId}</div>
     </div>
   );
 };
