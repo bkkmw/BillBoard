@@ -11,6 +11,7 @@ const Navbar = () => {
       <Link to={"/gameroom"}>게임방 </Link>
       <Link to={"/reserve"}>예약 </Link>
       <Link to={"/profile"}>프로필페이지</Link>
+      <Link to={"/reserve/find"}>매칭</Link>
     </div>
   );
 };
