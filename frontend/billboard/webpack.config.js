@@ -9,7 +9,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './index.html',
             minify: false,
-            REACT_APP_KAKAO_API_KEY: REACT_APP_KAKAO_API_KEY,
+            REACT_APP_KAKAO_API_KEY: process.env.REACT_APP_KAKAO_API_KEY,
         }),
     ],
     // 생략
