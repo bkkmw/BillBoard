@@ -33,7 +33,7 @@ public class User {
     private String email;
 
     @Column(name = "state", length = 10)
-//    @ColumnDefault("offline")
+    @ColumnDefault("'offline'")
     private String state;
 
     @Column(name = "match_count")
@@ -41,7 +41,7 @@ public class User {
     private int matchCount;
 
     @Column(name = "win_count")
-    @ColumnDefault("1")
+    @ColumnDefault("0")
     private int winCount;
 
     @Column(name = "experience")
