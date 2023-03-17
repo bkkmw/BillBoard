@@ -6,33 +6,45 @@ import Reserve from "../components/reserve/Reserve";
 import Login from "../components/login/Login";
 import Singup from "../components/login/Singup";
 import Landding from "../components/landding/Landding";
-
+import ReserveFind from "../components/reserve/ReserveFind";
+import App from "../App";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Landding />,
-    children: [{}],
-  },
-  {
-    path: "main",
-    element: <Main />,
-    children: [{}],
-  },
-  {
-    path: "profile",
-    element: <Profile />,
-    children: [{}],
-  },
-  {
-    path: "gameroom",
-    element: <Gameroom />,
-    children: [{}],
-  },
+    element: <App/>,
+    children: [
+      {
+        path:"",
+        element:<Landding />,
+        children:[{}]
+      }
+      ,{
+        path: "main",
+        element: <Main />,
+        children: [{}],
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+        children: [{}],
+      },
+      {
+        path: "gameroom",
+        element: <Gameroom />,
+        children: [{}],
+      },
+      
   {
     path: "reserve",
     element: <Reserve />,
     children: [{}],
   },
+  {
+    path: "reserve/find",
+    element: <ReserveFind/>,
+    children:[{}]
+  },
+
   {
     path: "login",
     element: <Login />,
@@ -43,6 +55,13 @@ const router = createBrowserRouter([
     element: <Singup />,
     children: [{}],
   },
+    ],
+  },
+
+
+
+
+
 ]);
 
 export default router;
