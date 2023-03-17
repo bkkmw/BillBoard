@@ -19,15 +19,11 @@ public class SecurityConfig {
         http
                 .csrf().disable()   // disable CSRF
                 .cors().disable()   // disable CORS
-                .authorizeHttpRequests(request ->
-                        request.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                                .anyRequest().authenticated()
-                )
-//                .formLogin(login ->
-//                    login.defaultSuccessUrl("/", true)
-//                            .permitAll()
+//                .authorizeHttpRequests(request ->
+//                        request.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+//                                .anyRequest().authenticated()
 //                )
-                .formLogin().disable()
+                .formLogin().disable()  // disable default login form
                 .logout(Customizer.withDefaults())
         ;
 
