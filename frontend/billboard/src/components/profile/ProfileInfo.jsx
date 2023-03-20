@@ -1,7 +1,7 @@
 import React from "react";
 import ProfilButton from "./ProfilButton";
-import ProfileFriendsList from "./ProfileFriendsList";
 import ProfileExp from "./ProfileExp";
+import ProfileFriendsList from "./ProfileFriendsList";
 import ProfileSearch from "./ProfileSearch";
 
 const ProfileInfo = () => {
