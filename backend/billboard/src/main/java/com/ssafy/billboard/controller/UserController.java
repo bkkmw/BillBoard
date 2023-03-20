@@ -28,14 +28,6 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
-    @Operation(summary = "Swagger Test", description = "[Test] this API is created for swagger test, soon will be removed")
-    @GetMapping("/test")
-    public ResponseEntity<?> swaggerTest(){
-        HttpStatus status = null;
-        status = HttpStatus.OK;
-        return new ResponseEntity<Void>(status);
-    }
-
     @Operation(summary = "User sign up", description = "Sign up")
     @PostMapping
     public ResponseEntity<?> signup(@RequestBody UserSignUpDto userSignUpDto) {
