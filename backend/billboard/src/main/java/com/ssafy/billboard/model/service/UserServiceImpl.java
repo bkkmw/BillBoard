@@ -49,4 +49,24 @@ public class UserServiceImpl implements UserService {
                 .winCount(user.getWinCount())
                 .build();
     }
+
+    // TBD ...
+    @Override
+    public int modifyUserInfo(UserSignUpDto userSignUpDto) {
+        logger.trace("modify user : {}", userSignUpDto);
+
+        return 0;
+    }
+
+    @Override
+    public int deleteUser(String userId){
+        logger.trace("delete user : {}", userId);
+
+        User user = userRepository.findByUserId(userId);
+
+        if(user == null) return 0;
+
+        userRepository.delete(userRepository.findByUserId(userId));
+        return 1;
+    }
 }

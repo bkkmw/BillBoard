@@ -8,4 +8,7 @@ public interface UserService {
 
     public UserInfoDto getUserInfo(String userId);
 
+    public int modifyUserInfo(UserSignUpDto userSignUpDto);
+
+    public int deleteUser(String userId);
 }

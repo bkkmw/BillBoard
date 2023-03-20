@@ -1,6 +1,5 @@
 package com.ssafy.billboard.controller;
 
-import com.ssafy.billboard.model.dto.UserDto;
 import com.ssafy.billboard.model.dto.UserInfoDto;
 import com.ssafy.billboard.model.dto.UserSignUpDto;
 import com.ssafy.billboard.model.service.UserService;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,5 +58,20 @@ public class UserController {
         resultMap.put("userInfo", userInfoDto);
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @Operation(summary = "Delete User", description = "delete user by user id")
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") String userId) {
+        HttpStatus status = null;
+//        Map<String, Object> resultMap = new HashMap<>();
+
+        logger.trace("delete user : {}", userId);
+
+        int res = userService.deleteUser(userId);
+
+        status = (res > 0)? HttpStatus.OK : HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<Void>(status);
     }
 }
