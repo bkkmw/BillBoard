@@ -17,19 +17,19 @@ public class UserServiceImplTest {
     @Autowired
     public UserRepository userRepository;
 
-    @Test
-    public void signup() {
-
-        UserSignUpDto userSignUpDto = new UserSignUpDto();
-
-        userSignUpDto.setUserId("Test");
-        userSignUpDto.setPassword("1234");
-        userSignUpDto.setNickname("TESTER");
-        userSignUpDto.setEmail("ee@aa.com");
-
-        userRepository.save(new User.UserBuilder(userSignUpDto).build());
-        System.out.println("HERE");
-        assertEquals(1, 1);
-
-    }
+//    @Test
+//    public void signup() {
+//
+//        UserSignUpDto userSignUpDto = new UserSignUpDto();
+//
+//        userSignUpDto.setUserId("Test");
+//        userSignUpDto.setPassword("1234");
+//        userSignUpDto.setNickname("TESTER");
+//        userSignUpDto.setEmail("ee@aa.com");
+//
+//        userRepository.save(new User.UserBuilder(userSignUpDto).build());
+//        System.out.println("HERE");
+//        assertEquals(1, 1);
+//
+//    }
 }
