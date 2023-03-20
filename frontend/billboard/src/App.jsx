@@ -1,17 +1,11 @@
 import "./App.css";
-import {
-  BrowserRouter,
-  Link,
-  Routes,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
-import router from "./router/index";
-
+import Navbar from "./components/navbar/Navbar";
+import { Outlet } from "react-router";
 function App() {
   return (
     <div>
-      <RouterProvider router={router}></RouterProvider>
+      <Navbar />
+      <Outlet />
     </div>
   );
 }
