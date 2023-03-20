@@ -5,15 +5,12 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserDto {
+public class UserInfoDto {
 
     private String userId;
-    private String password;
     private String nickname;
     private String email;
-    private String state;
+    private int experience;
     private int matchCount;
     private int winCount;
-    private int experience;
-    private String refreshToken;
 }
