@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReplyRepository extends JpaRepository<Reply, Integer> {
-    List<Reply> findAllByRoomId(int roomId);
+public interface ReplyRepository extends JpaRepository<Reply, Long> {
+    List<Reply> findAllByRoomId(long roomId);
 }

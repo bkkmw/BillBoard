@@ -34,25 +34,24 @@ public class RoomService {
     }
 
     public List<Room> getRooms(){
-//        List<RoomDto.RoomInfo> rooms = new ArrayList<>();
         List<Room> rooms = roomRepository.findAll();
         return rooms;
     }
 
-    public Room getRoom(int roomId){
+    public Room getRoom(long roomId){
         if(roomRepository.existsById(roomId))
             return roomRepository.findById(roomId).get();
         return null;
     }
 
-    public boolean deleteRoom(int roomId){
+    public boolean deleteRoom(long roomId){
         if(!roomRepository.existsById(roomId))
             return false;
         roomRepository.deleteById(roomId);
         return true;
     }
 
-    public Room updateRoom(int roomId, RoomDto.RoomUpdate roomUpdate){
+    public Room updateRoom(long roomId, RoomDto.RoomUpdate roomUpdate){
         if(!roomRepository.existsById(roomId))
             return null;
         Room room = roomRepository.findById(roomId).get();
@@ -72,13 +71,13 @@ public class RoomService {
         return replyRepository.save(reply);
     }
 
-    public List<Reply> getReplies(int roomId){
+    public List<Reply> getReplies(long roomId){
         if(!roomRepository.existsById(roomId))
             return null;
         return replyRepository.findAllByRoomId(roomId);
     }
 
-    public boolean deleteReply(int replyId){
+    public boolean deleteReply(long replyId){
         if(!replyRepository.existsById(replyId))
             return false;
         replyRepository.deleteById(replyId);
