@@ -27,4 +27,13 @@ public class RoomDto {
         private String location;
         private Date date;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ReplyInput {
+        private long roomId;
+        private String content;
+        private String userId;
+    }
 }

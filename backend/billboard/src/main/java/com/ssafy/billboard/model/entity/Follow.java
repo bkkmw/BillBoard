@@ -5,24 +5,21 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name="reply")
+@Table(name="follow")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class Reply {
+public class Follow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
-    private long replyId;
+    private long followId;
 
     @Column(nullable = false)
-    private long roomId;
-
-    @Column
-    private String content;
+    private String fromUserId;
 
     @Column(nullable = false)
-    private String userId;
+    private String toUserId;
 }
