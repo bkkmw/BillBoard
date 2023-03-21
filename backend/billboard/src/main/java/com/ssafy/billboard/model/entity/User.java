@@ -23,7 +23,7 @@ import java.util.Collection;
 public class User implements UserDetails {
 
     @Id
-    @Column(name = "user_id", length = 45)
+    @Column(name = "userId", length = 45)
     private String userId;
 
     @Column(name = "password", length = 64)
@@ -39,21 +39,21 @@ public class User implements UserDetails {
     @ColumnDefault("'offline'")
     private String state;
 
-    @Column(name = "match_count")
+    @Column(name = "matchCount")
     @ColumnDefault("0")
     private int matchCount;
 
-    @Column(name = "win_count")
+    @Column(name = "winCount")
     @ColumnDefault("0")
     private int winCount;
 
     @Column(name = "experience")
     private int experience;
 
-    @Column(name = "refresh_token", length = 200)
+    @Column(name = "refreshToken", length = 200)
     private String refreshToken;
 
-    @Column(name = "IMG", length = 200)
+    @Column(name = "img", length = 200)
     private String img;
 
     private User(UserBuilder builder) {
