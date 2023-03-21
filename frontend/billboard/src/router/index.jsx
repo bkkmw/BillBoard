@@ -5,10 +5,9 @@ import Gameroom from "../components/gameroom/Gameroom";
 import Landding from "../components/landding/Landding";
 import Login from "../components/login/Login";
 import Singup from "../components/login/Singup";
-import Main from "../components/main/Main";
-import Profile from "../components/profile/Profile";
 import Reserve from "../components/reserve/Reserve";
 import ReserveFind from "../components/reserve/ReserveFind";
+import App from "../App";
 const router = createBrowserRouter([
   {
     path: "/",
