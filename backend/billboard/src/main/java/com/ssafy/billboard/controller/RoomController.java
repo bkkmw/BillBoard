@@ -34,7 +34,7 @@ public class RoomController {
     }
 
     @GetMapping("/{roomId}")
-    public ResponseEntity<?> getRoom(@PathVariable int roomId){
+    public ResponseEntity<?> getRoom(@PathVariable long roomId){
         Room room = roomService.getRoom(roomId);
         if(room == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -43,14 +43,14 @@ public class RoomController {
     }
 
     @DeleteMapping("/{roomId}")
-    public ResponseEntity<?> deleteRoom(@PathVariable int roomId){
+    public ResponseEntity<?> deleteRoom(@PathVariable long roomId){
         if(roomService.deleteRoom(roomId))
             return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{roomId}")
-    public ResponseEntity<?> updateRoom(@PathVariable int roomId, @RequestBody RoomDto.RoomUpdate roomUpdate){
+    public ResponseEntity<?> updateRoom(@PathVariable long roomId, @RequestBody RoomDto.RoomUpdate roomUpdate){
         Room room = roomService.updateRoom(roomId, roomUpdate);
         if(room != null)
             return new ResponseEntity<>(room, HttpStatus.OK);
@@ -66,7 +66,7 @@ public class RoomController {
     }
 
     @GetMapping("/reply/{roomId}")
-    public ResponseEntity<?> getReplies(@PathVariable int roomId){
+    public ResponseEntity<?> getReplies(@PathVariable long roomId){
         List<Reply> replies = roomService.getReplies(roomId);
         if(replies == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -76,7 +76,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/reply/{replyId}")
-    public ResponseEntity<?> deleteReply(@PathVariable int replyId){
+    public ResponseEntity<?> deleteReply(@PathVariable long replyId){
         if(roomService.deleteReply(replyId))
             return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
