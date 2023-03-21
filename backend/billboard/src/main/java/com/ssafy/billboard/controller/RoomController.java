@@ -2,7 +2,6 @@ package com.ssafy.billboard.controller;
 
 import com.ssafy.billboard.model.dto.RoomDto;
 import com.ssafy.billboard.model.entity.Room;
-import com.ssafy.billboard.model.repository.RoomRepository;
 import com.ssafy.billboard.model.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
