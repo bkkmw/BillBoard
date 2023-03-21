@@ -22,6 +22,7 @@ public class RoomService {
     private UserRepository userRepository;
 
     public Room createRoom(RoomDto.RoomInput roomInput){
+        //없는 유저 처리
         Room room = Room.builder()
                 .hostId(roomInput.getHostId())
                 .title(roomInput.getTitle())
