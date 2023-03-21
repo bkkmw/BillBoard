@@ -1,3 +1,5 @@
+use `billboard`;
+
 DROP TABLE IF EXISTS `follow`;
 DROP TABLE IF EXISTS `entry`;
 DROP TABLE IF EXISTS `reply`;
@@ -5,6 +7,20 @@ DROP TABLE IF EXISTS `room`;
 DROP TABLE IF EXISTS `user`;
 
 -- 유저테이블 만들 자리 
+CREATE TABLE IF NOT EXISTS `user` (
+  `userId` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NULL DEFAULT NULL,
+  `experience` INT(11) NULL DEFAULT NULL,
+  `matchCount` INT(11) NULL DEFAULT '0',
+  `nickname` VARCHAR(45) NULL DEFAULT NULL,
+  `password` VARCHAR(64) NULL DEFAULT NULL,
+  `refreshToken` VARCHAR(200) NULL DEFAULT NULL,
+  `state` VARCHAR(10) NULL DEFAULT 'offline',
+  `winCount` INT(11) NULL DEFAULT '0',
+  `img` VARCHAR(200) NULL DEFAULT NULL,
+  PRIMARY KEY (`userId`),
+  UNIQUE INDEX `UK_ob8kqyqqgmefl0aco34akdtpe` (`email` ASC) 
+);
 
 CREATE TABLE `room` (
 	`roomId` bigint NOT NULL AUTO_INCREMENT,
