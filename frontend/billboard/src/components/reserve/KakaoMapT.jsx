@@ -1,5 +1,6 @@
 /*global kakao*/ 
 import { useEffect, useState } from "react";
+
 import * as S from "./WriteMap.styled";
 
 const {kakao} = window;
@@ -280,7 +281,7 @@ export default function KakaoMapT({setLocation}) {
       <div id="map"></div>
 
       <div id="menuDiv">
-        <div id="menu_wrap" className="bg_white">
+        <div className="bg_white" id="menu_wrap">
           <div className="option">
             <div>
               <div id="map_title">
@@ -289,9 +290,9 @@ export default function KakaoMapT({setLocation}) {
 
               <div id="form">
                 <input
+                  id="keyword"
                   type="text"
                   value={search}
-                  id="keyword"
                   onChange={onchangeSearch}
                 />
                 <button id="submit_btn" type="submit">
@@ -310,8 +311,8 @@ export default function KakaoMapT({setLocation}) {
             <div id="btnOn">
               <button
                 id="searchBtn"
-                onClick={onClickSearchBarOpen}
                 type="button"
+                onClick={onClickSearchBarOpen}
               >
                 <S.LeftDisplayButton />
               </button>
@@ -320,8 +321,8 @@ export default function KakaoMapT({setLocation}) {
             <div id="btnOn">
               <button
                 id="searchBtn"
-                onClick={onClickSearchBarOpen}
                 type="button"
+                onClick={onClickSearchBarOpen}
               >
                 <S.RightDisplayButton />
               </button>

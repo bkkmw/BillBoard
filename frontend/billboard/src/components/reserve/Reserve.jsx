@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { Button, Modal } from "antd";
-import ReserveForm from "./ReserveForm";
+
 import KakaoMapT from "./KakaoMapT";
+import ReserveForm from "./ReserveForm";
 
 const Reserve = () => {
   const [modalOpen, setModalOpen] = useState(false)
@@ -14,9 +16,9 @@ const Reserve = () => {
       
       <Link to="/">메인페이지로</Link>
       <div id="modal">
-      <Modal title="Basic Modal" open={modalOpen} onCancel={()=>{
+      <Modal bodyStyle={{height:window.innerHeight*0.8}} open={modalOpen} title="Basic Modal" width={window.innerWidth*0.8} onCancel={()=>{
         setModalOpen(false)
-      }} width={window.innerWidth*0.8} bodyStyle={{height:window.innerHeight*0.8}}>
+      }}>
         <ReserveForm/>
       </Modal>
       </div>
