@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+
 import { Avatar, List, Skeleton } from "antd";
+import { Link } from "react-router-dom";
 
 const fakeDataUrl = `https://randomuser.me/api/?results=50&inc=name,gender,email,nat,picture&noinfo`;
 
-const FriendList = () => {
+const FollowingList = () => {
   const [initLoading, setInitLoading] = useState(true);
   const [data, setData] = useState([]);
   const [list, setList] = useState([]);
@@ -21,15 +23,15 @@ const FriendList = () => {
   return (
     <List
       className="demo-loadmore-list"
-      loading={initLoading}
-      itemLayout="horizontal"
       dataSource={list}
+      itemLayout="horizontal"
+      loading={initLoading}
       renderItem={(item) => (
-        <List.Item actions={[<a key="list-loadmore-edit">edit</a>]}>
-          <Skeleton avatar title={false} loading={item.loading} active>
+        <List.Item actions={[<a key="list-loadmore-edit">delete</a>]}>
+          <Skeleton active avatar loading={item.loading} title={false}>
             <List.Item.Meta
               avatar={<Avatar src={item.picture.large} />}
-              title={item.name?.last}
+              title={<Link to="/">{item.name?.last}</Link>}
             />
           </Skeleton>
         </List.Item>
@@ -38,4 +40,4 @@ const FriendList = () => {
   );
 };
 
-export default FriendList;
+export default FollowingList;

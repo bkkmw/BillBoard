@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 
-import { SearchOutlined } from "@ant-design/icons";
 import { Button, Modal } from "antd";
 
-import UserSearch from "./UserSearch";
+import FollowingList from "./FollowingList";
 
-const ProfileSearch = () => {
+const ProfileFollowing = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -18,20 +17,22 @@ const ProfileSearch = () => {
   };
   return (
     <>
-      <Button icon={<SearchOutlined />} type="primary" onClick={showModal} />
+      <Button type="primary" onClick={showModal}>
+        팔로잉
+      </Button>
       <Modal
-        bodyStyle={{ height: "50vh", overflowY: "scroll" }}
+        bodyStyle={{ maxHeight: "500px", overflowY: "scroll" }} // 스크롤 추가
         open={isModalOpen}
-        title="친구 찾기"
+        title="팔로잉"
         onCancel={handleCancel}
         onOk={handleOk}
       >
         <div>
-          <UserSearch />
+          <FollowingList />
         </div>
       </Modal>
     </>
   );
 };
 
-export default ProfileSearch;
+export default ProfileFollowing;

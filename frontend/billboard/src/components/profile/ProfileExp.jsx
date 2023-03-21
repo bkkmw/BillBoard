@@ -1,17 +1,22 @@
 import React from "react";
-import { Progress, Space } from "antd";
+
+import { Progress } from "antd";
 
 const ProfileExp = () => {
   return (
-    <Progress
-      // 나중에 exp를 가져오면 percent에 넣으면 됨
-      percent={70}
-      status="active"
-      strokeColor={{
-        from: "#108ee9",
-        to: "#87d068",
-      }}
-    />
+    <div>
+      <Progress
+        // 나중에 exp를 가져오면 percent에 넣으면 됨
+        percent={70}
+        status="active"
+        strokeColor={{
+          from: "#108ee9",
+          to: "#87d068",
+        }}
+        // strokeWidth={30}
+        size={[window.innerWidth * 0.5, (window.innerWidth * 0.8) / 30]}
+      />
+    </div>
   );
 };
 

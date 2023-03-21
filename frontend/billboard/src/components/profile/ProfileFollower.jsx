@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Button, Modal } from "antd";
-import FriendList from "./FriendList";
 
-const ProfileModal = () => {
+import { Button, Modal } from "antd";
+
+import FollowerList from "./FollowerList";
+
+const ProfileFollower = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -16,21 +18,21 @@ const ProfileModal = () => {
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        친구목록
+        팔로워
       </Button>
       <Modal
-        title="친구목록"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
         bodyStyle={{ maxHeight: "500px", overflowY: "scroll" }} // 스크롤 추가
+        open={isModalOpen}
+        title="팔로워"
+        onCancel={handleCancel}
+        onOk={handleOk}
       >
         <div>
-          <FriendList />
+          <FollowerList />
         </div>
       </Modal>
     </>
   );
 };
 
-export default ProfileModal;
+export default ProfileFollower;
