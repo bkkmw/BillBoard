@@ -1,91 +1,52 @@
 package com.ssafy.billboard.model.entity;
 
 import com.ssafy.billboard.model.dto.RoomDto;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name="room")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@DynamicInsert
+@Builder
 public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
     private int roomId;
 
+    @Column(nullable = false)
+    private String hostId;
+
+    @Column(nullable = false)
     private String title;
 
+    @Column
     private int personCount;
 
+    @Column(nullable = false)
     private int personLimit;
 
+    @Column
     private String location;
 
+    @Column
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    private String hostId;
 
-    private Room(RoomBuilder builder) {
-        this.roomId = builder.roomId;
-        this.title = builder.title;
-        this.personCount = builder.personCount;
-        this.personLimit = builder.personLimit;
-        this.location = builder.location;
-        this.date = builder.date;
-        this.hostId = builder.hostId;
-    }
-
-    public static class RoomBuilder {
-        private int roomId;
-
-        private String title;
-
-        private int personCount;
-
-        private int personLimit;
-
-        private String location;
-
-        private Date date;
-
-        private String hostId;
-
-        public RoomBuilder(RoomDto roomDto){
-            this.title = roomDto.getTitle();
-            this.personLimit = roomDto.getPersonLimit();
-            this.hostId = roomDto.getHostId();
-        }
-
-        public RoomBuilder setRoomId(int roomId) {
-            this.roomId = roomId;
-            return this;
-        }
-
-        public RoomBuilder setPersonCount(int personCount) {
-            this.personCount = personCount;
-            return this;
-        }
-
-        public RoomBuilder setLocation(String location) {
-            this.location = location;
-            return this;
-        }
-
-        public RoomBuilder setDate(Date date) {
-            this.date = date;
-            return this;
-        }
-
-        public Room build(){
-            return new Room(this);
-        }
+    public void update(RoomDto.RoomUpdate roomUpdate){
+        if(roomUpdate.getTitle() != null)
+            this.title = roomUpdate.getTitle();
+        if(roomUpdate.getPersonLimit() != 0)
+            this.personLimit = roomUpdate.getPersonLimit();
+        if(roomUpdate.getLocation() != null)
+            this.location = roomUpdate.getLocation();
+        if(roomUpdate.getDate() != null)
+            this.date = roomUpdate.getDate();
     }
 }
