@@ -4,12 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class RoomDto {
+import java.util.Date;
 
-    private String title;
-    private int personLimit;
-    private String hostId;
+public class RoomDto {
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RoomInput {
+        private String hostId;
+        private String title;
+        private int personLimit;
+        private String location;
+        private Date date;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RoomUpdate {
+        private String title;
+        private int personLimit;
+        private String location;
+        private Date date;
+    }
 }
