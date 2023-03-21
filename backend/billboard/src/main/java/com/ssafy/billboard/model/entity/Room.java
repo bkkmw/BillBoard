@@ -1,5 +1,6 @@
 package com.ssafy.billboard.model.entity;
 
+import com.ssafy.billboard.model.dto.RoomDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,6 +20,9 @@ public class Room {
     private int roomId;
 
     @Column(nullable = false)
+    private String hostId;
+
+    @Column(nullable = false)
     private String title;
 
     @Column
@@ -34,7 +38,15 @@ public class Room {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Column(nullable = false)
-    private String hostId;
 
+    public void update(RoomDto.RoomUpdate roomUpdate){
+        if(roomUpdate.getTitle() != null)
+            this.title = roomUpdate.getTitle();
+        if(roomUpdate.getPersonLimit() != 0)
+            this.personLimit = roomUpdate.getPersonLimit();
+        if(roomUpdate.getLocation() != null)
+            this.location = roomUpdate.getLocation();
+        if(roomUpdate.getDate() != null)
+            this.date = roomUpdate.getDate();
+    }
 }

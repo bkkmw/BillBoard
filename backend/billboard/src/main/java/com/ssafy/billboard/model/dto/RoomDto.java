@@ -11,23 +11,20 @@ public class RoomDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class RoomInput {
+        private String hostId;
         private String title;
         private int personLimit;
         private String location;
         private Date date;
-        private String hostId;
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class RoomInfo {
-        private int roomId;
+    public static class RoomUpdate {
         private String title;
-        private int personCount;
         private int personLimit;
         private String location;
         private Date date;
-        private String hostId;
     }
 }
