@@ -19,8 +19,8 @@ public class RoomController {
 
     @PostMapping()
     public ResponseEntity<?> createRoom(@RequestBody RoomDto.RoomInput roomInput){
-        roomService.createRoom(roomInput);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Room room = roomService.createRoom(roomInput);
+        return new ResponseEntity<>(room, HttpStatus.CREATED);
     }
 
     @GetMapping()
@@ -45,6 +45,14 @@ public class RoomController {
     public ResponseEntity<?> deleteRoom(@PathVariable int roomId){
         if(roomService.deleteRoom(roomId))
             return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/{roomId}")
+    public ResponseEntity<?> updateRoom(@PathVariable int roomId, @RequestBody RoomDto.RoomUpdate roomUpdate){
+        Room room = roomService.updateRoom(roomId, roomUpdate);
+        if(room != null)
+            return new ResponseEntity<>(room, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

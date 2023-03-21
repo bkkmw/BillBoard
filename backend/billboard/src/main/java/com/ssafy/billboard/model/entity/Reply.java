@@ -1,7 +1,6 @@
 package com.ssafy.billboard.model.entity;
 
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
