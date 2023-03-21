@@ -69,6 +69,16 @@ public class User implements UserDetails {
         this.img = builder.img;
     }
 
+    public void updateOnLogin(String refreshToken) {
+        this.refreshToken = refreshToken;
+        this.state = "online";
+    }
+
+    public void updateOnLogout() {
+        this.refreshToken = "";
+        this.state = "offline";
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -123,7 +133,7 @@ public class User implements UserDetails {
             return this;
         }
 
-        public UserBuilder setmMatchCount(int matchCount){
+        public UserBuilder setMatchCount(int matchCount){
             this.matchCount = matchCount;
             return this;
         }
