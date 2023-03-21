@@ -1,8 +1,11 @@
 package com.ssafy.billboard.model.service;
 
 import com.ssafy.billboard.model.dto.RoomDto;
+import com.ssafy.billboard.model.entity.Reply;
 import com.ssafy.billboard.model.entity.Room;
+import com.ssafy.billboard.model.repository.ReplyRepository;
 import com.ssafy.billboard.model.repository.RoomRepository;
+import com.ssafy.billboard.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,10 @@ public class RoomService {
 
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private ReplyRepository replyRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public Room createRoom(RoomDto.RoomInput roomInput){
         Room room = Room.builder()
@@ -52,5 +59,29 @@ public class RoomService {
         room.update(roomUpdate);
         roomRepository.save(room);
         return room;
+    }
+
+    public Reply createReply(RoomDto.ReplyInput replyInput){
+        if(!roomRepository.existsById(replyInput.getRoomId()))//없는 유저 처리 아직 안 함
+            return null;
+        Reply reply = Reply.builder()
+                .roomId(replyInput.getRoomId())
+                .content(replyInput.getContent())
+                .userId(replyInput.getUserId())
+                .build();
+        return replyRepository.save(reply);
+    }
+
+    public List<Reply> getReplies(int roomId){
+        if(!roomRepository.existsById(roomId))
+            return null;
+        return replyRepository.findAllByRoomId(roomId);
+    }
+
+    public boolean deleteReply(int replyId){
+        if(!replyRepository.existsById(replyId))
+            return false;
+        replyRepository.deleteById(replyId);
+        return true;
     }
 }

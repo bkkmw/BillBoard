@@ -1,6 +1,7 @@
 package com.ssafy.billboard.controller;
 
 import com.ssafy.billboard.model.dto.RoomDto;
+import com.ssafy.billboard.model.entity.Reply;
 import com.ssafy.billboard.model.entity.Room;
 import com.ssafy.billboard.model.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,31 @@ public class RoomController {
         Room room = roomService.updateRoom(roomId, roomUpdate);
         if(room != null)
             return new ResponseEntity<>(room, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/reply")
+    public ResponseEntity<?> createReply(@RequestBody RoomDto.ReplyInput replyInput){
+        Reply reply = roomService.createReply(replyInput);
+        if(reply == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(reply, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/reply/{roomId}")
+    public ResponseEntity<?> getReplies(@PathVariable int roomId){
+        List<Reply> replies = roomService.getReplies(roomId);
+        if(replies == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(replies.size() == 0)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(replies, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/reply/{replyId}")
+    public ResponseEntity<?> deleteReply(@PathVariable int replyId){
+        if(roomService.deleteReply(replyId))
+            return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
