@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import java.util.Date;
 
 public class RoomDto {
@@ -26,5 +27,14 @@ public class RoomDto {
         private int personLimit;
         private String location;
         private Date date;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ReplyInput {
+        private int roomId;
+        private String content;
+        private String userId;
     }
 }
