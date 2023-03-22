@@ -1,6 +1,9 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
+import UserId from "./UserId";
+import UserPassword from "./UserPassword";
+
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -8,27 +11,30 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
 
 import Typography from "@mui/material/Typography";
 
-const Login = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+import { useForm, FormProvider } from "react-hook-form";
 
+const Login = () => {
+
+  const form = useForm({
+    defaultValues: {
+      UserId: "",
+      UserPassword: "",
+    },
+    mode: "onChange",
+  });
+
+  const onSubmit = (data) => console.log(data);
+  const onError = (error) => console.log("ERROR", error);
   return (
-    <Grid container component="main" sx={{ height: "100%", width: "100%" }}>
+    <FormProvider {...form}>
+    <Grid container component="main" sx={{ height: "100%", width: "100vh" }}>
       <Grid
         item
-        md={7}
-        sm={4}
-        xs={false}
+        
+        xs={6}
         sx={{
           backgroundImage: "url(https://source.unsplash.com/random)",
           backgroundRepeat: "no-repeat",
@@ -36,7 +42,7 @@ const Login = () => {
           backgroundPosition: "center",
         }}
       />
-      <Grid item square component={Paper} elevation={6} md={5} sm={8} xs={12}>
+      <Grid item square component={Paper} elevation={6} xs={6}>
         <Box
           sx={{
             my: 8,
@@ -53,30 +59,15 @@ const Login = () => {
             Bill Board
           </Typography>
           <Box
-            noValidate
             component="form"
+            
             sx={{ mt: 1 }}
-            onSubmit={handleSubmit}
+            onSubmit={form.handleSubmit(onSubmit, onError)}
           >
-            <TextField
-              fullWidth
-              required
-              autoComplete="id"
-              id="id"
-              label="ID"
-              margin="normal"
-              name="id"
-            />
-            <TextField
-              fullWidth
-              required
-              autoComplete="current-password"
-              id="password"
-              label="Password"
-              margin="normal"
-              name="password"
-              type="password"
-            />
+            <UserId />
+            <br />
+           
+            <UserPassword/>
 
             <Button
               fullWidth
@@ -107,6 +98,7 @@ const Login = () => {
         </Box>
       </Grid>
     </Grid>
+    </FormProvider>
   );
 };
 

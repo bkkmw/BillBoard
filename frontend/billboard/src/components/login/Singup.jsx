@@ -24,6 +24,7 @@ const Singup = () => {
       UserPassword: "",
       UserNickname: "",
       UserEmail: "",
+      PasswordCheck: ''
     },
     mode: "onChange",
   });
@@ -33,16 +34,17 @@ const Singup = () => {
 
   return (
     <FormProvider {...form}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" sx={{backgroundColor: 'white'}}>
         <Box
           sx={{
             marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            
           }}
         >
-          <Typography component="h1" variant="h5">
+          <Typography color='black' component="h1" variant="h5">
             Sign up
           </Typography>
 
