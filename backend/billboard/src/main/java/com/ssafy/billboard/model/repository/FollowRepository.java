@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Long> {
+    boolean existsByFromUserIdAndToUserId(String fromUserId, String toUserId);
     @Transactional
     void deleteByFromUserIdAndToUserId(String fromUserId, String toUserId);
-
     List<Follow> findAllByFromUserId(String fromUserId);
     List<Follow> findAllByToUserId(String toUserId);
 }

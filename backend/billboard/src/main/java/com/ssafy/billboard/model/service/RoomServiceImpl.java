@@ -25,7 +25,8 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public boolean createRoom(RoomDto.RoomInput roomInput){
-        //없는 유저 처리
+        if(!userRepository.existsByUserId(roomInput.getHostId()))
+            return false;
         roomRepository.save(Room.builder()
                 .hostId(roomInput.getHostId())
                 .title(roomInput.getTitle())
@@ -94,7 +95,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public boolean createReply(RoomDto.ReplyInput replyInput){
-        if(!roomRepository.existsById(replyInput.getRoomId()))//없는 유저 처리 아직 안 함
+        if(!roomRepository.existsById(replyInput.getRoomId()) || !userRepository.existsByUserId(replyInput.getUserId()))
             return false;
         replyRepository.save(Reply.builder()
                 .roomId(replyInput.getRoomId())
@@ -127,20 +128,23 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public boolean createEntry(RoomDto.EntryInput entryInput){
-        if(!roomRepository.existsById(entryInput.getRoomId()) || entryRepository.existsByRoomIdAndUserId(entryInput.getRoomId(), entryInput.getUserId()))
-            return false;
-        //없는 유저 처리
+    public int createEntry(RoomDto.EntryInput entryInput){
+        if(!roomRepository.existsById(entryInput.getRoomId()) || !userRepository.existsByUserId(entryInput.getUserId()))
+            return 0;
+        if(entryRepository.existsByRoomIdAndUserId(entryInput.getRoomId(), entryInput.getUserId()))
+            return -1;
         entryRepository.save(Entry.builder()
                 .roomId(entryInput.getRoomId())
                 .userId(entryInput.getUserId())
                 .build());
-        return true;
+        return 1;
     }
 
     @Override
     public boolean deleteEntry(RoomDto.EntryInput entryInput){
-        if(!roomRepository.existsById(entryInput.getRoomId()))
+        if(!roomRepository.existsById(entryInput.getRoomId())
+                || !userRepository.existsByUserId(entryInput.getUserId())
+                || !entryRepository.existsByRoomIdAndUserId(entryInput.getRoomId(), entryInput.getUserId()))
             return false;
         entryRepository.deleteByRoomIdAndUserId(entryInput.getRoomId(), entryInput.getUserId());
         return true;
