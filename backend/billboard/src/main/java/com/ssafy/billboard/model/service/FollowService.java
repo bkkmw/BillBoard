@@ -6,7 +6,7 @@ import com.ssafy.billboard.model.entity.Follow;
 import java.util.List;
 
 public interface FollowService {
-    public Follow createFollow(FollowDto.FollowInput followInput);
+    public boolean createFollow(FollowDto.FollowInput followInput);
 
     public boolean deleteFollow(FollowDto.FollowInput followInput);
 

@@ -18,13 +18,13 @@ public class FollowServiceImpl implements FollowService {
     private final UserRepository userRepository;
 
     @Override
-    public Follow createFollow(FollowDto.FollowInput followInput){
+    public boolean createFollow(FollowDto.FollowInput followInput){
         //없는 유저 처리, 이미 팔로우한 경우 처리
-        Follow follow = Follow.builder()
+        followRepository.save(Follow.builder()
                 .fromUserId(followInput.getFromUserId())
                 .toUserId(followInput.getToUserId())
-                .build();
-        return followRepository.save(follow);
+                .build());
+        return true;
     }
 
     @Override
@@ -36,19 +36,19 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<String> getFollowers(String toUserId){
-        List<String> retFollowers = new ArrayList<>();
-        List<Follow> followers = followRepository.findAllByToUserId(toUserId);
-        for(Follow follow : followers)
-            retFollowers.add(follow.getFromUserId());
-        return retFollowers;
+        List<Follow> followersEntity = followRepository.findAllByToUserId(toUserId);
+        List<String> followers = new ArrayList<>();
+        for(Follow follow : followersEntity)
+            followers.add(follow.getFromUserId());
+        return followers;
     }
 
     @Override
     public List<String> getFollowings(String fromUserId){
-        List<String> retFollowings = new ArrayList<>();
-        List<Follow> followings = followRepository.findAllByFromUserId(fromUserId);
-        for(Follow follow : followings)
-            retFollowings.add(follow.getToUserId());
-        return retFollowings;
+        List<Follow> followingsEntity = followRepository.findAllByFromUserId(fromUserId);
+        List<String> followings = new ArrayList<>();
+        for(Follow follow : followingsEntity)
+            followings.add(follow.getToUserId());
+        return followings;
     }
 }

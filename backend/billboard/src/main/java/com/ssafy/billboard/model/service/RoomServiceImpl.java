@@ -11,6 +11,7 @@ import com.ssafy.billboard.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,28 +24,53 @@ public class RoomServiceImpl implements RoomService {
     private final EntryRepository entryRepository;
 
     @Override
-    public Room createRoom(RoomDto.RoomInput roomInput){
+    public boolean createRoom(RoomDto.RoomInput roomInput){
         //없는 유저 처리
-        Room room = Room.builder()
+        roomRepository.save(Room.builder()
                 .hostId(roomInput.getHostId())
                 .title(roomInput.getTitle())
                 .personLimit(roomInput.getPersonLimit())
                 .location(roomInput.getLocation())
                 .date(roomInput.getDate())
-                .build();
-        return roomRepository.save(room);
+                .build());
+        return true;
     }
 
     @Override
-    public List<Room> getRooms(){
-        List<Room> rooms = roomRepository.findAll();
+    public List<RoomDto.RoomInfo> getRooms(){
+        List<Room> roomsEntity = roomRepository.findAll();
+        List<RoomDto.RoomInfo> rooms = new ArrayList<>();
+        for(Room room : roomsEntity)
+            rooms.add(RoomDto.RoomInfo.builder()
+                    .roomId(room.getRoomId())
+                    .hostId(room.getHostId())
+                    .title(room.getTitle())
+                    .personCount(room.getEntries().size())
+                    .personLimit(room.getPersonLimit())
+                    .location(room.getLocation())
+                    .date(room.getDate())
+                    .build());
         return rooms;
     }
 
     @Override
-    public Room getRoom(long roomId){
-        if(roomRepository.existsById(roomId))
-            return roomRepository.findById(roomId).get();
+    public RoomDto.RoomDetailInfo getRoom(long roomId){
+        if(roomRepository.existsById(roomId)) {
+            Room room = roomRepository.findById(roomId).get();
+            return RoomDto.RoomDetailInfo.builder()
+                    .roomInfo(RoomDto.RoomInfo.builder()
+                            .roomId(room.getRoomId())
+                            .hostId(room.getHostId())
+                            .title(room.getTitle())
+                            .personCount(room.getEntries().size())
+                            .personLimit(room.getPersonLimit())
+                            .location(room.getLocation())
+                            .date(room.getDate())
+                            .build())
+                    .entries(room.getEntries())
+                    .replies(room.getReplies())
+                    .build();
+        }
         return null;
     }
 
@@ -57,32 +83,39 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room updateRoom(long roomId, RoomDto.RoomUpdate roomUpdate){
+    public boolean updateRoom(long roomId, RoomDto.RoomUpdate roomUpdate){
         if(!roomRepository.existsById(roomId))
-            return null;
+            return false;
         Room room = roomRepository.findById(roomId).get();
         room.update(roomUpdate);
         roomRepository.save(room);
-        return room;
+        return true;
     }
 
     @Override
-    public Reply createReply(RoomDto.ReplyInput replyInput){
+    public boolean createReply(RoomDto.ReplyInput replyInput){
         if(!roomRepository.existsById(replyInput.getRoomId()))//없는 유저 처리 아직 안 함
-            return null;
-        Reply reply = Reply.builder()
+            return false;
+        replyRepository.save(Reply.builder()
                 .roomId(replyInput.getRoomId())
                 .content(replyInput.getContent())
                 .userId(replyInput.getUserId())
-                .build();
-        return replyRepository.save(reply);
+                .build());
+        return true;
     }
 
     @Override
-    public List<Reply> getReplies(long roomId){
+    public List<RoomDto.ReplyInfo> getReplies(long roomId){
         if(!roomRepository.existsById(roomId))
             return null;
-        return replyRepository.findAllByRoomId(roomId);
+        List<Reply> repliesEntity = replyRepository.findAllByRoomId(roomId);
+        List<RoomDto.ReplyInfo> replies = new ArrayList<>();
+        for(Reply reply : repliesEntity)
+            replies.add(RoomDto.ReplyInfo.builder()
+                    .content(reply.getContent())
+                    .userId(reply.getUserId())
+                    .build());
+        return replies;
     }
 
     @Override
@@ -94,15 +127,15 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Entry createEntry(RoomDto.EntryInput entryInput){
+    public boolean createEntry(RoomDto.EntryInput entryInput){
         if(!roomRepository.existsById(entryInput.getRoomId()) || entryRepository.existsByRoomIdAndUserId(entryInput.getRoomId(), entryInput.getUserId()))
-            return null;
+            return false;
         //없는 유저 처리
-        Entry entry = Entry.builder()
+        entryRepository.save(Entry.builder()
                 .roomId(entryInput.getRoomId())
                 .userId(entryInput.getUserId())
-                .build();
-        return entryRepository.save(entry);
+                .build());
+        return true;
     }
 
     @Override

@@ -40,6 +40,10 @@ public class Room {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roomId")
     private List<Entry> entries;
 
+    @Column
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roomId")
+    private List<Reply> replies;
+
     public void update(RoomDto.RoomUpdate roomUpdate){
         if(roomUpdate.getTitle() != null)
             this.title = roomUpdate.getTitle();

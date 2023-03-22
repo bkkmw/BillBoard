@@ -1,13 +1,12 @@
 package com.ssafy.billboard.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 public class FollowDto {
-    @Data
+    @Getter
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class FollowInput {
         private String fromUserId;
         private String toUserId;
