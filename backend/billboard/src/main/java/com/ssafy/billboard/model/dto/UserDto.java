@@ -1,9 +1,6 @@
 package com.ssafy.billboard.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 public class UserDto {
 
@@ -21,6 +18,7 @@ public class UserDto {
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class UserLoginDto {
@@ -29,6 +27,7 @@ public class UserDto {
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class UserSignUpDto {
