@@ -26,7 +26,6 @@ CREATE TABLE `room` (
 	`roomId` bigint NOT NULL AUTO_INCREMENT,
 	`hostId` varchar(45) NOT NULL,
 	`title` varchar(45) NOT NULL,
-	`personCount` int DEFAULT 0,
 	`personLimit` int NOT NULL,
 	`location` varchar(45) DEFAULT NULL,
 	`date` datetime DEFAULT NULL,
