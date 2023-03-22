@@ -24,16 +24,26 @@ public class FollowController {
 
     @PostMapping()
     public ResponseEntity<?> createFollow(@RequestBody FollowDto.FollowInput followInput){
-        if(followService.createFollow(followInput))
+        int res = followService.createFollow(followInput);
+        if(res == 1)
             return new ResponseEntity<>(HttpStatus.CREATED);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == 0)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == -1)
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping()
     public ResponseEntity<?> deleteFollow(@RequestBody FollowDto.FollowInput followInput){
-        if(followService.deleteFollow(followInput))
+        int res = followService.deleteFollow(followInput);
+        if(res == 1)
             return new ResponseEntity<>(HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == 0)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/to/{userId}")

@@ -18,24 +18,32 @@ public class FollowServiceImpl implements FollowService {
     private final UserRepository userRepository;
 
     @Override
-    public boolean createFollow(FollowDto.FollowInput followInput){
-        //없는 유저 처리, 이미 팔로우한 경우 처리
+    public int createFollow(FollowDto.FollowInput followInput){
+        if(!userRepository.existsByUserId(followInput.getFromUserId()) || !userRepository.existsByUserId(followInput.getToUserId()))
+            return 0;
+        if(followRepository.existsByFromUserIdAndToUserId(followInput.getFromUserId(), followInput.getToUserId()))
+            return -1;
         followRepository.save(Follow.builder()
                 .fromUserId(followInput.getFromUserId())
                 .toUserId(followInput.getToUserId())
                 .build());
-        return true;
+        return 1;
     }
 
     @Override
-    public boolean deleteFollow(FollowDto.FollowInput followInput){
-        //없는 유저, 팔로우중이 아닌 경우 처리 안 함
+    public int deleteFollow(FollowDto.FollowInput followInput){
+        if(!userRepository.existsByUserId(followInput.getFromUserId())
+                || !userRepository.existsByUserId(followInput.getToUserId())
+                || !followRepository.existsByFromUserIdAndToUserId(followInput.getFromUserId(), followInput.getToUserId()))
+            return 0;
         followRepository.deleteByFromUserIdAndToUserId(followInput.getFromUserId(), followInput.getToUserId());
-        return true;
+        return 1;
     }
 
     @Override
     public List<String> getFollowers(String toUserId){
+        if(!userRepository.existsByUserId(toUserId))
+            return null;
         List<Follow> followersEntity = followRepository.findAllByToUserId(toUserId);
         List<String> followers = new ArrayList<>();
         for(Follow follow : followersEntity)
@@ -45,6 +53,8 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<String> getFollowings(String fromUserId){
+        if(!userRepository.existsByUserId(fromUserId))
+            return null;
         List<Follow> followingsEntity = followRepository.findAllByFromUserId(fromUserId);
         List<String> followings = new ArrayList<>();
         for(Follow follow : followingsEntity)

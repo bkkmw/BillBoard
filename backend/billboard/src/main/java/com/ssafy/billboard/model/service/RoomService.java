@@ -16,6 +16,6 @@ public interface RoomService {
     public boolean createReply(RoomDto.ReplyInput replyInput);
     public List<RoomDto.ReplyInfo> getReplies(long roomId);
     public boolean deleteReply(long replyId);
-    public boolean createEntry(RoomDto.EntryInput entryInput);
+    public int createEntry(RoomDto.EntryInput entryInput);
     public boolean deleteEntry(RoomDto.EntryInput entryInput);
 }
