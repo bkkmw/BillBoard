@@ -24,27 +24,27 @@ public class FollowController {
 
     @PostMapping()
     public ResponseEntity<?> createFollow(@RequestBody FollowDto.FollowInput followInput){
-        Map<String, Object> resultMap = new HashMap<>();
-        Follow follow = followService.createFollow(followInput);
-        resultMap.put("follow", follow);
-        return new ResponseEntity<>(resultMap, HttpStatus.CREATED);
+        if(followService.createFollow(followInput))
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping()
     public ResponseEntity<?> deleteFollow(@RequestBody FollowDto.FollowInput followInput){
-        followService.deleteFollow(followInput);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(followService.deleteFollow(followInput))
+            return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/to/{userId}")
     public ResponseEntity<?> getFollowers(@PathVariable String userId){
         Map<String, Object> resultMap = new HashMap<>();
         List<String> followers = followService.getFollowers(userId);
-        resultMap.put("followers", followers);
         if(followers == null)
-            return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         if(followers.size() == 0)
-            return new ResponseEntity<>(resultMap, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        resultMap.put("followers", followers);
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
@@ -52,11 +52,11 @@ public class FollowController {
     public ResponseEntity<?> getFollowings(@PathVariable String userId){
         Map<String, Object> resultMap = new HashMap<>();
         List<String> followings = followService.getFollowings(userId);
-        resultMap.put("followings", followings);
         if(followings == null)
-            return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         if(followings.size() == 0)
-            return new ResponseEntity<>(resultMap, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        resultMap.put("followings", followings);
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
