@@ -1,15 +1,15 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 
 const Login = () => {
@@ -24,12 +24,11 @@ const Login = () => {
 
   return (
     <Grid container component="main" sx={{ height: "100%", width: "100%" }}>
-      <CssBaseline />
       <Grid
         item
-        xs={false}
-        sm={4}
         md={7}
+        sm={4}
+        xs={false}
         sx={{
           backgroundImage: "url(https://source.unsplash.com/random)",
           backgroundRepeat: "no-repeat",
@@ -37,7 +36,7 @@ const Login = () => {
           backgroundPosition: "center",
         }}
       />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item square component={Paper} elevation={6} md={5} sm={8} xs={12}>
         <Box
           sx={{
             my: 8,
@@ -54,53 +53,52 @@ const Login = () => {
             Bill Board
           </Typography>
           <Box
-            component="form"
             noValidate
-            onSubmit={handleSubmit}
+            component="form"
             sx={{ mt: 1 }}
+            onSubmit={handleSubmit}
           >
             <TextField
-              margin="normal"
-              required
               fullWidth
+              required
+              autoComplete="id"
               id="id"
               label="ID"
+              margin="normal"
               name="id"
-              autoComplete="id"
-              autoFocus
             />
             <TextField
-              margin="normal"
-              required
               fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
+              required
               autoComplete="current-password"
+              id="password"
+              label="Password"
+              margin="normal"
+              name="password"
+              type="password"
             />
 
             <Button
-              type="submit"
               fullWidth
-              variant="outlined"
               sx={{ mt: 3, mb: 2 }}
+              type="submit"
+              variant="outlined"
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs={4}>
-                <Link fontSize={2} component={RouterLink} to="">
+                <Link component={RouterLink} fontSize={2} to="">
                   비밀번호찾기
                 </Link>
               </Grid>
               <Grid item xs={4}>
-                <Link fontSize={2} component={RouterLink} to="">
+                <Link component={RouterLink} fontSize={2} to="">
                   아이디찾기
                 </Link>
               </Grid>
               <Grid item xs={4}>
-                <Link fontSize={2} component={RouterLink} to={"/singup"}>
+                <Link component={RouterLink} fontSize={2} to={"/singup"}>
                   회원가입
                 </Link>
               </Grid>

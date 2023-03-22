@@ -29,7 +29,7 @@ module.exports = {
     "react-hooks/exhaustive-deps": "warn",
     "no-console": "warn",
     "react/prop-types": "off",
-    "react/button-has-style": "warn",
+    "react/button-has-style": "off",
     "react/self-closing-comp": [
       "warn",
       {
