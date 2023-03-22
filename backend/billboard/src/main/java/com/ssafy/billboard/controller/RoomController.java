@@ -87,9 +87,15 @@ public class RoomController {
 
     @PostMapping("/entry")
     public ResponseEntity<?> createEntry(@RequestBody RoomDto.EntryInput entryInput){
-        if(roomService.createEntry(entryInput))
+        int res = roomService.createEntry(entryInput);
+        if(res == 1)
             return new ResponseEntity<>(HttpStatus.CREATED);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == 0)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == -1)
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping("/entry")
