@@ -1,9 +1,6 @@
 package com.ssafy.billboard.model.service;
 
 import com.ssafy.billboard.model.dto.UserDto;
-import com.ssafy.billboard.model.dto.UserInfoDto;
-import com.ssafy.billboard.model.dto.UserLoginDto;
-import com.ssafy.billboard.model.dto.UserSignUpDto;
 import com.ssafy.billboard.model.entity.User;
 import com.ssafy.billboard.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,18 +19,20 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public int signup(UserSignUpDto userSignUpDto) {
+    public int signup(UserDto.UserSignUpDto userSignUpDto) {
         logger.trace("user SignUp : {}", userSignUpDto);
 
 
         if(userRepository.findByUserId(userSignUpDto.getUserId()) == null){
             logger.trace("{} user not found", userSignUpDto.getUserId());
 
-            String encode = passwordEncoder.encode(userSignUpDto.getPassword());
-            logger.info(encode);
+            userRepository.save(User.builder()
+                            .userId(userSignUpDto.getUserId())
+                            .password(passwordEncoder.encode(userSignUpDto.getPassword()))
+                            .nickname(userSignUpDto.getNickname())
+                            .email(userSignUpDto.getEmail())
+                        .build());
 
-            userSignUpDto.setPassword(encode);
-            userRepository.save(new User.UserBuilder(userSignUpDto).build());
             return 1;
         }
 
@@ -42,13 +41,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoDto getUserInfo(String userId) {
+    public UserDto.UserInfoDto getUserInfo(String userId) {
         logger.trace("find user : {}", userId);
         User user = userRepository.findByUserId(userId);
 
         if(user == null) return null;
 
-        return UserInfoDto.builder()
+        return UserDto.UserInfoDto.builder()
                 .userId(user.getUserId())
                 .nickname(user.getNickname())
                 .email(user.getEmail())
@@ -60,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     // TBD ...
     @Override
-    public int modifyUserInfo(UserSignUpDto userSignUpDto) {
+    public int modifyUserInfo(UserDto.UserSignUpDto userSignUpDto) {
         logger.trace("modify user : {}", userSignUpDto);
 
         return 0;
@@ -80,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     // return type will be changed after implementing token
-    public UserInfoDto login(UserLoginDto userLoginDto) {
+    public UserDto.UserInfoDto login(UserDto.UserLoginDto userLoginDto) {
         logger.trace("login : {} , {}", userLoginDto.getUserId(), userLoginDto.getPassword());
 
         User user = userRepository.findByUserId(userLoginDto.getUserId());
@@ -92,7 +91,7 @@ public class UserServiceImpl implements UserService {
             user.updateOnLogin("AA");
 
             userRepository.save(user);
-            return UserInfoDto.builder()
+            return UserDto.UserInfoDto.builder()
                     .nickname(user.getNickname())
                     .build();
         }

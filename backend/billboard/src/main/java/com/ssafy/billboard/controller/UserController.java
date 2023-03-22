@@ -1,8 +1,6 @@
 package com.ssafy.billboard.controller;
 
-import com.ssafy.billboard.model.dto.UserInfoDto;
-import com.ssafy.billboard.model.dto.UserLoginDto;
-import com.ssafy.billboard.model.dto.UserSignUpDto;
+import com.ssafy.billboard.model.dto.UserDto;
 import com.ssafy.billboard.model.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,11 +27,11 @@ public class UserController {
 
     @Operation(summary = "User sign up", description = "Sign up")
     @PostMapping
-    public ResponseEntity<?> signup(@RequestBody UserSignUpDto userSignUpDto) {
+    public ResponseEntity<?> signup(@RequestBody UserDto.UserSignUpDto userSignUpDto) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
 
-        logger.trace("user SignUp : {}", userSignUpDto);
+        logger.trace("user SignUp : {}", userSignUpDto.getUserId());
 
         int res = userService.signup(userSignUpDto);
 
@@ -50,7 +48,7 @@ public class UserController {
 
         logger.trace("find user : {}", userId);
 
-        UserInfoDto userInfoDto = userService.getUserInfo(userId);
+        UserDto.UserInfoDto userInfoDto = userService.getUserInfo(userId);
 
         if(userInfoDto == null) {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
@@ -78,14 +76,14 @@ public class UserController {
 
     @Operation(summary = "login", description = "login")
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginDto userLoginDto) {
+    public ResponseEntity<?> login(@RequestBody UserDto.UserLoginDto userLoginDto) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
 
         logger.trace("login : {}, {}", userLoginDto.getUserId(), userLoginDto.getPassword());
 
         // Type should be changed
-        UserInfoDto userInfoDto = userService.login(userLoginDto);
+        UserDto.UserInfoDto userInfoDto = userService.login(userLoginDto);
 
         if(userInfoDto == null){
             return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
