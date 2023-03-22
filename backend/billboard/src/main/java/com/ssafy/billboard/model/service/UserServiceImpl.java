@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         logger.trace("user SignUp : {}", userSignUpDto);
 
 
-        if(userRepository.existsByUserId(userSignUpDto.getUserId())){
+        if(!userRepository.existsByUserId(userSignUpDto.getUserId())){
             logger.trace("{} user not found", userSignUpDto.getUserId());
 
             userRepository.save(User.builder()
@@ -100,6 +100,7 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
     public int logout(String userId) {
         logger.trace("logout : {}", userId);
 
@@ -114,5 +115,20 @@ public class UserServiceImpl implements UserService {
         }
 
         return -1;
+    }
+
+
+
+    /*
+    * returns result of ID duplication check
+    * -1 : duplicated ID
+    * 0 : available ID
+    * */
+
+    @Override
+    public int duplicatedId(String userId) {
+        logger.trace("check ID duplication : {}", userId);
+
+        return userRepository.existsByUserId(userId) ? -1 : 0;
     }
 }

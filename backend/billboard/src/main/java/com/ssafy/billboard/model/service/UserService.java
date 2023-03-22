@@ -13,4 +13,6 @@ public interface UserService {
 
     UserDto.UserInfoDto login(UserDto.UserLoginDto userLoginDto);
     int logout(String userId);
+
+    int duplicatedId(String userId);
 }

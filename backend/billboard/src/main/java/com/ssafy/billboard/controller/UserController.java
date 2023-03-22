@@ -99,7 +99,7 @@ public class UserController {
     @PostMapping("/logout/{userId}")
     public ResponseEntity<?> logout(@PathVariable("userId") String userId) {
         HttpStatus status = null;
-        Map<String, Object> resultMap = new HashMap<>();
+//        Map<String, Object> resultMap = new HashMap<>();
 
         logger.trace("logtout : {}, {}", userId);
 
@@ -107,6 +107,20 @@ public class UserController {
 
         status = (res >= 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
 
+        return new ResponseEntity<Void>(status);
+    }
+
+    @Operation(summary = "check ID duplication", description = ".")
+    @GetMapping("/check_id/{userId}")
+    public ResponseEntity<?> duplicatedId(@PathVariable("userId") String userId) {
+        HttpStatus status = null;
+//        Map<String, Object> resultMap = new HashMap<>();
+
+        logger.trace("check ID : {}", userId);
+
+        int res = userService.duplicatedId(userId);
+
+        status = (res == 0) ? HttpStatus.OK : HttpStatus.CONFLICT;
         return new ResponseEntity<Void>(status);
     }
 }
