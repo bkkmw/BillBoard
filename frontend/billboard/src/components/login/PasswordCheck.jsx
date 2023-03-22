@@ -12,12 +12,12 @@ const PasswordCheck = () => {
 
   return (
     <>
-      <Grid item xs={6}>
+      <Grid item xs={12}>
         <Controller
           name="PasswordCheck"
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <TextField
-              label="비밀번호"
+              label="비밀번호 확인"
               type="password"
               fullWidth
               name="PasswordCheck"
