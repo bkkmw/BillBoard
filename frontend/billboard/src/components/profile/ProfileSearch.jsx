@@ -25,6 +25,7 @@ const ProfileSearch = () => {
         title="친구 찾기"
         onCancel={handleCancel}
         onOk={handleOk}
+        style={{ top: "20%" }}
       >
         <div>
           <UserSearch />
