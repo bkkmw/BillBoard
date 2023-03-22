@@ -1,8 +1,10 @@
 package com.ssafy.billboard.model.service;
 
 import com.ssafy.billboard.model.dto.RoomDto;
+import com.ssafy.billboard.model.entity.Entry;
 import com.ssafy.billboard.model.entity.Reply;
 import com.ssafy.billboard.model.entity.Room;
+import com.ssafy.billboard.model.repository.EntryRepository;
 import com.ssafy.billboard.model.repository.ReplyRepository;
 import com.ssafy.billboard.model.repository.RoomRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
@@ -15,9 +17,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
+    private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final ReplyRepository replyRepository;
-    private final UserRepository userRepository;
+    private final EntryRepository entryRepository;
 
     @Override
     public Room createRoom(RoomDto.RoomInput roomInput){
@@ -25,7 +28,6 @@ public class RoomServiceImpl implements RoomService {
         Room room = Room.builder()
                 .hostId(roomInput.getHostId())
                 .title(roomInput.getTitle())
-                .personCount(0)
                 .personLimit(roomInput.getPersonLimit())
                 .location(roomInput.getLocation())
                 .date(roomInput.getDate())
@@ -88,6 +90,26 @@ public class RoomServiceImpl implements RoomService {
         if(!replyRepository.existsById(replyId))
             return false;
         replyRepository.deleteById(replyId);
+        return true;
+    }
+
+    @Override
+    public Entry createEntry(RoomDto.EntryInput entryInput){
+        if(!roomRepository.existsById(entryInput.getRoomId()) || entryRepository.existsByRoomIdAndUserId(entryInput.getRoomId(), entryInput.getUserId()))
+            return null;
+        //없는 유저 처리
+        Entry entry = Entry.builder()
+                .roomId(entryInput.getRoomId())
+                .userId(entryInput.getUserId())
+                .build();
+        return entryRepository.save(entry);
+    }
+
+    @Override
+    public boolean deleteEntry(RoomDto.EntryInput entryInput){
+        if(!roomRepository.existsById(entryInput.getRoomId()))
+            return false;
+        entryRepository.deleteByRoomIdAndUserId(entryInput.getRoomId(), entryInput.getUserId());
         return true;
     }
 }

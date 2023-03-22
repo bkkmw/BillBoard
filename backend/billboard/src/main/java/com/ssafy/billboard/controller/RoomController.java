@@ -1,11 +1,11 @@
 package com.ssafy.billboard.controller;
 
 import com.ssafy.billboard.model.dto.RoomDto;
+import com.ssafy.billboard.model.entity.Entry;
 import com.ssafy.billboard.model.entity.Reply;
 import com.ssafy.billboard.model.entity.Room;
 import com.ssafy.billboard.model.service.RoomService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -93,6 +93,23 @@ public class RoomController {
     @DeleteMapping("/reply/{replyId}")
     public ResponseEntity<?> deleteReply(@PathVariable long replyId){
         if(roomService.deleteReply(replyId))
+            return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/entry")
+    public ResponseEntity<?> createEntry(@RequestBody RoomDto.EntryInput entryInput){
+        Map<String, Object> resultMap = new HashMap<>();
+        Entry entry = roomService.createEntry(entryInput);
+        resultMap.put("entry", entry);
+        if(entry == null)
+            return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(resultMap, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/entry")
+    public ResponseEntity<?> deleteEntry(@RequestBody RoomDto.EntryInput entryInput){
+        if(roomService.deleteEntry(entryInput))
             return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

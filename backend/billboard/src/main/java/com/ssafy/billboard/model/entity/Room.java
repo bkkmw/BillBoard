@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="room")
@@ -25,9 +26,6 @@ public class Room {
     @Column(nullable = false)
     private String title;
 
-    @Column
-    private int personCount;
-
     @Column(nullable = false)
     private int personLimit;
 
@@ -38,6 +36,9 @@ public class Room {
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    @Column
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roomId")
+    private List<Entry> entries;
 
     public void update(RoomDto.RoomUpdate roomUpdate){
         if(roomUpdate.getTitle() != null)
