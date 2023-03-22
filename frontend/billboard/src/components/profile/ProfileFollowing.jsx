@@ -26,6 +26,7 @@ const ProfileFollowing = () => {
         title="팔로잉"
         onCancel={handleCancel}
         onOk={handleOk}
+        style={{ top: "20%" }}
       >
         <div>
           <FollowingList />
