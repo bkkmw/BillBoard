@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+
 import { Button, Modal } from "antd";
+
 import FriendList from "./FriendList";
 
 const ProfileModal = () => {
@@ -19,11 +21,11 @@ const ProfileModal = () => {
         친구목록
       </Button>
       <Modal
-        title="친구목록"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
         bodyStyle={{ maxHeight: "500px", overflowY: "scroll" }} // 스크롤 추가
+        open={isModalOpen}
+        title="친구목록"
+        onCancel={handleCancel}
+        onOk={handleOk}
       >
         <div>
           <FriendList />

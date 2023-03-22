@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { Avatar, List, Skeleton } from "antd";
 
 const fakeDataUrl = `https://randomuser.me/api/?results=50&inc=name,gender,email,nat,picture&noinfo`;
@@ -21,12 +22,12 @@ const FriendList = () => {
   return (
     <List
       className="demo-loadmore-list"
-      loading={initLoading}
-      itemLayout="horizontal"
       dataSource={list}
+      itemLayout="horizontal"
+      loading={initLoading}
       renderItem={(item) => (
         <List.Item actions={[<a key="list-loadmore-edit">edit</a>]}>
-          <Skeleton avatar title={false} loading={item.loading} active>
+          <Skeleton active avatar loading={item.loading} title={false}>
             <List.Item.Meta
               avatar={<Avatar src={item.picture.large} />}
               title={item.name?.last}

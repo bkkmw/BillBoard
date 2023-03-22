@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Button, Modal } from "antd";
+
 import { SearchOutlined } from "@ant-design/icons";
+import { Button, Modal } from "antd";
+
 import FriendList from "./FriendList";
 
 const ProfileSearch = () => {
@@ -16,13 +18,13 @@ const ProfileSearch = () => {
   };
   return (
     <>
-      <Button type="primary" onClick={showModal} icon={<SearchOutlined />} />
+      <Button icon={<SearchOutlined />} type="primary" onClick={showModal} />
       <Modal
-        title="친구목록"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
         bodyStyle={{ maxHeight: "500px", overflowY: "scroll" }}
+        open={isModalOpen}
+        title="친구목록"
+        onCancel={handleCancel}
+        onOk={handleOk}
       >
         <div>
           <FriendList />
