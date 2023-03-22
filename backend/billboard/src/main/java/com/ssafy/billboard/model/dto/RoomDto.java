@@ -36,4 +36,12 @@ public class RoomDto {
         private String content;
         private String userId;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class EntryInput {
+        private long roomId;
+        private String userId;
+    }
 }

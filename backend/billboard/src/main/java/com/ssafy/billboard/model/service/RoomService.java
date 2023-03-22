@@ -1,6 +1,7 @@
 package com.ssafy.billboard.model.service;
 
 import com.ssafy.billboard.model.dto.RoomDto;
+import com.ssafy.billboard.model.entity.Entry;
 import com.ssafy.billboard.model.entity.Reply;
 import com.ssafy.billboard.model.entity.Room;
 
@@ -15,4 +16,6 @@ public interface RoomService {
     public Reply createReply(RoomDto.ReplyInput replyInput);
     public List<Reply> getReplies(long roomId);
     public boolean deleteReply(long replyId);
+    public Entry createEntry(RoomDto.EntryInput entryInput);
+    public boolean deleteEntry(RoomDto.EntryInput entryInput);
 }
