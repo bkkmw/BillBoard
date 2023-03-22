@@ -1,5 +1,6 @@
 package com.ssafy.billboard.controller;
 
+import com.ssafy.billboard.model.dto.MailDto;
 import com.ssafy.billboard.model.dto.UserDto;
 import com.ssafy.billboard.model.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -121,6 +122,21 @@ public class UserController {
         int res = userService.duplicatedId(userId);
 
         status = (res == 0) ? HttpStatus.OK : HttpStatus.CONFLICT;
+        return new ResponseEntity<Void>(status);
+    }
+
+    @Operation(summary = "Send email with auth key for signup", description = ".")
+    @PostMapping("/email_auth")
+    public ResponseEntity<?> sendAuthEmail(@RequestBody MailDto.MailAuthDto mailAuthDto) {
+        HttpStatus status;
+
+        logger.trace("email auth request");
+
+        String res = userService.sendAuthEmail(mailAuthDto.getEmail());
+
+        logger.info("email sent with res : {}", res);
+        status = ("FAILED".equals(res)) ? HttpStatus.INTERNAL_SERVER_ERROR
+                : ("EXISTS".equals(res)) ? HttpStatus.CONFLICT : HttpStatus.OK;
         return new ResponseEntity<Void>(status);
     }
 }

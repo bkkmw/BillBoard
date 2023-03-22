@@ -15,4 +15,6 @@ public interface UserService {
     int logout(String userId);
 
     int duplicatedId(String userId);
+
+    String sendAuthEmail(String email);
 }

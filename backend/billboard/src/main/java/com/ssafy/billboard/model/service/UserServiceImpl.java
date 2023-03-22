@@ -16,8 +16,9 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final MailService mailService;
     @Override
     public int signup(UserDto.UserSignUpDto userSignUpDto) {
         logger.trace("user SignUp : {}", userSignUpDto);
@@ -130,5 +131,17 @@ public class UserServiceImpl implements UserService {
         logger.trace("check ID duplication : {}", userId);
 
         return userRepository.existsByUserId(userId) ? -1 : 0;
+    }
+
+    @Override
+    public String sendAuthEmail(String email) {
+        logger.trace("email entered : {}", email);
+
+        if(userRepository.existsByEmail(email)) return "EXISTS";
+
+        String authKey = "RANDOM_KEY";
+        int res = mailService.sendAuthMail(email, authKey);
+
+        return (res >= 0) ? authKey : "FAILED";
     }
 }
