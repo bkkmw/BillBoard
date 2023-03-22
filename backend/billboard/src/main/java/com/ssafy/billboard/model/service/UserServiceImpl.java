@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         logger.trace("user SignUp : {}", userSignUpDto);
 
 
-        if(userRepository.findByUserId(userSignUpDto.getUserId()) == null){
+        if(userRepository.existsByUserId(userSignUpDto.getUserId())){
             logger.trace("{} user not found", userSignUpDto.getUserId());
 
             userRepository.save(User.builder()
@@ -33,11 +33,11 @@ public class UserServiceImpl implements UserService {
                             .email(userSignUpDto.getEmail())
                         .build());
 
-            return 1;
+            return 0;
         }
 
         logger.info("{} user already exists", userSignUpDto.getUserId());
-        return 0;
+        return -1;
     }
 
     @Override
@@ -71,10 +71,10 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findByUserId(userId);
 
-        if(user == null) return 0;
+        if(user == null) return -1;
 
         userRepository.delete(userRepository.findByUserId(userId));
-        return 1;
+        return 0;
     }
 
     @Override
@@ -110,9 +110,9 @@ public class UserServiceImpl implements UserService {
             user.updateOnLogout();
 
             userRepository.save(user);
-            return 1;
+            return 0;
         }
 
-        return 0;
+        return -1;
     }
 }

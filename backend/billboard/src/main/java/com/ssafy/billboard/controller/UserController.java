@@ -35,7 +35,7 @@ public class UserController {
 
         int res = userService.signup(userSignUpDto);
 
-        status = (res > 0) ? HttpStatus.OK : HttpStatus.CONFLICT;
+        status = (res >= 0) ? HttpStatus.OK : HttpStatus.CONFLICT;
 
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -69,7 +69,7 @@ public class UserController {
 
         int res = userService.deleteUser(userId);
 
-        status = (res > 0)? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        status = (res >= 0)? HttpStatus.OK : HttpStatus.NOT_FOUND;
 
         return new ResponseEntity<Void>(status);
     }
@@ -105,7 +105,7 @@ public class UserController {
 
         int res = userService.logout(userId);
 
-        status = (res > 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        status = (res >= 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
 
         return new ResponseEntity<Void>(status);
     }
