@@ -46,7 +46,14 @@ import { AppBar, Box } from "@mui/material";
 const Navbar = () => {
   return (
     <Box position="static">
-      <AppBar className={style.appbar}>
+      <AppBar
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          height: "10vh",
+        }}
+      >
         <Link to={"/login"} className={style.link}>
           로그인{" "}
         </Link>
