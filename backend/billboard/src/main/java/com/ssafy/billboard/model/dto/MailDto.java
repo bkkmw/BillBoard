@@ -14,4 +14,14 @@ public class MailDto {
     public static class MailAuthDto{
         private String email;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MailCheckDto {
+        private String email;
+        private String authKey;
+    }
+
 }

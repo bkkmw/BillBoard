@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -127,16 +128,38 @@ public class UserController {
 
     @Operation(summary = "Send email with auth key for signup", description = ".")
     @PostMapping("/email_auth")
-    public ResponseEntity<?> sendAuthEmail(@RequestBody MailDto.MailAuthDto mailAuthDto) {
+    public ResponseEntity<?> sendAuthEmail(@RequestBody MailDto.MailAuthDto mailAuthDto
+//            , HttpSession session
+    ) {
         HttpStatus status;
 
         logger.trace("email auth request");
 
-        String res = userService.sendAuthEmail(mailAuthDto.getEmail());
+        int res = userService.sendAuthEmail(mailAuthDto.getEmail());
 
         logger.info("email sent with res : {}", res);
-        status = ("FAILED".equals(res)) ? HttpStatus.INTERNAL_SERVER_ERROR
-                : ("EXISTS".equals(res)) ? HttpStatus.CONFLICT : HttpStatus.OK;
+        
+        status = (res == 0)? HttpStatus.OK : (res == -2)? HttpStatus.CONFLICT : HttpStatus.INTERNAL_SERVER_ERROR;
+
+        return new ResponseEntity<Void>(status);
+    }
+
+    @Operation(summary = "check auth key", description = ".")
+    @PostMapping("/check_authkey")
+    public ResponseEntity<?> checkAuthKey(@RequestBody MailDto.MailCheckDto mailCheckDto
+//            , HttpSession session
+    ) {
+        HttpStatus status;
+
+        logger.trace("check email auth key");
+
+        int res = userService.checkAuthKey(mailCheckDto);
+
+        status = (res == 0) ? HttpStatus.OK :
+                (res == -1) ? HttpStatus.UNAUTHORIZED :
+                        (res == -2) ? HttpStatus.GONE :
+                                HttpStatus.NOT_FOUND;
+
         return new ResponseEntity<Void>(status);
     }
 }
