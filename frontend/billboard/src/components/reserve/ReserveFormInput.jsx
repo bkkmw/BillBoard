@@ -4,12 +4,16 @@ import {
   DatePicker,
   Form,
   Input,
-  Button
-
+  Button,
+  InputNumber,
 } from 'antd';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { makeRoom } from '../../store/reserve';
+import { useDispatch } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router';
+
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 const range = (start, end) => {
@@ -28,12 +32,21 @@ const disabledDate = (current) => {
 
 const { TextArea } = Input;
 const ReserveFormInput = ({location}) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const inputRef = useRef()
   const [componentDisabled, setComponentDisabled] = useState(true);
   const disabledDateTime = () => ({
   disabledHours: () => range(0, 24).splice(4, 20),
   disabledMinutes: () => range(30, 60),
   disabledSeconds: () => [55, 56],
 });
+useEffect(()=>{
+  if (location) {
+    inputRef.current?.setFieldsValue({location: `${location}`})
+  }
+  
+},[location])
 const disabledRangeTime = (_, type) => {
   if (type === 'start') {
     return {
@@ -47,10 +60,24 @@ const disabledRangeTime = (_, type) => {
     disabledMinutes: () => range(0, 31),
     disabledSeconds: () => [55, 56],
   };
+
 };
+const onFinish = (values) =>{
+  // Todo: hostId값 추가
+  
+  values = {...values, date:new Date(values.date.$d).toISOString(), hostId:'string'}
+  dispatch(makeRoom(values))
+  .then((data) => {console.log(data)
+    navigate(`/room/${data.payload.roomId}`,{replace: true})
+  }
+  )
+  .catch((error) => {console.log(error)})
+  
+}
   return (
     <>
       <Form
+        ref={inputRef}
         labelCol={{
           span: 4,
         }}
@@ -61,8 +88,10 @@ const disabledRangeTime = (_, type) => {
         style={{
           maxWidth: 600,
         }}
+        onFinish={onFinish}
+        
       >
-        <Form.Item label="Title" name="Title" rules={[
+        <Form.Item label="Title" name="title" rules={[
           {
             required: true,
             message: '제목을 입력하세요'
@@ -70,7 +99,7 @@ const disabledRangeTime = (_, type) => {
         ]}>
           <Input />
         </Form.Item>
-        <Form.Item label="Date/Time" name="Time" rules={[
+        <Form.Item label="Date/Time" name="date" rules={[
           {
             required: true,
             message: '시간을 입력하세요'
@@ -84,17 +113,26 @@ const disabledRangeTime = (_, type) => {
       }}
     />
         </Form.Item>
-        <Form.Item label="Location" name="Location" rules={[
+        <Form.Item label="Location" name="location" rules={[
           {
             required: true,
             message: '장소를 입력하세요',
           },
         ]}>
-          <Input placeholder={location} value={location} readOnly={true} onClick = {()=>{}}/>
+          <Input  readOnly={true}/>
+        </Form.Item>
+        <Form.Item label="personLimit" name="personLimit" rules={[
+          {
+            required: true,
+            message: '인원수를 입력하세요',
+          },
+        ]}>
+          <InputNumber min={2} max={8}/>
         </Form.Item>
         <Form.Item>
           <Button type={'primary'} htmlType={"submit"}>Submit</Button>
         </Form.Item>
+
       </Form>
     </>
   );
