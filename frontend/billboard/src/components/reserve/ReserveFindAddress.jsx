@@ -35,6 +35,7 @@ const ReserveFindAddress = ({Open, onClose, childrenDrawer, setChildrenDrawer,se
          title={addressfirst}
          width={320}
          onClose={onChildrenDrawerClose}
+         placement={"bottom"}
 
        >
         <List
@@ -53,6 +54,7 @@ const ReserveFindAddress = ({Open, onClose, childrenDrawer, setChildrenDrawer,se
                  title={addressNxt}
                  width={320}
                  onClose={()=>{setShowNxtDrawer(false)}}
+                 placement={"bottom"}
                >
                 <List
         dataSource={ADDRESS[addressfirst][addressNxt]}

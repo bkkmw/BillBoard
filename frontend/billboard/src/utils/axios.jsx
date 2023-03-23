@@ -8,9 +8,10 @@ const httpClient = axios.create({
   baseURL,
   withCredentials: true,
   headers: {
-    "Access-Control-Allow-Credentials": true,
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    // Todo: headers 작성
+    // "Access-Control-Allow-Credentials": true,
+    // "Access-Control-Allow-Origin": "*",
+    // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
   },
 });
 
