@@ -13,6 +13,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
 
 import { useForm, FormProvider } from "react-hook-form";
 
@@ -24,7 +25,7 @@ const Singup = () => {
       UserPassword: "",
       UserNickname: "",
       UserEmail: "",
-      PasswordCheck: ''
+      PasswordCheck: "",
     },
     mode: "onChange",
   });
@@ -34,17 +35,20 @@ const Singup = () => {
 
   return (
     <FormProvider {...form}>
-      <Container component="main" maxWidth="xs" sx={{backgroundColor: 'white'}}>
+      <Container
+        component={Paper}
+        elevation={6}
+        sx={{ height: "100%", width: "50vh" }}
+      >
         <Box
           sx={{
             marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            
           }}
         >
-          <Typography color='black' component="h1" variant="h5">
+          <Typography component="h1" variant="h5">
             Sign up
           </Typography>
 
