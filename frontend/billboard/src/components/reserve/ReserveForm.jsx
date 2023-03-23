@@ -7,11 +7,7 @@ import ReserveFormInput from './ReserveFormInput';
 
 const ReserveForm = () => {
     const [location, setLocation] = useState({})
-    useEffect(()=>{
-        console.log(location)
-    },[location])
     const modal = document.getElementById('modal')
-    console.log(modal.getBoundingClientRect())
     return (
         <div>
             <Row>

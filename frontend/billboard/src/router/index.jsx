@@ -12,6 +12,7 @@ import ReserveFind from "../components/reserve/ReserveFind";
 import IdFindPage from "../components/login/IdFindPage";
 import PswdFindPage from "../components/login/PswdFindPage";
 import FindResult from "../components/login/FindResultPage";
+import Room from "../components/reserve/Room";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,11 @@ const router = createBrowserRouter([
       {
         path: "reserve",
         element: <Reserve />,
+        children: [{}],
+      },
+      {
+        path: "room/:roomId",
+        element: <Room />,
         children: [{}],
       },
       {
