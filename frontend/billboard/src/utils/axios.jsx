@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const DOMAIN = process.env.REACT_APP_API_URL;
-const PATH = process.env.REACT_APP_API_PATH;
+const DOMAIN = import.meta.env.VITE_APP_API_URL;
+const PATH = import.meta.env.VITE_APP_API_PATH;
 
 const baseURL = DOMAIN + PATH;
 const httpClient = axios.create({
