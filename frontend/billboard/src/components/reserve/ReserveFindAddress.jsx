@@ -17,7 +17,7 @@ const ReserveFindAddress = ({Open, onClose, childrenDrawer, setChildrenDrawer,se
     const [showNxtDrawer, setShowNxtDrawer] = useState(false)
     return (
 
-       <Drawer closable={false} open={Open} title="지역선택" width={520} onClose={onClose}>
+       <Drawer closable={false} open={Open} title="지역선택" width={520} onClose={onClose} placement={"bottom"}>
     <List
 
       dataSource={Object.keys(ADDRESS)}

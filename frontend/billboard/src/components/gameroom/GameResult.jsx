@@ -9,18 +9,17 @@ const GameResult = ({isModalOpen, setIsModalOpen, userList, setUserList, setIsIn
         setPlayers(userList)
     },[userList])
 
-    useEffect(()=>{
-        const players = userList.filter((user)=>{
-            return 
-        })
-    },[winners])
     const setResult = () => {
-        let Result = []
+        let Result = [...userList]
+
         for (const winner of winners) {
-            console.log(winner)
-            Result = [...userList.filter(user => user.id!==winner.id), {...winner, score:winner.score+1} ]
+ 
+            Result = [...Result.filter(user => user.id!==winner.id), {...winner, score:winner.score+1} ]
+ 
         }
+
         const sorted = Result.sort((a, b) => b.score - a.score);
+
         setUserList(sorted)
 
 
@@ -36,7 +35,7 @@ const GameResult = ({isModalOpen, setIsModalOpen, userList, setUserList, setIsIn
     };
     return (
       <>
-        <Modal title="Basic Modal" open={isModalOpen} footer={null}>
+        <Modal title="Basic Modal" open={isModalOpen} footer={null} >
           <h3>winners</h3>
           {winners.map((user,i)=>{
           return(
