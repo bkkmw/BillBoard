@@ -10,7 +10,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { makeRoom } from '../../store/reserve';
+import { correctRoom, makeRoom } from '../../store/reserve';
 import { useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
 
@@ -31,7 +31,7 @@ const disabledDate = (current) => {
 
 
 const { TextArea } = Input;
-const ReserveFormInput = ({location}) => {
+const ReserveFormInput = ({location, data, roomId, setModalOpen}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const inputRef = useRef()
@@ -41,6 +41,13 @@ const ReserveFormInput = ({location}) => {
   disabledMinutes: () => range(30, 60),
   disabledSeconds: () => [55, 56],
 });
+useEffect(()=>{
+  if (data) {
+    inputRef.current?.setFieldsValue({title: `${data.title}`,
+  personLimit:`${data.personLimit}`
+})
+  }
+},[])
 useEffect(()=>{
   if (location) {
     inputRef.current?.setFieldsValue({location: `${location}`})
@@ -64,15 +71,25 @@ const disabledRangeTime = (_, type) => {
 };
 const onFinish = (values) =>{
   // Todo: hostId값 추가
+
   
-  values = {...values, date:new Date(values.date.$d).toISOString(), hostId:'string'}
-  dispatch(makeRoom(values))
-  .then((data) => {console.log(data)
-    // Todo: 방 ID받아서 navigate되게할것
-    // navigate(`/room/${data.payload.roomId}`,{replace: true})
-  }
-  )
-  .catch((error) => {console.log(error)})
+  values = {...values, date:new Date(values.date.$d).toISOString()}
+  if (data) {
+    dispatch(correctRoom({values: values, roomId:roomId})).then((res)=>{
+      console.log(res)
+      setModalOpen(false)
+    }
+      
+    ).catch((error)=>{console.log(error)})    
+  } else{  
+    dispatch(makeRoom({...values, hostId:"string"}))
+    .then((data) => {console.log(data)
+      // Todo: 방 ID받아서 navigate되게할것
+      navigate(`/room/${data.payload.room.roomId}`,{replace: true})
+    }
+    )
+    .catch((error) => {console.log(error)})}
+
   
 }
   return (

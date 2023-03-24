@@ -5,10 +5,12 @@ import { Col, Row } from 'antd';
 import KakaoMapT from './KakaoMapT';
 import ReserveFormInput from './ReserveFormInput';
 
-const ReserveForm = () => {
+const ReserveForm = ({data, roomId, setModalOpen}) => {
     const [location, setLocation] = useState({})
     useEffect(()=>{
-        console.log(location)
+        if (data) {
+            setLocation(data.location)
+        }
     },[location])
     const modal = document.getElementById('modal')
     return (
@@ -20,7 +22,7 @@ const ReserveForm = () => {
                     </div>
                     </Col>
                 <Col span={12}>
-                    <ReserveFormInput location={location.place_name}/>
+                    <ReserveFormInput location={location.place_name} data={data} roomId={roomId} setModalOpen={setModalOpen}/>
                 </Col>
                 </Row>
             
