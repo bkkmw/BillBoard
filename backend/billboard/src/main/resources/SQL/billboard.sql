@@ -6,6 +6,11 @@ DROP TABLE IF EXISTS `reply`;
 DROP TABLE IF EXISTS `room`;
 DROP TABLE IF EXISTS `user`;
 
+DROP TABLE IF EXISTS `baseaddress`;
+DROP TABLE IF EXISTS `dongcode`;
+DROP TABLE IF EXISTS `guguncode`;
+DROP TABLE IF EXISTS `sidocode`;
+
 -- 유저테이블 만들 자리 
 CREATE TABLE IF NOT EXISTS `user` (
   `userId` VARCHAR(45) NOT NULL,
@@ -59,4 +64,39 @@ CREATE TABLE `follow` (
 	PRIMARY KEY (`followId`),
 	FOREIGN KEY (fromUserId) REFERENCES user (userId) on delete cascade,
 	FOREIGN KEY (toUserId) REFERENCES user (userId) on delete cascade
+);
+
+
+CREATE TABLE `sidocode` (
+    `sidoCode` varchar(10) NOT NULL,
+    `sidoName` varchar(30) DEFAULT NULL,
+    PRIMARY KEY (`sidoCode`),
+    UNIQUE KEY `sidoName` (`sidoName`)
+);
+
+CREATE TABLE `guguncode` (
+    `gugunCode` VARCHAR(10) NOT NULL,
+    `gugunName` VARCHAR(30) DEFAULT NULL,
+    PRIMARY KEY (`gugunCode`)
+);
+
+CREATE TABLE `dongcode` (
+    `dongCode` varchar(10) NOT NULL,
+    `sidoName` varchar(30) DEFAULT NULL,
+    `gugunName` varchar(30) DEFAULT NULL,
+    `dongName` varchar(30) DEFAULT NULL,
+    PRIMARY KEY (`dongCode`),
+    KEY `sidoName` (`sidoName`),
+    CONSTRAINT `dongcode_ibfk_1` FOREIGN KEY (`sidoName`) REFERENCES `sidocode` (`sidoName`)
+);
+
+CREATE TABLE `baseaddress` (
+    `no` int NOT NULL AUTO_INCREMENT,
+    `sidoName` varchar(30) DEFAULT NULL,
+    `gugunName` varchar(30) DEFAULT NULL,
+    `dongName` varchar(30) DEFAULT NULL,
+    `dongCode` varchar(10) DEFAULT NULL,
+    `lat` varchar(20) DEFAULT NULL,
+    `lng` varchar(20) DEFAULT NULL,
+    PRIMARY KEY (`no`)
 );
