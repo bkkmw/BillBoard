@@ -66,7 +66,6 @@ CREATE TABLE `follow` (
 	FOREIGN KEY (toUserId) REFERENCES user (userId) on delete cascade
 );
 
-
 CREATE TABLE `sidocode` (
     `sidoCode` varchar(10) NOT NULL,
     `sidoName` varchar(30) DEFAULT NULL,
@@ -82,21 +81,17 @@ CREATE TABLE `guguncode` (
 
 CREATE TABLE `dongcode` (
     `dongCode` varchar(10) NOT NULL,
-    `sidoName` varchar(30) DEFAULT NULL,
-    `gugunName` varchar(30) DEFAULT NULL,
     `dongName` varchar(30) DEFAULT NULL,
-    PRIMARY KEY (`dongCode`),
-    KEY `sidoName` (`sidoName`),
-    CONSTRAINT `dongcode_ibfk_1` FOREIGN KEY (`sidoName`) REFERENCES `sidocode` (`sidoName`)
+    PRIMARY KEY (`dongCode`)
 );
 
 CREATE TABLE `baseaddress` (
-    `no` int NOT NULL AUTO_INCREMENT,
+    `dongCode` varchar(10) NOT NULL,
     `sidoName` varchar(30) DEFAULT NULL,
     `gugunName` varchar(30) DEFAULT NULL,
     `dongName` varchar(30) DEFAULT NULL,
-    `dongCode` varchar(10) DEFAULT NULL,
     `lat` varchar(20) DEFAULT NULL,
     `lng` varchar(20) DEFAULT NULL,
-    PRIMARY KEY (`no`)
+    PRIMARY KEY (`dongCode`),
+    FOREIGN KEY (`dongCode`) REFERENCES `dongcode` (`dongCode`)
 );
