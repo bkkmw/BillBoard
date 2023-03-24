@@ -177,4 +177,30 @@ public class UserController {
 
         return new ResponseEntity<Void>(status);
     }
+
+    @Operation(summary = "increase user's win count & match count", description = ".")
+    @PutMapping("/win/{userId}")
+    public ResponseEntity<?> increaseWinCount(@PathVariable("userId") String userId) {
+        HttpStatus status;
+        logger.trace("increase win count : {}", userId);
+
+        int res = userService.increaseCount(userId, true);
+
+        status = (res == 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<Void>(status);
+    }
+
+    @Operation(summary = "increase user's match count", description = ".")
+    @PutMapping("/play/{userId}")
+    public ResponseEntity<?> increaseMatchCount(@PathVariable("userId") String userId) {
+        HttpStatus status;
+        logger.trace("increase match count : {}", userId);
+
+        int res = userService.increaseCount(userId, false);
+
+        status = (res == 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<Void>(status);
+    }
 }

@@ -24,4 +24,6 @@ public interface UserService {
     int findId(String email);
 
     int findPw(UserDto.UserFindPwDto userFindPwDto);
+
+    int increaseCount(String userId, boolean isWin);
 }
