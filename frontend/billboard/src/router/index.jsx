@@ -48,7 +48,11 @@ const router = createBrowserRouter([
       {
         path: "room/:roomId",
         element: <Room />,
+        id:"room",
         children: [{}],
+        loader: async ({params}) => {
+          return params.roomId;
+        }
       },
       {
         path: "reserve/find",
