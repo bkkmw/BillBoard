@@ -32,6 +32,31 @@ export const getRoom = createAsyncThunk(
         }
     }
 )
+export const getRoomInfo = createAsyncThunk(
+    "reserve/room",
+    async (roomId,{rejectWithValue}) => {
+        try {
+            const response = await httpClient.get(`/room/${roomId}`)
+            return response.data
+        } catch (error) {
+            console.log(error)
+            return rejectWithValue(error)
+        }
+    }
+)
+export const makeReply = createAsyncThunk(
+    "reserve/room/makereply",
+    async (data, {rejectWithValue}) => {
+        try {
+            const response = await httpClient.post('/room/reply',{...data})
+            return response.data
+        } catch (error) {
+            console.log(error)
+            return rejectWithValue(error)
+        }
+    }
+)
+
 
 
 const initialState = {
