@@ -3,6 +3,8 @@ package com.ssafy.billboard.model.service;
 import com.ssafy.billboard.model.dto.MailDto;
 import com.ssafy.billboard.model.dto.UserDto;
 
+import java.util.List;
+
 public interface UserService {
     int signup(UserDto.UserSignUpDto userSignUpDto);
 
@@ -28,4 +30,6 @@ public interface UserService {
     int increaseCount(String userId, boolean isWin);
 
     UserDto.UserInfoDto confirmPw(UserDto.UserLoginDto userLoginDto);
+
+    List<UserDto.UserInfoDto> searchByUserId(String keyword);
 }
