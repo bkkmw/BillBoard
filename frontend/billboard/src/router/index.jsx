@@ -6,7 +6,7 @@ import Landding from "../components/landding/Landding";
 import Login from "../components/login/Login";
 import Singup from "../components/login/Singup";
 import Main from "../components/mainPage/MainPage";
-import Profile from "../components/profile/Profile";
+import Profile from "../components/profile/ProfilePage";
 import Reserve from "../components/reserve/Reserve";
 import ReserveFind from "../components/reserve/ReserveFind";
 const router = createBrowserRouter([
