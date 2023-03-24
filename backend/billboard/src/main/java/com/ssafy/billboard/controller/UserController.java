@@ -106,7 +106,7 @@ public class UserController {
     }
 
     @Operation(summary = "check ID duplication", description = ".")
-    @GetMapping("/check_id/{userId}")
+    @GetMapping("/check-id/{userId}")
     public ResponseEntity<?> duplicatedId(@PathVariable("userId") String userId) {
         HttpStatus status = null;
         logger.trace("check ID : {}", userId);
@@ -118,7 +118,7 @@ public class UserController {
     }
 
     @Operation(summary = "Send email with auth key for signup", description = ".")
-    @PostMapping("/email_auth")
+    @PostMapping("/email-auth")
     public ResponseEntity<?> sendAuthEmail(@RequestBody MailDto.MailAuthDto mailAuthDto) {
         HttpStatus status;
         logger.trace("email auth request");
@@ -133,7 +133,7 @@ public class UserController {
     }
 
     @Operation(summary = "check auth key", description = ".")
-    @PostMapping("/check_authkey")
+    @PostMapping("/check-authkey")
     public ResponseEntity<?> checkAuthKey(@RequestBody MailDto.MailCheckDto mailCheckDto) {
         HttpStatus status;
         logger.trace("check email auth key");
