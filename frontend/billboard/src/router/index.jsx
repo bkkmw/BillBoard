@@ -6,7 +6,7 @@ import Landding from "../components/landding/Landding";
 import Login from "../components/login/LoginPage";
 import Singup from "../components/login/SingupPage";
 import Main from "../components/mainPage/MainPage";
-import Profile from "../components/profile/Profile";
+import Profile from "../components/profile/ProfilePage";
 import Reserve from "../components/reserve/Reserve";
 import ReserveFind from "../components/reserve/ReserveFind";
 import IdFindPage from "../components/login/IdFindPage";

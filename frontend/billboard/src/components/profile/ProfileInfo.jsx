@@ -5,6 +5,7 @@ import ProfileExp from "./ProfileExp";
 import ProfileFollowing from "./ProfileFollowing";
 import ProfileSearch from "./ProfileSearch";
 import ProfileFollower from "./ProfileFollower";
+import Det from "./Det";
 
 import style from "./ProfileInfo.module.css";
 import axios from "axios";
@@ -33,6 +34,7 @@ const ProfileInfo = () => {
         <div>
           <ProfileFollowing />
           <ProfileFollower />
+          <Det />
         </div>
       </div>
       <ProfilButton />

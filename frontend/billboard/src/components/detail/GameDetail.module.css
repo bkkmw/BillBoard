@@ -1,0 +1,49 @@
+.background {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.background2 {
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.background3 {
+  display: flex;
+  flex-direction: row;
+}
+
+.background4 {
+  display: flex;
+  flex-direction: row;
+}
+
+.background5 {
+  width: 43vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.font {
+  font-size: 4.5rem;
+  font-weight: bolder;
+}
+
+.font2 {
+  font-size: 3rem;
+  font-weight: bolder;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
