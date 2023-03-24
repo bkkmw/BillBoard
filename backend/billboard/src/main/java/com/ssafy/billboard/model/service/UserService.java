@@ -20,4 +20,8 @@ public interface UserService {
     int sendAuthEmail(String email);
 
     int checkAuthKey(MailDto.MailCheckDto mailCheckDto);
+
+    int findId(String email);
+
+    int findPw(UserDto.UserFindPwDto userFindPwDto);
 }

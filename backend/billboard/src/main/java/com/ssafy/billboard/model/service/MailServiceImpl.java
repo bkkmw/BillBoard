@@ -36,4 +36,38 @@ public class MailServiceImpl implements MailService{
             return -1;
         }
     }
+
+    @Override
+    public int sendIdMail(String email, String userId) {
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+            messageHelper.setSubject("ID 찾기");
+            messageHelper.setTo(email);
+            messageHelper.setText(String.format("Your ID : %s", userId));
+
+            mailSender.send(message);
+            return 0;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    @Override
+    public int sendPwMail(String email, String password) {
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+            messageHelper.setSubject("PW 찾기");
+            messageHelper.setTo(email);
+            messageHelper.setText(String.format("Your PW : %s", password));
+
+            mailSender.send(message);
+            return 0;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }
