@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BaseAddressRepository extends JpaRepository<BaseAddress, String> {
+    public BaseAddress findOneByDongCode(String dongCode);
 }

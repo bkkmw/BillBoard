@@ -2,10 +2,7 @@ package com.ssafy.billboard.model.service;
 
 import com.ssafy.billboard.model.dto.FollowDto;
 import com.ssafy.billboard.model.dto.LocationDto;
-import com.ssafy.billboard.model.entity.DongCode;
-import com.ssafy.billboard.model.entity.Follow;
-import com.ssafy.billboard.model.entity.GugunCode;
-import com.ssafy.billboard.model.entity.SidoCode;
+import com.ssafy.billboard.model.entity.*;
 import com.ssafy.billboard.model.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +17,7 @@ public class LocationServiceImpl implements LocationService {
     private final SidoCodeRepository sidoCodeRepository;
     private final GugunCodeRepository gugunCodeRepository;
     private final DongCodeRepository dongCodeRepository;
+    private final BaseAddressRepository baseAddressRepository;
 
     @Override
     public List<LocationDto.SidoCodeInfo> getSidoList(){
@@ -63,5 +61,15 @@ public class LocationServiceImpl implements LocationService {
                     .dongName(dong.getDongName())
                     .build());
         return dongList;
+    }
+
+    public LocationDto.Coordinate getCoordinate(String dongCode){
+        BaseAddress baseAddress = baseAddressRepository.findOneByDongCode(dongCode);
+        if(baseAddress == null)
+            return null;
+        return LocationDto.Coordinate.builder()
+                .lat(baseAddress.getLat())
+                .lng(baseAddress.getLng())
+                .build();
     }
 }

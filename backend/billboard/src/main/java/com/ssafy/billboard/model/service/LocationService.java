@@ -9,4 +9,5 @@ public interface LocationService {
     public List<LocationDto.SidoCodeInfo> getSidoList();
     public List<LocationDto.GugunCodeInfo> getGugunList(String sidoCode);
     public List<LocationDto.DongCodeInfo> getDongList(String gugunCode);
+    public LocationDto.Coordinate getCoordinate(String dongCode);
 }

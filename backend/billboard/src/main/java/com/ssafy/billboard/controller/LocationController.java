@@ -48,4 +48,14 @@ public class LocationController {
         resultMap.put("dongList", dongList);
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
+
+    @GetMapping("/coordinate/{dongCode}")
+    public ResponseEntity<?> getCoordinate(@PathVariable String dongCode){
+        Map<String, Object> resultMap = new HashMap<>();
+        LocationDto.Coordinate coordinate = locationService.getCoordinate(dongCode);
+        if(coordinate == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        resultMap.put("coordinate", coordinate);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
 }

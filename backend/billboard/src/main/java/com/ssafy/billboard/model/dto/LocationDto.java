@@ -38,4 +38,13 @@ public class LocationDto {
         private String dongCode;
         private String dongName;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Coordinate{
+        private String lat;
+        private String lng;
+    }
 }
