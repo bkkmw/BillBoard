@@ -56,6 +56,18 @@ export const makeReply = createAsyncThunk(
         }
     }
 )
+export const getReply = createAsyncThunk(
+    "reserve/room/getreply",
+    async (roomId, {rejectWithValue}) => {
+        try {
+            const response = await httpClient.get(`/room/reply/${roomId}`)
+            return response.data
+        } catch (error) {
+            console.log(error)
+            return rejectWithValue(error)
+        }
+    }
+)
 
 
 

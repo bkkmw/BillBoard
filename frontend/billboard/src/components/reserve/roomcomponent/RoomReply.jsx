@@ -1,18 +1,27 @@
 import { Button, Checkbox, Form, Input } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { makeReply } from '../../../store/reserve';
+import { getReply, makeReply } from '../../../store/reserve';
 
 const RoomReply = ({replies, roomId}) => {
   const dispatch = useDispatch()
+  const [replyList, setReplyList] = useState([])
+  useEffect(()=>{
+    setReplyList(replies)
+  },[])
   const onFinish = (values) => {
+    // console.log(values)
+    // Todo: userId 수정 예정
     const data = {
       roomId:roomId,
-      content:"someting",
+      content:values.reply,
       userId:"string"
     }
     dispatch(makeReply(data)).then((res)=>{
-      console.log(res)
+      dispatch(getReply(roomId)).then((resdata)=>{
+        // console.log(resdata)
+        setReplyList(resdata.payload.replies)
+      })
   })
     console.log('Success:', values);
   };
@@ -22,11 +31,14 @@ const RoomReply = ({replies, roomId}) => {
   return (
     <div>
 
-      {replies.map((reply, i) => {
+      {replyList.map((reply, i) => {
         return(<>
                     <div>댓글작성자: {reply.userId}</div>
                     <div>댓글: {reply.content}</div>
-                    <Form
+                    
+        </>)
+      })}
+      <Form
     name="basic"
     labelCol={{
       span: 8,
@@ -68,8 +80,6 @@ const RoomReply = ({replies, roomId}) => {
       </Button>
     </Form.Item>
   </Form>
-        </>)
-      })}
       
     </div>
   );
