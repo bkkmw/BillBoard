@@ -20,9 +20,12 @@ public class RoomController {
 
     @PostMapping()
     public ResponseEntity<?> createRoom(@RequestBody RoomDto.RoomInput roomInput){
-        if(roomService.createRoom(roomInput))
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Map<String, Object> resultMap = new HashMap<>();
+        RoomDto.RoomInfo room = roomService.createRoom(roomInput);
+        if(room == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        resultMap.put("room", room);
+        return new ResponseEntity<>(resultMap, HttpStatus.CREATED);
     }
 
     @GetMapping()
