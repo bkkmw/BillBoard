@@ -1,9 +1,6 @@
 package com.ssafy.billboard.model.entity;
 
-import com.ssafy.billboard.model.dto.UserSignUpDto;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +15,9 @@ import java.util.Collection;
 @Entity
 @Table(name="user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Getter
+@Builder
 @DynamicInsert
 public class User implements UserDetails {
 
@@ -55,19 +54,6 @@ public class User implements UserDetails {
 
     @Column(name = "img", length = 200)
     private String img;
-
-    private User(UserBuilder builder) {
-        this.userId = builder.userId;
-        this.password = builder.password;
-        this.nickname = builder.nickname;
-        this.email = builder.email;
-        this.state = builder.state;
-        this.matchCount = builder.matchCount;
-        this.winCount = builder.winCount;
-        this.experience = builder.experience;
-        this.refreshToken = builder.refreshToken;
-        this.img = builder.img;
-    }
 
     public void updateOnLogin(String refreshToken) {
         this.refreshToken = refreshToken;
@@ -109,52 +95,5 @@ public class User implements UserDetails {
         return true;
     }
 
-    public static class UserBuilder {
-        private String userId;
-        private String password;
-        private String nickname;
-        private String email;
-        private String state;
-        private int matchCount;
-        private int winCount;
-        private int experience;
-        private String refreshToken;
-        private String img;
 
-        public UserBuilder(UserSignUpDto userSignUpDto){
-            this.userId = userSignUpDto.getUserId();
-            this.password = userSignUpDto.getPassword();
-            this.nickname = userSignUpDto.getNickname();
-            this.email = userSignUpDto.getEmail();
-        }
-
-        public UserBuilder setState(String state) {
-            this.state = state;
-            return this;
-        }
-
-        public UserBuilder setMatchCount(int matchCount){
-            this.matchCount = matchCount;
-            return this;
-        }
-
-        public UserBuilder setWinCount(int winCount){
-            this.winCount = winCount;
-            return this;
-        }
-
-        public UserBuilder setRefreshToken(String refreshToken){
-            this.refreshToken = refreshToken;
-            return this;
-        }
-
-        public UserBuilder setImg(String img){
-            this.img = img;
-            return this;
-        }
-
-        public User build(){
-            return new User(this);
-        }
-    }
 }

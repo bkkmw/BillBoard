@@ -1,18 +1,23 @@
 package com.ssafy.billboard.model.service;
 
-import com.ssafy.billboard.model.dto.UserInfoDto;
-import com.ssafy.billboard.model.dto.UserLoginDto;
-import com.ssafy.billboard.model.dto.UserSignUpDto;
+import com.ssafy.billboard.model.dto.MailDto;
+import com.ssafy.billboard.model.dto.UserDto;
 
 public interface UserService {
-    public int signup(UserSignUpDto userSignUpDto);
+    int signup(UserDto.UserSignUpDto userSignUpDto);
 
-    public UserInfoDto getUserInfo(String userId);
+    UserDto.UserInfoDto getUserInfo(String userId);
 
-    public int modifyUserInfo(UserSignUpDto userSignUpDto);
+    int modifyUserInfo(UserDto.UserSignUpDto userSignUpDto);
 
-    public int deleteUser(String userId);
+    int deleteUser(String userId);
 
-    public UserInfoDto login(UserLoginDto userLoginDto);
-    public int logout(String userId);
+    UserDto.UserInfoDto login(UserDto.UserLoginDto userLoginDto);
+    int logout(String userId);
+
+    int duplicatedId(String userId);
+
+    int sendAuthEmail(String email);
+
+    int checkAuthKey(MailDto.MailCheckDto mailCheckDto);
 }
