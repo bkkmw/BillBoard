@@ -26,4 +26,6 @@ public interface UserService {
     int findPw(UserDto.UserFindPwDto userFindPwDto);
 
     int increaseCount(String userId, boolean isWin);
+
+    UserDto.UserInfoDto confirmPw(UserDto.UserLoginDto userLoginDto);
 }

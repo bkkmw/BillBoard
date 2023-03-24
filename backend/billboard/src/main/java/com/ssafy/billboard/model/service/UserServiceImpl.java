@@ -239,4 +239,21 @@ public class UserServiceImpl implements UserService {
 
         return 0;
     }
+
+    @Override
+    public UserDto.UserInfoDto confirmPw(UserDto.UserLoginDto userLoginDto) {
+        logger.trace("check user password");
+
+        User user = userRepository.findByUserId(userLoginDto.getUserId());
+        if(user == null) return null;
+        if(!passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) return null;
+
+        return UserDto.UserInfoDto.builder()
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .experience(user.getExperience())
+                .winCount(user.getWinCount())
+                .matchCount(user.getMatchCount())
+                .build();
+    }
 }

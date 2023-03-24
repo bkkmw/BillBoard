@@ -203,4 +203,21 @@ public class UserController {
 
         return new ResponseEntity<Void>(status);
     }
+
+    @Operation(summary = "check user id & pw", description = ".")
+    @PostMapping("/check-password")
+    public ResponseEntity<?> confirmPw(@RequestBody UserDto.UserLoginDto userLoginDto) {
+        HttpStatus status;
+        HashMap<String, Object> resultMap = new HashMap<>();
+        logger.trace("check user password : {}, {}", userLoginDto.getUserId(), userLoginDto.getPassword());
+
+        UserDto.UserInfoDto userInfoDto = userService.confirmPw(userLoginDto);
+
+        if(userInfoDto == null) return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+
+        status = HttpStatus.OK;
+        resultMap.put("userInfo", userInfoDto);
+
+        return new ResponseEntity<HashMap<String, Object>>(resultMap, status);
+    }
 }
