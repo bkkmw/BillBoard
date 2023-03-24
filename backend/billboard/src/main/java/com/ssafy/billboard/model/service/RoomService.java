@@ -8,7 +8,7 @@ import com.ssafy.billboard.model.entity.Room;
 import java.util.List;
 
 public interface RoomService {
-    public boolean createRoom(RoomDto.RoomInput roomInput);
+    public RoomDto.RoomInfo createRoom(RoomDto.RoomInput roomInput);
     public List<RoomDto.RoomInfo> getRooms();
     public RoomDto.RoomDetailInfo getRoom(long roomId);
     public boolean deleteRoom(long roomId);
