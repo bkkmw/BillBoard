@@ -150,8 +150,8 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByEmail(email)) return -2;
 
         String authKey = RandomUtil.randomAuthKey();
-//        int res = mailService.sendAuthMail(email, authKey);
-        int res = 0;
+        int res = mailService.sendAuthMail(email, authKey);
+//        int res = 0;
 
         if(res > -1) {
             Timestamp currentTimeStamp = new Timestamp(System.currentTimeMillis());
@@ -188,5 +188,40 @@ public class UserServiceImpl implements UserService {
         if(!mailCheckDto.getAuthKey().equals(mailAuth.getAuthKey())) return -1;
 
         return 0;
+    }
+
+    /*
+    returns : 0(Success), -2(Not found), -1(failed to send mail)
+     */
+    @Override
+    public int findId(String email) {
+        logger.trace("find user id : {}", email);
+
+        if(!userRepository.existsByEmail(email)) return -2;
+        User user = userRepository.findByEmail(email);
+
+        String userId = user.getUserId();
+        int res = mailService.sendIdMail(email, userId);
+        return res;
+    }
+
+    /*
+    returns : 0(Success), -2(Not found), -1(failed to send mail)
+     */
+    public int findPw(UserDto.UserFindPwDto userFindPwDto) {
+        logger.trace("find user password : {}, {}", userFindPwDto.getUserId(), userFindPwDto.getEmail());
+
+        User user = userRepository.findByUserIdAndEmail(userFindPwDto.getUserId(), userFindPwDto.getEmail());
+        if(user == null) return -2;
+
+        String newPassword = RandomUtil.randomPw();
+        user.updatePassword(passwordEncoder.encode(newPassword));
+
+        int res = mailService.sendPwMail(user.getEmail(), newPassword);
+
+        if(res == 0)
+            userRepository.save(user);
+
+        return res;
     }
 }

@@ -31,15 +31,13 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> signup(@RequestBody UserDto.UserSignUpDto userSignUpDto) {
         HttpStatus status = null;
-        Map<String, Object> resultMap = new HashMap<>();
-
         logger.trace("user SignUp : {}", userSignUpDto.getUserId());
 
         int res = userService.signup(userSignUpDto);
 
         status = (res >= 0) ? HttpStatus.OK : HttpStatus.CONFLICT;
 
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        return new ResponseEntity<Void>(status);
     }
 
     @Operation(summary = "Get user info", description = "Get user info by user's id")
@@ -47,7 +45,6 @@ public class UserController {
     public ResponseEntity<?> getUserInfo(@PathVariable("userId") String userId){
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
-
         logger.trace("find user : {}", userId);
 
         UserDto.UserInfoDto userInfoDto = userService.getUserInfo(userId);
@@ -65,8 +62,6 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") String userId) {
         HttpStatus status = null;
-//        Map<String, Object> resultMap = new HashMap<>();
-
         logger.trace("delete user : {}", userId);
 
         int res = userService.deleteUser(userId);
@@ -101,8 +96,6 @@ public class UserController {
     @PostMapping("/logout/{userId}")
     public ResponseEntity<?> logout(@PathVariable("userId") String userId) {
         HttpStatus status = null;
-//        Map<String, Object> resultMap = new HashMap<>();
-
         logger.trace("logtout : {}, {}", userId);
 
         int res = userService.logout(userId);
@@ -116,8 +109,6 @@ public class UserController {
     @GetMapping("/check_id/{userId}")
     public ResponseEntity<?> duplicatedId(@PathVariable("userId") String userId) {
         HttpStatus status = null;
-//        Map<String, Object> resultMap = new HashMap<>();
-
         logger.trace("check ID : {}", userId);
 
         int res = userService.duplicatedId(userId);
@@ -128,11 +119,8 @@ public class UserController {
 
     @Operation(summary = "Send email with auth key for signup", description = ".")
     @PostMapping("/email_auth")
-    public ResponseEntity<?> sendAuthEmail(@RequestBody MailDto.MailAuthDto mailAuthDto
-//            , HttpSession session
-    ) {
+    public ResponseEntity<?> sendAuthEmail(@RequestBody MailDto.MailAuthDto mailAuthDto) {
         HttpStatus status;
-
         logger.trace("email auth request");
 
         int res = userService.sendAuthEmail(mailAuthDto.getEmail());
@@ -146,11 +134,8 @@ public class UserController {
 
     @Operation(summary = "check auth key", description = ".")
     @PostMapping("/check_authkey")
-    public ResponseEntity<?> checkAuthKey(@RequestBody MailDto.MailCheckDto mailCheckDto
-//            , HttpSession session
-    ) {
+    public ResponseEntity<?> checkAuthKey(@RequestBody MailDto.MailCheckDto mailCheckDto) {
         HttpStatus status;
-
         logger.trace("check email auth key");
 
         int res = userService.checkAuthKey(mailCheckDto);
@@ -159,6 +144,36 @@ public class UserController {
                 (res == -1) ? HttpStatus.UNAUTHORIZED :
                         (res == -2) ? HttpStatus.GONE :
                                 HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<Void>(status);
+    }
+
+    @Operation(summary = "find user id by email", description = ".")
+    @GetMapping("/find-id/{email}")
+    public ResponseEntity<?> findId(@PathVariable("email") String email) {
+        HttpStatus status;
+        logger.trace("find ID by email : {}", email);
+
+        int res = userService.findId(email);
+
+        status = (res == 0) ? HttpStatus.OK
+                : (res == -1) ? HttpStatus.INTERNAL_SERVER_ERROR
+                : HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<Void>(status);
+    }
+
+    @Operation(summary = "generate new password", description = ".")
+    @PostMapping("/find-password")
+    public ResponseEntity<?> findPassword(@RequestBody UserDto.UserFindPwDto userFindPwDto) {
+        HttpStatus status;
+        logger.trace("find password");
+
+        int res = userService.findPw(userFindPwDto);
+
+        status = (res == 0) ? HttpStatus.OK
+                : (res == -1) ? HttpStatus.INTERNAL_SERVER_ERROR
+                : HttpStatus.NOT_FOUND;
 
         return new ResponseEntity<Void>(status);
     }
