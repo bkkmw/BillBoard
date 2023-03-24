@@ -34,6 +34,8 @@ public class UserServiceImpl implements UserService {
         if(!userRepository.existsByUserId(userSignUpDto.getUserId())){
             logger.trace("{} user not found", userSignUpDto.getUserId());
 
+            if(userRepository.existsByEmail(userSignUpDto.getEmail())) return -1;
+
             userRepository.save(User.builder()
                             .userId(userSignUpDto.getUserId())
                             .password(passwordEncoder.encode(userSignUpDto.getPassword()))
