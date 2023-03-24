@@ -162,4 +162,34 @@ public class UserController {
 
         return new ResponseEntity<Void>(status);
     }
+
+    @Operation(summary = "find user id by email", description = ".")
+    @GetMapping("/find-id/{email}")
+    public ResponseEntity<?> findId(@PathVariable("email") String email) {
+        HttpStatus status;
+        logger.trace("find ID by email : {}", email);
+
+        int res = userService.findId(email);
+
+        status = (res == 0) ? HttpStatus.OK
+                : (res == -1) ? HttpStatus.INTERNAL_SERVER_ERROR
+                : HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<Void>(status);
+    }
+
+    @Operation(summary = "generate new password", description = ".")
+    @PostMapping("/find-password")
+    public ResponseEntity<?> findPassword(@RequestBody UserDto.UserFindPwDto userFindPwDto) {
+        HttpStatus status;
+        logger.trace("find password");
+
+        int res = userService.findPw(userFindPwDto);
+
+        status = (res == 0) ? HttpStatus.OK
+                : (res == -1) ? HttpStatus.INTERNAL_SERVER_ERROR
+                : HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<Void>(status);
+    }
 }
