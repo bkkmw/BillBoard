@@ -65,6 +65,10 @@ public class User implements UserDetails {
         this.state = "offline";
     }
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

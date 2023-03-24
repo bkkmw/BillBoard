@@ -38,5 +38,12 @@ public class UserDto {
         private String email;
     }
 
-
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class UserFindPwDto {
+        private String userId;
+        private String email;
+    }
 }
