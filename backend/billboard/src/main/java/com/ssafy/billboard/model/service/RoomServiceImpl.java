@@ -24,17 +24,25 @@ public class RoomServiceImpl implements RoomService {
     private final EntryRepository entryRepository;
 
     @Override
-    public boolean createRoom(RoomDto.RoomInput roomInput){
+    public RoomDto.RoomInfo createRoom(RoomDto.RoomInput roomInput){
         if(!userRepository.existsByUserId(roomInput.getHostId()))
-            return false;
-        roomRepository.save(Room.builder()
+            return null;
+        Room room = roomRepository.save(Room.builder()
                 .hostId(roomInput.getHostId())
                 .title(roomInput.getTitle())
                 .personLimit(roomInput.getPersonLimit())
                 .location(roomInput.getLocation())
                 .date(roomInput.getDate())
                 .build());
-        return true;
+        return RoomDto.RoomInfo.builder()
+                .roomId(room.getRoomId())
+                .hostId(room.getHostId())
+                .title(room.getTitle())
+                .personCount(room.getEntries().size())
+                .personLimit(room.getPersonLimit())
+                .location(room.getLocation())
+                .date(room.getDate())
+                .build();
     }
 
     @Override
