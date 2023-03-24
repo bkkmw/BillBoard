@@ -1,14 +1,13 @@
-import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
+
+import { Col, Row } from 'antd';
+
 import KakaoMapT from './KakaoMapT';
+import ReserveFormInput from './ReserveFormInput';
 
 const ReserveForm = () => {
     const [location, setLocation] = useState({})
-    useEffect(()=>{
-        console.log(location)
-    },[location])
     const modal = document.getElementById('modal')
-    console.log(modal.getBoundingClientRect())
     return (
         <div>
             <Row>
@@ -18,10 +17,8 @@ const ReserveForm = () => {
                     </div>
                     </Col>
                 <Col span={12}>
-                    <input type="text" />
-                    <input type="text" />
-                    <input type="text" />
-                    <div style={{color:"black"}}>장소:{location.place_name}</div></Col>
+                    <ReserveFormInput location={location.place_name}/>
+                </Col>
                 </Row>
             
             

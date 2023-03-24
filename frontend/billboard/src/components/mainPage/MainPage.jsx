@@ -1,7 +1,13 @@
 import React from "react";
+import style from "./MainPage.module.css";
+import UserRecommend from "./UserRecommend";
 
 const Main = () => {
-  return <div>황산나래, 지혁주 Main.jsx에서 작성된 내용</div>;
+  return (
+    <div className={style.background}>
+      <UserRecommend />
+    </div>
+  );
 };
 
 export default Main;

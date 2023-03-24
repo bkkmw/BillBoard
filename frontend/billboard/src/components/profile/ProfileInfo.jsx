@@ -1,17 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+
 import ProfilButton from "./ProfilButton";
 import ProfileExp from "./ProfileExp";
-import ProfileFriendsList from "./ProfileFriendsList";
+import ProfileFollowing from "./ProfileFollowing";
 import ProfileSearch from "./ProfileSearch";
+import ProfileFollower from "./ProfileFollower";
+import Det from "./Det";
+
+import style from "./ProfileInfo.module.css";
+import axios from "axios";
+import { Navigate } from "react-router";
 
 const ProfileInfo = () => {
+  // const [cat, setCat] = useState({});
+
+  // axios({
+  //   method: "get",
+  //   url: "https://cataas.com/cat",
+  // })
+  //   .then((res) => {
+  //     setCat(res.data);
+  //   })
+  //   .catch((eroor) => {
+  //     Navigate("/error");
+  //   });
+
   return (
-    <div>
+    <div className={style.background}>
       <img alt="이미지"></img>
-      <div>
-        <span>{`lv 100 황산나래 LG CNS`}</span>
+      <div className={style.background2}>
+        <span className={style.fontsize}>{`Lv 100 황산나래 LG CNS`}</span>
         <ProfileExp />
-        <ProfileFriendsList />
+        <div>
+          <ProfileFollowing />
+          <ProfileFollower />
+          <Det />
+        </div>
       </div>
       <ProfilButton />
       <ProfileSearch />

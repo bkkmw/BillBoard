@@ -1,6 +1,8 @@
 
-import { Button, Drawer, List } from 'antd';
 import React, { useState } from 'react';
+
+import { Button, Drawer, List } from 'antd';
+
 import ADDRESS from '../../config/address'
 import "./ReserveFindAddress.css"
 const ReserveFindAddress = ({Open, onClose, childrenDrawer, setChildrenDrawer,setAddress}) => {
@@ -15,7 +17,7 @@ const ReserveFindAddress = ({Open, onClose, childrenDrawer, setChildrenDrawer,se
     const [showNxtDrawer, setShowNxtDrawer] = useState(false)
     return (
 
-       <Drawer title="지역선택" width={520} closable={false} onClose={onClose} open={Open}>
+       <Drawer closable={false} open={Open} title="지역선택" width={520} onClose={onClose} placement={"bottom"}>
     <List
 
       dataSource={Object.keys(ADDRESS)}
@@ -28,11 +30,12 @@ const ReserveFindAddress = ({Open, onClose, childrenDrawer, setChildrenDrawer,se
       )}
     />
        <Drawer
+         closable={false}
+         open={childrenDrawer}
          title={addressfirst}
          width={320}
-         closable={false}
          onClose={onChildrenDrawerClose}
-         open={childrenDrawer}
+         placement={"bottom"}
 
        >
         <List
@@ -46,11 +49,12 @@ const ReserveFindAddress = ({Open, onClose, childrenDrawer, setChildrenDrawer,se
             )}
         />
         <Drawer
+                 closable={false}
+                 open={showNxtDrawer}
                  title={addressNxt}
                  width={320}
-                 closable={false}
                  onClose={()=>{setShowNxtDrawer(false)}}
-                 open={showNxtDrawer}
+                 placement={"bottom"}
                >
                 <List
         dataSource={ADDRESS[addressfirst][addressNxt]}

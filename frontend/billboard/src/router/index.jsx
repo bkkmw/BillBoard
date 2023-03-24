@@ -1,13 +1,19 @@
 import { createBrowserRouter } from "react-router-dom";
-import Main from "../components/mainPage/MainPage";
-import Profile from "../components/profile/Profile";
-import Gameroom from "../components/gameroom/Gameroom";
-import Reserve from "../components/reserve/Reserve";
-import Login from "../components/login/Login";
-import Singup from "../components/login/Singup";
-import Landding from "../components/landding/Landding";
-import ReserveFind from "../components/reserve/ReserveFind";
+
 import App from "../App";
+import Gameroom from "../components/gameroom/Gameroom";
+import Landding from "../components/landding/Landding";
+import Login from "../components/login/LoginPage";
+import Singup from "../components/login/SingupPage";
+import Main from "../components/mainPage/MainPage";
+import Profile from "../components/profile/ProfilePage";
+import Reserve from "../components/reserve/Reserve";
+import ReserveFind from "../components/reserve/ReserveFind";
+import IdFindPage from "../components/login/IdFindPage";
+import PswdFindPage from "../components/login/PswdFindPage";
+import FindResult from "../components/login/FindResultPage";
+import Room from "../components/reserve/Room";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,6 +46,11 @@ const router = createBrowserRouter([
         children: [{}],
       },
       {
+        path: "room/:roomId",
+        element: <Room />,
+        children: [{}],
+      },
+      {
         path: "reserve/find",
         element: <ReserveFind />,
         children: [{}],
@@ -53,6 +64,21 @@ const router = createBrowserRouter([
       {
         path: "singup",
         element: <Singup />,
+        children: [{}],
+      },
+      {
+        path: "IdFindPage",
+        element: <IdFindPage />,
+        children: [{}],
+      },
+      {
+        path: "PswdFindPage",
+        element: <PswdFindPage />,
+        children: [{}],
+      },
+      {
+        path: "FindResult",
+        element: <FindResult />,
         children: [{}],
       },
     ],
