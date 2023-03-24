@@ -71,7 +71,7 @@ public class HistoryServiceImpl implements  HistoryService{
             history = History.builder()
                     .userId(userId)
                     .gameId(gameId)
-                    .count(0)
+                    .count(1)
                     .lastPlayTime(currentTime)
                     .build();
         }
