@@ -232,17 +232,17 @@ public class UserServiceImpl implements UserService {
     /*
     returns : 0(Success), -1(Not found)
      */
-    public int increaseCount(String userId, boolean isWin) {
-        logger.trace("increase Count : {}, win ? {}", userId, isWin);
-
-        User user = userRepository.findByUserId(userId);
-
-        if(user == null) return -1;
-        user.updateCount(isWin);
-        userRepository.save(user);
-
-        return 0;
-    }
+//    public int increaseCount(String userId, boolean isWin) {
+//        logger.trace("increase Count : {}, win ? {}", userId, isWin);
+//
+//        User user = userRepository.findByUserId(userId);
+//
+//        if(user == null) return -1;
+//        user.updateCount(isWin);
+//        userRepository.save(user);
+//
+//        return 0;
+//    }
 
     @Override
     public UserDto.UserInfoDto confirmPw(UserDto.UserLoginDto userLoginDto) {
