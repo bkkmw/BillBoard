@@ -1,29 +1,27 @@
 import { Button, Checkbox, Form, Input } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getReply, makeReply } from '../../../store/reserve';
+import { deleteReply, getReply, makeReply } from '../../../store/reserve';
+import { CloseCircleOutlined } from '@ant-design/icons';
 
-const RoomReply = ({replies, roomId}) => {
+const RoomReply = ({replies, roomId, reload}) => {
+  const inputRef = useRef()
+  // Todo: userId 수정 예정
+  const userId = "string"
   const dispatch = useDispatch()
-  const [replyList, setReplyList] = useState([])
-  useEffect(()=>{
-    setReplyList(replies)
-  },[])
   const onFinish = (values) => {
     // console.log(values)
-    // Todo: userId 수정 예정
+    
     const data = {
       roomId:roomId,
       content:values.reply,
-      userId:"string"
+      userId:userId
     }
     dispatch(makeReply(data)).then((res)=>{
-      dispatch(getReply(roomId)).then((resdata)=>{
-        // console.log(resdata)
-        setReplyList(resdata.payload.replies)
-      })
+      reload()
   })
     console.log('Success:', values);
+    inputRef.current?.setFieldsValue({reply:''})
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -31,14 +29,24 @@ const RoomReply = ({replies, roomId}) => {
   return (
     <div>
 
-      {replyList.map((reply, i) => {
+      {replies.map((reply, i) => {
         return(<>
                     <div>댓글작성자: {reply.userId}</div>
                     <div>댓글: {reply.content}</div>
+                    <div>댓글id:{reply.replyId}</div>
+                    {reply.userId === userId&&<><CloseCircleOutlined onClick={()=>{
+                      dispatch(deleteReply(reply.replyId)).then((res)=>{
+                        reload()
+                      })
+                    }}/></>
+                    
+                    }
+                    
                     
         </>)
       })}
       <Form
+      ref={inputRef}
     name="basic"
     labelCol={{
       span: 8,
@@ -50,7 +58,7 @@ const RoomReply = ({replies, roomId}) => {
       maxWidth: 600,
     }}
     initialValues={{
-      remember: true,
+      remember: false,
     }}
     onFinish={onFinish}
     onFinishFailed={onFinishFailed}
