@@ -4,6 +4,7 @@ import com.ssafy.billboard.model.dto.RoomDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,13 +37,15 @@ public class Room {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Column
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roomId")
-    private List<Entry> entries;
+    @OneToMany
+    @JoinColumn(name = "roomId")
+    @Builder.Default
+    private List<Entry> entries = new ArrayList<>();
 
-    @Column
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roomId")
-    private List<Reply> replies;
+    @OneToMany
+    @JoinColumn(name = "roomId")
+    @Builder.Default
+    private List<Reply> replies = new ArrayList<>();
 
     public void update(RoomDto.RoomUpdate roomUpdate){
         if(roomUpdate.getTitle() != null)
