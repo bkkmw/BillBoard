@@ -4,6 +4,7 @@ import { Button, Col, List, Row } from 'antd';
 import ReserveFindAddress from './ReserveFindAddress';
 import { getRoom } from '../../store/reserve';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 let dateList = []
 for (let i = 0; i<7; i++ ) {
@@ -23,9 +24,12 @@ const ReserveFind = () => {
     // Todo: rejected 
     useEffect(()=>{
       dispatch(getRoom())
-      .then((data) => {console.log(data)})
-      .catch((error) => {console.log(data)})
+      .then((data) => {console.log(data)
+      setRooms(data.payload.rooms)}
+      )
+      .catch((error) => {console.log(error)})
     },[])
+    
     // rooms : [
 // {
 //     roomId : 방아이디(long)
@@ -60,6 +64,22 @@ renderItem={(item) => (
             <ReserveFindAddress Open={isAddressOpen} childrenDrawer={isChildAddressOpen} setAddress={setAddress} setChildrenDrawer={setIsChildAddressOpen} onClose={() => setIsAddressOpen(false)}/>
             </Col>
             <Col span={12}>
+            <List
+dataSource={rooms}
+renderItem={(item) => (
+  <List.Item className={`list_item_hover ${item===date.toLocaleDateString()&&'list_item_select'}`}>
+    <Link to={`/room/${item.roomId}`}>{
+      `날짜:${item.date},
+      방장ID:${item.hostID},
+      location:${item.location},
+      personCount:${item.personCount},
+      personLimit:${item.personLimit},
+      roomId:${item.roomId},
+      title:${item.title}
+   `}</Link>
+  </List.Item>
+)}
+/>
             </Col>
             </Row>
         </div>
