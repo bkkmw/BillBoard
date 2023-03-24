@@ -1,0 +1,19 @@
+.my-table .ant-table-row {
+  font-size: 2rem;
+}
+
+.my-table .ant-table-thead {
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+.my-table .ant-btn {
+  width: 5vw;
+  height: 5vh;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  color: white;
+}
