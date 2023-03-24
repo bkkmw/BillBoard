@@ -1,11 +1,12 @@
 package com.ssafy.billboard.model.service;
 
+import com.ssafy.billboard.model.dto.MailDto;
 import com.ssafy.billboard.model.dto.UserDto;
-import com.ssafy.billboard.model.dto.UserInfoDto;
-import com.ssafy.billboard.model.dto.UserLoginDto;
-import com.ssafy.billboard.model.dto.UserSignUpDto;
+import com.ssafy.billboard.model.entity.MailAuth;
 import com.ssafy.billboard.model.entity.User;
+import com.ssafy.billboard.model.repository.MailAuthRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
+import com.ssafy.billboard.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -13,42 +14,48 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final MailAuthRepository mailAuthRepository;
+    private final MailService mailService;
     @Override
-    public int signup(UserSignUpDto userSignUpDto) {
+    public int signup(UserDto.UserSignUpDto userSignUpDto) {
         logger.trace("user SignUp : {}", userSignUpDto);
 
 
-        if(userRepository.findByUserId(userSignUpDto.getUserId()) == null){
+        if(!userRepository.existsByUserId(userSignUpDto.getUserId())){
             logger.trace("{} user not found", userSignUpDto.getUserId());
 
-            String encode = passwordEncoder.encode(userSignUpDto.getPassword());
-            logger.info(encode);
+            userRepository.save(User.builder()
+                            .userId(userSignUpDto.getUserId())
+                            .password(passwordEncoder.encode(userSignUpDto.getPassword()))
+                            .nickname(userSignUpDto.getNickname())
+                            .email(userSignUpDto.getEmail())
+                        .build());
 
-            userSignUpDto.setPassword(encode);
-            userRepository.save(new User.UserBuilder(userSignUpDto).build());
-            return 1;
+            return 0;
         }
 
         logger.info("{} user already exists", userSignUpDto.getUserId());
-        return 0;
+        return -1;
     }
 
     @Override
-    public UserInfoDto getUserInfo(String userId) {
+    public UserDto.UserInfoDto getUserInfo(String userId) {
         logger.trace("find user : {}", userId);
         User user = userRepository.findByUserId(userId);
 
         if(user == null) return null;
 
-        return UserInfoDto.builder()
+        return UserDto.UserInfoDto.builder()
                 .userId(user.getUserId())
                 .nickname(user.getNickname())
                 .email(user.getEmail())
@@ -60,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
     // TBD ...
     @Override
-    public int modifyUserInfo(UserSignUpDto userSignUpDto) {
+    public int modifyUserInfo(UserDto.UserSignUpDto userSignUpDto) {
         logger.trace("modify user : {}", userSignUpDto);
 
         return 0;
@@ -72,15 +79,15 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findByUserId(userId);
 
-        if(user == null) return 0;
+        if(user == null) return -1;
 
         userRepository.delete(userRepository.findByUserId(userId));
-        return 1;
+        return 0;
     }
 
     @Override
     // return type will be changed after implementing token
-    public UserInfoDto login(UserLoginDto userLoginDto) {
+    public UserDto.UserInfoDto login(UserDto.UserLoginDto userLoginDto) {
         logger.trace("login : {} , {}", userLoginDto.getUserId(), userLoginDto.getPassword());
 
         User user = userRepository.findByUserId(userLoginDto.getUserId());
@@ -92,7 +99,7 @@ public class UserServiceImpl implements UserService {
             user.updateOnLogin("AA");
 
             userRepository.save(user);
-            return UserInfoDto.builder()
+            return UserDto.UserInfoDto.builder()
                     .nickname(user.getNickname())
                     .build();
         }
@@ -101,6 +108,7 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
     public int logout(String userId) {
         logger.trace("logout : {}", userId);
 
@@ -111,8 +119,73 @@ public class UserServiceImpl implements UserService {
             user.updateOnLogout();
 
             userRepository.save(user);
-            return 1;
+            return 0;
         }
+
+        return -1;
+    }
+
+
+
+    /*
+    * returns result of ID duplication check
+    * -1 : duplicated ID
+    * 0 : available ID
+    * */
+
+    @Override
+    public int duplicatedId(String userId) {
+        logger.trace("check ID duplication : {}", userId);
+
+        return userRepository.existsByUserId(userId) ? -1 : 0;
+    }
+
+    // returns -2(Existing Email)
+    // returns -1(failed to send email)
+    // returns 0(sent successfully)
+    @Override
+    public int sendAuthEmail(String email) {
+        logger.trace("email entered : {}", email);
+
+        if(userRepository.existsByEmail(email)) return -2;
+
+        String authKey = RandomUtil.randomAuthKey();
+//        int res = mailService.sendAuthMail(email, authKey);
+        int res = 0;
+
+        if(res > -1) {
+            Timestamp currentTimeStamp = new Timestamp(System.currentTimeMillis());
+//            currentTimeStamp.setTime(currentTimeStamp.getTime() + (9 * 60 * 60 * 1000));
+            // use UTC, jdbc modifies it when reading time
+            currentTimeStamp.setTime(currentTimeStamp.getTime() + (10 * 60 * 1000));
+            mailAuthRepository.save(MailAuth.builder()
+                            .email(email)
+                            .authKey(authKey)
+                            .expireAt(currentTimeStamp)
+                            .build());
+        }
+        return res;
+    }
+
+    // returns -3(not found)
+    // returns -2(expired auth)
+    // returns -1(incorrect key)
+    // returns 0(correct key)
+    @Override
+    public int checkAuthKey(MailDto.MailCheckDto mailCheckDto) {
+        logger.trace("check auth key");
+
+        if(!mailAuthRepository.existsById(mailCheckDto.getEmail())) return -3;
+
+        MailAuth mailAuth = mailAuthRepository.findById(mailCheckDto.getEmail()).get();
+
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        currentTime.setTime(currentTime.getTime() + (9 * 60 & 60 * 1000));
+        logger.info("compare date :: cur : {}, expire : {}, res : {}",
+                currentTime, mailAuth.getExpireAt(), currentTime.compareTo(mailAuth.getExpireAt()));
+        if(currentTime.compareTo(mailAuth.getExpireAt()) > 0) return -2;
+
+        if(!mailCheckDto.getAuthKey().equals(mailAuth.getAuthKey())) return -1;
 
         return 0;
     }
