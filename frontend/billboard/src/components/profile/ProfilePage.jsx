@@ -1,15 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { selectUser } from "../../store/user";
+
 import { useSelector } from "react-redux";
-import ProfileInfo from "./ProfileInfo";
+import { Link } from "react-router-dom";
+
 import ProfileFavorites from "./ProfileFavorites";
+import ProfileInfo from "./ProfileInfo";
 import ProfileRecord from "./ProfileRecord";
+import { selectUser } from "../../store/user";
+
+import style from "./Profile.module.css";
 
 const Profile = () => {
   const userId = useSelector(selectUser).loginUser.userId;
   return (
-    <div>
+    <div className={style.background}>
       <ProfileInfo />
       <ProfileRecord />
       <ProfileFavorites />

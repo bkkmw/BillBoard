@@ -4,3 +4,7 @@
     cursor: pointer;
     color: black;
 }
+.list_item_select {
+    background-color: blue;
+    color: white;
+}
