@@ -1,5 +1,6 @@
 package com.ssafy.billboard.model.service;
 
+import com.ssafy.billboard.model.dto.MailDto;
 import com.ssafy.billboard.model.dto.UserDto;
 
 public interface UserService {
@@ -13,4 +14,10 @@ public interface UserService {
 
     UserDto.UserInfoDto login(UserDto.UserLoginDto userLoginDto);
     int logout(String userId);
+
+    int duplicatedId(String userId);
+
+    int sendAuthEmail(String email);
+
+    int checkAuthKey(MailDto.MailCheckDto mailCheckDto);
 }
