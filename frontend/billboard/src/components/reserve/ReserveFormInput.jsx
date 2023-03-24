@@ -68,7 +68,8 @@ const onFinish = (values) =>{
   values = {...values, date:new Date(values.date.$d).toISOString(), hostId:'string'}
   dispatch(makeRoom(values))
   .then((data) => {console.log(data)
-    navigate(`/room/${data.payload.roomId}`,{replace: true})
+    // Todo: 방 ID받아서 navigate되게할것
+    // navigate(`/room/${data.payload.roomId}`,{replace: true})
   }
   )
   .catch((error) => {console.log(error)})
