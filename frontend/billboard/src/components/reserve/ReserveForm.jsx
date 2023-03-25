@@ -6,11 +6,14 @@ import KakaoMapT from './KakaoMapT';
 import ReserveFormInput from './ReserveFormInput';
 
 const ReserveForm = ({ data, roomId, setModalOpen }) => {
-    const [location, setLocation] = useState({})
+    const [location, setLocation] = useState('')
     useEffect(() => {
         if (data) {
             setLocation(data.location)
         }
+    }, [])
+    useEffect(() => {
+        console.log(location)
     }, [location])
     const modal = document.getElementById('modal')
     return (
@@ -22,7 +25,7 @@ const ReserveForm = ({ data, roomId, setModalOpen }) => {
                     </div>
                 </Col>
                 <Col span={12}>
-                    <ReserveFormInput location={location.place_name} data={data} roomId={roomId} setModalOpen={setModalOpen} />
+                    <ReserveFormInput location={location} data={data} roomId={roomId} setModalOpen={setModalOpen} />
                 </Col>
             </Row>
 
