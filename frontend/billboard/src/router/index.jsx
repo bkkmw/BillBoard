@@ -48,9 +48,9 @@ const router = createBrowserRouter([
       {
         path: "room/:roomId",
         element: <Room />,
-        id:"room",
+        id: "room",
         children: [{}],
-        loader: async ({params}) => {
+        loader: async ({ params }) => {
           return params.roomId;
         }
       },

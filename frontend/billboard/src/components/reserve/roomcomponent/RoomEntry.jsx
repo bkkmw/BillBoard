@@ -3,29 +3,29 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteEntry, makeEntry } from '../../../store/reserve';
 
-const RoomEntry = ({entries, roomId, reload}) => {
+const RoomEntry = ({ entries, roomId, reload }) => {
     // Todo: userId를 로그인정보에서 들고오기기
     const userId = "string"
     const [isInEntry, setIsInEntry] = useState(false)
     const dispatch = useDispatch()
-    useEffect(()=>{
+    useEffect(() => {
         for (const entry of entries) {
             if (entry.userId === userId) {
                 setIsInEntry(true)
             }
         }
-    },[])
+    }, [])
     const clickEvent = () => {
-        const data = {roomId:roomId, userId:userId}
+        const data = { roomId: roomId, userId: userId }
         if (isInEntry === false) {
-            dispatch(makeEntry(data)).then((res)=>{
+            dispatch(makeEntry(data)).then((res) => {
                 console.log(res)
                 setIsInEntry(true)
                 reload()
             })
         }
         else {
-            dispatch(deleteEntry(data)).then((res)=>{
+            dispatch(deleteEntry(data)).then((res) => {
                 console.log(res)
                 setIsInEntry(false)
                 reload()
@@ -36,14 +36,14 @@ const RoomEntry = ({entries, roomId, reload}) => {
     }
     return (
         <div>
-                        <div>플레이어:{entries.map((entry, i) => {
-                return(<>
-                <div>userId: {entry.userId}</div>
+            <div>플레이어:{entries.map((entry, i) => {
+                return (<>
+                    <div>userId: {entry.userId}</div>
                 </>)
             })}</div>
-            <Button onClick={()=>{
+            <Button onClick={() => {
                 clickEvent()
-            }}>{isInEntry===true?'등록해제':'등록'}</Button>
+            }}>{isInEntry === true ? '등록해제' : '등록'}</Button>
         </div>
     );
 };
