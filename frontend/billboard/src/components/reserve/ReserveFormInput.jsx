@@ -10,7 +10,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { makeRoom } from '../../store/reserve';
+import { correctRoom, makeRoom } from '../../store/reserve';
 import { useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
 
@@ -31,50 +31,71 @@ const disabledDate = (current) => {
 
 
 const { TextArea } = Input;
-const ReserveFormInput = ({location}) => {
+const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const inputRef = useRef()
   const [componentDisabled, setComponentDisabled] = useState(true);
   const disabledDateTime = () => ({
-  disabledHours: () => range(0, 24).splice(4, 20),
-  disabledMinutes: () => range(30, 60),
-  disabledSeconds: () => [55, 56],
-});
-useEffect(()=>{
-  if (location) {
-    inputRef.current?.setFieldsValue({location: `${location}`})
-  }
-  
-},[location])
-const disabledRangeTime = (_, type) => {
-  if (type === 'start') {
+    disabledHours: () => range(0, 24).splice(4, 20),
+    disabledMinutes: () => range(30, 60),
+    disabledSeconds: () => [55, 56],
+  });
+  useEffect(() => {
+    if (data) {
+      inputRef.current?.setFieldsValue({
+        title: `${data.title}`,
+        personLimit: `${data.personLimit}`
+      })
+    }
+  }, [])
+  useEffect(() => {
+    if (location) {
+      inputRef.current?.setFieldsValue({ title: `${location.place_name}`, location: `${location.x}$${location.y}` })
+
+    }
+
+  }, [location])
+  const disabledRangeTime = (_, type) => {
+    if (type === 'start') {
+      return {
+        disabledHours: () => range(0, 60).splice(4, 20),
+        disabledMinutes: () => range(30, 60),
+        disabledSeconds: () => [55, 56],
+      };
+    }
     return {
-      disabledHours: () => range(0, 60).splice(4, 20),
-      disabledMinutes: () => range(30, 60),
+      disabledHours: () => range(0, 60).splice(20, 4),
+      disabledMinutes: () => range(0, 31),
       disabledSeconds: () => [55, 56],
     };
-  }
-  return {
-    disabledHours: () => range(0, 60).splice(20, 4),
-    disabledMinutes: () => range(0, 31),
-    disabledSeconds: () => [55, 56],
-  };
 
-};
-const onFinish = (values) =>{
-  // Todo: hostId값 추가
-  
-  values = {...values, date:new Date(values.date.$d).toISOString(), hostId:'string'}
-  dispatch(makeRoom(values))
-  .then((data) => {console.log(data)
-    // Todo: 방 ID받아서 navigate되게할것
-    // navigate(`/room/${data.payload.roomId}`,{replace: true})
+  };
+  const onFinish = (values) => {
+    // Todo: hostId값 추가
+    // location.place_name: 장소이름
+    values = {
+      ...values, date: new Date(values.date.$d).toISOString(), location: `${location.x}$${location.y}`
+    }
+    if (data) {
+      dispatch(correctRoom({ values: values, roomId: roomId })).then((res) => {
+        console.log(res)
+        setModalOpen(false)
+      }
+
+      ).catch((error) => { console.log(error) })
+    } else {
+      dispatch(makeRoom({ ...values, hostId: "string" }))
+        .then((data) => {
+          console.log(data)
+          navigate(`/room/${data.payload.room.roomId}`, { replace: true })
+        }
+        )
+        .catch((error) => { console.log(error) })
+    }
+
+
   }
-  )
-  .catch((error) => {console.log(error)})
-  
-}
   return (
     <>
       <Form
@@ -90,7 +111,7 @@ const onFinish = (values) =>{
           maxWidth: 600,
         }}
         onFinish={onFinish}
-        
+
       >
         <Form.Item label="Title" name="title" rules={[
           {
@@ -98,7 +119,7 @@ const onFinish = (values) =>{
             message: '제목을 입력하세요'
           }
         ]}>
-          <Input />
+          <Input readOnly={true} />
         </Form.Item>
         <Form.Item label="Date/Time" name="date" rules={[
           {
@@ -106,13 +127,13 @@ const onFinish = (values) =>{
             message: '시간을 입력하세요'
           }
         ]}>
-        <DatePicker
-      format="YYYY-MM-DD HH:mm"
-      disabledDate={disabledDate}
-      showTime={{
-        defaultValue: dayjs('00:00:00', 'HH:mm'),
-      }}
-    />
+          <DatePicker
+            format="YYYY-MM-DD HH:mm"
+            disabledDate={disabledDate}
+            showTime={{
+              defaultValue: dayjs('00:00:00', 'HH:mm'),
+            }}
+          />
         </Form.Item>
         <Form.Item label="Location" name="location" rules={[
           {
@@ -120,7 +141,7 @@ const onFinish = (values) =>{
             message: '장소를 입력하세요',
           },
         ]}>
-          <Input  readOnly={true}/>
+          <Input readOnly={true} />
         </Form.Item>
         <Form.Item label="personLimit" name="personLimit" rules={[
           {
@@ -128,7 +149,7 @@ const onFinish = (values) =>{
             message: '인원수를 입력하세요',
           },
         ]}>
-          <InputNumber min={2} max={8}/>
+          <InputNumber min={2} max={8} />
         </Form.Item>
         <Form.Item>
           <Button type={'primary'} htmlType={"submit"}>Submit</Button>

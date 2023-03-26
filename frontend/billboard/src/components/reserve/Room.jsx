@@ -1,57 +1,76 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouteLoaderData } from 'react-router';
-import { getRoomInfo } from '../../store/reserve';
+import { useNavigate, useRouteLoaderData } from 'react-router';
+import { deleteRoom, getRoomInfo } from '../../store/reserve';
+import RoomEntry from './roomcomponent/RoomEntry';
 import RoomReply from './roomcomponent/RoomReply';
+import { CloseCircleOutlined } from '@ant-design/icons';
+import { Button, Modal } from 'antd';
+import ReserveForm from './ReserveForm';
+
 
 const Room = () => {
+    // Todo: userId값 받아오기
+    const userId = "string"
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const roomId = useRouteLoaderData("room")
+    const [modalOpen, setModalOpen] = useState(false)
     const [roomData, setRoomData] = useState()
-    useEffect(()=>{
-        dispatch(getRoomInfo(roomId)).then((res)=>{
+    const reload = () => {
+        dispatch(getRoomInfo(roomId)).then((res) => {
             setRoomData(res.payload.room)
         })
-        
-        // setRoomData(dispatch(getRoomInfo.payload))
-    },[])
-    useEffect(()=>{
-        console.log(roomData)
-    },[roomData])
+    }
+    useEffect(() => {
+        reload()
+    }, [])
+    useEffect(() => {
+        reload()
+    }, [modalOpen])
     return (
         <div>
-            {roomData&&<>
-            
-                <hr/>
-            <div>
-            방ID:{roomData.roomInfo.roomId}
-            방장:{roomData.roomInfo.hostId}
-            장소:{roomData.roomInfo.location}
-            인원:{roomData.roomInfo.personCount}
-            제한인원:{roomData.roomInfo.personLimit}
-            방이름:{roomData.roomInfo.title}
-            </div>
-            <hr/>
-            <RoomReply replies={roomData.replies} roomId={roomId}/>
-            {/* <div>댓글:{roomData.replies.map((reply,i) => {
-                return(<>
-                    <div>댓글작성자: {reply.replyId}</div>
-                    <div>댓글: {reply.content}</div>
-                    </>
-                )
+            {roomData && <>
 
-            })}</div> */}
+                <hr />
+                <div>
+                    방ID:{roomData.roomInfo.roomId}
+                    방장:{roomData.roomInfo.hostId}
+                    장소:{roomData.roomInfo.location}
+                    인원:{roomData.roomInfo.personCount}
+                    제한인원:{roomData.roomInfo.personLimit}
+                    방이름:{roomData.roomInfo.title}
+                </div>
+                <hr />
+                <RoomReply replies={roomData.replies} roomId={roomId} reload={reload} />
+                <RoomEntry entries={roomData.entries} roomId={roomId} reload={reload} />
 
 
-            <hr/>
-            <div>플레이어:{roomData.entries.map((entry, i) => {
-                return(<>
-                <div>userId: {entry.userId}</div>
-                </>)
-            })}</div>
+
+                <hr />
+                {roomData.roomInfo.hostId === userId && <><Button onClick={() => {
+                    // Todo: 500오류 해결해야함
+                    dispatch(deleteRoom(roomId)).then((res) => {
+                        console.log(res)
+                        navigate('/reserve/find', { replace: true })
+                    }
+
+                    )
+                }}>방삭제</Button></>}
+                <hr />
+                {roomData.roomInfo.hostId === userId && <>
+                    <Button onClick={() => {
+                        setModalOpen(true)
+                    }}>방정보수정</Button>
+                    <Modal footer={null} bodyStyle={{ height: window.innerHeight * 0.8 }} open={modalOpen} title="Basic Modal" width={window.innerWidth * 0.8} onCancel={() => {
+                        setModalOpen(false)
+                    }}>
+                        <ReserveForm data={roomData.roomInfo} roomId={roomId} setModalOpen={setModalOpen} />
+                    </Modal>
+                </>}
             </>}
 
-            
+
         </div>
     );
 };
