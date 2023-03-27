@@ -1,10 +1,11 @@
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import { doLogin } from "../../store/user";
 
 import UserId from "./UserId";
 import UserPassword from "./UserPassword";
-import PswdFindPage from "./PswdFindPage";
-import IdFindPage from "./IdFindPage";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link } from "@mui/material";
@@ -19,6 +20,12 @@ import Typography from "@mui/material/Typography";
 import { useForm, FormProvider } from "react-hook-form";
 
 const Login = () => {
+  const { login } = useSelector((state) => state.user);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // 유효성 검사
   const form = useForm({
     defaultValues: {
       UserId: "",
@@ -27,8 +34,25 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (data) => console.log(data);
-  const onError = (error) => console.log("ERROR", error);
+  // 로그인 api
+  const onSubmit = (event) => {
+    event.preventDefault;
+    const user = {
+      userId: form.watch("UserId"),
+      password: form.watch("UserPassword"),
+    };
+    dispatch(doLogin(user)).then((data) => {
+      // console.log("안녕하세요", data.payload.status);
+      if (data.payload.status !== 200) {
+        alert("회원정보가 일치하지 않습니다.");
+        navigate("/login");
+      } else {
+        alert("hello");
+        navigate("/main");
+      }
+    });
+    // .catch((e) => console.log(e));
+  };
   return (
     <FormProvider {...form}>
       <Grid container component="main" sx={{ height: "100%", width: "100vh" }}>
@@ -61,7 +85,7 @@ const Login = () => {
             <Box
               component="form"
               sx={{ mt: 1 }}
-              onSubmit={form.handleSubmit(onSubmit, onError)}
+              onSubmit={form.handleSubmit(onSubmit)}
             >
               <UserId />
               <br />
@@ -73,8 +97,9 @@ const Login = () => {
                 sx={{ mt: 3, mb: 2 }}
                 type="submit"
                 variant="outlined"
+                disabled={!form.formState.isValid}
               >
-                Sign In
+                로 그 인
               </Button>
               <Grid container>
                 <Grid item xs={4}>
