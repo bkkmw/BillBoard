@@ -1,5 +1,6 @@
 package com.ssafy.billboard.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ssafy.billboard.model.dto.RoomDto;
 import com.ssafy.billboard.util.BaseTimeEntity;
 import lombok.*;
@@ -45,6 +46,7 @@ public class Room extends BaseTimeEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Entry> entries = new ArrayList<>();

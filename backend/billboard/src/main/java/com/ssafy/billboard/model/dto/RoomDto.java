@@ -67,6 +67,15 @@ public class RoomDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    public static class RoomReservationInfo {
+        private RoomInfo roomInfo;
+        private List<Entry> entries;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
     public static class ReplyInput {
         private long roomId;
         private String content;
@@ -78,6 +87,7 @@ public class RoomDto {
     @NoArgsConstructor
     @Builder
     public static class ReplyInfo {
+        private long replyId;
         private String content;
         private String userId;
         private LocalDateTime createdTime;

@@ -1,12 +1,14 @@
 package com.ssafy.billboard.controller;
 
 import com.ssafy.billboard.model.dto.RoomDto;
+import com.ssafy.billboard.model.entity.Room;
 import com.ssafy.billboard.model.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +90,7 @@ public class RoomController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/entry")
+    @PostMapping("/entries")
     public ResponseEntity<?> createEntry(@RequestBody RoomDto.EntryInput entryInput){
         int res = roomService.createEntry(entryInput);
         if(res == 1)
@@ -101,10 +103,22 @@ public class RoomController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @DeleteMapping("/entry")
+    @DeleteMapping("/entries")
     public ResponseEntity<?> deleteEntry(@RequestBody RoomDto.EntryInput entryInput){
         if(roomService.deleteEntry(entryInput))
             return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/entries/{userId}")
+    public ResponseEntity<?> getRoomsByEntry(@PathVariable String userId){
+        Map<String, Object> resultMap = new HashMap<>();
+        List<RoomDto.RoomReservationInfo> rooms = roomService.getRoomsByUserId(userId);
+        if(rooms == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(rooms.size() == 0)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        resultMap.put("rooms", rooms);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 }
