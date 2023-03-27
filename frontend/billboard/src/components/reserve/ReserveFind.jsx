@@ -4,66 +4,126 @@ import { Button, Col, List, Row } from 'antd';
 import ReserveFindAddress from './ReserveFindAddress';
 import { getRoom } from '../../store/reserve';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 let dateList = []
-for (let i = 0; i<7; i++ ) {
-    const today = new Date()
-    today.setDate(today.getDate()+i)
-    dateList.push(today.toLocaleDateString())
+for (let i = 0; i < 7; i++) {
+  const today = new Date()
+  today.setDate(today.getDate() + i)
+  dateList.push(today.toLocaleDateString())
 }
 
 const ReserveFind = () => {
   const dispatch = useDispatch()
 
-    const [address, setAddress] = useState('')
-    const [isAddressOpen, setIsAddressOpen] = useState(false)
-    const [isChildAddressOpen, setIsChildAddressOpen] = useState(false)
-    const [date, setDate] = useState(new Date())
-    const [rooms, setRooms] = useState()
-    // Todo: rejected 
-    useEffect(()=>{
-      dispatch(getRoom())
-      .then((data) => {console.log(data)})
-      .catch((error) => {console.log(data)})
-    },[])
-    // rooms : [
-// {
-//     roomId : 방아이디(long)
-//     hostId : 방장아이디(String)
-//     title : 방제목(String)
-//     personCount : 현재인원(int)
-//     personLimit : 최대인원(int)
-//     location : 장소(String)
-//     date : 시간(Date)
-//     }, ...
-//     ]
+  const [address, setAddress] = useState('')
+  const [isAddressOpen, setIsAddressOpen] = useState(false)
+  const [isChildAddressOpen, setIsChildAddressOpen] = useState(false)
+  const [date, setDate] = useState(new Date())
+  const [rooms, setRooms] = useState()
+  const [filterRooms, setFilterRooms] = useState()
+  const [coordinate, setCoordinate] = useState()
+  const [sortedRooms, setSortedRooms] = useState()
+  // Todo: rejected 
+  useEffect(() => {
+    dispatch(getRoom())
+      .then((data) => {
 
+        setRooms(rooms => data.payload.rooms)
+        getFilter()
+      })
+      .catch((error) => { console.log(error) })
+  }, [])
+  // 날짜, 방정보가 갱신될때마다 보일 방 목록 필터링
+  useEffect(() => {
+    getFilter()
+  }, [date, rooms])
+  // 방목록이 필터링된 후, 지역정보가 바뀔때마다 거리순으로 정렬렬
+  useEffect(() => {
+    sortRoom()
+  }, [filterRooms, coordinate])
+  const sortRoom = () => {
+    if (coordinate && filterRooms) {
 
-    return (
-        <div>
-            <Row>
-                <Col span={12}>
-                    <Row>
-            <Button type='primary' onClick={()=>{setIsAddressOpen(true)}}>{address===''?'지역별':address}</Button>
-            </Row>
-            <Row>
+      const newFilter = filterRooms.sort(function (a, b) {
+        const xy_a = a.location.split('$')
+        const xy_b = b.location.split('$')
+
+        // console.log(getDistance(xy_a), getDistance(xy_b))
+        if (getDistance(xy_a) > getDistance(xy_b)) {
+          return 1
+        }
+        else { return -1 }
+
+      })
+
+      setSortedRooms([...newFilter])
+    }
+    else {
+      setSortedRooms(filterRooms)
+    }
+  }
+  async function getFilter() {
+    if (rooms) {
+      let filter = []
+      for (const room of rooms) {
+
+        if (new Date(room.date).toLocaleDateString() === date.toLocaleDateString()) {
+
+          filter.push(room)
+
+        }
+      }
+      setFilterRooms(filterRooms => filter)
+    }
+  }
+  const getDistance = (arr) => {
+    return (arr[0] - coordinate.x) ** 2 + (arr[1] - coordinate.y) ** 2
+  }
+
+  return (
+    <div>
+      <Row>
+        <Col span={12}>
+          <Row>
+            <Button type='primary' onClick={() => { setIsAddressOpen(true) }}>{address === '' ? '지역별' : address}</Button>
+          </Row>
+          <Row>
             <List
-dataSource={dateList}
-renderItem={(item) => (
-  <List.Item className={`list_item_hover ${item===date.toLocaleDateString()&&'list_item_select'}`} onClick={()=>{setDate(new Date(item))
-  }}>
-    {item}
-  </List.Item>
-)}
-/>
-</Row>
-            <ReserveFindAddress Open={isAddressOpen} childrenDrawer={isChildAddressOpen} setAddress={setAddress} setChildrenDrawer={setIsChildAddressOpen} onClose={() => setIsAddressOpen(false)}/>
-            </Col>
-            <Col span={12}>
-            </Col>
-            </Row>
-        </div>
-    );
+              dataSource={dateList}
+              renderItem={(item) => (
+                <List.Item className={`list_item_hover ${item === date.toLocaleDateString() && 'list_item_select'}`} onClick={() => {
+                  setDate(new Date(item))
+                }}>
+                  {item}
+                </List.Item>
+              )}
+            />
+          </Row>
+          <ReserveFindAddress Open={isAddressOpen} childrenDrawer={isChildAddressOpen} setAddress={setAddress} setChildrenDrawer={setIsChildAddressOpen} onClose={() => setIsAddressOpen(false)} setCoordinate={setCoordinate} />
+        </Col>
+        <Col span={12}>
+          <List
+            dataSource={sortedRooms}
+            renderItem={(item) => (
+              <List.Item className={`list_item_hover ${item === date.toLocaleDateString() && 'list_item_select'}`}>
+                <Link to={`/room/${item.roomId}`}>{
+                  `날짜:${item.date},
+      방장ID:${item.hostID},
+      location:${item.location},
+      personCount:${item.personCount},
+      personLimit:${item.personLimit},
+      roomId:${item.roomId},
+      title:${item.title}
+   `}</Link>
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row>
+      {/* <div>x:{coordinate.x}, y:{coordinate.y}</div> */}
+    </div>
+  );
 };
 
 export default ReserveFind;

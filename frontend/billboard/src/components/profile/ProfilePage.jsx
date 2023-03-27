@@ -8,7 +8,7 @@ import ProfileInfo from "./ProfileInfo";
 import ProfileRecord from "./ProfileRecord";
 import { selectUser } from "../../store/user";
 
-import style from "./Profile.module.css";
+import style from "./ProfilePage.module.css";
 
 const Profile = () => {
   const userId = useSelector(selectUser).loginUser.userId;

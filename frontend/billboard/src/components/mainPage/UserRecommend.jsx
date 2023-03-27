@@ -1,45 +1,51 @@
-import React from "react";
-import { Carousel } from "3d-react-carousal";
+import React, { useRef, useState } from "react";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
 
-const UserRecommend = () => {
-  let slides = [
-    <img
-      src="https://picsum.photos/800/300/?random"
-      alt="1"
-      style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "cover" }}
-    />,
-    <img
-      src="https://picsum.photos/800/301/?random"
-      alt="2"
-      style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "cover" }}
-    />,
-    <img
-      src="https://picsum.photos/800/302/?random"
-      alt="3"
-      style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "cover" }}
-    />,
-    <img
-      src="https://picsum.photos/800/303/?random"
-      alt="4"
-      style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "cover" }}
-    />,
-    <img
-      src="https://picsum.photos/800/304/?random"
-      alt="5"
-      style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "cover" }}
-    />,
-  ];
+import GameDetail from "../detail/GameDetail";
+import GameDescription from "../detail/GameDescription";
 
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+// import "./UserRecommend.css";
+
+// import required modules
+import { Autoplay, Pagination, Navigation } from "swiper";
+import { width } from "@mui/system";
+
+export default function UserRecommend() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1 className="App-title"></h1>
-      </header>
-
-      <p>유저별 추천</p>
-      <Carousel slides={slides} autoplay={true} interval={2000} />
-    </div>
+    <>
+      <Swiper
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 10000,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Autoplay, Pagination, Navigation]}
+        className="mySwiper"
+        style={{ maxWidth: "70vw", maxHeight: "50vh" }}
+      >
+        <SwiperSlide>
+          <GameDetail />
+        </SwiperSlide>
+        <SwiperSlide>Slide 2</SwiperSlide>
+        <SwiperSlide>Slide 3</SwiperSlide>
+        <SwiperSlide>Slide 4</SwiperSlide>
+        <SwiperSlide>Slide 5</SwiperSlide>
+        <SwiperSlide>Slide 6</SwiperSlide>
+        <SwiperSlide>Slide 7</SwiperSlide>
+        <SwiperSlide>Slide 8</SwiperSlide>
+        <SwiperSlide>Slide 9</SwiperSlide>
+      </Swiper>
+    </>
   );
-};
-
-export default UserRecommend;
+}
