@@ -69,6 +69,10 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public void updateCount(boolean isWin) {
+        this.matchCount = this.matchCount + 1;
+        if(isWin) this.winCount = this.winCount + 1;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

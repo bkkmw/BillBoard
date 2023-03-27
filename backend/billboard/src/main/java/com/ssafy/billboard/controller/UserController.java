@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -106,7 +107,7 @@ public class UserController {
     }
 
     @Operation(summary = "check ID duplication", description = ".")
-    @GetMapping("/check_id/{userId}")
+    @GetMapping("/check-id/{userId}")
     public ResponseEntity<?> duplicatedId(@PathVariable("userId") String userId) {
         HttpStatus status = null;
         logger.trace("check ID : {}", userId);
@@ -118,7 +119,7 @@ public class UserController {
     }
 
     @Operation(summary = "Send email with auth key for signup", description = ".")
-    @PostMapping("/email_auth")
+    @PostMapping("/email-auth")
     public ResponseEntity<?> sendAuthEmail(@RequestBody MailDto.MailAuthDto mailAuthDto) {
         HttpStatus status;
         logger.trace("email auth request");
@@ -133,7 +134,7 @@ public class UserController {
     }
 
     @Operation(summary = "check auth key", description = ".")
-    @PostMapping("/check_authkey")
+    @PostMapping("/check-authkey")
     public ResponseEntity<?> checkAuthKey(@RequestBody MailDto.MailCheckDto mailCheckDto) {
         HttpStatus status;
         logger.trace("check email auth key");
@@ -176,5 +177,66 @@ public class UserController {
                 : HttpStatus.NOT_FOUND;
 
         return new ResponseEntity<Void>(status);
+    }
+
+//    @Operation(summary = "increase user's win count & match count", description = ".")
+//    @PutMapping("/win/{userId}")
+//    public ResponseEntity<?> increaseWinCount(@PathVariable("userId") String userId) {
+//        HttpStatus status;
+//        logger.trace("increase win count : {}", userId);
+//
+//        int res = userService.increaseCount(userId, true);
+//
+//        status = (res == 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+//
+//        return new ResponseEntity<Void>(status);
+//    }
+//
+//    @Operation(summary = "increase user's match count", description = ".")
+//    @PutMapping("/play/{userId}")
+//    public ResponseEntity<?> increaseMatchCount(@PathVariable("userId") String userId) {
+//        HttpStatus status;
+//        logger.trace("increase match count : {}", userId);
+//
+//        int res = userService.increaseCount(userId, false);
+//
+//        status = (res == 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+//
+//        return new ResponseEntity<Void>(status);
+//    }
+
+    @Operation(summary = "check user id & pw", description = ".")
+    @PostMapping("/check-password")
+    public ResponseEntity<?> confirmPw(@RequestBody UserDto.UserLoginDto userLoginDto) {
+        HttpStatus status;
+        Map<String, Object> resultMap = new HashMap<>();
+        logger.trace("check user password : {}, {}", userLoginDto.getUserId(), userLoginDto.getPassword());
+
+        UserDto.UserInfoDto userInfoDto = userService.confirmPw(userLoginDto);
+
+        if(userInfoDto == null) return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+
+        status = HttpStatus.OK;
+        resultMap.put("userInfo", userInfoDto);
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @Operation(summary = "search user by keyword(userId)", description = ".")
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<?> searchByUserId(@PathVariable("keyword") String keyword) {
+        HttpStatus status;
+        Map<String, Object> resultMap = new HashMap<>();
+        logger.trace("search user by : {}", keyword);
+
+        List<UserDto.UserInfoDto> userInfoList = userService.searchByUserId(keyword);
+
+        if(userInfoList == null) return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        if(userInfoList.size() == 0) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
+        resultMap.put("userList", userInfoList);
+        status = HttpStatus.OK;
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 }
