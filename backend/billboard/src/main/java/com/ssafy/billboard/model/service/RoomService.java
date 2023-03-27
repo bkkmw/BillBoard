@@ -18,4 +18,5 @@ public interface RoomService {
     public boolean deleteReply(long replyId);
     public int createEntry(RoomDto.EntryInput entryInput);
     public boolean deleteEntry(RoomDto.EntryInput entryInput);
+    public List<RoomDto.RoomReservationInfo> getRoomsByUserId(String userId);
 }

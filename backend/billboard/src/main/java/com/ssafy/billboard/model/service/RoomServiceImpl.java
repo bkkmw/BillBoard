@@ -131,6 +131,7 @@ public class RoomServiceImpl implements RoomService {
         List<RoomDto.ReplyInfo> replies = new ArrayList<>();
         for(Reply reply : repliesEntity)
             replies.add(RoomDto.ReplyInfo.builder()
+                    .replyId(reply.getReplyId())
                     .content(reply.getContent())
                     .userId(reply.getUserId())
                     .createdTime(reply.getCreatedTime())
@@ -167,5 +168,31 @@ public class RoomServiceImpl implements RoomService {
             return false;
         entryRepository.deleteByRoomAndUserId(roomRepository.findById(entryInput.getRoomId()).get(), entryInput.getUserId());
         return true;
+    }
+
+    @Override
+    public List<RoomDto.RoomReservationInfo> getRoomsByUserId(String userId){
+        if(!userRepository.existsByUserId(userId))
+            return null;
+        List<Entry> entries = entryRepository.findAllByUserId(userId);
+        List<RoomDto.RoomReservationInfo> rooms = new ArrayList<>();
+        for(Entry entry : entries){
+            Room room = entry.getRoom();
+            rooms.add(RoomDto.RoomReservationInfo.builder()
+                    .roomInfo(RoomDto.RoomInfo.builder()
+                            .roomId(room.getRoomId())
+                            .hostId(room.getHostId())
+                            .title(room.getTitle())
+                            .personCount(room.getEntries().size())
+                            .personLimit(room.getPersonLimit())
+                            .location(room.getLocation())
+                            .lat(room.getLat())
+                            .lng(room.getLng())
+                            .date(room.getDate())
+                            .build())
+                    .entries(room.getEntries())
+                    .build());
+        }
+        return rooms;
     }
 }
