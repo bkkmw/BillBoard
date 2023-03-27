@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/location")
+@RequestMapping("/api/locations")
 @RequiredArgsConstructor
 public class LocationController {
 

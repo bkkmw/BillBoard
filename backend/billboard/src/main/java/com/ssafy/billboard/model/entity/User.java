@@ -1,5 +1,6 @@
 package com.ssafy.billboard.model.entity;
 
+import com.ssafy.billboard.util.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -19,7 +20,7 @@ import java.util.Collection;
 @Getter
 @Builder
 @DynamicInsert
-public class User implements UserDetails {
+public class User extends BaseTimeEntity implements UserDetails {
 
     @Id
     @Column(name = "userId", length = 45)
@@ -69,6 +70,10 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public void updateCount(boolean isWin) {
+        this.matchCount = this.matchCount + 1;
+        if(isWin) this.winCount = this.winCount + 1;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
