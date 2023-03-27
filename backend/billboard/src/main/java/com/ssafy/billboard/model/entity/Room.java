@@ -4,6 +4,7 @@ import com.ssafy.billboard.model.dto.RoomDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,16 +35,20 @@ public class Room {
     private String location;
 
     @Column
-    @Temporal(TemporalType.DATE)
+    private String lat;
+
+    @Column
+    private String lng;
+
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @OneToMany
-    @JoinColumn(name = "roomId")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Entry> entries = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "roomId")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Reply> replies = new ArrayList<>();
 
@@ -54,6 +59,10 @@ public class Room {
             this.personLimit = roomUpdate.getPersonLimit();
         if(roomUpdate.getLocation() != null)
             this.location = roomUpdate.getLocation();
+        if(roomUpdate.getLat() != null)
+            this.lat = roomUpdate.getLat();
+        if(roomUpdate.getLng() != null)
+            this.lng = roomUpdate.getLng();
         if(roomUpdate.getDate() != null)
             this.date = roomUpdate.getDate();
     }

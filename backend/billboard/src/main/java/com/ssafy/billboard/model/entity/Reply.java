@@ -17,12 +17,14 @@ public class Reply {
     @Column(nullable = false, updatable = false)
     private long replyId;
 
-    @Column(nullable = false)
-    private long roomId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "roomId", nullable = false)
+    private Room room;
 
     @Column
     private String content;
 
     @Column(nullable = false)
     private String userId;
+
 }

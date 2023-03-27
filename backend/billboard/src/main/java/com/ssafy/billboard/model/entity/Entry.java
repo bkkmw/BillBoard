@@ -17,8 +17,9 @@ public class Entry {
     @Column(nullable = false, updatable = false)
     private long entryId;
 
-    @Column(nullable = false)
-    private long roomId;
+    @ManyToOne
+    @JoinColumn(name = "roomId", nullable = false)
+    private Room room;
 
     @Column(nullable = false)
     private String userId;
