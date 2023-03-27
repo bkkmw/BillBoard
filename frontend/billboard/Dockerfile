@@ -2,9 +2,9 @@ FROM nginx:stable-alpine
 
 WORKDIR /app
 
-RUN mkdir ./build
+RUN mkdir ./dist
 
-ADD ./build ./build
+ADD ./dist ./dist
 
 RUN rm /etc/nginx/conf.d/default.conf
 

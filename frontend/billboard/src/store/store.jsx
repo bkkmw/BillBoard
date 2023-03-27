@@ -1,10 +1,12 @@
-import { combineReducers } from "redux";
-import user from "./user";
-import storage from "redux-persist/lib/storage";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
+
+import logger from 'redux-logger'
 import { persistReducer } from "redux-persist";
 import persistStore from "redux-persist/es/persistStore";
-import logger from 'redux-logger'
+import storage from "redux-persist/lib/storage";
+
+import user from "./user";
 
 // Todo: redux-persist에 유지할 내용 수정 예정
 const persistConfig = {
