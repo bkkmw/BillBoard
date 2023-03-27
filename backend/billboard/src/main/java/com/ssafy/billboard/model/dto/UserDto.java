@@ -46,4 +46,13 @@ public class UserDto {
         private String userId;
         private String email;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class UserWithTokenDto {
+        private String accessToken;
+        private String refreshToken;
+        private UserInfoDto userInfoDto;
+    }
 }

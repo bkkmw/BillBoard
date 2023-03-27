@@ -6,6 +6,7 @@ import com.ssafy.billboard.model.entity.MailAuth;
 import com.ssafy.billboard.model.entity.User;
 import com.ssafy.billboard.model.repository.MailAuthRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
+import com.ssafy.billboard.util.JwtTokenProvider;
 import com.ssafy.billboard.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final MailAuthRepository mailAuthRepository;
     private final MailService mailService;
@@ -91,7 +93,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     // return type will be changed after implementing token
-    public UserDto.UserInfoDto login(UserDto.UserLoginDto userLoginDto) {
+    public UserDto.UserWithTokenDto login(UserDto.UserLoginDto userLoginDto) {
         logger.trace("login : {} , {}", userLoginDto.getUserId(), userLoginDto.getPassword());
 
         User user = userRepository.findByUserId(userLoginDto.getUserId());
@@ -99,17 +101,25 @@ public class UserServiceImpl implements UserService {
         if(user != null && passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
             logger.info("Password matched");
             // create toekns & insert RT at DB
+            String[] tokens = jwtTokenProvider.generateToken(user.getUserId());
+
             // modify state to on-line
-            user.updateOnLogin("AA");
+            user.updateOnLogin(tokens[0]);
 
             userRepository.save(user);
-            return UserDto.UserInfoDto.builder()
+            UserDto.UserInfoDto userInfoDto = UserDto.UserInfoDto.builder()
                     .userId(user.getUserId())
                     .nickname(user.getNickname())
                     .email(user.getEmail())
                     .experience(user.getExperience())
                     .matchCount(user.getMatchCount())
                     .winCount(user.getWinCount())
+                    .build();
+
+            return UserDto.UserWithTokenDto.builder()
+                    .accessToken(tokens[0])
+                    .refreshToken(tokens[1])
+                    .userInfoDto(userInfoDto)
                     .build();
         }
 
