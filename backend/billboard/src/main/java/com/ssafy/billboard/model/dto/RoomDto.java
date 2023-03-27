@@ -4,6 +4,7 @@ import com.ssafy.billboard.model.entity.Entry;
 import com.ssafy.billboard.model.entity.Reply;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class RoomDto {
     public static class RoomDetailInfo {
         private RoomInfo roomInfo;
         private List<Entry> entries;
-        private List<Reply> replies;
+        private List<ReplyInfo> replies;
     }
 
     @Getter
@@ -79,6 +80,7 @@ public class RoomDto {
     public static class ReplyInfo {
         private String content;
         private String userId;
+        private LocalDateTime createdTime;
     }
 
     @Getter
