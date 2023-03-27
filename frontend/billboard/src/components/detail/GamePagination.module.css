@@ -1,0 +1,17 @@
+.ant-table tr {
+  font-size: 2rem;
+}
+
+.ant-table td {
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+.ant-btn {
+  width: 5vw;
+  height: 5vh;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
