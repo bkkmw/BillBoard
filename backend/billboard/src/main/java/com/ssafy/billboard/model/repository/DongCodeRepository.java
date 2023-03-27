@@ -1,7 +1,6 @@
 package com.ssafy.billboard.model.repository;
 
 import com.ssafy.billboard.model.entity.DongCode;
-import com.ssafy.billboard.model.entity.GugunCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

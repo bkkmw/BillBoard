@@ -1,5 +1,6 @@
 package com.ssafy.billboard.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Entry {
     @Column(nullable = false, updatable = false)
     private long entryId;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "roomId", nullable = false)
     private Room room;
