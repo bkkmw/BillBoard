@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import httpClient from "../utils/axios";
 
 export const makeRoom = createAsyncThunk(
@@ -143,8 +143,7 @@ export const deleteEntry = createAsyncThunk(
 
 
 
-const initialState = {
-}
+const initialState = {};
 const reserveSlice = createSlice({
     name: "reserve",
     initialState,

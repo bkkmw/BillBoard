@@ -48,21 +48,22 @@ const PswdFindPage = () => {
     const userId = event.target.id.value;
 
     httpClient
-      .post("/user/find_password", {
+      .post("/users/find-password", {
         email: userEmail,
-        id: userId,
+        userId: userId,
       })
-      .then(({ status }) => {
-        if (status === 200) {
+      .then((data) => {
+        if (data.status === 200) {
           navigate("/FindResult", {
             state: { mode: "Password", email: userEmail, id: userId },
           });
-        } else {
-          window.alert("200인데 무슨 에러지??");
         }
       })
       .catch((error) => {
         console.log("에러", error);
+        if (error.response.status === 404) {
+          alert("등록되지 않은 아이디,이메일 입니다.");
+        }
       });
   }
   return (

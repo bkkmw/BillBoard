@@ -4,11 +4,12 @@ import Grid from "@mui/material/Grid";
 
 import TextField from "@mui/material/TextField";
 
-import { useForm, Controller, useFormState } from "react-hook-form";
+import { useForm, Controller, useFormState, useWatch } from "react-hook-form";
 
 const PasswordCheck = () => {
   const formState = useFormState();
   const form = useForm();
+  const watch = useWatch();
 
   return (
     <>
@@ -35,6 +36,13 @@ const PasswordCheck = () => {
             pattern: {
               value: /^.{8,}$/,
               message: "8자 이상이어야 합니다.",
+            },
+            validate: {
+              check: (val) => {
+                if (val !== watch.UserPassword) {
+                  return "비밀번호가 불일치합니다.";
+                }
+              },
             },
           }}
         />
