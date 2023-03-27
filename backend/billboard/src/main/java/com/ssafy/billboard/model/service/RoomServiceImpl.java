@@ -9,12 +9,14 @@ import com.ssafy.billboard.model.repository.ReplyRepository;
 import com.ssafy.billboard.model.repository.RoomRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
@@ -85,7 +87,7 @@ public class RoomServiceImpl implements RoomService {
                             .date(room.getDate())
                             .build())
                     .entries(room.getEntries())
-                    .replies(room.getReplies())
+                    .replies(getReplies(roomId))
                     .build();
         }
         return null;
@@ -114,7 +116,7 @@ public class RoomServiceImpl implements RoomService {
         if(!roomRepository.existsById(replyInput.getRoomId()) || !userRepository.existsByUserId(replyInput.getUserId()))
             return false;
         replyRepository.save(Reply.builder()
-                .room(roomRepository.findById(replyInput.getRoomId()).get())
+                .roomId(replyInput.getRoomId())
                 .content(replyInput.getContent())
                 .userId(replyInput.getUserId())
                 .build());
@@ -125,12 +127,13 @@ public class RoomServiceImpl implements RoomService {
     public List<RoomDto.ReplyInfo> getReplies(long roomId){
         if(!roomRepository.existsById(roomId))
             return null;
-        List<Reply> repliesEntity = replyRepository.findAllByRoom(roomRepository.findById(roomId).get());
+        List<Reply> repliesEntity = replyRepository.findAllByRoomId(roomId);
         List<RoomDto.ReplyInfo> replies = new ArrayList<>();
         for(Reply reply : repliesEntity)
             replies.add(RoomDto.ReplyInfo.builder()
                     .content(reply.getContent())
                     .userId(reply.getUserId())
+                    .createdTime(reply.getCreatedTime())
                     .build());
         return replies;
     }

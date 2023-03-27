@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
-    List<Reply> findAllByRoom(Room room);
+    List<Reply> findAllByRoomId(long roomId);
 }
