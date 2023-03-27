@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/history")
+@RequestMapping("/api/histories")
 @Tag(name="[History] History API")
 @Slf4j
 @RequiredArgsConstructor
