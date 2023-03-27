@@ -77,7 +77,6 @@ public class RoomDto {
     @NoArgsConstructor
     @Builder
     public static class ReplyInput {
-        private long roomId;
         private String content;
         private String userId;
     }
@@ -98,7 +97,6 @@ public class RoomDto {
     @NoArgsConstructor
     @Builder
     public static class EntryInput {
-        private long roomId;
         private String userId;
     }
 }
