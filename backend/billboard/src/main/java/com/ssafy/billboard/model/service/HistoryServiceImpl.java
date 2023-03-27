@@ -40,20 +40,19 @@ public class HistoryServiceImpl implements  HistoryService{
         // logics for user
         List<String> winnerList = historyInputDto.getWinners();
         List<String> userList = historyInputDto.getUsers();
-        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
         if(userList == null || userList.size() < 1) return -2;
 
         try {
             if(userList != null && userList.size() > 0) {
                 userList.forEach(userId -> {
-                    createHistory(userId, gameId, currentTime, false);
+                    createHistory(userId, gameId, false);
                 });
             }
 
             if(winnerList != null && winnerList.size() > 0) {
                 winnerList.forEach(userId -> {
-                    createHistory(userId, gameId, currentTime, true);
+                    createHistory(userId, gameId, true);
                 });
            }
 
@@ -64,7 +63,7 @@ public class HistoryServiceImpl implements  HistoryService{
         return 0;
     }
 
-    private void createHistory(String userId, int gameId, Timestamp currentTime, boolean isWin) {
+    private void createHistory(String userId, int gameId, boolean isWin) {
         History history = historyRepository.findByUserIdAndGameId(userId, gameId);
 
         if(history == null){
@@ -72,11 +71,10 @@ public class HistoryServiceImpl implements  HistoryService{
                     .userId(userId)
                     .gameId(gameId)
                     .count(1)
-                    .lastPlayTime(currentTime)
                     .build();
         }
         else {
-            history.update(currentTime);
+            history.updateCount();
         }
 
         User user = userRepository.findByUserId(userId);

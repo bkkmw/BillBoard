@@ -90,6 +90,9 @@ public class UserController {
         status = HttpStatus.OK;
         resultMap.put("userInfo", userInfoDto);
 
+        resultMap.put("accessToken", "TEMP_ACCESS_TOKEN");
+        resultMap.put("refreshToken", "TEMP_REFRESH_TOKEN");
+
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 

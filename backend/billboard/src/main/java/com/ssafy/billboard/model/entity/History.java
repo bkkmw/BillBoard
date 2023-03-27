@@ -1,5 +1,6 @@
 package com.ssafy.billboard.model.entity;
 
+import com.ssafy.billboard.util.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -13,7 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @Builder
 @IdClass(HistoryID.class)
-public class History {
+public class History extends BaseTimeEntity {
 
     @Id
     @Column(name = "userId")
@@ -26,11 +27,8 @@ public class History {
     @Column(name = "count")
     private int count;
 
-    @Column(name = "lastPlayTime")
-    private Timestamp lastPlayTime;
 
-    public void update(Timestamp timestamp) {
+    public void updateCount() {
         this.count = this.count + 1;
-        this.lastPlayTime = timestamp;
     }
 }
