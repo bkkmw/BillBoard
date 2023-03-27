@@ -18,6 +18,8 @@ public class RoomDto {
         private String title;
         private int personLimit;
         private String location;
+        private String lat;
+        private String lng;
         private Date date;
     }
 
@@ -29,6 +31,8 @@ public class RoomDto {
         private String title;
         private int personLimit;
         private String location;
+        private String lat;
+        private String lng;
         private Date date;
     }
 
@@ -43,6 +47,8 @@ public class RoomDto {
         private int personCount;
         private int personLimit;
         private String location;
+        private String lat;
+        private String lng;
         private Date date;
     }
 
