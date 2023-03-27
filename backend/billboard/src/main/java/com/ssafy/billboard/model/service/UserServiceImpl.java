@@ -104,7 +104,12 @@ public class UserServiceImpl implements UserService {
 
             userRepository.save(user);
             return UserDto.UserInfoDto.builder()
+                    .userId(user.getUserId())
                     .nickname(user.getNickname())
+                    .email(user.getEmail())
+                    .experience(user.getExperience())
+                    .matchCount(user.getMatchCount())
+                    .winCount(user.getWinCount())
                     .build();
         }
 
