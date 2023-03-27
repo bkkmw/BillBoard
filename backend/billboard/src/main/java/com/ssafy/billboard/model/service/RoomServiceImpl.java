@@ -9,6 +9,7 @@ import com.ssafy.billboard.model.repository.ReplyRepository;
 import com.ssafy.billboard.model.repository.RoomRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class RoomServiceImpl implements RoomService {
                             .date(room.getDate())
                             .build())
                     .entries(room.getEntries())
-                    .replies(room.getReplies())
+                    .replies(getReplies(roomId))
                     .build();
         }
         return null;
@@ -110,11 +111,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public boolean createReply(RoomDto.ReplyInput replyInput){
-        if(!roomRepository.existsById(replyInput.getRoomId()) || !userRepository.existsByUserId(replyInput.getUserId()))
+    public boolean createReply(long roomId, RoomDto.ReplyInput replyInput){
+        if(!roomRepository.existsById(roomId) || !userRepository.existsByUserId(replyInput.getUserId()))
             return false;
         replyRepository.save(Reply.builder()
-                .room(roomRepository.findById(replyInput.getRoomId()).get())
+                .roomId(roomId)
                 .content(replyInput.getContent())
                 .userId(replyInput.getUserId())
                 .build());
@@ -125,12 +126,14 @@ public class RoomServiceImpl implements RoomService {
     public List<RoomDto.ReplyInfo> getReplies(long roomId){
         if(!roomRepository.existsById(roomId))
             return null;
-        List<Reply> repliesEntity = replyRepository.findAllByRoom(roomRepository.findById(roomId).get());
+        List<Reply> repliesEntity = replyRepository.findAllByRoomId(roomId);
         List<RoomDto.ReplyInfo> replies = new ArrayList<>();
         for(Reply reply : repliesEntity)
             replies.add(RoomDto.ReplyInfo.builder()
+                    .replyId(reply.getReplyId())
                     .content(reply.getContent())
                     .userId(reply.getUserId())
+                    .createdTime(reply.getCreatedTime())
                     .build());
         return replies;
     }
@@ -144,25 +147,51 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public int createEntry(RoomDto.EntryInput entryInput){
-        if(!roomRepository.existsById(entryInput.getRoomId()) || !userRepository.existsByUserId(entryInput.getUserId()))
+    public int createEntry(long roomId, String userId){
+        if(!roomRepository.existsById(roomId) || !userRepository.existsByUserId(userId))
             return 0;
-        if(entryRepository.existsByRoomAndUserId(roomRepository.findById(entryInput.getRoomId()).get(), entryInput.getUserId()))
+        if(entryRepository.existsByRoomAndUserId(roomRepository.findById(roomId).get(), userId))
             return -1;
         entryRepository.save(Entry.builder()
-                .room(roomRepository.findById(entryInput.getRoomId()).get())
-                .userId(entryInput.getUserId())
+                .room(roomRepository.findById(roomId).get())
+                .userId(userId)
                 .build());
         return 1;
     }
 
     @Override
-    public boolean deleteEntry(RoomDto.EntryInput entryInput){
-        if(!roomRepository.existsById(entryInput.getRoomId())
-                || !userRepository.existsByUserId(entryInput.getUserId())
-                || !entryRepository.existsByRoomAndUserId(roomRepository.findById(entryInput.getRoomId()).get(), entryInput.getUserId()))
+    public boolean deleteEntry(long roomId, String userId){
+        if(!roomRepository.existsById(roomId)
+                || !userRepository.existsByUserId(userId)
+                || !entryRepository.existsByRoomAndUserId(roomRepository.findById(roomId).get(), userId))
             return false;
-        entryRepository.deleteByRoomAndUserId(roomRepository.findById(entryInput.getRoomId()).get(), entryInput.getUserId());
+        entryRepository.deleteByRoomAndUserId(roomRepository.findById(roomId).get(), userId);
         return true;
+    }
+
+    @Override
+    public List<RoomDto.RoomReservationInfo> getRoomsByUserId(String userId){
+        if(!userRepository.existsByUserId(userId))
+            return null;
+        List<Entry> entries = entryRepository.findAllByUserId(userId);
+        List<RoomDto.RoomReservationInfo> rooms = new ArrayList<>();
+        for(Entry entry : entries){
+            Room room = entry.getRoom();
+            rooms.add(RoomDto.RoomReservationInfo.builder()
+                    .roomInfo(RoomDto.RoomInfo.builder()
+                            .roomId(room.getRoomId())
+                            .hostId(room.getHostId())
+                            .title(room.getTitle())
+                            .personCount(room.getEntries().size())
+                            .personLimit(room.getPersonLimit())
+                            .location(room.getLocation())
+                            .lat(room.getLat())
+                            .lng(room.getLng())
+                            .date(room.getDate())
+                            .build())
+                    .entries(room.getEntries())
+                    .build());
+        }
+        return rooms;
     }
 }
