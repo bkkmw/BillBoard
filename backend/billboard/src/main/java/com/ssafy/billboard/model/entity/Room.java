@@ -37,13 +37,11 @@ public class Room {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @OneToMany
-    @JoinColumn(name = "roomId")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Entry> entries = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "roomId")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Reply> replies = new ArrayList<>();
 

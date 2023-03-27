@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS `dongcode`;
 DROP TABLE IF EXISTS `guguncode`;
 DROP TABLE IF EXISTS `sidocode`;
 
--- 유저테이블 만들 자리 
 CREATE TABLE IF NOT EXISTS `user` (
   `userId` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NULL DEFAULT NULL,
@@ -33,6 +32,8 @@ CREATE TABLE `room` (
 	`title` varchar(45) NOT NULL,
 	`personLimit` int NOT NULL,
 	`location` varchar(45) DEFAULT NULL,
+    `lat` varchar(20) DEFAULT NULL,
+    `lng` varchar(20) DEFAULT NULL,
 	`date` datetime DEFAULT NULL,
 	PRIMARY KEY (`roomId`),
 	FOREIGN KEY (hostId) REFERENCES user (userId) on delete cascade

@@ -106,7 +106,7 @@ public class RoomServiceImpl implements RoomService {
         if(!roomRepository.existsById(replyInput.getRoomId()) || !userRepository.existsByUserId(replyInput.getUserId()))
             return false;
         replyRepository.save(Reply.builder()
-                .roomId(replyInput.getRoomId())
+                .room(roomRepository.findById(replyInput.getRoomId()).get())
                 .content(replyInput.getContent())
                 .userId(replyInput.getUserId())
                 .build());
@@ -117,7 +117,7 @@ public class RoomServiceImpl implements RoomService {
     public List<RoomDto.ReplyInfo> getReplies(long roomId){
         if(!roomRepository.existsById(roomId))
             return null;
-        List<Reply> repliesEntity = replyRepository.findAllByRoomId(roomId);
+        List<Reply> repliesEntity = replyRepository.findAllByRoom(roomRepository.findById(roomId).get());
         List<RoomDto.ReplyInfo> replies = new ArrayList<>();
         for(Reply reply : repliesEntity)
             replies.add(RoomDto.ReplyInfo.builder()
@@ -139,10 +139,10 @@ public class RoomServiceImpl implements RoomService {
     public int createEntry(RoomDto.EntryInput entryInput){
         if(!roomRepository.existsById(entryInput.getRoomId()) || !userRepository.existsByUserId(entryInput.getUserId()))
             return 0;
-        if(entryRepository.existsByRoomIdAndUserId(entryInput.getRoomId(), entryInput.getUserId()))
+        if(entryRepository.existsByRoomAndUserId(roomRepository.findById(entryInput.getRoomId()).get(), entryInput.getUserId()))
             return -1;
         entryRepository.save(Entry.builder()
-                .roomId(entryInput.getRoomId())
+                .room(roomRepository.findById(entryInput.getRoomId()).get())
                 .userId(entryInput.getUserId())
                 .build());
         return 1;
@@ -152,9 +152,9 @@ public class RoomServiceImpl implements RoomService {
     public boolean deleteEntry(RoomDto.EntryInput entryInput){
         if(!roomRepository.existsById(entryInput.getRoomId())
                 || !userRepository.existsByUserId(entryInput.getUserId())
-                || !entryRepository.existsByRoomIdAndUserId(entryInput.getRoomId(), entryInput.getUserId()))
+                || !entryRepository.existsByRoomAndUserId(roomRepository.findById(entryInput.getRoomId()).get(), entryInput.getUserId()))
             return false;
-        entryRepository.deleteByRoomIdAndUserId(entryInput.getRoomId(), entryInput.getUserId());
+        entryRepository.deleteByRoomAndUserId(roomRepository.findById(entryInput.getRoomId()).get(), entryInput.getUserId());
         return true;
     }
 }
