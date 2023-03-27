@@ -1,7 +1,21 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
+import httpClient from "../../utils/axios";
 
 const ProfilButton = () => {
+  // axios({
+  //   method: "POST",
+  //   url: `{baseURL}/follow`,
+  //   data: { fromUserId: "ky014789", toUserId: "string" },
+  // })
+  //   .then((res) => {
+  //     console.log(res);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+
   const [friend, setFriend] = useState(false);
   const friended = () => {
     setFriend(!friend);
