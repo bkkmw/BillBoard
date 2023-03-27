@@ -1,19 +1,18 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import Grid from "@mui/material/Grid";
-import Checkbox from '@mui/material/Checkbox';
+import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 
 import { useForm, Controller, useFormState } from "react-hook-form";
 
 const UserPassword = () => {
-
   // 비밀번호 보이게 안보이게
-  const [showPswd, setShowPswd] = useState(false)
+  const [showPswd, setShowPswd] = useState(false);
   const handlePswd = () => {
     // console.log(showPswd);
     setShowPswd(!showPswd);
-  }
+  };
   // 유효성 검사
   const formState = useFormState();
   return (
@@ -24,7 +23,7 @@ const UserPassword = () => {
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <TextField
               label="비밀번호"
-              type={showPswd? 'text' : 'password'}
+              type={showPswd ? "text" : "password"}
               fullWidth
               name="UserPassword"
               id="UserPassword"
@@ -35,8 +34,6 @@ const UserPassword = () => {
               error={Boolean(formState.errors.UserPassword)}
               helperText={formState.errors.UserPassword?.message}
             />
-               
-           
           )}
           rules={{
             required: "비밀번호를 입력해주세요",
@@ -46,9 +43,9 @@ const UserPassword = () => {
             },
           }}
         />
-        <Checkbox onClick={handlePswd}/>
+        <span>비밀번호 보여줌</span>
+        <Checkbox onClick={handlePswd} />
       </Grid>
-      
     </>
   );
 };
