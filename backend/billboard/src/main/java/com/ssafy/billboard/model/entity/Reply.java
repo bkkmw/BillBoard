@@ -1,5 +1,6 @@
 package com.ssafy.billboard.model.entity;
 
+import com.ssafy.billboard.util.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,16 +11,15 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class Reply {
+public class Reply extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private long replyId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roomId", nullable = false)
-    private Room room;
+    @Column
+    private long roomId;
 
     @Column
     private String content;

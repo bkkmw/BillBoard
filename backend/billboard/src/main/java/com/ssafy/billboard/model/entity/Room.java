@@ -1,6 +1,7 @@
 package com.ssafy.billboard.model.entity;
 
 import com.ssafy.billboard.model.dto.RoomDto;
+import com.ssafy.billboard.util.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class Room {
+public class Room extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,10 +48,6 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Entry> entries = new ArrayList<>();
-
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<Reply> replies = new ArrayList<>();
 
     public void update(RoomDto.RoomUpdate roomUpdate){
         if(roomUpdate.getTitle() != null)
