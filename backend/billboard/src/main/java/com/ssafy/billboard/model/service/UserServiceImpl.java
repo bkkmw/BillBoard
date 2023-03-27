@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +35,8 @@ public class UserServiceImpl implements UserService {
 
         if(!userRepository.existsByUserId(userSignUpDto.getUserId())){
             logger.trace("{} user not found", userSignUpDto.getUserId());
+
+            if(userRepository.existsByEmail(userSignUpDto.getEmail())) return -1;
 
             userRepository.save(User.builder()
                             .userId(userSignUpDto.getUserId())
@@ -223,5 +227,60 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
 
         return res;
+    }
+
+    /*
+    returns : 0(Success), -1(Not found)
+     */
+//    public int increaseCount(String userId, boolean isWin) {
+//        logger.trace("increase Count : {}, win ? {}", userId, isWin);
+//
+//        User user = userRepository.findByUserId(userId);
+//
+//        if(user == null) return -1;
+//        user.updateCount(isWin);
+//        userRepository.save(user);
+//
+//        return 0;
+//    }
+
+    @Override
+    public UserDto.UserInfoDto confirmPw(UserDto.UserLoginDto userLoginDto) {
+        logger.trace("check user password");
+
+        User user = userRepository.findByUserId(userLoginDto.getUserId());
+        if(user == null) return null;
+        if(!passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) return null;
+
+        return UserDto.UserInfoDto.builder()
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .experience(user.getExperience())
+                .winCount(user.getWinCount())
+                .matchCount(user.getMatchCount())
+                .build();
+    }
+
+    @Override
+    public List<UserDto.UserInfoDto> searchByUserId(String keyword) {
+        logger.trace("search by keyword : {}", keyword);
+
+        if(keyword.trim().length() < 1)
+            return null;
+        List<User> userList = userRepository.findTop10ByUserIdStartsWith(keyword);
+
+        List<UserDto.UserInfoDto> ret = new ArrayList<>(userList.size());
+        userList.forEach(user -> {
+            ret.add(UserDto.UserInfoDto.builder()
+                            .userId(user.getUserId())
+                            .nickname(user.getNickname())
+                            .email(user.getEmail())
+                            .experience(user.getExperience())
+                            .winCount(user.getWinCount())
+                            .matchCount(user.getMatchCount())
+                        .build());
+        });
+
+        return ret;
     }
 }
