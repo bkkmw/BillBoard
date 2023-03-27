@@ -32,6 +32,8 @@ public class RoomServiceImpl implements RoomService {
                 .title(roomInput.getTitle())
                 .personLimit(roomInput.getPersonLimit())
                 .location(roomInput.getLocation())
+                .lat(roomInput.getLat())
+                .lng(roomInput.getLng())
                 .date(roomInput.getDate())
                 .build());
         return RoomDto.RoomInfo.builder()
@@ -41,6 +43,8 @@ public class RoomServiceImpl implements RoomService {
                 .personCount(room.getEntries().size())
                 .personLimit(room.getPersonLimit())
                 .location(room.getLocation())
+                .lat(room.getLat())
+                .lng(room.getLng())
                 .date(room.getDate())
                 .build();
     }
@@ -57,6 +61,8 @@ public class RoomServiceImpl implements RoomService {
                     .personCount(room.getEntries().size())
                     .personLimit(room.getPersonLimit())
                     .location(room.getLocation())
+                    .lat(room.getLat())
+                    .lng(room.getLng())
                     .date(room.getDate())
                     .build());
         return rooms;
@@ -74,6 +80,8 @@ public class RoomServiceImpl implements RoomService {
                             .personCount(room.getEntries().size())
                             .personLimit(room.getPersonLimit())
                             .location(room.getLocation())
+                            .lat(room.getLat())
+                            .lng(room.getLng())
                             .date(room.getDate())
                             .build())
                     .entries(room.getEntries())
