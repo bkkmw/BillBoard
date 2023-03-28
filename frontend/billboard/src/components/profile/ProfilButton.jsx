@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import httpClient from "../../utils/axios";
-import { follow } from "../../store/reserve";
+import { follow } from "../../store/profile";
 import { useDispatch } from "react-redux";
 
 const ProfilButton = () => {

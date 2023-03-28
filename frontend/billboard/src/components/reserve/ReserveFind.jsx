@@ -46,8 +46,8 @@ const ReserveFind = () => {
     if (coordinate && filterRooms) {
 
       const newFilter = filterRooms.sort(function (a, b) {
-        const xy_a = a.location.split('$')
-        const xy_b = b.location.split('$')
+        const xy_a = [a.lng, a.lat]
+        const xy_b = [b.lng, b.lat]
 
         // console.log(getDistance(xy_a), getDistance(xy_b))
         if (getDistance(xy_a) > getDistance(xy_b)) {
@@ -114,7 +114,9 @@ const ReserveFind = () => {
       personCount:${item.personCount},
       personLimit:${item.personLimit},
       roomId:${item.roomId},
-      title:${item.title}
+      title:${item.title},
+      lat:${item.lat},
+      lng:${item.lng}
    `}</Link>
               </List.Item>
             )}

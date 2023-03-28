@@ -7,7 +7,7 @@ import RoomReply from './roomcomponent/RoomReply';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { Button, Modal } from 'antd';
 import ReserveForm from './ReserveForm';
-
+import RoomLocation from './roomcomponent/RoomLocation';
 
 const Room = () => {
     // Todo: userId값 받아오기
@@ -20,16 +20,18 @@ const Room = () => {
     const reload = () => {
         dispatch(getRoomInfo(roomId)).then((res) => {
             setRoomData(res.payload.room)
+            
         })
     }
     useEffect(() => {
+        
         reload()
     }, [])
     useEffect(() => {
         reload()
     }, [modalOpen])
     return (
-        <div>
+        <div style={{clear:"both"}}>
             {roomData && <>
 
                 <hr />
@@ -40,12 +42,15 @@ const Room = () => {
                     인원:{roomData.roomInfo.personCount}
                     제한인원:{roomData.roomInfo.personLimit}
                     방이름:{roomData.roomInfo.title}
+                    lat:{roomData.roomInfo.lat}
+                    lng:{roomData.roomInfo.lng}
                 </div>
                 <hr />
                 <RoomReply replies={roomData.replies} roomId={roomId} reload={reload} />
                 <RoomEntry entries={roomData.entries} roomId={roomId} reload={reload} />
+                <RoomLocation lat={roomData.roomInfo.lat} lng={roomData.roomInfo.lng}/>
 
-
+                {/* height:window.innerHeight*0.3, width:window.innerWidth*0.3 */}
 
                 <hr />
                 {roomData.roomInfo.hostId === userId && <><Button onClick={() => {
@@ -69,7 +74,6 @@ const Room = () => {
                     </Modal>
                 </>}
             </>}
-
 
         </div>
     );
