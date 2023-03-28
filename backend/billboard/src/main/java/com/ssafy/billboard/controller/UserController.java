@@ -81,16 +81,17 @@ public class UserController {
         logger.trace("login : {}, {}", userLoginDto.getUserId(), userLoginDto.getPassword());
 
         // Type should be changed
-        UserDto.UserWithTokenDto userWithTokenDto = userService.login(userLoginDto);
+        UserDto.UserInfoDto userInfoDto = userService.login(userLoginDto);
 
-        if(userWithTokenDto == null){
+        if(userInfoDto == null){
             return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
         }
 
         status = HttpStatus.OK;
-        resultMap.put("userInfo", userWithTokenDto.getUserInfoDto());
-        resultMap.put("accessToken", userWithTokenDto.getAccessToken());
-        resultMap.put("refreshToken", userWithTokenDto.getRefreshToken());
+        resultMap.put("userInfo", userInfoDto);
+
+        resultMap.put("accessToken", "TEMP_ACCESS_TOKEN");
+        resultMap.put("refreshToken", "TEMP_REFRESH_TOKEN");
 
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
