@@ -3,6 +3,7 @@ package com.ssafy.billboard.controller;
 import com.ssafy.billboard.model.dto.MailDto;
 import com.ssafy.billboard.model.dto.UserDto;
 import com.ssafy.billboard.model.service.UserService;
+import com.ssafy.billboard.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,10 @@ public class UserController {
         Map<String, Object> resultMap = new HashMap<>();
         logger.trace("find user : {}", userId);
 
-        UserDto.UserInfoDto userInfoDto = userService.getUserInfo(userId);
+        String curUserId = SecurityUtil.getUserId();
+        logger.info("current user ID : {}", curUserId);
+
+        UserDto.UserInfoDto userInfoDto = userService.getUserInfo(curUserId, userId);
 
         if(userInfoDto == null) {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);

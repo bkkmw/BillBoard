@@ -4,6 +4,7 @@ import com.ssafy.billboard.model.dto.MailDto;
 import com.ssafy.billboard.model.dto.UserDto;
 import com.ssafy.billboard.model.entity.MailAuth;
 import com.ssafy.billboard.model.entity.User;
+import com.ssafy.billboard.model.repository.FollowRepository;
 import com.ssafy.billboard.model.repository.MailAuthRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
 import com.ssafy.billboard.security.JwtTokenProvider;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final MailAuthRepository mailAuthRepository;
+    private final FollowRepository followRepository;
     private final MailService mailService;
     @Override
     public int signup(UserDto.UserSignUpDto userSignUpDto) {
@@ -55,9 +57,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto.UserInfoDto getUserInfo(String userId) {
-        logger.trace("find user : {}", userId);
-        User user = userRepository.findByUserId(userId);
+    public UserDto.UserInfoDto getUserInfo(String fromUserId, String toUserId) {
+        logger.trace("find user : {}", fromUserId);
+        User user = userRepository.findByUserId(toUserId);
+
+        int isFollowing = 0;
+        if(fromUserId.equals(toUserId))
+            isFollowing = -1;
+        else if(followRepository.existsByFromUserIdAndToUserId(fromUserId, toUserId))
+            isFollowing = 1;
+
 
         if(user == null) return null;
 
@@ -68,6 +77,7 @@ public class UserServiceImpl implements UserService {
                 .experience(user.getExperience())
                 .matchCount(user.getMatchCount())
                 .winCount(user.getWinCount())
+                .isFollowing(isFollowing)
                 .build();
     }
 

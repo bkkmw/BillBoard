@@ -15,6 +15,7 @@ public class UserDto {
         private int experience;
         private int matchCount;
         private int winCount;
+        private int isFollowing;
     }
 
     @Getter
