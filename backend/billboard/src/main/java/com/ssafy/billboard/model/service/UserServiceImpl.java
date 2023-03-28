@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto.UserInfoDto getUserInfo(String fromUserId, String toUserId) {
         logger.trace("find user : {}", fromUserId);
-        User user = userRepository.findByUserId(fromUserId);
+        User user = userRepository.findByUserId(toUserId);
 
         int isFollowing = 0;
         if(fromUserId.equals(toUserId))
