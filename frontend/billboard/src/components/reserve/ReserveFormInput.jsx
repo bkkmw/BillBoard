@@ -45,13 +45,14 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
     if (data) {
       inputRef.current?.setFieldsValue({
         title: `${data.title}`,
-        personLimit: `${data.personLimit}`
+        personLimit: `${data.personLimit}`,
+        location:`${data.location}`,
       })
     }
   }, [])
   useEffect(() => {
     if (location) {
-      inputRef.current?.setFieldsValue({ title: `${location.place_name}`, location: `${location.x}$${location.y}` })
+      inputRef.current?.setFieldsValue({ location: `${location.place_name}` })
 
     }
 
@@ -75,7 +76,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
     // Todo: hostId값 추가
     // location.place_name: 장소이름
     values = {
-      ...values, date: new Date(values.date.$d).toISOString(), location: `${location.x}$${location.y}`
+      ...values, date: new Date(values.date.$d).toISOString(), lng:location.x,lat:location.y
     }
     if (data) {
       dispatch(correctRoom({ values: values, roomId: roomId })).then((res) => {
@@ -119,7 +120,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
             message: '제목을 입력하세요'
           }
         ]}>
-          <Input readOnly={true} />
+          <Input/>
         </Form.Item>
         <Form.Item label="Date/Time" name="date" rules={[
           {

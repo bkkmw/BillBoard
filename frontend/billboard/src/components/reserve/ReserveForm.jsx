@@ -28,9 +28,6 @@ const ReserveForm = ({ data, roomId, setModalOpen }) => {
                     <ReserveFormInput location={location} data={data} roomId={roomId} setModalOpen={setModalOpen} />
                 </Col>
             </Row>
-
-
-
         </div>
     );
 };
