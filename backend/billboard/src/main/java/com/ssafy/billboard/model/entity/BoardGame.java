@@ -15,7 +15,7 @@ public class BoardGame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
-    private long gameId; //db 수정 해야함 , long + 이름
+    private int gameId; //db 수정 해야함 , long + 이름
 
     @Column(nullable = false)
     private String primary;

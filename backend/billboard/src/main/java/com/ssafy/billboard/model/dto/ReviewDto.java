@@ -5,20 +5,28 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class FavoriteDto {
+public class ReviewDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Favorite {
+    public static class Review{
+        private int gameId;
         private String userId;
-        private int gameId;
+        private double rating;
+        private String comment;
+        private String name;
+
     }
+
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class FavorGameId {
+    public static class ReviewID{
         private int gameId;
+        private String userId;
+
     }
+
 }

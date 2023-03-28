@@ -5,22 +5,31 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name="favorite")
+@Table(name="review")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-@IdClass(FavoriteID.class)
-public class Favorite {
+@IdClass(ReviewID.class)
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
-    private String userId;
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private int gameId;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private String userId;
+
+   @Column()
+   private double rating;
+
+    @Column()
+    private String comment;
+
+    @Column(nullable = false)
+    private String name;
 }
