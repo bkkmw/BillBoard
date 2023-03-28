@@ -21,10 +21,10 @@ public class RoomController {
     @PostMapping()
     public ResponseEntity<?> createRoom(@RequestBody RoomDto.RoomInput roomInput){
         Map<String, Object> resultMap = new HashMap<>();
-        RoomDto.RoomInfo room = roomService.createRoom(roomInput);
-        if(room == null)
+        long roomId = roomService.createRoom(roomInput);
+        if(roomId == -1)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        resultMap.put("room", room);
+        resultMap.put("roomId", roomId);
         return new ResponseEntity<>(resultMap, HttpStatus.CREATED);
     }
 
