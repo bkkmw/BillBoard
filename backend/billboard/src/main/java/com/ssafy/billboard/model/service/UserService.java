@@ -14,7 +14,7 @@ public interface UserService {
 
     int deleteUser(String userId);
 
-    UserDto.UserWithTokenDto login(UserDto.UserLoginDto userLoginDto);
+    UserDto.UserInfoDto login(UserDto.UserLoginDto userLoginDto);
     int logout(String userId);
 
     int duplicatedId(String userId);
