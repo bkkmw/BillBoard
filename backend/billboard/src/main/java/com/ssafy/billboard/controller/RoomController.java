@@ -103,9 +103,15 @@ public class RoomController {
 
     @DeleteMapping("/{roomId}/entries")
     public ResponseEntity<?> deleteEntry(@PathVariable long roomId, @RequestBody RoomDto.EntryInput entryInput){
-        if(roomService.deleteEntry(roomId, entryInput.getUserId()))
+        int res = roomService.deleteEntry(roomId, entryInput.getUserId());
+        if(res == 1)
             return new ResponseEntity<>(HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == 0)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == -1)
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/entries/{userId}")
