@@ -9,7 +9,6 @@ import com.ssafy.billboard.model.repository.ReplyRepository;
 import com.ssafy.billboard.model.repository.RoomRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -105,7 +104,7 @@ public class RoomServiceImpl implements RoomService {
         if(!roomRepository.existsById(roomId))
             return false;
         Room room = roomRepository.findById(roomId).get();
-        room.update(roomUpdate);
+        room.updateRoom(roomUpdate);
         roomRepository.save(room);
         return true;
     }

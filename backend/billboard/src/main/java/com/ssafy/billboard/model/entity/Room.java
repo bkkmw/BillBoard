@@ -6,7 +6,6 @@ import com.ssafy.billboard.util.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +50,7 @@ public class Room extends BaseTimeEntity {
     @Builder.Default
     private List<Entry> entries = new ArrayList<>();
 
-    public void update(RoomDto.RoomUpdate roomUpdate){
+    public void updateRoom(RoomDto.RoomUpdate roomUpdate){
         if(roomUpdate.getTitle() != null)
             this.title = roomUpdate.getTitle();
         if(roomUpdate.getPersonLimit() != 0)
