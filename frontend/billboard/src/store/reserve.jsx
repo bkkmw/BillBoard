@@ -5,13 +5,15 @@ export const makeRoom = createAsyncThunk(
     "reserve/makeRoom",
     async (reserveData, { rejectWithValue }) => {
         try {
-            const response = await httpClient.post("/room", {
+            const response = await httpClient.post("/rooms", {
 
                 hostId: reserveData.hostId,
                 title: reserveData.title,
                 personLimit: reserveData.personLimit,
                 location: reserveData.location,
-                date: reserveData.date
+                date: reserveData.date,
+                lat: reserveData.lat,
+                lng: reserveData.lng
             });
             console.log(response)
             return response.data
@@ -25,7 +27,7 @@ export const deleteRoom = createAsyncThunk(
     "reserve/room/deletereply",
     async (roomId, { rejectWithValue }) => {
         try {
-            const response = await httpClient.delete(`/room/${roomId}`)
+            const response = await httpClient.delete(`/rooms/${roomId}`)
             return response.data
         } catch (error) {
             console.log(error)
@@ -38,7 +40,7 @@ export const correctRoom = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         try {
             // data써서 오류남
-            const response = await httpClient.put(`/room/${data.roomId}`, {
+            const response = await httpClient.put(`/rooms/${data.roomId}`, {
                 title: data.values.title,
                 personLimit: data.values.personLimit,
                 location: data.values.location,
@@ -58,7 +60,7 @@ export const getRoom = createAsyncThunk(
     "reserve/getRoom",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await httpClient.get("/room")
+            const response = await httpClient.get("/rooms")
             return response.data
         } catch (error) {
             console.log(error)
@@ -70,7 +72,7 @@ export const getRoomInfo = createAsyncThunk(
     "reserve/room",
     async (roomId, { rejectWithValue }) => {
         try {
-            const response = await httpClient.get(`/room/${roomId}`)
+            const response = await httpClient.get(`/rooms/${roomId}`)
             return response.data
         } catch (error) {
             console.log(error)
@@ -82,7 +84,8 @@ export const makeReply = createAsyncThunk(
     "reserve/room/makereply",
     async (data, { rejectWithValue }) => {
         try {
-            const response = await httpClient.post('/room/reply', { ...data })
+            console.log(data)
+            const response = await httpClient.post(`/rooms/${data.roomId}/replies`, { ...data.data })
             return response.data
         } catch (error) {
             console.log(error)
@@ -94,7 +97,7 @@ export const deleteReply = createAsyncThunk(
     "reserve/room/deletereply",
     async (replyId, { rejectWithValue }) => {
         try {
-            const response = await httpClient.delete(`/room/reply/${replyId}`)
+            const response = await httpClient.delete(`/rooms/replies/${replyId}`)
             return response.data
         } catch (error) {
             console.log(error)
@@ -106,7 +109,7 @@ export const getReply = createAsyncThunk(
     "reserve/room/getreply",
     async (roomId, { rejectWithValue }) => {
         try {
-            const response = await httpClient.get(`/room/reply/${roomId}`)
+            const response = await httpClient.get(`/rooms/replies/${roomId}`)
             return response.data
         } catch (error) {
             console.log(error)
@@ -119,7 +122,7 @@ export const makeEntry = createAsyncThunk(
     "reserve/room/makeEntry",
     async (data, { rejectWithValue }) => {
         try {
-            const response = await httpClient.post(`/room/entry`, { ...data })
+            const response = await httpClient.post(`/rooms/${data.roomId}/entries`, { ...data })
             return response.data
         } catch (error) {
             console.log(error)
@@ -132,7 +135,7 @@ export const deleteEntry = createAsyncThunk(
     "reserve/room/deleteEntry",
     async (data, { rejectWithValue }) => {
         try {
-            const response = await httpClient.delete(`/room/entry`, { data: { ...data } })
+            const response = await httpClient.delete(`/rooms/${data.roomId}/entries`, { data: { userId:data.userId } })
             return response.data
         } catch (error) {
             console.log(error)
