@@ -1,4 +1,4 @@
-package com.ssafy.billboard.util;
+package com.ssafy.billboard.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -8,10 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Slf4j
@@ -55,9 +55,6 @@ public class JwtTokenProvider {
         return new String[] {accessToken, refreshToken};
     }
 
-    /*
-    returns : 0(valid), -1(Invalid token), +1(expired token)
-     */
     public int validateAccessToken(String accessToken) {
         try {
             Jwts.parserBuilder()
@@ -78,5 +75,19 @@ public class JwtTokenProvider {
             logger.info("Failed to check signature");
             return -1;
         }
+    }
+
+    public Claims getClaims(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token).getBody();
+            return claims;
+        } catch (Exception e) {
+            logger.info("STH has been wrong : {}", e.getMessage());
+            return null;
+        }
+
     }
 }
