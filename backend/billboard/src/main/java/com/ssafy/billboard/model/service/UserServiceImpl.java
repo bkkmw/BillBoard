@@ -6,7 +6,7 @@ import com.ssafy.billboard.model.entity.MailAuth;
 import com.ssafy.billboard.model.entity.User;
 import com.ssafy.billboard.model.repository.MailAuthRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
-import com.ssafy.billboard.util.JwtTokenProvider;
+import com.ssafy.billboard.security.JwtTokenProvider;
 import com.ssafy.billboard.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
