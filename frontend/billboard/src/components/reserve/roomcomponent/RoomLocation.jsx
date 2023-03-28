@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as S from "../WriteMap.styled"
+import * as S from "./WriteMap.styled"
 const {kakao} = window;
 
 const RoomLocation = ({lat, lng}) => {
@@ -194,13 +194,13 @@ const RoomLocation = ({lat, lng}) => {
     };
   }, []);  
   return (
-    <div>
+
       <S.MapSection className="map_wrap" isOpen={isOpen}>
       <div id="map"></div>
 
     </S.MapSection>
       
-    </div>
+
   );
 };
 

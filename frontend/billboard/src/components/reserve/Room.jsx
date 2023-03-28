@@ -31,7 +31,8 @@ const Room = () => {
         reload()
     }, [modalOpen])
     return (
-        <div style={{clear:"both"}}>
+        <div >
+            
             {roomData && <>
 
                 <hr />
