@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,12 @@ public class UserServiceImpl implements UserService {
             logger.trace("{} user not found", userSignUpDto.getUserId());
 
             if(userRepository.existsByEmail(userSignUpDto.getEmail())) return -1;
+            // for test
+//            if(mailAuthRepository.existsById(userSignUpDto.getEmail()) == false ||
+//                    mailAuthRepository.findById(userSignUpDto.getEmail()).get().getAuthorized() == false) {
+//                logger.info("auth not found ... : {}", mailAuthRepository.existsById(userSignUpDto.getEmail()));
+//                return -1;
+//            }
 
             userRepository.save(User.builder()
                             .userId(userSignUpDto.getUserId())
@@ -183,14 +190,13 @@ public class UserServiceImpl implements UserService {
 //        int res = 0;
 
         if(res > -1) {
-            Timestamp currentTimeStamp = new Timestamp(System.currentTimeMillis());
+//            Timestamp currentTimeStamp = new Timestamp(System.currentTimeMillis());
 //            currentTimeStamp.setTime(currentTimeStamp.getTime() + (9 * 60 * 60 * 1000));
             // use UTC, jdbc modifies it when reading time
-            currentTimeStamp.setTime(currentTimeStamp.getTime() + (10 * 60 * 1000));
+//            currentTimeStamp.setTime(currentTimeStamp.getTime() + (10 * 60 * 1000));
             mailAuthRepository.save(MailAuth.builder()
                             .email(email)
                             .authKey(authKey)
-                            .expireAt(currentTimeStamp)
                             .build());
         }
         return res;
@@ -208,13 +214,19 @@ public class UserServiceImpl implements UserService {
 
         MailAuth mailAuth = mailAuthRepository.findById(mailCheckDto.getEmail()).get();
 
-        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        currentTime.setTime(currentTime.getTime() + (9 * 60 & 60 * 1000));
+        if(mailAuth.getAuthorized()) return 0;
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime expireTime = mailAuth.getUpdatedTime().plusMinutes(5L);
+
         logger.info("compare date :: cur : {}, expire : {}, res : {}",
-                currentTime, mailAuth.getExpireAt(), currentTime.compareTo(mailAuth.getExpireAt()));
-        if(currentTime.compareTo(mailAuth.getExpireAt()) > 0) return -2;
+                currentTime, expireTime, expireTime.compareTo(currentTime));
+        if(expireTime.compareTo(currentTime) < 0) return -2;
 
         if(!mailCheckDto.getAuthKey().equals(mailAuth.getAuthKey())) return -1;
+
+        mailAuth.updateAfterAuth();
+        mailAuthRepository.save(mailAuth);
 
         return 0;
     }
