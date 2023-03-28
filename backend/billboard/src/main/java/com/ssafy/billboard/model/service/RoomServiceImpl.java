@@ -24,10 +24,10 @@ public class RoomServiceImpl implements RoomService {
     private final EntryRepository entryRepository;
 
     @Override
-    public RoomDto.RoomInfo createRoom(RoomDto.RoomInput roomInput){
+    public long createRoom(RoomDto.RoomInput roomInput){
         //없는 유저가 방장 > null
         if(!userRepository.existsByUserId(roomInput.getHostId()))
-            return null;
+            return -1;
         Room room = roomRepository.save(Room.builder()
                 .hostId(roomInput.getHostId())
                 .title(roomInput.getTitle())
@@ -39,17 +39,7 @@ public class RoomServiceImpl implements RoomService {
                 .build());
         //방장은 자동 참여 처리
         createEntry(room.getRoomId(), room.getHostId());
-        return RoomDto.RoomInfo.builder()
-                .roomId(room.getRoomId())
-                .hostId(room.getHostId())
-                .title(room.getTitle())
-                .personCount(room.getEntries().size())
-                .personLimit(room.getPersonLimit())
-                .location(room.getLocation())
-                .lat(room.getLat())
-                .lng(room.getLng())
-                .date(room.getDate())
-                .build();
+        return room.getRoomId();
     }
 
     @Override
