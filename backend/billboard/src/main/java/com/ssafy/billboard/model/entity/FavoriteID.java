@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HistoryID implements Serializable {
+public class FavoriteID implements Serializable {
     private String userId;
-    private int boardGame;
+    private int gameId;
 }

@@ -1,18 +1,22 @@
 package com.ssafy.billboard.model.service;
 
 import com.ssafy.billboard.model.dto.HistoryDto;
+import com.ssafy.billboard.model.entity.BoardGame;
 import com.ssafy.billboard.model.entity.History;
 import com.ssafy.billboard.model.entity.User;
+import com.ssafy.billboard.model.repository.BoardGameRepository;
 import com.ssafy.billboard.model.repository.HistoryRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,9 +27,22 @@ public class HistoryServiceImpl implements  HistoryService{
     private final Logger logger = LoggerFactory.getLogger(HistoryServiceImpl.class);
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
+    private final BoardGameRepository boardGameRepository;
 
     @Override
-    public List<History> findUserHistory(String userId) {
+    public List<HistoryDto.HistoryInfoDto> findUserHistory(String userId, Pageable pageable) {
+        logger.debug("Find top 10 history");
+
+        List<History> histories = historyRepository.findByUserId(userId, pageable);
+        List<HistoryDto.HistoryInfoDto> ret = new ArrayList<>(pageable.getPageSize());
+
+        histories.forEach(history -> {
+            ret.add(HistoryDto.HistoryInfoDto.builder()
+                            .gameId(history.getBoardGame().getGameId())
+                            .lastPlayedTime(history.getUpdatedTime())
+                            .playedCnt(history.getCount())
+                    .build());
+        });
         return null;
     }
 
@@ -35,8 +52,14 @@ public class HistoryServiceImpl implements  HistoryService{
     @Override
     @Transactional
     public int createHistory(HistoryDto.HistoryInputDto historyInputDto) {
+        logger.debug("Create history");
         // Logics for game Id
         int gameId = historyInputDto.getGameId();
+        if(!boardGameRepository.existsById(gameId)) return -2;
+        BoardGame boardGame = boardGameRepository.findById(gameId).get();
+
+        logger.debug("board game : {}, {}", boardGame.getGameId(), boardGame.getPrimary());
+
         // logics for user
         List<String> winnerList = historyInputDto.getWinners();
         List<String> userList = historyInputDto.getUsers();
@@ -46,13 +69,13 @@ public class HistoryServiceImpl implements  HistoryService{
         try {
             if(userList != null && userList.size() > 0) {
                 userList.forEach(userId -> {
-                    createHistory(userId, gameId, false);
+                    createHistory(userId, boardGame, false, historyInputDto.getPlayTime());
                 });
             }
 
             if(winnerList != null && winnerList.size() > 0) {
                 winnerList.forEach(userId -> {
-                    createHistory(userId, gameId, true);
+                    createHistory(userId, boardGame, true, historyInputDto.getPlayTime());
                 });
            }
 
@@ -63,22 +86,30 @@ public class HistoryServiceImpl implements  HistoryService{
         return 0;
     }
 
-    private void createHistory(String userId, int gameId, boolean isWin) {
-        History history = historyRepository.findByUserIdAndGameId(userId, gameId);
+    /**
+     * method to create history by isWin as arg
+     * @param userId
+     * @param boardGame
+     * @param isWin
+     */
+    private void createHistory(String userId, BoardGame boardGame, boolean isWin, int playTime) {
+        History history = historyRepository.findByUserIdAndBoardGameGameId(userId, boardGame.getGameId());
 
         if(history == null){
+            logger.debug("no history found");
             history = History.builder()
                     .userId(userId)
-                    .gameId(gameId)
+                    .boardGame(boardGame)
                     .count(1)
                     .build();
         }
         else {
+            logger.debug("history found : {}", history.getBoardGame());
             history.updateCount();
         }
 
         User user = userRepository.findByUserId(userId);
-        user.updateCount(isWin);
+        user.updateCount(isWin, playTime);
         userRepository.save(user);
 
         historyRepository.save(history);

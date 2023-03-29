@@ -19,9 +19,13 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public int createFollow(FollowDto.FollowInput followInput){
-        if(!userRepository.existsByUserId(followInput.getFromUserId()) || !userRepository.existsByUserId(followInput.getToUserId()))
+        //없는 유저 아이디 > 0
+        if(!userRepository.existsByUserId(followInput.getFromUserId())
+                || !userRepository.existsByUserId(followInput.getToUserId()))
             return 0;
-        if(followRepository.existsByFromUserIdAndToUserId(followInput.getFromUserId(), followInput.getToUserId()))
+        //이미 팔로우한 경우, 자기 자신을 팔로우하는 경우 > -1
+        if(followRepository.existsByFromUserIdAndToUserId(followInput.getFromUserId(), followInput.getToUserId())
+                || followInput.getFromUserId().equals(followInput.getToUserId()))
             return -1;
         followRepository.save(Follow.builder()
                 .fromUserId(followInput.getFromUserId())
@@ -32,6 +36,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public int deleteFollow(FollowDto.FollowInput followInput){
+        //없는 유저, 팔로우 중인 아닌 경우 > 0
         if(!userRepository.existsByUserId(followInput.getFromUserId())
                 || !userRepository.existsByUserId(followInput.getToUserId())
                 || !followRepository.existsByFromUserIdAndToUserId(followInput.getFromUserId(), followInput.getToUserId()))
@@ -42,6 +47,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<String> getFollowers(String toUserId){
+        //없는 유저 아이디 > null
         if(!userRepository.existsByUserId(toUserId))
             return null;
         List<Follow> followersEntity = followRepository.findAllByToUserId(toUserId);
@@ -53,6 +59,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<String> getFollowings(String fromUserId){
+        //없는 유저 아이디 > null
         if(!userRepository.existsByUserId(fromUserId))
             return null;
         List<Follow> followingsEntity = followRepository.findAllByFromUserId(fromUserId);
