@@ -12,28 +12,18 @@ import axios from "axios";
 import { Navigate } from "react-router";
 
 const ProfileInfo = () => {
-  // const [cat, setCat] = useState({});
-
-  // axios({
-  //   method: "get",
-  //   url: "https://cataas.com/cat",
-  // })
-  //   .then((res) => {
-  //     setCat(res.data);
-  //   })
-  //   .catch((eroor) => {
-  //     Navigate("/error");
-  //   });
-
   return (
     <div className={style.background}>
-      <img alt="이미지"></img>
       <div className={style.background2}>
         <span className={style.fontsize}>{`Lv 100 황산나래 LG CNS`}</span>
         <ProfileExp />
-        <ProfileFollowing />
-        <ProfileFollower />
-        <Det />
+        <div className={style.background3}>
+          <ProfileFollowing />
+          <ProfileFollower />
+          <Det />
+        </div>
+      </div>
+      <div className={style.background4}>
         <ProfilButton />
         <ProfileSearch />
       </div>
