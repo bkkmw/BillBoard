@@ -2,6 +2,8 @@ package com.ssafy.billboard.model.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 public class UserDto {
 
     @Getter
@@ -16,6 +18,14 @@ public class UserDto {
         private int matchCount;
         private int winCount;
         private int isFollowing;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class UserWithHistoryDto {
+        private UserInfoDto userInfoDto;
+        private List<BoardGameDto.BoardGame> recentGames;
     }
 
     @Getter

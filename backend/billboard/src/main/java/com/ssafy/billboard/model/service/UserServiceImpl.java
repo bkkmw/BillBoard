@@ -1,10 +1,13 @@
 package com.ssafy.billboard.model.service;
 
+import com.ssafy.billboard.model.dto.BoardGameDto;
 import com.ssafy.billboard.model.dto.MailDto;
 import com.ssafy.billboard.model.dto.UserDto;
+import com.ssafy.billboard.model.entity.History;
 import com.ssafy.billboard.model.entity.MailAuth;
 import com.ssafy.billboard.model.entity.User;
 import com.ssafy.billboard.model.repository.FollowRepository;
+import com.ssafy.billboard.model.repository.HistoryRepository;
 import com.ssafy.billboard.model.repository.MailAuthRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
 import com.ssafy.billboard.security.JwtTokenProvider;
@@ -16,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final MailAuthRepository mailAuthRepository;
     private final FollowRepository followRepository;
+    private final HistoryRepository historyRepository;
     private final MailService mailService;
     @Override
     public int signup(UserDto.UserSignUpDto userSignUpDto) {
@@ -64,7 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto.UserInfoDto getUserInfo(String fromUserId, String toUserId) {
+    public UserDto.UserWithHistoryDto getUserInfo(String fromUserId, String toUserId) {
         logger.trace("find user : {}", fromUserId);
         User user = userRepository.findByUserId(toUserId);
 
@@ -77,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
         if(user == null) return null;
 
-        return UserDto.UserInfoDto.builder()
+        UserDto.UserInfoDto userInfoDto = UserDto.UserInfoDto.builder()
                 .userId(user.getUserId())
                 .nickname(user.getNickname())
                 .email(user.getEmail())
@@ -85,6 +88,24 @@ public class UserServiceImpl implements UserService {
                 .matchCount(user.getMatchCount())
                 .winCount(user.getWinCount())
                 .isFollowing(isFollowing)
+                .build();
+
+        List<BoardGameDto.BoardGame> recentGames = new ArrayList<>(10);
+
+        List<History> recentHistory = historyRepository.findTop10ByUserIdOrderByUpdatedTimeDesc(toUserId);
+        recentHistory.forEach(history -> {
+            recentGames.add(BoardGameDto.BoardGame.builder()
+                            .gameId(history.getBoardGame().getGameId())
+                            .primary(history.getBoardGame().getPrimary())
+                            .image(history.getBoardGame().getImage())
+                            // 뭐 더 필요하면 그 떄 추가하겠습니다
+                    .build()
+            );
+        });
+
+        return UserDto.UserWithHistoryDto.builder()
+                .userInfoDto(userInfoDto)
+                .recentGames(recentGames)
                 .build();
     }
 

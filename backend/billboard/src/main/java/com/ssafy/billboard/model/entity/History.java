@@ -21,8 +21,9 @@ public class History extends BaseTimeEntity {
     private String userId;
 
     @Id
-    @Column(name = "gameId")
-    private int gameId;
+    @ManyToOne
+    @JoinColumn(name = "gameId")
+    private BoardGame boardGame;
 
     @Column(name = "count")
     private int count;
