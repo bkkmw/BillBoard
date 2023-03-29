@@ -31,14 +31,12 @@ const ProfileInfo = () => {
       <div className={style.background2}>
         <span className={style.fontsize}>{`Lv 100 황산나래 LG CNS`}</span>
         <ProfileExp />
-        <div>
-          <ProfileFollowing />
-          <ProfileFollower />
-          <Det />
-        </div>
+        <ProfileFollowing />
+        <ProfileFollower />
+        <Det />
+        <ProfilButton />
+        <ProfileSearch />
       </div>
-      <ProfilButton />
-      <ProfileSearch />
     </div>
   );
 };
