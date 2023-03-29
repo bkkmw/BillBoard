@@ -66,7 +66,8 @@ public class HistoryServiceImpl implements  HistoryService{
         List<String> winnerList = historyInputDto.getWinners();
         List<String> userList = historyInputDto.getUsers();
 
-        if(userList == null || userList.size() < 1) return -2;
+        if((userList == null || userList.size() < 1)
+            && (winnerList == null || winnerList.size() < 1)) return -2;
 
         try {
             if(userList != null && userList.size() > 0) {
