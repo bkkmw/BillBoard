@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.NameNotFoundException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class HistoryServiceImpl implements  HistoryService{
     public List<HistoryDto.HistoryInfoDto> findUserHistory(String userId, Pageable pageable) {
         logger.debug("Find top 10 history");
 
+        if(!userRepository.existsByUserId(userId)) return null;
         List<History> histories = historyRepository.findByUserId(userId, pageable);
         List<HistoryDto.HistoryInfoDto> ret = new ArrayList<>(pageable.getPageSize());
 
@@ -43,7 +45,7 @@ public class HistoryServiceImpl implements  HistoryService{
                             .playedCnt(history.getCount())
                     .build());
         });
-        return null;
+        return ret;
     }
 
     /*
@@ -58,13 +60,14 @@ public class HistoryServiceImpl implements  HistoryService{
         if(!boardGameRepository.existsById(gameId)) return -2;
         BoardGame boardGame = boardGameRepository.findById(gameId).get();
 
-        logger.debug("board game : {}, {}", boardGame.getGameId(), boardGame.getPrimary());
+        logger.debug("board game : {}, {}", boardGame.getGameId(), boardGame.getName());
 
         // logics for user
         List<String> winnerList = historyInputDto.getWinners();
         List<String> userList = historyInputDto.getUsers();
 
-        if(userList == null || userList.size() < 1) return -2;
+        if((userList == null || userList.size() < 1)
+            && (winnerList == null || winnerList.size() < 1)) return -2;
 
         try {
             if(userList != null && userList.size() > 0) {
@@ -109,6 +112,7 @@ public class HistoryServiceImpl implements  HistoryService{
         }
 
         User user = userRepository.findByUserId(userId);
+        if(user == null) return;
         user.updateCount(isWin, playTime);
         userRepository.save(user);
 
