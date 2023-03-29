@@ -13,6 +13,15 @@ public interface BoardGameService {
     //보드 게임 목록 조회
     public List<BoardGameDto.BoardGame> getBoardGameList();
 
+    //보드 게임 조건 조회
+    public List<BoardGameDto.BoardGame> getBoardGameCondition();
+    //보드 게임 동적 조회
+    public List<BoardGameDto.BoardGame> getBoardGameDynamic1(BoardGameDto.BoardGameDetail boardGameDetail);
+    public List<BoardGameDto.BoardGame> getBoardGameDynamic2(BoardGameDto.BoardGameDetail boardGameDetail);
+    public List<BoardGameDto.BoardGame> getBoardGameDynamic3(BoardGameDto.BoardGameDetail boardGameDetail);
+    public List<BoardGameDto.BoardGame> getBoardGameDynamic4(BoardGameDto.BoardGameDetail boardGameDetail);
+    public List<BoardGameDto.BoardGame> getBoardGameDynamic5(BoardGameDto.BoardGameDetail boardGameDetail);
+
     //보드게임 상세조회
     public BoardGameDto.BoardGame getBoardGameDetail(int gameId);
 

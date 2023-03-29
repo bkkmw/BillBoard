@@ -14,13 +14,12 @@ import javax.persistence.*;
 public class Favorite {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
+    private int gameId;
+    @Id
     @Column(nullable = false, updatable = false)
     private String userId;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
-    private int gameId;
+
 
 }

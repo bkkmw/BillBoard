@@ -11,16 +11,13 @@ import javax.persistence.*;
 @Getter
 @Builder
 @IdClass(ReviewID.class)
-
 public class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private int gameId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private String userId;
 

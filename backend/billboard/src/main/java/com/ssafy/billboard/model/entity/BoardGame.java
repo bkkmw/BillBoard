@@ -14,80 +14,80 @@ public class BoardGame {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
-    private int gameId; //db 수정 해야함 , long + 이름
+    @Column(nullable = false)
+    private int gameId;
 
     @Column(nullable = false)
-    private String primary;
+    private String name;
 
-    @Column(nullable = false)
+    @Column()
     private String thumbnail;
 
-    @Column(nullable = false)
+    @Column()
     private String image;
 
-    @Column(nullable = false)
+    @Column()
     private String description;
 
-    @Column(nullable = false)
+    @Column()
     private int yearpublished;
 
 
-    @Column(nullable = false)
+    @Column()
     private int minplayers;
 
 
-    @Column(nullable = false)
+    @Column()
     private int maxplayers;
 
 
-    @Column(nullable = false)
+    @Column()
     private int minplaytime;
 
 
-    @Column(nullable = false)
+    @Column()
     private int maxplaytime;
 
-    @Column(nullable = false)
+    @Column()
     private int minage;
 
-    @Column(nullable = false)
+    @Column()
     private int usersrated;
 
-    @Column(nullable = false)
+    @Column()
     private double average;
 
-    @Column(nullable = false)
+    @Column()
     private int boardgamerank;
 
-    @Column(nullable = false)
+    @Column()
     private int numweights;
 
-    @Column(nullable = false)
+    @Column()
     private double averageweight;
 
-    @Column(nullable = false)
+    @Column()
     private String strategygamerank;
 
-    @Column(nullable = false)
+    @Column()
     private String familygamerank;
 
-    @Column(nullable = false)
+    @Column()
     private String partygamerank;
 
-    @Column(nullable = false)
+    @Column()
     private String abstractgamerank;
 
-    @Column(nullable = false)
+    @Column()
     private String thematicrank;
 
-    @Column(nullable = false)
+    @Column()
     private String wargamerank;
 
-    @Column(nullable = false)
+    @Column()
     private String customizablerank;
 
-    @Column(nullable = false)
+    @Column()
     private String childrengamerank;
 
 }

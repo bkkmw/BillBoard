@@ -17,7 +17,6 @@ public class FavoriteDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
     public static class FavorGameId {
         private int gameId;
     }
