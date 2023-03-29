@@ -25,7 +25,7 @@ const GamePagination = () => {
     },
     {
       title: "Delete",
-      render: (_, record) => (
+      render: (index, record) => (
         <Button onClick={() => handleDelete(record)}>Delete</Button>
       ),
     },
@@ -36,7 +36,11 @@ const GamePagination = () => {
     axios
       .get(`https://api.instantwebtools.net/v1/passenger?page=${page}&size=10`)
       .then((res) => {
-        setDataSource(res.data.data);
+        const dataWithKeys = res.data.data.map((row) => ({
+          ...row,
+          key: row._id, // Use the _id field as the unique key
+        }));
+        setDataSource(dataWithKeys);
         setTotalPages(res.data.totalPages);
         setLoading(false);
       });
@@ -71,6 +75,7 @@ const GamePagination = () => {
             fontSize: "1.5rem",
           },
         }}
+        rowKey={(record) => record.key}
       ></Table>
     </div>
   );
