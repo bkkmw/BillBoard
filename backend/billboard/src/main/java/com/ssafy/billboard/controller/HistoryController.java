@@ -41,6 +41,8 @@ public class HistoryController {
 
         List<HistoryDto.HistoryInfoDto> list = historyService.findUserHistory(userId, pageable);
 
+        if(list == null) return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+
         logger.debug("history found : {}", list.size());
 
         status = (list.size() > 0) ? HttpStatus.OK : HttpStatus.NO_CONTENT;
