@@ -34,6 +34,7 @@ public class HistoryServiceImpl implements  HistoryService{
     public List<HistoryDto.HistoryInfoDto> findUserHistory(String userId, Pageable pageable) {
         logger.debug("Find top 10 history");
 
+        if(!userRepository.existsByUserId(userId)) return null;
         List<History> histories = historyRepository.findByUserId(userId, pageable);
         List<HistoryDto.HistoryInfoDto> ret = new ArrayList<>(pageable.getPageSize());
 
@@ -44,7 +45,7 @@ public class HistoryServiceImpl implements  HistoryService{
                             .playedCnt(history.getCount())
                     .build());
         });
-        return null;
+        return ret;
     }
 
     /*
