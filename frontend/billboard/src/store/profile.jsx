@@ -17,16 +17,15 @@ export const follow = createAsyncThunk(
   }
 );
 
-export const makeRoom = createAsyncThunk(
-  "reserve/makeRoom",
-  async (reserveData, { rejectWithValue }) => {
+export const followdelete = createAsyncThunk(
+  "profile/followdelete",
+  async (del, { rejectWithValue }) => {
     try {
-      const response = await httpClient.post("/room", {
-        hostId: reserveData.hostId,
-        title: reserveData.title,
-        personLimit: reserveData.personLimit,
-        location: reserveData.location,
-        date: reserveData.date,
+      const response = await httpClient.delete("/followes", {
+        data: {
+          fromUserId: del.fromUserId,
+          toUserId: del.toUserId,
+        },
       });
       return response.data;
     } catch (error) {

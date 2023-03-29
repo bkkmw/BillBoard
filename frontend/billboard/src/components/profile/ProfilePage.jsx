@@ -11,13 +11,12 @@ import { selectUser } from "../../store/user";
 import style from "./ProfilePage.module.css";
 
 const Profile = () => {
-  const userId = useSelector(selectUser).loginUser.userId;
+  // const userId = useSelector(selectUser).loginUser.userId;
   return (
     <div className={style.background}>
       <ProfileInfo />
       <ProfileRecord />
       <ProfileFavorites />
-      <Link to="/">메인페이지로</Link>
     </div>
   );
 };
