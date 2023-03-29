@@ -1,11 +1,13 @@
 .background {
+  height: 50vh;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
 .background2 {
-  height: 40vh;
+  width: 40vw;
+  height: 20vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

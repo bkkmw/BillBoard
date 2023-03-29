@@ -21,8 +21,6 @@ const Main = () => {
         <Carousel />
         <span>평점순</span>
         <Carousel />
-        <span>리뷰 많은순</span>
-        <Carousel />
         <span>최신순</span>
         <Carousel />
         <span>난이도순</span>
