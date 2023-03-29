@@ -218,6 +218,7 @@ public class UserServiceImpl implements UserService {
             mailAuthRepository.save(MailAuth.builder()
                             .email(email)
                             .authKey(authKey)
+                            .authorized(false)
                             .build());
         }
         return res;
@@ -233,8 +234,10 @@ public class UserServiceImpl implements UserService {
 
         if(!mailAuthRepository.existsById(mailCheckDto.getEmail())) return -3;
 
+        logger.trace("mail : {}, auth : {}", mailCheckDto.getEmail(), mailCheckDto.getAuthKey());
         MailAuth mailAuth = mailAuthRepository.findById(mailCheckDto.getEmail()).get();
 
+        logger.trace("found : {}", mailAuth);
         if(mailAuth.getAuthorized()) return 0;
 
         LocalDateTime currentTime = LocalDateTime.now();
