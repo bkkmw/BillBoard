@@ -11,10 +11,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,7 +30,19 @@ public class HistoryServiceImpl implements  HistoryService{
     private final BoardGameRepository boardGameRepository;
 
     @Override
-    public List<History> findUserHistory(String userId) {
+    public List<HistoryDto.HistoryInfoDto> findUserHistory(String userId, Pageable pageable) {
+        logger.debug("Find top 10 history");
+
+        List<History> histories = historyRepository.findByUserId(userId, pageable);
+        List<HistoryDto.HistoryInfoDto> ret = new ArrayList<>(pageable.getPageSize());
+
+        histories.forEach(history -> {
+            ret.add(HistoryDto.HistoryInfoDto.builder()
+                            .gameId(history.getBoardGame().getGameId())
+                            .lastPlayedTime(history.getUpdatedTime())
+                            .playedCnt(history.getCount())
+                    .build());
+        });
         return null;
     }
 

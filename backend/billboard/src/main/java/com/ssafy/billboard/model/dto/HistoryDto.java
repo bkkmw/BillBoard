@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class HistoryDto {
@@ -18,5 +19,14 @@ public class HistoryDto {
         private List<String> users;
         private List<String> winners;
         private int playTime;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class HistoryInfoDto {
+        private int gameId;
+        private int playedCnt;
+        private LocalDateTime lastPlayedTime;
     }
 }
