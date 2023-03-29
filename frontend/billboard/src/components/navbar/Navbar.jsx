@@ -85,9 +85,6 @@ const Navbar = () => {
             매칭
           </Link>
         )}
-        {/* <Button variant="outlined" color="white">
-          로그아웃
-        </Button> */}
       </AppBar>
     </Box>
   );
