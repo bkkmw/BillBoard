@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.NameNotFoundException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class HistoryServiceImpl implements  HistoryService{
         if(!boardGameRepository.existsById(gameId)) return -2;
         BoardGame boardGame = boardGameRepository.findById(gameId).get();
 
-        logger.debug("board game : {}, {}", boardGame.getGameId(), boardGame.getPrimary());
+        logger.debug("board game : {}, {}", boardGame.getGameId(), boardGame.getName());
 
         // logics for user
         List<String> winnerList = historyInputDto.getWinners();
@@ -109,6 +110,7 @@ public class HistoryServiceImpl implements  HistoryService{
         }
 
         User user = userRepository.findByUserId(userId);
+        if(user == null) return;
         user.updateCount(isWin, playTime);
         userRepository.save(user);
 

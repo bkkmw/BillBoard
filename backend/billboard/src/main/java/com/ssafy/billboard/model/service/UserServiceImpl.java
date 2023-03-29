@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
         recentHistory.forEach(history -> {
             recentGames.add(BoardGameDto.BoardGame.builder()
                             .gameId(history.getBoardGame().getGameId())
-                            .primary(history.getBoardGame().getPrimary())
+                            .name(history.getBoardGame().getName())
                             .image(history.getBoardGame().getImage())
                             // 뭐 더 필요하면 그 떄 추가하겠습니다
                     .build()
