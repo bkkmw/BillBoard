@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./GameVide.module.css";
+import style from "./GameVideo.module.css";
 
 const GameVide = () => {
   return (

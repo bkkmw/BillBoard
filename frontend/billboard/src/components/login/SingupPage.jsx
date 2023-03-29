@@ -50,7 +50,7 @@ const Singup = () => {
     handleSignUp(userData)
       .then(() => {
         alert("회원가입에 성공하였습니다.");
-        navigate("/");
+        navigate("/login");
       })
       .catch((e) => {
         console.log(e);
