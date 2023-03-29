@@ -32,4 +32,6 @@ public interface UserService {
     UserDto.UserInfoDto confirmPw(UserDto.UserLoginDto userLoginDto);
 
     List<UserDto.UserInfoDto> searchByUserId(String keyword);
+
+    String refreshToken(String refreshToken);
 }
