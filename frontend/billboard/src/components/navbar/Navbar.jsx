@@ -8,9 +8,11 @@ import httpClient from "../../utils/axios";
 import { AppBar, Box } from "@mui/material";
 // 네브바 최상단에 고정해서 스크롤 내려도 최상단으로 할것
 
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
+import { Button } from "antd";
 
 import { persistor } from "../../store/store";
+import { display } from "@mui/system";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -37,54 +39,60 @@ const Navbar = () => {
 
   return (
     <Box position="static">
-      <AppBar
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          height: "10vh",
-        }}
-      >
-        {!login && (
-          <Link to={"/login"} className={style.link}>
-            로그인{" "}
-          </Link>
-        )}
-        {!login && (
-          <Link to={"/singup"} className={style.link}>
-            회원가입{" "}
-          </Link>
-        )}
-        {login && (
-          <Button onClick={doLogout} variant="outlined" color="error">
-            로그아웃
-          </Button>
-        )}
-        {login && (
-          <Link to={"/gameroom"} className={style.link}>
-            게임방{" "}
-          </Link>
-        )}
-        {login && (
-          <Link to={"/reserve"} className={style.link}>
-            예약{" "}
-          </Link>
-        )}
-        {login && (
-          <Link to={"/main"} className={style.link}>
-            메인페이지
-          </Link>
-        )}
-        {login && (
-          <Link to={"/profile"} className={style.link}>
-            프로필페이지
-          </Link>
-        )}
-        {login && (
-          <Link to={"/reserve/find"} className={style.link}>
-            매칭
-          </Link>
-        )}
+      <AppBar style={{ height: "10vh", backgroundColor: "white" }}>
+        <div className={style.background}>
+          <span className={style.logo}>BillBoard</span>
+          <div>
+            {!login && (
+              <Link to={"/login"} className={style.link}>
+                로그인{" "}
+              </Link>
+            )}
+            {!login && (
+              <Link to={"/singup"} className={style.link}>
+                회원가입{" "}
+              </Link>
+            )}
+            {/* {login && (
+              <Button onClick={doLogout} className={style.btn}>
+                로그아웃
+              </Button>
+            )} */}
+            {login && (
+              <Link onClick={doLogout} className={style.link2}>
+                로그아웃
+              </Link>
+            )}
+            {login && (
+              <Link to={"/gameroom"} className={style.link}>
+                게임방{" "}
+              </Link>
+            )}
+            {login && (
+              <Link to={"/reserve"} className={style.link}>
+                예약{" "}
+              </Link>
+            )}
+            {login && (
+              <Link to={"/main"} className={style.link}>
+                메인페이지
+              </Link>
+            )}
+            {login && (
+              <Link to={"/profile"} className={style.link}>
+                프로필페이지
+              </Link>
+            )}
+            {login && (
+              <Link to={"/reserve/find"} className={style.link}>
+                매칭
+              </Link>
+            )}
+            {/* <Button variant="outlined" color="white">
+          로그아웃
+        </Button> */}
+          </div>
+        </div>
       </AppBar>
     </Box>
   );
