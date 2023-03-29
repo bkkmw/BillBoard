@@ -3,7 +3,6 @@ package com.ssafy.billboard.controller;
 import com.ssafy.billboard.model.dto.RoomDto;
 import com.ssafy.billboard.model.service.RoomService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +21,10 @@ public class RoomController {
     @PostMapping()
     public ResponseEntity<?> createRoom(@RequestBody RoomDto.RoomInput roomInput){
         Map<String, Object> resultMap = new HashMap<>();
-        RoomDto.RoomInfo room = roomService.createRoom(roomInput);
-        if(room == null)
+        long roomId = roomService.createRoom(roomInput);
+        if(roomId == -1)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        resultMap.put("room", room);
+        resultMap.put("roomId", roomId);
         return new ResponseEntity<>(resultMap, HttpStatus.CREATED);
     }
 
@@ -104,9 +103,15 @@ public class RoomController {
 
     @DeleteMapping("/{roomId}/entries")
     public ResponseEntity<?> deleteEntry(@PathVariable long roomId, @RequestBody RoomDto.EntryInput entryInput){
-        if(roomService.deleteEntry(roomId, entryInput.getUserId()))
+        int res = roomService.deleteEntry(roomId, entryInput.getUserId());
+        if(res == 1)
             return new ResponseEntity<>(HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == 0)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == -1)
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/entries/{userId}")

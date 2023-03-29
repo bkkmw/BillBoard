@@ -8,13 +8,13 @@ import java.util.List;
 public interface UserService {
     int signup(UserDto.UserSignUpDto userSignUpDto);
 
-    UserDto.UserInfoDto getUserInfo(String userId);
+    UserDto.UserWithHistoryDto getUserInfo(String fromUserId, String toUserId);
 
     int modifyUserInfo(UserDto.UserSignUpDto userSignUpDto);
 
     int deleteUser(String userId);
 
-    UserDto.UserInfoDto login(UserDto.UserLoginDto userLoginDto);
+    UserDto.UserWithTokenDto login(UserDto.UserLoginDto userLoginDto);
     int logout(String userId);
 
     int duplicatedId(String userId);
@@ -32,4 +32,6 @@ public interface UserService {
     UserDto.UserInfoDto confirmPw(UserDto.UserLoginDto userLoginDto);
 
     List<UserDto.UserInfoDto> searchByUserId(String keyword);
+
+    String refreshToken(String refreshToken);
 }
