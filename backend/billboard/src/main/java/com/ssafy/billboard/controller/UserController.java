@@ -52,13 +52,14 @@ public class UserController {
         String curUserId = SecurityUtil.getUserId();
         logger.info("current user ID : {}", curUserId);
 
-        UserDto.UserInfoDto userInfoDto = userService.getUserInfo(curUserId, userId);
+        UserDto.UserWithHistoryDto userWithHistoryDto = userService.getUserInfo(curUserId, userId);
 
-        if(userInfoDto == null) {
+        if(userWithHistoryDto == null) {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
-        resultMap.put("userInfo", userInfoDto);
+        resultMap.put("userInfo", userWithHistoryDto.getUserInfoDto());
+        resultMap.put("recentGames", userWithHistoryDto.getRecentGames());
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
