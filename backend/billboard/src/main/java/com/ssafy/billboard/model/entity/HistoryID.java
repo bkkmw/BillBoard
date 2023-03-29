@@ -11,5 +11,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class HistoryID implements Serializable {
     private String userId;
-    private int gameId;
+    private int boardGame;
 }

@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface HistoryRepository extends JpaRepository<History, HistoryID> {
 
-    History findByUserIdAndGameId(String userId, int gameId);
+    History findByUserIdAndBoardGameGameId(String userId, int gameId);
 }
