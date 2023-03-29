@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
             String[] tokens = jwtTokenProvider.generateToken(user.getUserId());
 
             // modify state to on-line
-            user.updateOnLogin(tokens[0]);
+            user.updateOnLogin(tokens[1]);
 
             userRepository.save(user);
             UserDto.UserInfoDto userInfoDto = UserDto.UserInfoDto.builder()
@@ -319,5 +319,35 @@ public class UserServiceImpl implements UserService {
         });
 
         return ret;
+    }
+
+    /**
+     * generate new access token by refresh token
+     * @param refreshToken
+     * @return userId(exists, and valid), 'EXPIRED :userId'(expired), NULL(failed)
+     */
+    @Override
+    public String refreshToken(String refreshToken) {
+        logger.info("refresh access token");
+
+        String userId = jwtTokenProvider.validateRefreshToken(refreshToken);
+        logger.info("userId : {}", userId);
+
+        if(userId == null || userId.startsWith("EXP")) return userId;
+
+        logger.info("find user : {}", userId);
+
+        User user = userRepository.findByUserId(userId);
+        if(user == null) {
+            logger.info("user NOT FOUND");
+            return null;
+        }
+        logger.info("User found with refresh token : {}", user.getRefreshToken());
+        logger.info("Input refresh token : {}", refreshToken);
+        if(refreshToken.equals(user.getRefreshToken())) {
+            logger.info("NEW TOKEN : {}",jwtTokenProvider.generateAccessToken(userId, System.currentTimeMillis()));
+            return jwtTokenProvider.generateAccessToken(userId, System.currentTimeMillis());
+        }
+        return String.format("EXPIRED :%s", userId);
     }
 }
