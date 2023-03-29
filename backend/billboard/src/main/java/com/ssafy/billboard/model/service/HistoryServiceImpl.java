@@ -55,13 +55,13 @@ public class HistoryServiceImpl implements  HistoryService{
         try {
             if(userList != null && userList.size() > 0) {
                 userList.forEach(userId -> {
-                    createHistory(userId, boardGame, false);
+                    createHistory(userId, boardGame, false, historyInputDto.getPlayTime());
                 });
             }
 
             if(winnerList != null && winnerList.size() > 0) {
                 winnerList.forEach(userId -> {
-                    createHistory(userId, boardGame, true);
+                    createHistory(userId, boardGame, true, historyInputDto.getPlayTime());
                 });
            }
 
@@ -78,7 +78,7 @@ public class HistoryServiceImpl implements  HistoryService{
      * @param boardGame
      * @param isWin
      */
-    private void createHistory(String userId, BoardGame boardGame, boolean isWin) {
+    private void createHistory(String userId, BoardGame boardGame, boolean isWin, int playTime) {
         History history = historyRepository.findByUserIdAndBoardGameGameId(userId, boardGame.getGameId());
 
         if(history == null){
@@ -95,7 +95,7 @@ public class HistoryServiceImpl implements  HistoryService{
         }
 
         User user = userRepository.findByUserId(userId);
-        user.updateCount(isWin);
+        user.updateCount(isWin, playTime);
         userRepository.save(user);
 
         historyRepository.save(history);
