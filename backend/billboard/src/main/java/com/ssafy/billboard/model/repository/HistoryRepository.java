@@ -9,4 +9,6 @@ import java.util.List;
 public interface HistoryRepository extends JpaRepository<History, HistoryID> {
 
     History findByUserIdAndBoardGameGameId(String userId, int gameId);
+
+    List<History> findTop10ByUserIdOrderByUpdatedTimeDesc(String userId);
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserService {
     int signup(UserDto.UserSignUpDto userSignUpDto);
 
-    UserDto.UserInfoDto getUserInfo(String fromUserId, String toUserId);
+    UserDto.UserWithHistoryDto getUserInfo(String fromUserId, String toUserId);
 
     int modifyUserInfo(UserDto.UserSignUpDto userSignUpDto);
 
