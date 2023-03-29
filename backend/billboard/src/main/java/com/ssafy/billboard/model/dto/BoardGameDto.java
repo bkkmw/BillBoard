@@ -14,8 +14,8 @@ public class BoardGameDto {
     @NoArgsConstructor
     @Builder
     public static class BoardGame {
-        private long gameId;
-        private String primary;
+        private int gameId;
+        private String name;
         private String thumbnail;
         private String image;
         private String description;
@@ -40,5 +40,30 @@ public class BoardGameDto {
         private String childrengamerank;
 
 
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class BoardGameDetail {
+        private String name;
+
+        private int maxplaytime;
+
+        private int maxplayers;
+
+        private double average;
+
+        private double averageweight;
+
+        private String strategygamerank;
+        private String familygamerank;
+        private String partygamerank;
+        private String abstractgamerank;
+        private String thematicrank;
+        private String wargamerank;
+        private String customizablerank;
+        private String childrengamerank;
     }
 }

@@ -46,6 +46,27 @@ public class BoardGameController {
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+    //보드게임 조건 조회
+    @GetMapping("/condition")
+    public ResponseEntity<?> getBoardGameDynamic(@RequestBody BoardGameDto.BoardGameDetail boardGameDetail) {
+        HttpStatus status = null;
+        Map<String, Object> resultMap = new HashMap<>();
+        List<BoardGameDto.BoardGame> rank = boardGameService.getBoardGameDynamic1(boardGameDetail);
+        if(rank == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        List<BoardGameDto.BoardGame> average = boardGameService.getBoardGameDynamic2(boardGameDetail);
+        List<BoardGameDto.BoardGame> yearpublished = boardGameService.getBoardGameDynamic3(boardGameDetail);
+        List<BoardGameDto.BoardGame> weights = boardGameService.getBoardGameDynamic4(boardGameDetail);
+        List<BoardGameDto.BoardGame> review = boardGameService.getBoardGameDynamic5(boardGameDetail);
+        resultMap.put("rank",rank);
+        resultMap.put("average",average);
+        resultMap.put("yearpublished",yearpublished);
+        resultMap.put("weights",weights);
+        resultMap.put("review",review);
+
+        status = HttpStatus.OK;
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 
 
     //보드게임 상세 조회
@@ -97,7 +118,7 @@ public class BoardGameController {
     public ResponseEntity<?> removeFavoriteBoardGame(@PathVariable String userId,@RequestBody FavoriteDto.FavorGameId gameId) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
-        FavoriteID fvID = new FavoriteID(userId, gameId.getGameId());
+        FavoriteID fvID = new FavoriteID(userId,gameId.getGameId());
         Boolean isRemoved = boardGameService.removeFavoriteBoardGame(fvID);
        if(!isRemoved)
            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -109,9 +130,9 @@ public class BoardGameController {
     public ResponseEntity<?> addBoardGameReview(@RequestBody ReviewDto.Review reviewDto) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
-        boolean isCreated = boardGameService.addBoardGameReview(reviewDto);
-//        if(!isRemoved)
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        boolean isRemoved = boardGameService.addBoardGameReview(reviewDto);
+        if(!isRemoved)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status); //빈 {} 리턴 중
     }
