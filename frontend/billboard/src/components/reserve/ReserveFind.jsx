@@ -67,9 +67,13 @@ const ReserveFind = () => {
     if (rooms) {
       let filter = [];
       for (const room of rooms) {
+        
         if (
+          
           new Date(room.date).toLocaleDateString() === date.toLocaleDateString()
-        ) {
+        ) {console.log(room.date, date)
+          console.log(new Date(room.date).toLocaleDateString(),date.toLocaleDateString())
+          console.log(new Date(room.date))
           filter.push(room);
         }
       }
