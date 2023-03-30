@@ -1,10 +1,7 @@
 package com.ssafy.billboard.controller;
 
 
-import com.ssafy.billboard.model.dto.BoardGameDto;
-import com.ssafy.billboard.model.dto.FavoriteDto;
-import com.ssafy.billboard.model.dto.ReviewDto;
-import com.ssafy.billboard.model.dto.RoomDto;
+import com.ssafy.billboard.model.dto.*;
 import com.ssafy.billboard.model.entity.FavoriteID;
 import com.ssafy.billboard.model.entity.Review;
 import com.ssafy.billboard.model.service.BoardGameService;
@@ -14,10 +11,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +45,7 @@ public class BoardGameController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
     //보드게임 조건 조회
-    @GetMapping("/condition")
+    @PostMapping("/condition")
     public ResponseEntity<?> getBoardGameDynamic(@RequestBody BoardGameDto.BoardGameDetail boardGameDetail) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
@@ -151,7 +149,7 @@ public class BoardGameController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
     //보드게임 유저별 리뷰 조회
-    @PostMapping("review/{userId}")
+    @GetMapping("review/user/{userId}")
     public ResponseEntity<?> getBoardGameReviewsUserId(@PathVariable String userId) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
@@ -164,6 +162,57 @@ public class BoardGameController {
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+    //보드 게임 추천
+    @GetMapping("/recommend")
+    public ResponseEntity<?> getBoardGameRecommend() {
+        HttpStatus status = null;
+        Map<String, Object> resultMap = new HashMap<>();
+//
+//        Map<String, Object> reviewsMap = new HashMap<>();
+//        for (UserDto.UserIdDto  userId: userList) {
+//            //유저별 review 조회
+//        }
+//        RestTemplate restTemplate = new RestTemplate();
+//        String url = "http://j8a505.p.ssafy.io:8000";
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+//        String responseBody = response.getBody();
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        List<String> list = new ArrayList<>();
+        list.add("item1");
+        list.add("item2");
+        list.add("item3");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<List<String>> request = new HttpEntity<>(list, headers);
+        String url = "http://j8a505.p.ssafy.io:8000";
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+
+
+        System.out.println(response.getBody());
+        resultMap.put("response",response);
+//        List<ReviewDto.Review> reviews = boardGameService.getBoardGameReviewsUserId(userId);
+//        if(reviews == null)
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        else if(reviews.size() == 0)
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        resultMap.put("reviews",reviews);
+        status = HttpStatus.OK;
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
+
+
+
+
+    }
+
+
+
+
     //보드게임 리뷰 수정
 
     //보드게임 리뷰 삭제
