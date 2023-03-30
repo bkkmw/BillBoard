@@ -18,6 +18,7 @@ public class UserDto {
         private int matchCount;
         private int winCount;
         private int isFollowing;
+        private int followerCnt;
     }
 
     @Getter
@@ -71,7 +72,7 @@ public class UserDto {
     @AllArgsConstructor
     @Builder
     public static class UserIdDto{
-        private String Id;
+        private List<String> userList;
     }
 
 }

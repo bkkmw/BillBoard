@@ -3,6 +3,7 @@ package com.ssafy.billboard.model.service;
 import com.ssafy.billboard.model.dto.BoardGameDto;
 import com.ssafy.billboard.model.dto.MailDto;
 import com.ssafy.billboard.model.dto.UserDto;
+import com.ssafy.billboard.model.entity.Follow;
 import com.ssafy.billboard.model.entity.History;
 import com.ssafy.billboard.model.entity.MailAuth;
 import com.ssafy.billboard.model.entity.User;
@@ -40,17 +41,23 @@ public class UserServiceImpl implements UserService {
     public int signup(UserDto.UserSignUpDto userSignUpDto) {
         logger.trace("user SignUp : {}", userSignUpDto);
 
+        if(userSignUpDto.getUserId() == null || userSignUpDto.getPassword() == null
+            || userSignUpDto.getNickname() == null || userSignUpDto.getPassword() == null)
+            return -2;
 
         if(!userRepository.existsByUserId(userSignUpDto.getUserId())){
             logger.trace("{} user not found", userSignUpDto.getUserId());
 
             if(userRepository.existsByEmail(userSignUpDto.getEmail())) return -1;
             // for test
-//            if(mailAuthRepository.existsById(userSignUpDto.getEmail()) == false ||
-//                    mailAuthRepository.findById(userSignUpDto.getEmail()).get().getAuthorized() == false) {
-//                logger.info("auth not found ... : {}", mailAuthRepository.existsById(userSignUpDto.getEmail()));
-//                return -1;
-//            }
+            if(mailAuthRepository.existsById(userSignUpDto.getEmail()) == false) {
+                MailAuth mailAuth = mailAuthRepository.findById(userSignUpDto.getEmail()).get();
+                if(mailAuth.getAuthorized() == false) {
+                    logger.info("auth not found ... : {}", mailAuthRepository.existsById(userSignUpDto.getEmail()));
+                    return -1;
+                }
+                else mailAuthRepository.delete(mailAuth);
+            }
 
             userRepository.save(User.builder()
                             .userId(userSignUpDto.getUserId())
@@ -61,7 +68,6 @@ public class UserServiceImpl implements UserService {
 
             return 0;
         }
-
         logger.info("{} user already exists", userSignUpDto.getUserId());
         return -1;
     }
@@ -77,6 +83,8 @@ public class UserServiceImpl implements UserService {
         else if(followRepository.existsByFromUserIdAndToUserId(fromUserId, toUserId))
             isFollowing = 1;
 
+        List<Follow> followerList = followRepository.findAllByToUserId(toUserId);
+        int followrCnt = (followerList == null) ? 0 : followerList.size();
 
         if(user == null) return null;
 
@@ -88,6 +96,7 @@ public class UserServiceImpl implements UserService {
                 .matchCount(user.getMatchCount())
                 .winCount(user.getWinCount())
                 .isFollowing(isFollowing)
+                .followerCnt(followrCnt)
                 .build();
 
         List<BoardGameDto.BoardGame> recentGames = new ArrayList<>(10);
@@ -130,7 +139,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    // return type will be changed after implementing token
     public UserDto.UserWithTokenDto login(UserDto.UserLoginDto userLoginDto) {
         logger.trace("login : {} , {}", userLoginDto.getUserId(), userLoginDto.getPassword());
 
@@ -182,14 +190,6 @@ public class UserServiceImpl implements UserService {
         return -1;
     }
 
-
-
-    /*
-    * returns result of ID duplication check
-    * -1 : duplicated ID
-    * 0 : available ID
-    * */
-
     @Override
     public int duplicatedId(String userId) {
         logger.trace("check ID duplication : {}", userId);
@@ -197,9 +197,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByUserId(userId) ? -1 : 0;
     }
 
-    // returns -2(Existing Email)
-    // returns -1(failed to send email)
-    // returns 0(sent successfully)
     @Override
     public int sendAuthEmail(String email) {
         logger.trace("email entered : {}", email);
@@ -211,10 +208,6 @@ public class UserServiceImpl implements UserService {
 //        int res = 0;
 
         if(res > -1) {
-//            Timestamp currentTimeStamp = new Timestamp(System.currentTimeMillis());
-//            currentTimeStamp.setTime(currentTimeStamp.getTime() + (9 * 60 * 60 * 1000));
-            // use UTC, jdbc modifies it when reading time
-//            currentTimeStamp.setTime(currentTimeStamp.getTime() + (10 * 60 * 1000));
             mailAuthRepository.save(MailAuth.builder()
                             .email(email)
                             .authKey(authKey)
@@ -224,10 +217,6 @@ public class UserServiceImpl implements UserService {
         return res;
     }
 
-    // returns -3(not found)
-    // returns -2(expired auth)
-    // returns -1(incorrect key)
-    // returns 0(correct key)
     @Override
     public int checkAuthKey(MailDto.MailCheckDto mailCheckDto) {
         logger.trace("check auth key");
@@ -255,9 +244,6 @@ public class UserServiceImpl implements UserService {
         return 0;
     }
 
-    /*
-    returns : 0(Success), -2(Not found), -1(failed to send mail)
-     */
     @Override
     public int findId(String email) {
         logger.trace("find user id : {}", email);
@@ -270,9 +256,6 @@ public class UserServiceImpl implements UserService {
         return res;
     }
 
-    /*
-    returns : 0(Success), -2(Not found), -1(failed to send mail)
-     */
     public int findPw(UserDto.UserFindPwDto userFindPwDto) {
         logger.trace("find user password : {}, {}", userFindPwDto.getUserId(), userFindPwDto.getEmail());
 
@@ -289,21 +272,6 @@ public class UserServiceImpl implements UserService {
 
         return res;
     }
-
-    /*
-    returns : 0(Success), -1(Not found)
-     */
-//    public int increaseCount(String userId, boolean isWin) {
-//        logger.trace("increase Count : {}, win ? {}", userId, isWin);
-//
-//        User user = userRepository.findByUserId(userId);
-//
-//        if(user == null) return -1;
-//        user.updateCount(isWin);
-//        userRepository.save(user);
-//
-//        return 0;
-//    }
 
     @Override
     public UserDto.UserInfoDto confirmPw(UserDto.UserLoginDto userLoginDto) {
@@ -345,11 +313,6 @@ public class UserServiceImpl implements UserService {
         return ret;
     }
 
-    /**
-     * generate new access token by refresh token
-     * @param refreshToken
-     * @return userId(exists, and valid), 'EXPIRED :userId'(expired), NULL(failed)
-     */
     @Override
     public String refreshToken(String refreshToken) {
         logger.info("refresh access token");
