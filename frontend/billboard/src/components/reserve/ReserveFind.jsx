@@ -71,9 +71,8 @@ const ReserveFind = () => {
         if (
           
           new Date(room.date).toLocaleDateString() === date.toLocaleDateString()
-        ) {console.log(room.date, date)
-          console.log(new Date(room.date).toLocaleDateString(),date.toLocaleDateString())
-          console.log(new Date(room.date))
+        ) {
+
           filter.push(room);
         }
       }
@@ -189,7 +188,7 @@ const ReserveFind = () => {
                       fontWeight: "bolder",
                     }}
                   >
-                    {item.date}
+                    {item.date.slice(11,16)}
                   </span>
                   <div
                     style={{
