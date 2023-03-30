@@ -67,13 +67,10 @@ const ReserveFind = () => {
     if (rooms) {
       let filter = [];
       for (const room of rooms) {
-        
         if (
-          
           new Date(room.date).toLocaleDateString() === date.toLocaleDateString()
-        ) {console.log(room.date, date)
-          console.log(new Date(room.date).toLocaleDateString(),date.toLocaleDateString())
-          console.log(new Date(room.date))
+        ) {
+
           filter.push(room);
         }
       }
@@ -87,7 +84,10 @@ const ReserveFind = () => {
   return (
     <div style={{ width: "70vw" }}>
       <Row>
-        <Col span={6} style={{ width: "70vw", marginTop: "10vh" }}>
+        <Col
+          span={6}
+          style={{ width: "70vw", marginTop: "10vh", marginRight: "2rem" }}
+        >
           <Row>
             <Button
               type="primary"
@@ -126,7 +126,7 @@ const ReserveFind = () => {
                     paddingRight: "2rem",
                     paddingLeft: "2rem",
                   }}
-                  className={`list_item_hover ${
+                  className={`san ${
                     item === date.toLocaleDateString() && "list_item_select"
                   }`}
                   onClick={() => {
@@ -148,7 +148,7 @@ const ReserveFind = () => {
           />
         </Col>
         <Col
-          span={18}
+          span={17}
           style={{
             width: "70vw",
             height: "68.5vh",
@@ -158,7 +158,7 @@ const ReserveFind = () => {
             borderLeft: "1rem solid #d9d9d9",
             borderRight: "1rem solid #d9d9d9",
             borderRadius: "1.5rem",
-            overflow: "scroll",
+            overflowY: "scroll",
           }}
         >
           <List
@@ -189,7 +189,7 @@ const ReserveFind = () => {
                       fontWeight: "bolder",
                     }}
                   >
-                    {item.date}
+                    {item.date.slice(11,16)}
                   </span>
                   <div
                     style={{
@@ -198,9 +198,9 @@ const ReserveFind = () => {
                       justifyContent: "start",
                     }}
                   >
-                    <span
-                      style={{ fontSize: "2rem", fontWeight: "bolder" }}
-                    >{`방 제목: ${item.title}`}</span>
+                    <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
+                      {item.title}
+                    </span>
                     <span>{`${item.location} ${item.personCount}/${item.personLimit}`}</span>
                   </div>
                   {/* {`날짜:${item.date},
