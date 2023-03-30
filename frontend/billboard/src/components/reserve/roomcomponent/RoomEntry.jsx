@@ -34,7 +34,6 @@ const RoomEntry = ({ entries, roomId, reload }) => {
   return (
     <div>
       <div style={{ fontSize: "1.5rem", fontWeight: "bolder" }}>
-        플레이어:
         {entries.map((entry, i) => {
           return (
             <>

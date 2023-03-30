@@ -28,7 +28,6 @@ const store = configureStore({
   // devTools:
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
-  // .concat(logger),
 });
 
 const persistor = persistStore(store);
