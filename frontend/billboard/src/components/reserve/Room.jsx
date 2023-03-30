@@ -240,7 +240,7 @@ const Room = () => {
                       }}
                     >
                       <div style={{ fontSize: "2rem", textAlign: "start" }}>
-                        댓글작성자: {reply.userId}
+                        {reply.userId}
                       </div>
                       <div
                         style={{
@@ -249,7 +249,7 @@ const Room = () => {
                           wordBreak: "keep-all",
                         }}
                       >
-                        댓글: {reply.content}
+                        {reply.content}
                       </div>
                       {reply.userId === userId && (
                         <>
@@ -268,7 +268,7 @@ const Room = () => {
                           />
                         </>
                       )}
-                      <hr style={{ width: "30vw" }} />
+                      <hr style={{ width: "32vw" }} />
                     </div>
                   );
                 })}
