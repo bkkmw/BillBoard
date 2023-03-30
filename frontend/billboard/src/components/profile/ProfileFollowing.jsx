@@ -4,6 +4,8 @@ import { Button, Modal } from "antd";
 
 import FollowingList from "./FollowingList";
 
+import style from "./ProfileFollowing.module.css";
+
 const ProfileFollowing = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -17,7 +19,7 @@ const ProfileFollowing = () => {
   };
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button type="primary" onClick={showModal} className={style.btn}>
         팔로잉
       </Button>
       <Modal

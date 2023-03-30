@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Card, Col, Row } from "antd";
 
-const { Meta } = Card;
+// const { Meta } = Card;
 const ProfileLatestList = () => {
   return (
     <div>
