@@ -9,20 +9,19 @@ from starlette.middleware.cors import CORSMiddleware
 import certifi
 import pandas as pd
 from surprise import Reader, Dataset, SVD
-from runSVD import get_unplayed_surprise, recomm_game_by_surprise
 from surprise.dataset import DatasetAutoFolds
 from surprise.dataset import Reader
 from surprise import SVD
 
 
-reader = Reader(line_format = 'user item rating', sep=',', rating_scale=(0.5,10))
-data_folds = DatasetAutoFolds(ratings_file='./ratings949.csv', reader=reader)
-trainset = data_folds.build_full_trainset()
-algo = SVD(n_factors=50, n_epochs=20, random_state=42)
-algo.fit(trainset)
-games = pd.read_csv('./games_detailed_info.csv', encoding='UTF-8', usecols=[2,5])
-ratings = pd.read_csv("./bgg-19m-reviews.csv", encoding='UTF-8')
-total_games = games['id'].tolist().sort()
+# reader = Reader(line_format = 'user item rating', sep=',', rating_scale=(0.5,10))
+# data_folds = DatasetAutoFolds(ratings_file='./ratings949.csv', reader=reader)
+# trainset = data_folds.build_full_trainset()
+# algo = SVD(n_factors=50, n_epochs=20, random_state=42)
+# algo.fit(trainset)
+# games = pd.read_csv('./games_detailed_info.csv', encoding='UTF-8', usecols=[2,5])
+# ratings = pd.read_csv("./bgg-19m-reviews.csv", encoding='UTF-8')
+# total_games = games['id'].tolist().sort()
 
 
 def recomm_game_by_surprise_sortbyiid(algo, userID, unplayed_games,games, top_n=10):
