@@ -73,10 +73,12 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
 
   };
   const onFinish = (values) => {
-    // Todo: hostId값 추가
-    // location.place_name: 장소이름
+    console.log(values.date)
+    let offset = values.date.$d.getTimezoneOffset() * 60000; //ms단위라 60000곱해줌
+    let dateOffset = new Date(values.date.$d.getTime() - offset);
+    
     values = {
-      ...values, date: new Date(values.date.$d).toISOString(), lng:location.x,lat:location.y
+      ...values, date: dateOffset.toISOString(), lng:location.x,lat:location.y
     }
     if (data) {
       dispatch(correctRoom({ values: values, roomId: roomId })).then((res) => {
