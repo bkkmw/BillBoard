@@ -57,7 +57,7 @@ const ReserveFindAddress = ({ Open, onClose, childrenDrawer, setChildrenDrawer, 
   const [showNxtDrawer, setShowNxtDrawer] = useState(false)
   return (
 
-    <Drawer closable={false} open={Open} title="지역선택" width={520} onClose={onClose} placement={"bottom"}>
+    <Drawer closable={false} open={Open} title="지역선택" width={520} onClose={onClose} placement={"left"}>
       <List
 
         dataSource={sido}
@@ -76,7 +76,7 @@ const ReserveFindAddress = ({ Open, onClose, childrenDrawer, setChildrenDrawer, 
         title={myLocal.sido.sidoName}
         width={320}
         onClose={onChildrenDrawerClose}
-        placement={"bottom"}
+        placement={"left"}
 
       >
         <List
@@ -96,7 +96,7 @@ const ReserveFindAddress = ({ Open, onClose, childrenDrawer, setChildrenDrawer, 
           title={myLocal.gugun.gugunName}
           width={320}
           onClose={() => { setShowNxtDrawer(false) }}
-          placement={"bottom"}
+          placement={"left"}
         >
           <List
             dataSource={dong}
