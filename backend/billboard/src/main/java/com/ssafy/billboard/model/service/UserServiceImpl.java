@@ -46,10 +46,13 @@ public class UserServiceImpl implements UserService {
 
             if(userRepository.existsByEmail(userSignUpDto.getEmail())) return -1;
             // for test
-//            if(mailAuthRepository.existsById(userSignUpDto.getEmail()) == false ||
-//                    mailAuthRepository.findById(userSignUpDto.getEmail()).get().getAuthorized() == false) {
-//                logger.info("auth not found ... : {}", mailAuthRepository.existsById(userSignUpDto.getEmail()));
-//                return -1;
+//            if(mailAuthRepository.existsById(userSignUpDto.getEmail()) == false) {
+//                MailAuth mailAuth = mailAuthRepository.findById(userSignUpDto.getEmail()).get();
+//                if(mailAuth.getAuthorized() == false) {
+//                    logger.info("auth not found ... : {}", mailAuthRepository.existsById(userSignUpDto.getEmail()));
+//                    return -1;
+//                }
+//                else mailAuthRepository.delete(mailAuth);
 //            }
 
             userRepository.save(User.builder()
