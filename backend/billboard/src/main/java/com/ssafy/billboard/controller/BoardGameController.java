@@ -45,7 +45,7 @@ public class BoardGameController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
     //보드게임 조건 조회
-    @GetMapping("/condition")
+    @PostMapping("/condition")
     public ResponseEntity<?> getBoardGameDynamic(@RequestBody BoardGameDto.BoardGameDetail boardGameDetail) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
@@ -149,7 +149,7 @@ public class BoardGameController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
     //보드게임 유저별 리뷰 조회
-    @PostMapping("review/{userId}")
+    @GetMapping("review/user/{userId}")
     public ResponseEntity<?> getBoardGameReviewsUserId(@PathVariable String userId) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
