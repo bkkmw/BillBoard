@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +49,7 @@ public class UserController {
         logger.trace("find user : {}", userId);
 
         String curUserId = SecurityUtil.getUserId();
-        logger.info("current user ID : {}", curUserId);
+        logger.debug("current user ID : {}", curUserId);
 
         UserDto.UserWithHistoryDto userWithHistoryDto = userService.getUserInfo(curUserId, userId);
 
@@ -185,32 +184,6 @@ public class UserController {
 
         return new ResponseEntity<Void>(status);
     }
-
-//    @Operation(summary = "increase user's win count & match count", description = ".")
-//    @PutMapping("/win/{userId}")
-//    public ResponseEntity<?> increaseWinCount(@PathVariable("userId") String userId) {
-//        HttpStatus status;
-//        logger.trace("increase win count : {}", userId);
-//
-//        int res = userService.increaseCount(userId, true);
-//
-//        status = (res == 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-//
-//        return new ResponseEntity<Void>(status);
-//    }
-//
-//    @Operation(summary = "increase user's match count", description = ".")
-//    @PutMapping("/play/{userId}")
-//    public ResponseEntity<?> increaseMatchCount(@PathVariable("userId") String userId) {
-//        HttpStatus status;
-//        logger.trace("increase match count : {}", userId);
-//
-//        int res = userService.increaseCount(userId, false);
-//
-//        status = (res == 0) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-//
-//        return new ResponseEntity<Void>(status);
-//    }
 
     @Operation(summary = "check user id & pw", description = ".")
     @PostMapping("/check-password")
