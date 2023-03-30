@@ -17,8 +17,8 @@ import Container from "@mui/material/Container";
 
 const IdFindPage = () => {
   // 이메일 유효성 검사
-
   const [validEmail, setValidEmail] = useState(false);
+
   function checkEmail(event) {
     const emailRegex = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
     const email = event.target.value;
@@ -31,21 +31,20 @@ const IdFindPage = () => {
   const navigate = useNavigate();
   function submitForm(event) {
     event.preventDefault();
-    // console.log(event.target.email.value);
     const userEmail = event.target.email.value;
     httpClient
-      .post("/user/find_id", {
-        email: userEmail,
-      })
-      .then(({ status }) => {
-        if (status === 200) {
+      .get(`/users/find-id/${userEmail}`)
+      .then((data) => {
+        console.log(data);
+        if (data.status === 200) {
           navigate("/FindResult", { state: { mode: "ID", email: userEmail } });
-        } else {
-          window.alert("200인데 무슨 에러지??");
         }
       })
       .catch((error) => {
-        console.log("에러", error);
+        console.log(error);
+        if (error.response.status === 404) {
+          alert("등록되지 않은 이메일 입니다.");
+        }
       });
   }
   return (

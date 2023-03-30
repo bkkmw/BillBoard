@@ -7,7 +7,7 @@ import style from "./ProfileRating.module.css";
 const ProfileRating = () => {
   return (
     <div className={style.background}>
-      <span>전적</span>
+      <span className={style.font}>10전 8승 2패</span>
       <Progress
         percent={80}
         size={500}

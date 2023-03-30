@@ -14,8 +14,10 @@ const RoomReply = ({replies, roomId, reload}) => {
     
     const data = {
       roomId:roomId,
+      data:{
       content:values.reply,
       userId:userId
+    }
     }
     dispatch(makeReply(data)).then((res)=>{
       reload()

@@ -5,7 +5,7 @@ export const getSido = createAsyncThunk(
     "location/sido",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await httpClient.get("/location/sido");
+            const response = await httpClient.get("/locations/sido");
             console.log(response)
             return response.data
         } catch (error) {
@@ -19,7 +19,7 @@ export const getgugun = createAsyncThunk(
     "location/getgugun",
     async (sidoCode, { rejectWithValue }) => {
         try {
-            const response = await httpClient.get(`/location/gugun/${sidoCode}`);
+            const response = await httpClient.get(`/locations/gugun/${sidoCode}`);
             console.log(response)
             return response.data
         } catch (error) {
@@ -33,7 +33,7 @@ export const getdong = createAsyncThunk(
     "location/getdong",
     async (gugunCode, { rejectWithValue }) => {
         try {
-            const response = await httpClient.get(`/location/dong/${gugunCode}`);
+            const response = await httpClient.get(`/locations/dong/${gugunCode}`);
             console.log(response)
             return response.data
         } catch (error) {
@@ -47,7 +47,7 @@ export const getdongCode = createAsyncThunk(
     "location/getdongCode",
     async (dongCode, { rejectWithValue }) => {
         try {
-            const response = await httpClient.get(`/location/coordinate/${dongCode}`);
+            const response = await httpClient.get(`/locations/coordinate/${dongCode}`);
             console.log(response)
             return response.data
         } catch (error) {
