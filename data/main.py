@@ -34,9 +34,9 @@ total_games = sorted(games['id'].tolist())
 #     charset='utf8'
 # )
 
+from fastapi import FastAPI
 
-# Todo:모든 origins 허용, 나중에수정할것
-origins = ['*']
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
