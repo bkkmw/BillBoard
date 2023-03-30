@@ -57,6 +57,9 @@ const UserListDrawer = ({showDrawer, onClose, setOpen,open}) => {
               >
                 <Input placeholder="Please enter user password" />
               </Form.Item>
+              <Form.Item>
+          <Button type={'primary'} htmlType={"submit"}>Submit</Button>
+        </Form.Item>
             </Col>
           </Row>
         </Form>
