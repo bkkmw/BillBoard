@@ -72,7 +72,7 @@ public class UserDto {
     @AllArgsConstructor
     @Builder
     public static class UserIdDto{
-        private String Id;
+        private List<String> userList;
     }
 
 }
