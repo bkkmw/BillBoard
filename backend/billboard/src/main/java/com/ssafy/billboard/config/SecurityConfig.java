@@ -6,6 +6,7 @@ import com.ssafy.billboard.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.DispatcherType;
 
@@ -31,7 +35,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()   // disable CSRF : no need for API server
-                .cors().disable()   // disable CORS : will be removed
+//                .cors().disable()   // disable CORS : will be removed
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 // Stateless
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
@@ -53,6 +59,28 @@ public class SecurityConfig {
         ;
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+        // for local test
+        corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000");
+        corsConfiguration.addAllowedOrigin("http://127.0.0.1:8000");
+        // ec2 - react
+        corsConfiguration.addAllowedOrigin("https://j8a505.a.ssafy.io:3000");
+        corsConfiguration.addAllowedOrigin("http://j8a505.p.ssafy.io:3000");
+
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+
+        corsConfiguration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
+
     }
 
     @Bean
