@@ -1,10 +1,9 @@
 .list_item_hover:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-  opacity: 0.2;
   cursor: pointer;
-  color: black;
+  background-color: gray;
+  border-radius: 3rem;
 }
 .list_item_select {
-  background-color: red;
-  color: white;
+  background-color: gray;
+  border-radius: 3rem;
 }
