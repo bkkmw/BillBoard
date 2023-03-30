@@ -3,6 +3,7 @@ package com.ssafy.billboard.model.service;
 import com.ssafy.billboard.model.dto.BoardGameDto;
 import com.ssafy.billboard.model.dto.MailDto;
 import com.ssafy.billboard.model.dto.UserDto;
+import com.ssafy.billboard.model.entity.Follow;
 import com.ssafy.billboard.model.entity.History;
 import com.ssafy.billboard.model.entity.MailAuth;
 import com.ssafy.billboard.model.entity.User;
@@ -40,20 +41,23 @@ public class UserServiceImpl implements UserService {
     public int signup(UserDto.UserSignUpDto userSignUpDto) {
         logger.trace("user SignUp : {}", userSignUpDto);
 
+        if(userSignUpDto.getUserId() == null || userSignUpDto.getPassword() == null
+            || userSignUpDto.getNickname() == null || userSignUpDto.getPassword() == null)
+            return -2;
 
         if(!userRepository.existsByUserId(userSignUpDto.getUserId())){
             logger.trace("{} user not found", userSignUpDto.getUserId());
 
             if(userRepository.existsByEmail(userSignUpDto.getEmail())) return -1;
             // for test
-//            if(mailAuthRepository.existsById(userSignUpDto.getEmail()) == false) {
-//                MailAuth mailAuth = mailAuthRepository.findById(userSignUpDto.getEmail()).get();
-//                if(mailAuth.getAuthorized() == false) {
-//                    logger.info("auth not found ... : {}", mailAuthRepository.existsById(userSignUpDto.getEmail()));
-//                    return -1;
-//                }
-//                else mailAuthRepository.delete(mailAuth);
-//            }
+            if(mailAuthRepository.existsById(userSignUpDto.getEmail()) == false) {
+                MailAuth mailAuth = mailAuthRepository.findById(userSignUpDto.getEmail()).get();
+                if(mailAuth.getAuthorized() == false) {
+                    logger.info("auth not found ... : {}", mailAuthRepository.existsById(userSignUpDto.getEmail()));
+                    return -1;
+                }
+                else mailAuthRepository.delete(mailAuth);
+            }
 
             userRepository.save(User.builder()
                             .userId(userSignUpDto.getUserId())
@@ -64,7 +68,6 @@ public class UserServiceImpl implements UserService {
 
             return 0;
         }
-
         logger.info("{} user already exists", userSignUpDto.getUserId());
         return -1;
     }
@@ -80,6 +83,8 @@ public class UserServiceImpl implements UserService {
         else if(followRepository.existsByFromUserIdAndToUserId(fromUserId, toUserId))
             isFollowing = 1;
 
+        List<Follow> followerList = followRepository.findAllByToUserId(toUserId);
+        int followrCnt = (followerList == null) ? 0 : followerList.size();
 
         if(user == null) return null;
 
@@ -91,6 +96,7 @@ public class UserServiceImpl implements UserService {
                 .matchCount(user.getMatchCount())
                 .winCount(user.getWinCount())
                 .isFollowing(isFollowing)
+                .followerCnt(followrCnt)
                 .build();
 
         List<BoardGameDto.BoardGame> recentGames = new ArrayList<>(10);

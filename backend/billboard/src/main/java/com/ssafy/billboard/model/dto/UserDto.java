@@ -18,6 +18,7 @@ public class UserDto {
         private int matchCount;
         private int winCount;
         private int isFollowing;
+        private int followerCnt;
     }
 
     @Getter

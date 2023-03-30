@@ -6,6 +6,11 @@ import com.ssafy.billboard.model.dto.UserDto;
 import java.util.List;
 
 public interface UserService {
+    /**
+     * sign up
+     * @param userSignUpDto userId, password, nickname, email
+     * @return -2 for insufficient data, -1 invalid data, 0 for success
+     */
     int signup(UserDto.UserSignUpDto userSignUpDto);
 
     UserDto.UserWithHistoryDto getUserInfo(String fromUserId, String toUserId);

@@ -36,7 +36,8 @@ public class UserController {
 
         int res = userService.signup(userSignUpDto);
 
-        status = (res >= 0) ? HttpStatus.OK : HttpStatus.CONFLICT;
+        status = (res >= 0) ? HttpStatus.OK :
+                (res == -1) ? HttpStatus.CONFLICT : HttpStatus.BAD_REQUEST;
 
         return new ResponseEntity<Void>(status);
     }
