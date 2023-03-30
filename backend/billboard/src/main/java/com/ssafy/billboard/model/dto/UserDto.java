@@ -66,4 +66,12 @@ public class UserDto {
         private String refreshToken;
         private UserInfoDto userInfoDto;
     }
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class UserIdDto{
+        private String Id;
+    }
+
 }
