@@ -21,7 +21,7 @@ public class History extends BaseTimeEntity {
     private String userId;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gameId")
     private BoardGame boardGame;
 

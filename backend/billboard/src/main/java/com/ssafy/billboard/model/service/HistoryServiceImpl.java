@@ -13,12 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.NameNotFoundException;
-import java.sql.Timestamp;
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -48,19 +47,10 @@ public class HistoryServiceImpl implements  HistoryService{
         return ret;
     }
 
-    /*
-    returns : 0(Success), -1(Not found), -2(Bad Request)
-     */
     @Override
-    @Transactional
     public int createHistory(HistoryDto.HistoryInputDto historyInputDto) {
         logger.debug("Create history");
-        // Logics for game Id
         int gameId = historyInputDto.getGameId();
-        if(!boardGameRepository.existsById(gameId)) return -2;
-        BoardGame boardGame = boardGameRepository.findById(gameId).get();
-
-        logger.debug("board game : {}, {}", boardGame.getGameId(), boardGame.getName());
 
         // logics for user
         List<String> winnerList = historyInputDto.getWinners();
@@ -70,20 +60,29 @@ public class HistoryServiceImpl implements  HistoryService{
             && (winnerList == null || winnerList.size() < 1)) return -2;
 
         try {
+            BoardGame boardGame = boardGameRepository.findById(gameId).get();
+
             if(userList != null && userList.size() > 0) {
                 userList.forEach(userId -> {
-                    createHistory(userId, boardGame, false, historyInputDto.getPlayTime());
+                    try {
+                        createHistory(userId, boardGame, false, historyInputDto.getPlayTime());
+                    } catch (EntityNotFoundException e) {
+                        logger.info("user not found : {}", userId);
+                    }
                 });
             }
 
             if(winnerList != null && winnerList.size() > 0) {
                 winnerList.forEach(userId -> {
-                    createHistory(userId, boardGame, true, historyInputDto.getPlayTime());
+                    try {
+                        createHistory(userId, boardGame, true, historyInputDto.getPlayTime());
+                    } catch (EntityNotFoundException e) {
+                        logger.info("user not found : {}", userId);
+                    }
                 });
            }
-
-        } catch(Exception e) {
-            e.printStackTrace();
+        } catch(NoSuchElementException e) {
+            logger.info("game not found : {}", gameId);
             return -1;
         }
         return 0;
@@ -95,7 +94,7 @@ public class HistoryServiceImpl implements  HistoryService{
      * @param boardGame
      * @param isWin
      */
-    private void createHistory(String userId, BoardGame boardGame, boolean isWin, int playTime) {
+    private void createHistory(String userId, BoardGame boardGame, boolean isWin, int playTime) throws EntityNotFoundException{
         History history = historyRepository.findByUserIdAndBoardGameGameId(userId, boardGame.getGameId());
 
         if(history == null){
@@ -112,7 +111,7 @@ public class HistoryServiceImpl implements  HistoryService{
         }
 
         User user = userRepository.findByUserId(userId);
-        if(user == null) return;
+        if(user == null) throw new EntityNotFoundException(userId);
         user.updateCount(isWin, playTime);
         userRepository.save(user);
 
