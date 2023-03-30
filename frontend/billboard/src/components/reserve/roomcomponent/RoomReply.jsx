@@ -1,14 +1,15 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteReply, getReply, makeReply } from "../../../store/reserve";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { width } from "@mui/system";
+import { selectUser } from "../../../store/user";
 
 const RoomReply = ({ replies, roomId, reload }) => {
   const inputRef = useRef();
   // Todo: userId 수정 예정
-  const userId = "string";
+  const userId = useSelector(selectUser).loginUser.userId
   const dispatch = useDispatch();
   const onFinish = (values) => {
     // console.log(values)

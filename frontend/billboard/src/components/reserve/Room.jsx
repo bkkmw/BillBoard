@@ -114,7 +114,7 @@
 // export default Room;
 
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useRouteLoaderData } from "react-router";
 import { deleteRoom, getRoomInfo } from "../../store/reserve";
 import { deleteReply, getReply, makeReply } from "../../store/reserve";
@@ -129,6 +129,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { fontWeight } from "@mui/system";
+import { selectUser } from "../../store/user";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -140,7 +141,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Room = () => {
   // Todo: userId값 받아오기
-  const userId = "string";
+  const userId = useSelector(selectUser).loginUser.userId
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const roomId = useRouteLoaderData("room");
@@ -203,31 +204,7 @@ const Room = () => {
                       entries={roomData.entries}
                       roomId={roomId}
                       reload={reload}
-                    />
-                    <RoomEntry
-                      entries={roomData.entries}
-                      roomId={roomId}
-                      reload={reload}
-                    />
-                    <RoomEntry
-                      entries={roomData.entries}
-                      roomId={roomId}
-                      reload={reload}
-                    />
-                    <RoomEntry
-                      entries={roomData.entries}
-                      roomId={roomId}
-                      reload={reload}
-                    />
-                    <RoomEntry
-                      entries={roomData.entries}
-                      roomId={roomId}
-                      reload={reload}
-                    />
-                    <RoomEntry
-                      entries={roomData.entries}
-                      roomId={roomId}
-                      reload={reload}
+                      hostId={roomData.roomInfo.hostId}
                     />
                   </div>
                 </Item>
@@ -263,7 +240,7 @@ const Room = () => {
                       }}
                     >
                       <div style={{ fontSize: "2rem", textAlign: "start" }}>
-                        댓글작성자: {reply.userId}
+                        {reply.userId}
                       </div>
                       <div
                         style={{
@@ -272,7 +249,7 @@ const Room = () => {
                           wordBreak: "keep-all",
                         }}
                       >
-                        댓글: {reply.content}
+                        {reply.content}
                       </div>
                       {reply.userId === userId && (
                         <>
@@ -291,7 +268,7 @@ const Room = () => {
                           />
                         </>
                       )}
-                      <hr style={{ width: "30vw" }} />
+                      <hr style={{ width: "32vw" }} />
                     </div>
                   );
                 })}
