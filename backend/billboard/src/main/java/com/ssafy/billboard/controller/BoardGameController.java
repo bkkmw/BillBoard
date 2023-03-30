@@ -163,50 +163,31 @@ public class BoardGameController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
     //보드 게임 추천
-    @GetMapping("/recommend")
-    public ResponseEntity<?> getBoardGameRecommend() {
+    @PostMapping("/recommend")
+    public ResponseEntity<?> getBoardGameRecommend(@RequestBody UserDto.UserIdDto userIdList) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
-//
-//        Map<String, Object> reviewsMap = new HashMap<>();
-//        for (UserDto.UserIdDto  userId: userList) {
-//            //유저별 review 조회
-//        }
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "http://j8a505.p.ssafy.io:8000";
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        HttpEntity<String> entity = new HttpEntity<>(headers);
-//        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-//        String responseBody = response.getBody();
+        Map<String, Object> reviewList = new HashMap<>();
+        //RequestBody로 온것을 List에 담기
+        List<String> list = userIdList.getUserList();
+        for (String userId: list) {
+            List<ReviewDto.Review> reviews = boardGameService.getBoardGameReviewsUserId(userId);
+            reviewList.put(userId,reviews);
+        }
 
+        //fastapi에 요청 보내기
         RestTemplate restTemplate = new RestTemplate();
-
-        List<String> list = new ArrayList<>();
-        list.add("item1");
-        list.add("item2");
-        list.add("item3");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<List<String>> request = new HttpEntity<>(list, headers);
+        HttpEntity<Map<String,Object>> request = new HttpEntity<>(reviewList, headers);
         String url = "http://j8a505.p.ssafy.io:8000";
         ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-
+        //요청을
 
         System.out.println(response.getBody());
-        resultMap.put("response",response);
-//        List<ReviewDto.Review> reviews = boardGameService.getBoardGameReviewsUserId(userId);
-//        if(reviews == null)
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        else if(reviews.size() == 0)
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        resultMap.put("reviews",reviews);
+        resultMap.put("response",response.getBody());
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
-
-
-
 
     }
 

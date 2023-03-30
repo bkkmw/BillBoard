@@ -2,6 +2,8 @@ package com.ssafy.billboard.model.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 public class UserDto {
 
     @Getter
@@ -61,7 +63,7 @@ public class UserDto {
     @AllArgsConstructor
     @Builder
     public static class UserIdDto{
-        private String Id;
+        private List<String> userList;
     }
 
 }
