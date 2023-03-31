@@ -23,22 +23,23 @@ public class Room extends BaseTimeEntity {
     @Column(nullable = false, updatable = false)
     private long roomId;
 
-    @Column(nullable = false)
-    private String hostId;
+    @ManyToOne
+    @JoinColumn(name = "hostId", nullable = false)
+    private User host;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 45)
     private String title;
 
     @Column(nullable = false)
     private int personLimit;
 
-    @Column
+    @Column(length = 45)
     private String location;
 
-    @Column
+    @Column(length = 20)
     private String lat;
 
-    @Column
+    @Column(length = 20)
     private String lng;
 
     @Column

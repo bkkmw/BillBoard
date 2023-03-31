@@ -15,9 +15,9 @@ import javax.persistence.Table;
 @Builder
 public class DongCode {
     @Id
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String dongCode;
 
-    @Column
+    @Column(nullable = false, length = 30)
     private String dongName;
 }
