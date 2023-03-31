@@ -34,9 +34,7 @@ export default function UserRecommend() {
         className="mySwiper"
         style={{ maxWidth: "70vw", maxHeight: "50vh", marginBottom: "2rem" }}
       >
-        <SwiperSlide>
-          <GameDetail />
-        </SwiperSlide>
+        <SwiperSlide>Slide1</SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>
         <SwiperSlide>Slide 3</SwiperSlide>
         <SwiperSlide>Slide 4</SwiperSlide>

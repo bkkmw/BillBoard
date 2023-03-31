@@ -15,7 +15,7 @@ const GameVide = () => {
         const response = await axios.get(
           `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${KEY}&type=video&maxResults=1&regionCode=KR&q=board+game+splend+instruction` //board+game+{게임이름}+instruction
         );
-        console.log(response.data.items);
+
         setVideoUrl(response.data.items[0].id.videoId);
       } catch (e) {
         console.log(e);

@@ -13,7 +13,7 @@ import IdFindPage from "../components/login/IdFindPage";
 import PswdFindPage from "../components/login/PswdFindPage";
 import FindResult from "../components/login/FindResultPage";
 import Room from "../components/reserve/Room";
-
+import DetailPage from "../components/detail/DetailPage"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,9 +30,13 @@ const router = createBrowserRouter([
         children: [{}],
       },
       {
-        path: "profile",
+        path: "profile/:userId",
         element: <Profile />,
         children: [{}],
+        id: "profile",
+        loader: async ({ params }) => {
+          return params.userId;
+        }
       },
       {
         path: "gameroom",
@@ -52,6 +56,15 @@ const router = createBrowserRouter([
         children: [{}],
         loader: async ({ params }) => {
           return params.roomId;
+        }
+      },
+      {
+        path: "detail/:gameId",
+        element: <DetailPage/>,
+        id: "detail",
+        children: [{}],
+        loader: async ({ params }) => {
+          return params.gameId;
         }
       },
       {

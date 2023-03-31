@@ -1,10 +1,11 @@
-import * as React from "react";
+import { React, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
+import { Button } from "@mui/material";
 
 export default function GameSearch() {
   const checkboxes = [
@@ -19,8 +20,7 @@ export default function GameSearch() {
   ];
 
   return (
-    <>
-      {/* 게임 이름 */}
+    <Box component="form">
       <Box
         sx={{
           width: "70vw",
@@ -30,19 +30,20 @@ export default function GameSearch() {
       >
         <TextField fullWidth label="게임 이름을 입력하시오" id="gamesearch" />
       </Box>
-      {/* 장르선택 */}
-      <FormGroup style={{ textAlign: "start", marginBottom: "2rem" }}>
-        <Grid container spacing={3}>
-          {checkboxes.map((checkbox, index) => (
-            <Grid item xs={3} key={index}>
-              <FormControlLabel
-                control={<Checkbox defaultChecked={checkbox.checked} />}
-                label={checkbox.label}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </FormGroup>
-    </>
+      <Grid container spacing={3}>
+        {checkboxes.map((checkbox, index) => (
+          <Grid item xs={3} key={index}>
+            <FormControlLabel
+              control={<Checkbox defaultChecked={checkbox.checked} />}
+              label={checkbox.label}
+            />
+          </Grid>
+        ))}
+      </Grid>
+      <Button type="submit" fullWidth variant="outlined">
+        제출
+      </Button>
+      <hr />
+    </Box>
   );
 }

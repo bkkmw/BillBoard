@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./Navbar.module.css";
 
 import { useSelector } from "react-redux";
 import httpClient from "../../utils/axios";
-
 import { AppBar, Box } from "@mui/material";
+
 // 네브바 최상단에 고정해서 스크롤 내려도 최상단으로 할것
 
 // import { Button } from "@mui/material";
@@ -13,14 +13,19 @@ import { Button } from "antd";
 
 import { persistor } from "../../store/store";
 import { display } from "@mui/system";
+import { selectUser } from "../../store/user";
+import UserId from "../login/UserId";
 
 const Navbar = () => {
+  
+  const userID = useSelector(selectUser).loginUser.userId
   const navigate = useNavigate();
   // 로그인상태면 로그아웃 버튼이 로그아웃상태면 로그인, 회원가입 버튼
   const { login, loginUser } = useSelector((state) => state.user);
   // 로그아웃 api
   const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-
+  useEffect(()=>{
+    console.log(userID)})
   const doLogout = async () => {
     if (window.confirm("로그아웃 하실?")) {
       try {
@@ -79,7 +84,7 @@ const Navbar = () => {
               </Link>
             )}
             {login && (
-              <Link to={"/profile"} className={style.link}>
+              <Link to={`/profile/${userID}`} className={style.link}>
                 프로필페이지
               </Link>
             )}

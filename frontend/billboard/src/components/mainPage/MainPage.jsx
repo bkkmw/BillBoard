@@ -3,6 +3,16 @@ import style from "./MainPage.module.css";
 import UserRecommend from "./UserRecommend";
 import GameSearch from "./GameSearch";
 import { useDispatch } from "react-redux";
+import {
+  Modal,
+  Button,
+  Card,
+  CardActions,
+  CardMedia,
+  Grid,
+} from "@mui/material";
+
+import DetailPage from "../detail/DetailPage";
 
 import { getBoardGames } from "../../store/boardgames";
 
@@ -17,7 +27,7 @@ import "./MainPage.css";
 
 // import required modules
 import { FreeMode, Pagination, Navigation } from "swiper";
-
+import { Link } from "react-router-dom";
 const Main = () => {
   const dispatch = useDispatch();
   const [gameData, setGameData] = useState({
@@ -35,6 +45,7 @@ const Main = () => {
     customizable: "",
     children: "",
   });
+
   // 평균, 랭킹, 난이도, 리뷰, 날짜순 기본 추천
   const [boardAverage, setBoardAverage] = useState([]);
   const [boardRanking, setBoardRanking] = useState([]);
@@ -56,7 +67,7 @@ const Main = () => {
     };
     boards();
   }, []);
-  // console.log(boardAverage);
+
   return (
     <div
       style={{
@@ -87,11 +98,16 @@ const Main = () => {
         >
           {boardAverage.map((data, index) => (
             <SwiperSlide key={index}>
+<<<<<<< frontend/billboard/src/components/mainPage/MainPage.jsx
               <img
                 src={data.image}
                 alt="Slide 1"
                 style={{ height: "300px", objectFit: "fill" }}
               />
+=======
+                <Link to={`/detail/${data.gameId}`}>
+                <img style={{ height: "300px", objectFit: "fill" }} src={data.image} alt="Slide 1" /></Link>
+>>>>>>> frontend/billboard/src/components/mainPage/MainPage.jsx
             </SwiperSlide>
           ))}
         </Swiper>
@@ -111,11 +127,16 @@ const Main = () => {
         >
           {boardRanking.map((data, index) => (
             <SwiperSlide key={index}>
+<<<<<<< frontend/billboard/src/components/mainPage/MainPage.jsx
               <img
                 src={data.image}
                 alt="Slide 1"
                 style={{ height: "300px", objectFit: "fill" }}
               />
+=======
+                <Link to={`/detail/${data.gameId}`}>
+                <img style={{ height: "300px", objectFit: "fill" }} src={data.image} alt="Slide 1" /></Link>
+>>>>>>> frontend/billboard/src/components/mainPage/MainPage.jsx
             </SwiperSlide>
           ))}
         </Swiper>
@@ -135,11 +156,16 @@ const Main = () => {
         >
           {boardWeight.map((data, index) => (
             <SwiperSlide key={index}>
+<<<<<<< frontend/billboard/src/components/mainPage/MainPage.jsx
               <img
                 src={data.image}
                 alt="Slide 1"
                 style={{ height: "300px", objectFit: "fill" }}
               />
+=======
+                <Link to={`/detail/${data.gameId}`}>
+                <img style={{ height: "300px", objectFit: "fill" }} src={data.image} alt="Slide 1" /></Link>
+>>>>>>> frontend/billboard/src/components/mainPage/MainPage.jsx
             </SwiperSlide>
           ))}
         </Swiper>
@@ -158,11 +184,16 @@ const Main = () => {
           >
             {boardReview.map((data, index) => (
               <SwiperSlide key={index}>
+<<<<<<< frontend/billboard/src/components/mainPage/MainPage.jsx
                 <img
                   src={data.image}
                   alt="Slide 1"
                   style={{ height: "300px", objectFit: "fill" }}
                 />
+=======
+                <Link to={`/detail/${data.gameId}`}>
+                <img style={{ height: "300px", objectFit: "fill" }} src={data.image} alt="Slide 1" /></Link>
+>>>>>>> frontend/billboard/src/components/mainPage/MainPage.jsx
               </SwiperSlide>
             ))}
           </Swiper>
@@ -182,11 +213,16 @@ const Main = () => {
           >
             {boardDate.map((data, index) => (
               <SwiperSlide key={index}>
+<<<<<<< frontend/billboard/src/components/mainPage/MainPage.jsx
                 <img
                   src={data.image}
                   alt="Slide 1"
                   style={{ height: "300px", objectFit: "fill" }}
                 />
+=======
+                <Link to={`/detail/${data.gameId}`}>
+                <img style={{ height: "300px", objectFit: "fill" }} src={data.image} alt="Slide 1" /></Link>
+>>>>>>> frontend/billboard/src/components/mainPage/MainPage.jsx
               </SwiperSlide>
             ))}
           </Swiper>
