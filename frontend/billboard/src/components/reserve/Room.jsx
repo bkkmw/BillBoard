@@ -141,7 +141,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Room = () => {
   // Todo: userId값 받아오기
-  const userId = useSelector(selectUser).loginUser.userId
+  const userId = useSelector(selectUser).loginUser.userId;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const roomId = useRouteLoaderData("room");
@@ -162,7 +162,7 @@ const Room = () => {
   return (
     <>
       {roomData && (
-        <Box sx={{ flexGrow: 1 }} width="90vw" backgroundColor="#d9d9d9">
+        <Box sx={{ flexGrow: 1 }} width="80vw" backgroundColor="#d9d9d9">
           <Grid
             container
             spacing={4}
