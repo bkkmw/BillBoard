@@ -1,17 +1,12 @@
-from typing import List, Union
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
+import pandas as pd
 import pymysql
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
-import certifi
-import pandas as pd
 from surprise import Reader, Dataset, SVD
 from surprise.dataset import DatasetAutoFolds
-from SVD_last import recomm_combi, recomm_game_by_surprise, recomm_game_by_surprise_sortbyiid, get_unplayed_surprise
-from fastapi import FastAPI
+from SVD_last import recomm_combi, recomm_game_by_surprise, get_unplayed_surprise
 
 ratings = []
 total_games = []
@@ -20,10 +15,10 @@ algo = SVD(n_factors=50, n_epochs=20, random_state=42)
 reader = Reader(line_format = 'user item rating', sep=',', rating_scale=(0.5,10))
 
 conn = pymysql.connect(
-        user='ssafy', 
-        passwd='ssafy', 
-        host='j8a505.p.ssafy.io', 
-        db='billboard', 
+        user='ssafy',
+        passwd='ssafy',
+        host='j8a505.p.ssafy.io',
+        db='billboard',
         charset='utf8'
     )
 
@@ -32,24 +27,15 @@ def init():
     global ratings, total_games, games
     
     sql = "SELECT gameId, name FROM boardgameInfo"
-    
     games = pd.read_sql(sql, conn)
     total_games = sorted(games['gameId'].tolist())
 
-    sql = "SELECT userId, gameId, rating FROM review"
+    sql = "SELECT userId, CAST(gameId AS CHAR) AS gameId, rating FROM review"
     ratings = pd.read_sql(sql, conn)
-
     print("read ratings end")
 
-    # data_folds = DatasetAutoFolds(reader=reader, df=ratings[['userId','gameId','rating']].dropna())
-    data_folds = Dataset.load_from_df(ratings.to_numpy(), reader)
+    data_folds = DatasetAutoFolds(reader=reader, df=ratings)
     trainset = data_folds.build_full_trainset()
-    # print(len(trainset))
-
-    # data_folds2 = DatasetAutoFolds(ratings_file="./ratings949.csv", reader=reader)
-    # trainset2 = data_folds2.build_full_trainset()
-    # print(len(trainset2))
-
     algo.fit(trainset)
 
     print("init_end")
@@ -57,13 +43,15 @@ def init():
 def reset():
     print("reset_start")
     global ratings, algo
-    sql = "SELECT userId, gameId, rating FROM review"
+    sql = "SELECT userId, CAST(gameId AS CHAR) AS gameId, rating FROM review_tmp"
     tmp_ratings = pd.read_sql(sql, conn)
+    print("read_ratings_end")
 
-    data = Dataset.load_from_df(tmp_ratings[["userId", "gameId", "rating"]], reader)
+    data = Dataset.load_from_df(tmp_ratings, reader)
     train_set = data.build_full_trainset()
     tmp_algo = SVD(n_factors=50, n_epochs=20, random_state=42)
     tmp_algo.fit(train_set)
+    print("modeling_end")
 
     ratings = tmp_ratings
     algo = tmp_algo
@@ -84,16 +72,19 @@ class CombinationModel(BaseModel):
     ids:list
 
 @app.get("/")
-async def root():
+async def root2():
     return ()
+
+@app.post("/")
+async def root():
+    return {"message": "Hello World!@#$"}
 
 @app.get("/recommendation/{user_id}")
 async def recommend_movie(user_id:str):
 
     # -----------추천 알고리즘------------
-    top_n = 10
     unplayed_games = get_unplayed_surprise(ratings, total_games, user_id)
-    top_games_preds = recomm_game_by_surprise(algo, user_id, unplayed_games, games, top_n)
+    top_games_preds = recomm_game_by_surprise(algo, user_id, unplayed_games, games, 10)
     return {"result": top_games_preds}
 
 
