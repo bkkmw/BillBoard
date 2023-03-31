@@ -50,7 +50,7 @@ const UserSearch = () => {
             <div key={index}>
               <Button sx={{}}>
                 <span>{index + 1}.</span>
-                {userLists.userId}
+                <Link to={`/profile/${userLists.userId}`}>{userLists.userId}</Link>
               </Button>
             </div>
           );

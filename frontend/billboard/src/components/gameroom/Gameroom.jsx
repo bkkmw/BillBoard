@@ -7,8 +7,6 @@ import GameResult from "./GameResult";
 
 
 const Gameroom = () => {
-  const [isInGame, setIsInGame] = useState(false)
-  const [userList, setUserList] = useState([{id:'user1', score:0},{id:'user2',score:0},{id:'user3',score:0}])
   const [openGameResult, setOpenGameResult] = useState(false)
 
   
