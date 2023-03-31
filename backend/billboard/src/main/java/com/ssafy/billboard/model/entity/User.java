@@ -29,7 +29,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column(name = "password", length = 64)
     private String password;
 
-    @Column(name = "nickname", length = 45)
+    @Column(name = "nickname", length = 20)
     private String nickname;
 
     @Column(name = "email", length = 45, unique = true)
@@ -52,9 +52,6 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     @Column(name = "refreshToken", length = 200)
     private String refreshToken;
-
-    @Column(name = "img", length = 200)
-    private String img;
 
     public void updateOnLogin(String refreshToken) {
         this.refreshToken = refreshToken;
