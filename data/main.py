@@ -79,6 +79,10 @@ class CombinationModel(BaseModel):
 async def root():
     return ()
 
+@app.post("/")
+async def root():
+    return {"message": "Hello World!@#$"}
+
 @app.get("/recommendation/{user_id}")
 async def recommend_movie(user_id:str):
 
