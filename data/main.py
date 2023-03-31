@@ -10,7 +10,9 @@ ratings = []
 total_games = []
 games = []
 algo = SVD(n_factors=50, n_epochs=20, random_state=42)
-reader = Reader(line_format = 'user item rating', sep=',', rating_scale=(0.5,10))
+reader = Reader(line_format='user item rating',
+                sep=',', rating_scale=(0.5, 10))
+
 
 def init():
     print("init_start")
@@ -36,6 +38,7 @@ def init():
     algo.fit(trainset)
     print("init_end")
 
+
 def reset():
     print("reset_start")
     global ratings, algo
@@ -57,6 +60,7 @@ def reset():
     algo.fit(trainset)
     print("reset_end")
 
+
 app = FastAPI()
 
 app.add_middleware(
@@ -68,21 +72,26 @@ app.add_middleware(
     # allow_headers=['*']
 )
 
+
 @app.get("/")
 async def root2():
     return ()
+
 
 @app.post("/")
 async def root():
     return {"message": "Hello World!@#$"}
 
+
 @app.get("/recommendation/{user_id}")
-async def recommend_movie(user_id:str):
-    return {"result": recomm_game_by_surprise(algo, user_id, get_unplayed_surprise(ratings, total_games, user_id), 10)}
+async def recommend_movie(user_id: str):
+    return recomm_game_by_surprise(algo, user_id, get_unplayed_surprise(ratings, total_games, user_id), 10)
+
 
 @app.post('/recommendation')
-async def recommend_combination(ids:list):
-    return {"result": recomm_combi(algo, ids, total_games, 10)}
+async def recommend_combination(ids: list):
+    return recomm_combi(algo, ids, total_games, 10)
+
 
 @app.post('/recommendation/reset')
 async def reset_model():
