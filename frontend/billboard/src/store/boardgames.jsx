@@ -38,10 +38,10 @@ export const createFavorites = createAsyncThunk(
       const response = await httpClient.post(
         `boardgames/favorite/${reqData.userId}`,
         {
-          reqData,
+          gameId: reqData.gameId,
         }
       );
-      console.log(response);
+      console.log("등록", response);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -72,11 +72,8 @@ export const deleteFavorites = createAsyncThunk(
     try {
       const response = await httpClient.delete(
         `boardgames/favorite/${reqData.userId}`,
-        {
-          reqData,
-        }
+        { data: { gameId: reqData.gameId } }
       );
-      console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);

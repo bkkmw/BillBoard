@@ -89,8 +89,9 @@ const Main = () => {
         >
           {boardAverage.map((data, index) => (
             <SwiperSlide key={index}>
-                <Link to={`/detail/${data.gameId}`}>
-                <img src={data.image} alt="Slide 1" /></Link>
+              <Link to={`/detail/${data.gameId}`} state={data}>
+                <img src={data.image} alt="Slide 1" />
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -109,8 +110,9 @@ const Main = () => {
         >
           {boardRanking.map((data, index) => (
             <SwiperSlide key={index}>
-                <Link to={`/detail/${data.gameId}`}>
-                <img src={data.image} alt="Slide 1" /></Link>
+              <Link to={`/detail/${data.gameId}`}>
+                <img src={data.image} alt="Slide 1" />
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -129,8 +131,9 @@ const Main = () => {
         >
           {boardWeight.map((data, index) => (
             <SwiperSlide key={index}>
-                <Link to={`/detail/${data.gameId}`}>
-                <img src={data.image} alt="Slide 1" /></Link>
+              <Link to={`/detail/${data.gameId}`}>
+                <img src={data.image} alt="Slide 1" />
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -148,8 +151,9 @@ const Main = () => {
           >
             {boardReview.map((data, index) => (
               <SwiperSlide key={index}>
-                <Link to={`/detail/${data.gameId}`}>
-                <img src={data.image} alt="Slide 1" /></Link>
+                <Link to={`/detail/${data.gameId}`} state={data}>
+                  <img src={data.image} alt="Slide 1" />
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -169,13 +173,14 @@ const Main = () => {
             {boardDate.map((data, index) => (
               <SwiperSlide key={index}>
                 <Link to={`/detail/${data.gameId}`}>
-                <img src={data.image} alt="Slide 1" /></Link>
+                  <img src={data.image} alt="Slide 1" />
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       </div>
-    </div>}</>
+    </div>
   );
 };
 

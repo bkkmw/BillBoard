@@ -17,15 +17,15 @@ import { selectUser } from "../../store/user";
 import UserId from "../login/UserId";
 
 const Navbar = () => {
-  
-  const userID = useSelector(selectUser).loginUser.userId
+  const userID = useSelector(selectUser).loginUser.userId;
   const navigate = useNavigate();
   // 로그인상태면 로그아웃 버튼이 로그아웃상태면 로그인, 회원가입 버튼
   const { login, loginUser } = useSelector((state) => state.user);
   // 로그아웃 api
   const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-  useEffect(()=>{
-    console.log(userID)})
+  // useEffect(() => {
+  //   console.log(userID);
+  // });
   const doLogout = async () => {
     if (window.confirm("로그아웃 하실?")) {
       try {
