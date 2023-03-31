@@ -1,6 +1,8 @@
 package com.ssafy.billboard.model.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -17,9 +19,12 @@ public class Follow {
     @Column(nullable = false, updatable = false)
     private long followId;
 
-    @Column(nullable = false)
-    private String fromUserId;
+    @ManyToOne
+    @JoinColumn(name = "fromUserId", nullable = false)
+    private User fromUser;
 
-    @Column(nullable = false)
-    private String toUserId;
+    @ManyToOne
+    @JoinColumn(name = "toUserId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User toUser;
 }

@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/api/boardgames")
@@ -162,36 +164,81 @@ public class BoardGameController {
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
-    //보드 게임 추천
-    @PostMapping("/recommend")
-    public ResponseEntity<?> getBoardGameRecommend(@RequestBody UserDto.UserIdDto userIdList) {
+
+    //보드 게임 1인 추천
+    @GetMapping("/recommend/{userId}")
+    public ResponseEntity<?> getBoardGameRecommendOne(@PathVariable String userId) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
-        Map<String, Object> reviewList = new HashMap<>();
-        //RequestBody로 온것을 List에 담기
-        List<String> list = userIdList.getUserList();
-        for (String userId: list) {
-            List<ReviewDto.Review> reviews = boardGameService.getBoardGameReviewsUserId(userId);
-            reviewList.put(userId,reviews);
-        }
 
-        //fastapi에 요청 보내기
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Map<String,Object>> request = new HttpEntity<>(reviewList, headers);
-        String url = "http://j8a505.p.ssafy.io:8000";
-        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-        //요청을
+        //fastapi에 요청 보내기 get 방식
+        String url = "http://j8a505.p.ssafy.io:8000/recommendation/" + userId;
+        System.out.println("============");
+        System.out.println(url);
+        Integer[] ids = restTemplate.getForObject(url, Integer[].class);
 
-        System.out.println(response.getBody());
-        resultMap.put("response",response.getBody());
+        System.out.println(ids);
+
+        List<BoardGameDto.BoardGameInfo> games = boardGameService.getBoardGameListByIds(ids);
+
+        resultMap.put("games", games);
         status = HttpStatus.OK;
+        System.out.println("resultmap");
+        System.out.println(resultMap.get("response"));
+
+//        ObjectMapper mapper = new ObjectMapper();
+//        JsonNode rootNode = mapper.readTree(response.getBody());
+//        JsonNode resultsNode = rootNode.get("result");
+//        List<GameResult> gameResults = mapper.readValue(resultsNode.toString(), new TypeReference<List<GameResult>>() {});
+// List<String> gameIds = gameResults.stream().map(GameResult::getGameId).collect(Collectors.toList());
+//
+//        String responseBody = response.getBody();
+//        if (responseBody == null) {
+//            // Handle null response body
+//        }
+//        else {
+//            JsonNode rootNode = mapper.readTree(responseBody);
+//            // Process JSON tree
+//        }
+
+
+
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
     }
 
 
+    //보드 게임 다인 추천
+    @PostMapping("/recommend")
+    public ResponseEntity<?> getBoardGameRecommend(@RequestBody UserDto.UserIdDto userIdList) {
+        HttpStatus status = null;
+        Map<String, Object> resultMap = new HashMap<>();
+        //RequestBody로 온것을 List에 담기
+        List<String> list = userIdList.getUserList();
+
+        RestTemplate restTemplate = new RestTemplate();
+        //fastapi에 요청 보내기
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<List<String>> request = new HttpEntity<>(list, headers);
+        String url = "http://j8a505.p.ssafy.io:8000/recommendation";
+        Integer[] ids = restTemplate.postForObject(url, request, Integer[].class);
+
+        List<BoardGameDto.BoardGameInfo> games = boardGameService.getBoardGameListByIds(ids);
+
+        resultMap.put("games", games);
+        status = HttpStatus.OK;
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
+    }
+
+    @PostMapping()
+    public ResponseEntity<?> insertBoardgames() throws Exception {
+        boardGameService.insertAllGames();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
     //보드게임 리뷰 수정
@@ -211,4 +258,7 @@ public class BoardGameController {
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status); //빈 {} 리턴 중
     }
+
+
+
 }

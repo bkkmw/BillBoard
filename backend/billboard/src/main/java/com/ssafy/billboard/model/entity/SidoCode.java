@@ -15,9 +15,9 @@ import javax.persistence.Table;
 @Builder
 public class SidoCode {
     @Id
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, length = 10)
     private String sidoCode;
 
-    @Column
+    @Column(nullable = false, length = 30)
     private String sidoName;
 }
