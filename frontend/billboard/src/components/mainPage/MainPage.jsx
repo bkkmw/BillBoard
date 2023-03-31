@@ -175,7 +175,7 @@ const Main = () => {
           </Swiper>
         </div>
       </div>
-    </div>}</>
+    </div>
   );
 };
 
