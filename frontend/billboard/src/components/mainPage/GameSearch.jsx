@@ -25,6 +25,7 @@ export default function GameSearch() {
         sx={{
           width: "70vw",
           maxWidth: "100%",
+          marginBottom: "3rem",
         }}
       >
         <TextField fullWidth label="게임 이름을 입력하시오" id="gamesearch" />
