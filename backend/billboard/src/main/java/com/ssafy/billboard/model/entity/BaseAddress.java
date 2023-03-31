@@ -2,7 +2,10 @@ package com.ssafy.billboard.model.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="baseaddress")
@@ -12,21 +15,21 @@ import javax.persistence.*;
 @Builder
 public class BaseAddress {
     @Id
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String dongCode;
 
-    @Column
+    @Column(nullable = false, length = 30)
     private String sidoName;
 
-    @Column
+    @Column(nullable = false, length = 30)
     private String gugunName;
 
-    @Column
+    @Column(nullable = false, length = 30)
     private String dongName;
 
-    @Column
+    @Column(nullable = false, length = 20)
     private String lat;
 
-    @Column
+    @Column(nullable = false, length = 20)
     private String lng;
 }

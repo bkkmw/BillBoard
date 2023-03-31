@@ -4,7 +4,6 @@ import com.ssafy.billboard.model.dto.BoardGameDto;
 import com.ssafy.billboard.model.dto.FavoriteDto;
 import com.ssafy.billboard.model.dto.ReviewDto;
 import com.ssafy.billboard.model.entity.FavoriteID;
-import com.ssafy.billboard.model.entity.Review;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -43,5 +42,7 @@ public interface BoardGameService {
 
     //보드게임 리뷰 삭제
     public int removeBoardGimeReview(ReviewDto.ReviewID reviewID);
+
+    public void insertAllGames() throws Exception;
 
 }
