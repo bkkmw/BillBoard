@@ -27,7 +27,7 @@ import "./MainPage.css";
 
 // import required modules
 import { FreeMode, Pagination, Navigation } from "swiper";
-
+import { Link } from "react-router-dom";
 const Main = () => {
   const dispatch = useDispatch();
   const [gameData, setGameData] = useState({
@@ -89,9 +89,8 @@ const Main = () => {
         >
           {boardAverage.map((data, index) => (
             <SwiperSlide key={index}>
-              <Button>
-                <img src={data.image} alt="Slide 1" />
-              </Button>
+                <Link to={`/detail/${data.gameId}`}>
+                <img src={data.image} alt="Slide 1" /></Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -110,7 +109,8 @@ const Main = () => {
         >
           {boardRanking.map((data, index) => (
             <SwiperSlide key={index}>
-              <img src={data.image} alt="Slide 1" />
+                <Link to={`/detail/${data.gameId}`}>
+                <img src={data.image} alt="Slide 1" /></Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -129,7 +129,8 @@ const Main = () => {
         >
           {boardWeight.map((data, index) => (
             <SwiperSlide key={index}>
-              <img src={data.image} alt="Slide 1" />
+                <Link to={`/detail/${data.gameId}`}>
+                <img src={data.image} alt="Slide 1" /></Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -147,7 +148,8 @@ const Main = () => {
           >
             {boardReview.map((data, index) => (
               <SwiperSlide key={index}>
-                <img src={data.image} alt="Slide 1" />
+                <Link to={`/detail/${data.gameId}`}>
+                <img src={data.image} alt="Slide 1" /></Link>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -166,13 +168,14 @@ const Main = () => {
           >
             {boardDate.map((data, index) => (
               <SwiperSlide key={index}>
-                <img src={data.image} alt="Slide 1" />
+                <Link to={`/detail/${data.gameId}`}>
+                <img src={data.image} alt="Slide 1" /></Link>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       </div>
-    </div>
+    </div>}</>
   );
 };
 
