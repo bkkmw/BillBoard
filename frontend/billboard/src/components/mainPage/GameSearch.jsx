@@ -25,12 +25,13 @@ export default function GameSearch() {
         sx={{
           width: "70vw",
           maxWidth: "100%",
+          marginBottom: "3rem",
         }}
       >
         <TextField fullWidth label="게임 이름을 입력하시오" id="gamesearch" />
       </Box>
       {/* 장르선택 */}
-      <FormGroup style={{ textAlign: "start" }}>
+      <FormGroup style={{ textAlign: "start", marginBottom: "2rem" }}>
         <Grid container spacing={3}>
           {checkboxes.map((checkbox, index) => (
             <Grid item xs={3} key={index}>

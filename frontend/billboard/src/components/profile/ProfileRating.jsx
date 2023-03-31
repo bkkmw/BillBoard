@@ -10,7 +10,7 @@ const ProfileRating = () => {
       <span className={style.font}>10전 8승 2패</span>
       <Progress
         percent={80}
-        size={500}
+        size={400}
         strokeColor="#62c400"
         trailColor="#3478ff"
         type="circle"

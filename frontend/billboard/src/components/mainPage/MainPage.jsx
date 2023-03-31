@@ -58,13 +58,21 @@ const Main = () => {
   }, []);
   // console.log(boardAverage);
   return (
-    <div className={style.background}>
-      <span>유저별</span>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "spaceBetween",
+        marginTop: "12vh",
+        width: "70vw",
+      }}
+    >
+      <span style={{ fontSize: "3rem", marginBottom: "2rem" }}>유저별</span>
       <UserRecommend />
       <GameSearch />
 
       <div>
-        <span>평균순</span>
+        <span style={{ fontSize: "3rem" }}>평균순</span>
         <Swiper
           slidesPerView={3}
           spaceBetween={30}
@@ -75,16 +83,21 @@ const Main = () => {
           navigation={true}
           modules={[FreeMode, Pagination, Navigation]}
           className="boardAverage"
+          style={{ marginTop: "2rem", marginBottom: "2rem" }}
         >
           {boardAverage.map((data, index) => (
             <SwiperSlide key={index}>
-              <img src={data.image} alt="Slide 1" />
+              <img
+                src={data.image}
+                alt="Slide 1"
+                style={{ height: "300px", objectFit: "fill" }}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
       <div>
-        <span>랭킹순</span>
+        <span style={{ fontSize: "3rem" }}>랭킹순</span>
         <Swiper
           slidesPerView={3}
           spaceBetween={30}
@@ -94,16 +107,21 @@ const Main = () => {
           }}
           modules={[FreeMode, Pagination]}
           className="boardRanking"
+          style={{ marginTop: "2rem", marginBottom: "2rem" }}
         >
           {boardRanking.map((data, index) => (
             <SwiperSlide key={index}>
-              <img src={data.image} alt="Slide 1" />
+              <img
+                src={data.image}
+                alt="Slide 1"
+                style={{ height: "300px", objectFit: "fill" }}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
       <div>
-        <span>난이도순</span>
+        <span style={{ fontSize: "3rem" }}>난이도순</span>
         <Swiper
           slidesPerView={3}
           spaceBetween={30}
@@ -113,15 +131,20 @@ const Main = () => {
           }}
           modules={[FreeMode, Pagination]}
           className="boardWeight"
+          style={{ marginTop: "2rem", marginBottom: "2rem" }}
         >
           {boardWeight.map((data, index) => (
             <SwiperSlide key={index}>
-              <img src={data.image} alt="Slide 1" />
+              <img
+                src={data.image}
+                alt="Slide 1"
+                style={{ height: "300px", objectFit: "fill" }}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
         <div>
-          <span>리뷰순</span>
+          <span style={{ fontSize: "3rem" }}>리뷰순</span>
           <Swiper
             slidesPerView={3}
             spaceBetween={30}
@@ -131,16 +154,21 @@ const Main = () => {
             }}
             modules={[FreeMode, Pagination]}
             className="boardReview"
+            style={{ marginTop: "2rem", marginBottom: "2rem" }}
           >
             {boardReview.map((data, index) => (
               <SwiperSlide key={index}>
-                <img src={data.image} alt="Slide 1" />
+                <img
+                  src={data.image}
+                  alt="Slide 1"
+                  style={{ height: "300px", objectFit: "fill" }}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
         <div>
-          <span>출시일순</span>
+          <span style={{ fontSize: "3rem" }}>출시일순</span>
           <Swiper
             slidesPerView={3}
             spaceBetween={30}
@@ -150,10 +178,15 @@ const Main = () => {
             }}
             modules={[FreeMode, Pagination]}
             className="boardDate"
+            style={{ marginTop: "2rem", marginBottom: "2rem" }}
           >
             {boardDate.map((data, index) => (
               <SwiperSlide key={index}>
-                <img src={data.image} alt="Slide 1" />
+                <img
+                  src={data.image}
+                  alt="Slide 1"
+                  style={{ height: "300px", objectFit: "fill" }}
+                />
               </SwiperSlide>
             ))}
           </Swiper>

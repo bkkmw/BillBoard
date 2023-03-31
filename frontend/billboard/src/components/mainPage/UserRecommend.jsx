@@ -32,7 +32,7 @@ export default function UserRecommend() {
         navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper"
-        style={{ maxWidth: "70vw", maxHeight: "50vh" }}
+        style={{ maxWidth: "70vw", maxHeight: "50vh", marginBottom: "2rem" }}
       >
         <SwiperSlide>
           <GameDetail />
