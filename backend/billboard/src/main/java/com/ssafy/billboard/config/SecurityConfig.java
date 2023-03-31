@@ -31,6 +31,7 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -53,9 +54,21 @@ public class SecurityConfig {
                 // set request
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/api/followes/**").authenticated()
-                .anyRequest().permitAll()
-
+                .antMatchers("/api/users/login",
+                        "/api/users/check-id",
+                        "/api/users/email-auth",
+                        "/api/users/check-authkey",
+                        "/api/users/find-id",
+                        "/api/users/find-password",
+                        "/api/users/check-password",
+                        "/api/refresh"
+                ).permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users").permitAll()
+                .antMatchers("/swagger-ui/**",
+                        "/swagger-ui.html/**",
+                        "/v3/api-docs/**")
+                .permitAll()
+//                .anyRequest().authenticated()
         ;
 
         return http.build();
