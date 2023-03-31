@@ -64,7 +64,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public RoomDto.RoomDetailInfo getRoom(long roomId){
         if(roomRepository.existsById(roomId)) {
-            Room room = roomRepository.findById(roomId).get();
+            Room room = roomRepository.findByRoomId(roomId);
             return RoomDto.RoomDetailInfo.builder()
                     .roomInfo(RoomDto.RoomInfo.builder()
                             .roomId(room.getRoomId())
@@ -99,7 +99,7 @@ public class RoomServiceImpl implements RoomService {
         //없는 방 아이디 > false
         if(!roomRepository.existsById(roomId))
             return false;
-        Room room = roomRepository.findById(roomId).get();
+        Room room = roomRepository.findByRoomId(roomId);
         room.updateRoom(roomUpdate);
         roomRepository.save(room);
         return true;
