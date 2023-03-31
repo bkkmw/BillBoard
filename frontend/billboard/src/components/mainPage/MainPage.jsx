@@ -3,6 +3,16 @@ import style from "./MainPage.module.css";
 import UserRecommend from "./UserRecommend";
 import GameSearch from "./GameSearch";
 import { useDispatch } from "react-redux";
+import {
+  Modal,
+  Button,
+  Card,
+  CardActions,
+  CardMedia,
+  Grid,
+} from "@mui/material";
+
+import DetailPage from "../detail/DetailPage";
 
 import { getBoardGames } from "../../store/boardgames";
 
@@ -35,6 +45,7 @@ const Main = () => {
     customizable: "",
     children: "",
   });
+
   // 평균, 랭킹, 난이도, 리뷰, 날짜순 기본 추천
   const [boardAverage, setBoardAverage] = useState([]);
   const [boardRanking, setBoardRanking] = useState([]);
@@ -56,11 +67,8 @@ const Main = () => {
     };
     boards();
   }, []);
-  useEffect(()=>{
-    console.log(boardDate)
-  },[boardDate])
-  // console.log(boardAverage);
-  return (<>{boardDate&&
+
+  return (
     <div className={style.background}>
       <span>유저별</span>
       <UserRecommend />

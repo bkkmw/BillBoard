@@ -2,7 +2,7 @@ FROM python:3.8.2
 
 WORKDIR /app/
 
-COPY ./main.py /app/
+COPY . /app/
 COPY ./requirements.txt /app/
 
 
