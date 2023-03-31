@@ -1,8 +1,12 @@
 package com.ssafy.billboard.model.entity;
 
 import lombok.*;
+import org.springframework.data.domain.Persistable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="boardgameInfo")
@@ -10,84 +14,88 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class BoardGame {
+public class BoardGame implements Persistable<Integer> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private int gameId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String name;
 
-    @Column()
+    @Column(nullable = false, length = 300)
     private String thumbnail;
 
-    @Column()
+    @Column(nullable = false, length = 300)
     private String image;
 
-    @Column()
+    @Column(nullable = false, length = 6000)
     private String description;
 
-    @Column()
+    @Column(nullable = false)
     private int yearpublished;
 
-
-    @Column()
+    @Column(nullable = false)
     private int minplayers;
 
-
-    @Column()
+    @Column(nullable = false)
     private int maxplayers;
 
-
-    @Column()
+    @Column(nullable = false)
     private int minplaytime;
 
-
-    @Column()
+    @Column(nullable = false)
     private int maxplaytime;
 
-    @Column()
+    @Column(nullable = false)
     private int minage;
 
-    @Column()
+    @Column(nullable = false)
     private int usersrated;
 
-    @Column()
+    @Column(nullable = false)
     private double average;
 
-    @Column()
+    @Column(nullable = false)
     private int boardgamerank;
 
-    @Column()
+    @Column(nullable = false)
     private int numweights;
 
-    @Column()
+    @Column(nullable = false)
     private double averageweight;
 
-    @Column()
+    @Column(length = 10)
     private String strategygamerank;
 
-    @Column()
+    @Column(length = 10)
     private String familygamerank;
 
-    @Column()
+    @Column(length = 10)
     private String partygamerank;
 
-    @Column()
+    @Column(length = 10)
     private String abstractgamerank;
 
-    @Column()
+    @Column(length = 10)
     private String thematicrank;
 
-    @Column()
+    @Column(length = 10)
     private String wargamerank;
 
-    @Column()
+    @Column(length = 10)
     private String customizablerank;
 
-    @Column()
+    @Column(length = 10)
     private String childrengamerank;
 
+    @Override
+    public Integer getId() {
+        return this.gameId;
+    }
+
+    @Override
+    public boolean isNew() {
+        return true;
+    }
 }

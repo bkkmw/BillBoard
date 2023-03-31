@@ -90,10 +90,10 @@ public class UserServiceImpl implements UserService {
         int isFollowing = 0;
         if(fromUserId.equals(toUserId))
             isFollowing = -1;
-        else if(followRepository.existsByFromUserIdAndToUserId(fromUserId, toUserId))
+        else if(followRepository.existsByFromUserAndToUser(userRepository.findByUserId(fromUserId), userRepository.findByUserId(toUserId)))
             isFollowing = 1;
 
-        List<Follow> followerList = followRepository.findAllByToUserId(toUserId);
+        List<Follow> followerList = followRepository.findAllByToUser(userRepository.findByUserId(toUserId));
         int followrCnt = (followerList == null) ? 0 : followerList.size();
 
         if(user == null) return null;

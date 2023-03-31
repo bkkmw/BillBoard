@@ -9,11 +9,14 @@ import com.ssafy.billboard.model.repository.FavoriteRepository;
 import com.ssafy.billboard.model.repository.ReviewRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -616,5 +619,61 @@ public class BoardGameServiceImpl implements BoardGameService{
                 .yearpublished(bg.getYearpublished())
                 .build();
         return bgt;
+    }
+
+    @Override
+    public void insertAllGames() throws Exception {
+        ClassPathResource resource = new ClassPathResource("boardgameInfo.csv");
+        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+
+        List<BoardGame> games = new ArrayList<>();
+        String s = "";
+        br.readLine();
+        while((s = br.readLine()) != null){
+            String[] line = s.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+            if(line[13].equals("Not Ranked"))
+                continue;
+            games.add(BoardGame.builder()
+                    .gameId(Integer.parseInt(line[0]))
+                    .name(line[1])
+                    .thumbnail(line[2])
+                    .image(line[3])
+                    .description(line[4].substring(1, line[4].length() - 1))
+                    .yearpublished(Integer.parseInt(line[5]))
+                    .minplayers(Integer.parseInt(line[6]))
+                    .maxplayers(Integer.parseInt(line[7]))
+                    .minplaytime(Integer.parseInt(line[8]))
+                    .maxplaytime(Integer.parseInt(line[9]))
+                    .minage(Integer.parseInt(line[10]))
+                    .usersrated(Integer.parseInt(line[11]))
+                    .average(Double.parseDouble(line[12]))
+                    .boardgamerank(Integer.parseInt(line[13]))
+                    .numweights(Integer.parseInt(line[14]))
+                    .averageweight(Double.parseDouble(line[15]))
+                    .strategygamerank(line[16].equals("") ? null : line[16])
+                    .familygamerank(line[17].equals("") ? null : line[17])
+                    .partygamerank(line[18].equals("") ? null : line[18])
+                    .abstractgamerank(line[19].equals("") ? null : line[19])
+                    .thematicrank(line[20].equals("") ? null : line[20])
+                    .wargamerank(line[21].equals("") ? null : line[21])
+                    .customizablerank(line[22].equals("") ? null : line[22])
+                    .childrengamerank(line[23].equals("") ? null : line[23])
+                    .build());
+        }
+        boardGameRepository.saveAll(games);
+    }
+
+    public List<BoardGameDto.BoardGameInfo> getBoardGameListByIds(Integer[] ids){
+        List<BoardGameDto.BoardGameInfo> games = new ArrayList<>();
+        for(int id : ids){
+            BoardGame boardGame = boardGameRepository.findById(id).get();
+            games.add(new BoardGameDto.BoardGameInfo().builder()
+                    .gameId(boardGame.getGameId())
+                    .name(boardGame.getName())
+                    .image(boardGame.getImage())
+                    .build());
+        }
+
+        return games;
     }
 }

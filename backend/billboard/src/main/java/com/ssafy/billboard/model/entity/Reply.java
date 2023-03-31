@@ -2,6 +2,8 @@ package com.ssafy.billboard.model.entity;
 
 import com.ssafy.billboard.util.BaseTimeEntity;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -18,13 +20,17 @@ public class Reply extends BaseTimeEntity {
     @Column(nullable = false, updatable = false)
     private long replyId;
 
-    @Column
-    private long roomId;
+    @ManyToOne
+    @JoinColumn(name = "roomId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Room room;
 
-    @Column
+    @Column(length = 60)
     private String content;
 
-    @Column(nullable = false)
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 
 }
