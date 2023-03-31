@@ -1,11 +1,3 @@
-.background {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-top: 10vh;
-  width: 50vw;
-}
-
 .swiper {
   width: 100%;
   height: 30vh;

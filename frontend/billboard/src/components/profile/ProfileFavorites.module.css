@@ -1,4 +1,8 @@
 .background {
-  width: 70vw;
+  width: 80vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
   margin-top: 3rem;
+  margin-bottom: 3rem;
 }
