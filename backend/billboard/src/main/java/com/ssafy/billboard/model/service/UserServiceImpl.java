@@ -39,36 +39,46 @@ public class UserServiceImpl implements UserService {
     private final MailService mailService;
     @Override
     public int signup(UserDto.UserSignUpDto userSignUpDto) {
-        logger.trace("user SignUp : {}", userSignUpDto);
+        logger.debug("user SignUp : {}", userSignUpDto);
 
         if(userSignUpDto.getUserId() == null || userSignUpDto.getPassword() == null
             || userSignUpDto.getNickname() == null || userSignUpDto.getPassword() == null)
             return -2;
 
         if(!userRepository.existsByUserId(userSignUpDto.getUserId())){
-            logger.trace("{} user not found", userSignUpDto.getUserId());
+            logger.debug("{} user not found", userSignUpDto.getUserId());
 
-            if(userRepository.existsByEmail(userSignUpDto.getEmail())) return -1;
+            if(userRepository.existsByEmail(userSignUpDto.getEmail())) {
+                logger.debug("invalid email, already exists : {}", userSignUpDto.getEmail());
+                return -1;
+            }
             // for test
-            if(mailAuthRepository.existsById(userSignUpDto.getEmail()) == false) {
+//            if(mailAuthRepository.existsById(userSignUpDto.getEmail()) == false) {
+            if(mailAuthRepository.existsById(userSignUpDto.getEmail()) == true) {
                 MailAuth mailAuth = mailAuthRepository.findById(userSignUpDto.getEmail()).get();
+                logger.debug("mail authorized ? : {}", mailAuth.getAuthorized());
                 if(mailAuth.getAuthorized() == false) {
-                    logger.info("auth not found ... : {}", mailAuthRepository.existsById(userSignUpDto.getEmail()));
+                    logger.info("not authorized ... : {}", userSignUpDto.getEmail());
                     return -1;
                 }
-                else mailAuthRepository.delete(mailAuth);
-            }
-
-            userRepository.save(User.builder()
+                else {
+                    userRepository.save(User.builder()
                             .userId(userSignUpDto.getUserId())
                             .password(passwordEncoder.encode(userSignUpDto.getPassword()))
                             .nickname(userSignUpDto.getNickname())
                             .email(userSignUpDto.getEmail())
-                        .build());
+                            .build());
 
-            return 0;
+                    mailAuthRepository.delete(mailAuth);
+                    return 0;
+                }
+            }
+            else {
+                logger.debug("email auth not found : {}", userSignUpDto.getEmail());
+                return -1;
+            }
         }
-        logger.info("{} user already exists", userSignUpDto.getUserId());
+        logger.debug("{} user already exists", userSignUpDto.getUserId());
         return -1;
     }
 
