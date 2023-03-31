@@ -3,14 +3,15 @@ import { Link } from "react-router-dom";
 import { Button, Col, Row } from 'antd';
 import UserList from "./UserList";
 import GameResult from "./GameResult";
+import { useDispatch } from "react-redux";
 
 
 
 const Gameroom = () => {
-  const [isInGame, setIsInGame] = useState(false)
-  const [userList, setUserList] = useState([{id:'user1', score:0},{id:'user2',score:0},{id:'user3',score:0}])
+  const dispatch = useDispatch()
   const [openGameResult, setOpenGameResult] = useState(false)
-
+  const [userList, setUserList] = useState([])
+  const [isInGame, setIsInGame] = useState(false)
   
   const delUser = (id) =>{
     const newUserList = userList.filter((user) => {

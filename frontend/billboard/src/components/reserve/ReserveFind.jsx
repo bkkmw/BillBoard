@@ -47,8 +47,8 @@ const ReserveFind = () => {
   const sortRoom = () => {
     if (coordinate && filterRooms) {
       const newFilter = filterRooms.sort(function (a, b) {
-        const xy_a = [a.lng, a.lat]
-        const xy_b = [b.lng, b.lat]
+        const xy_a = [a.lng, a.lat];
+        const xy_b = [b.lng, b.lat];
 
         // console.log(getDistance(xy_a), getDistance(xy_b))
         if (getDistance(xy_a) > getDistance(xy_b)) {
@@ -70,6 +70,7 @@ const ReserveFind = () => {
         if (
           new Date(room.date).toLocaleDateString() === date.toLocaleDateString()
         ) {
+
           filter.push(room);
         }
       }
@@ -81,9 +82,12 @@ const ReserveFind = () => {
   };
 
   return (
-    <div style={{ width: "70vw", marginTop: "10vh" }}>
+    <div style={{ width: "70vw" }}>
       <Row>
-        <Col span={12}>
+        <Col
+          span={6}
+          style={{ width: "70vw", marginTop: "10vh", marginRight: "2rem" }}
+        >
           <Row>
             <Button
               type="primary"
@@ -91,7 +95,8 @@ const ReserveFind = () => {
                 setIsAddressOpen(true);
               }}
               style={{
-                width: "10vw",
+                width: address === "" ? "10vw" : "33vw",
+                // width: "10vw",
                 height: "7vh",
                 borderRadius: "2rem",
                 marginBottom: "1rem",
@@ -121,7 +126,7 @@ const ReserveFind = () => {
                     paddingRight: "2rem",
                     paddingLeft: "2rem",
                   }}
-                  className={`list_item_hover ${
+                  className={`san ${
                     item === date.toLocaleDateString() && "list_item_select"
                   }`}
                   onClick={() => {
@@ -142,7 +147,20 @@ const ReserveFind = () => {
             setCoordinate={setCoordinate}
           />
         </Col>
-        <Col span={12}>
+        <Col
+          span={17}
+          style={{
+            width: "70vw",
+            height: "68.5vh",
+            marginTop: "19vh",
+            borderTop: "1.5rem solid #d9d9d9",
+            borderBottom: "2rem solid #d9d9d9",
+            borderLeft: "1rem solid #d9d9d9",
+            borderRight: "1rem solid #d9d9d9",
+            borderRadius: "1.5rem",
+            overflowY: "scroll",
+          }}
+        >
           <List
             dataSource={sortedRooms}
             renderItem={(item) => (
@@ -150,17 +168,52 @@ const ReserveFind = () => {
                 className={`list_item_hover ${
                   item === date.toLocaleDateString() && "list_item_select"
                 }`}
+                style={{
+                  padding: "1.5rem",
+                  textAlign: "start",
+                  fontSize: "1.5rem",
+                }}
               >
-                <Link to={`/room/${item.roomId}`}>{`날짜:${item.date},
-      방장ID:${item.hostID},
-      location:${item.location},
-      personCount:${item.personCount},
-      personLimit:${item.personLimit},
-      roomId:${item.roomId},
-      title:${item.title},
-      lat:${item.lat},
-      lng:${item.lng}
-   `}</Link>
+                <Link
+                  to={`/room/${item.roomId}`}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    color: "black",
+                  }}
+                >
+                  <span
+                    style={{
+                      paddingRight: "1.5rem",
+                      paddingTop: "2.5vh",
+                      fontWeight: "bolder",
+                    }}
+                  >
+                    {item.date.slice(11,16)}
+                  </span>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "start",
+                    }}
+                  >
+                    <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
+                      {item.title}
+                    </span>
+                    <span>{`${item.location} ${item.personCount}/${item.personLimit}`}</span>
+                  </div>
+                  {/* {`날짜:${item.date},
+                  방장ID:${item.hostID},
+                  location:${item.location},
+                  personCount:${item.personCount},
+                  personLimit:${item.personLimit},
+                  roomId:${item.roomId},
+                  title:${item.title},
+                  lat:${item.lat},
+                  lng:${item.lng}
+              `} */}
+                </Link>
               </List.Item>
             )}
           />

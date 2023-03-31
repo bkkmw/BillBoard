@@ -11,8 +11,9 @@ import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { correctRoom, makeRoom } from '../../store/reserve';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
+import { selectUser } from '../../store/user';
 
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
@@ -32,6 +33,7 @@ const disabledDate = (current) => {
 
 const { TextArea } = Input;
 const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
+  const userId = useSelector(selectUser).loginUser.userId
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const inputRef = useRef()
@@ -52,7 +54,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
   }, [])
   useEffect(() => {
     if (location) {
-      inputRef.current?.setFieldsValue({ location: `${location.place_name}` })
+      inputRef.current?.setFieldsValue({ location: `${location.road_address_name}` })
 
     }
 
@@ -73,10 +75,12 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
 
   };
   const onFinish = (values) => {
-    // Todo: hostId값 추가
-    // location.place_name: 장소이름
+    console.log(values.date)
+    let offset = values.date.$d.getTimezoneOffset() * 60000; //ms단위라 60000곱해줌
+    let dateOffset = new Date(values.date.$d.getTime() - offset);
+    
     values = {
-      ...values, date: new Date(values.date.$d).toISOString(), lng:location.x,lat:location.y
+      ...values, date: dateOffset.toISOString(), lng:location.x,lat:location.y
     }
     if (data) {
       dispatch(correctRoom({ values: values, roomId: roomId })).then((res) => {
@@ -86,10 +90,10 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
 
       ).catch((error) => { console.log(error) })
     } else {
-      dispatch(makeRoom({ ...values, hostId: "string" }))
+      dispatch(makeRoom({ ...values, hostId: userId }))
         .then((data) => {
           console.log(data)
-          navigate(`/room/${data.payload.room.roomId}`, { replace: true })
+          navigate(`/room/${data.payload.roomId}`, { replace: true })
         }
         )
         .catch((error) => { console.log(error) })
