@@ -191,7 +191,11 @@ public class BoardGameController {
 
     }
 
-
+    @PostMapping()
+    public ResponseEntity<?> insertBoardgames() throws Exception {
+        boardGameService.insertAllGames();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
     //보드게임 리뷰 수정

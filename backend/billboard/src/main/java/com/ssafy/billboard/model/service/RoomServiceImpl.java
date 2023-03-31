@@ -29,7 +29,7 @@ public class RoomServiceImpl implements RoomService {
         if(!userRepository.existsByUserId(roomInput.getHostId()))
             return -1;
         Room room = roomRepository.save(Room.builder()
-                .hostId(roomInput.getHostId())
+                .host(userRepository.findByUserId(roomInput.getHostId()))
                 .title(roomInput.getTitle())
                 .personLimit(roomInput.getPersonLimit())
                 .location(roomInput.getLocation())
@@ -38,7 +38,7 @@ public class RoomServiceImpl implements RoomService {
                 .date(roomInput.getDate())
                 .build());
         //방장은 자동 참여 처리
-        createEntry(room.getRoomId(), room.getHostId());
+        createEntry(room.getRoomId(), room.getHost().getUserId());
         return room.getRoomId();
     }
 
@@ -49,7 +49,7 @@ public class RoomServiceImpl implements RoomService {
         for(Room room : roomsEntity)
             rooms.add(RoomDto.RoomInfo.builder()
                     .roomId(room.getRoomId())
-                    .hostId(room.getHostId())
+                    .hostId(room.getHost().getUserId())
                     .title(room.getTitle())
                     .personCount(room.getEntries().size())
                     .personLimit(room.getPersonLimit())
@@ -68,7 +68,7 @@ public class RoomServiceImpl implements RoomService {
             return RoomDto.RoomDetailInfo.builder()
                     .roomInfo(RoomDto.RoomInfo.builder()
                             .roomId(room.getRoomId())
-                            .hostId(room.getHostId())
+                            .hostId(room.getHost().getUserId())
                             .title(room.getTitle())
                             .personCount(room.getEntries().size())
                             .personLimit(room.getPersonLimit())
@@ -111,9 +111,9 @@ public class RoomServiceImpl implements RoomService {
         if(!roomRepository.existsById(roomId) || !userRepository.existsByUserId(replyInput.getUserId()))
             return false;
         replyRepository.save(Reply.builder()
-                .roomId(roomId)
+                .room(roomRepository.findByRoomId(roomId))
                 .content(replyInput.getContent())
-                .userId(replyInput.getUserId())
+                .user(userRepository.findByUserId(replyInput.getUserId()))
                 .build());
         return true;
     }
@@ -123,13 +123,13 @@ public class RoomServiceImpl implements RoomService {
         //없는 방 아이디 > null
         if(!roomRepository.existsById(roomId))
             return null;
-        List<Reply> repliesEntity = replyRepository.findAllByRoomId(roomId);
+        List<Reply> repliesEntity = replyRepository.findAllByRoom(roomRepository.findByRoomId(roomId));
         List<RoomDto.ReplyInfo> replies = new ArrayList<>();
         for(Reply reply : repliesEntity)
             replies.add(RoomDto.ReplyInfo.builder()
                     .replyId(reply.getReplyId())
                     .content(reply.getContent())
-                    .userId(reply.getUserId())
+                    .userId(reply.getUser().getUserId())
                     .createdTime(reply.getCreatedTime())
                     .build());
         return replies;
@@ -150,12 +150,11 @@ public class RoomServiceImpl implements RoomService {
         if(!roomRepository.existsById(roomId) || !userRepository.existsByUserId(userId))
             return 0;
         //해당 방에 해당 유저가 이미 참여중 > -1
-        if(entryRepository.existsByRoomAndUserId(roomRepository.findById(roomId).get(), userId))
+        if(entryRepository.existsByRoomAndUser(roomRepository.findByRoomId(roomId), userRepository.findByUserId(userId)))
             return -1;
-        Room room = roomRepository.findById(roomId).get();
         entryRepository.save(Entry.builder()
-                .room(room)
-                .userId(userId)
+                .room(roomRepository.findByRoomId(roomId))
+                .user(userRepository.findByUserId(userId))
                 .build());
         return 1;
     }
@@ -165,12 +164,12 @@ public class RoomServiceImpl implements RoomService {
         //없는 방 or 유저 or 참여중이 아님 : 0
         if(!roomRepository.existsById(roomId)
                 || !userRepository.existsByUserId(userId)
-                || !entryRepository.existsByRoomAndUserId(roomRepository.findById(roomId).get(), userId))
+                || !entryRepository.existsByRoomAndUser(roomRepository.findByRoomId(roomId), userRepository.findByUserId(userId)))
             return 0;
         //방장이 참여 취소 : -1
-        if(roomRepository.findById(roomId).get().getHostId().equals(userId))
+        if(roomRepository.findByRoomId(roomId).getHost().getUserId().equals(userId))
             return -1;
-        entryRepository.deleteByRoomAndUserId(roomRepository.findById(roomId).get(), userId);
+        entryRepository.deleteByRoomAndUser(roomRepository.findByRoomId(roomId), userRepository.findByUserId(userId));
         return 1;
     }
 
@@ -179,14 +178,14 @@ public class RoomServiceImpl implements RoomService {
         //없는 유저 > null
         if(!userRepository.existsByUserId(userId))
             return null;
-        List<Entry> entries = entryRepository.findAllByUserId(userId);
+        List<Entry> entries = entryRepository.findAllByUser(userRepository.findByUserId(userId));
         List<RoomDto.RoomReservationInfo> rooms = new ArrayList<>();
         for(Entry entry : entries){
             Room room = entry.getRoom();
             rooms.add(RoomDto.RoomReservationInfo.builder()
                     .roomInfo(RoomDto.RoomInfo.builder()
                             .roomId(room.getRoomId())
-                            .hostId(room.getHostId())
+                            .hostId(room.getHost().getUserId())
                             .title(room.getTitle())
                             .personCount(room.getEntries().size())
                             .personLimit(room.getPersonLimit())

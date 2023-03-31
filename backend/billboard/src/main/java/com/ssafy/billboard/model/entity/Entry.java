@@ -2,6 +2,8 @@ package com.ssafy.billboard.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -21,8 +23,11 @@ public class Entry {
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "roomId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Room room;
 
-    @Column(nullable = false)
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 }
