@@ -2,10 +2,8 @@ package com.ssafy.billboard.model.entity;
 
 import com.ssafy.billboard.util.BaseTimeEntity;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name="history")
@@ -17,7 +15,7 @@ import java.sql.Timestamp;
 public class History extends BaseTimeEntity {
 
     @Id
-    @Column(name = "userId")
+    @Column(name = "userId", length = 45)
     private String userId;
 
     @Id
