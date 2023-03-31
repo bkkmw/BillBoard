@@ -9,7 +9,7 @@ import { selectUser } from "../../../store/user";
 const RoomReply = ({ replies, roomId, reload }) => {
   const inputRef = useRef();
   // Todo: userId 수정 예정
-  const userId = useSelector(selectUser).loginUser.userId
+  const userId = useSelector(selectUser).loginUser.userId;
   const dispatch = useDispatch();
   const onFinish = (values) => {
     // console.log(values)
@@ -82,7 +82,9 @@ const RoomReply = ({ replies, roomId, reload }) => {
             },
           ]}
         >
-          <Input style={{ width: "29vw", height: "7vh", fontSize: "1.5rem" }} />
+          <Input
+            style={{ width: "24.8vw", height: "7vh", fontSize: "1.5rem" }}
+          />
         </Form.Item>
 
         <Form.Item

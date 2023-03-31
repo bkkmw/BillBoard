@@ -3,20 +3,21 @@ import GameDetail from "./GameDetail";
 import GameDescription from "./GameDescription";
 import GameVideo from "./GameVideo";
 import GameReview from "./GameReview";
-import { useRouteLoaderData } from "react-router";
+import { useLocation } from "react-router";
 
 const Detail = () => {
-  const gameId = useRouteLoaderData("detail");
+  const location = useLocation();
+  // console.log(location);
+  const details = location.state;
   return (
-    <div>
-      
-      <GameDetail />
+    <div style={{ width: "100%", height: "50vh" }}>
+      <GameDetail details={details} />
       <hr style={{ width: "74vw" }} />
-      <GameDescription />
+      <GameDescription details={details} />
       <hr style={{ width: "74vw" }} />
       {/* <GameVideo key="key" /> */}
       <hr style={{ width: "74vw" }} />
-      <GameReview />
+      <GameReview details={details} />
     </div>
   );
 };
