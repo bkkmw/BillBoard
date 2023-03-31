@@ -46,6 +46,16 @@ public class BoardGameDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    public static class BoardGameInfo {
+        private int gameId;
+        private String name;
+        private String image;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
     public static class BoardGameDetail {
         private String name;
 
