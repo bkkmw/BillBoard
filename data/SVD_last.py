@@ -57,7 +57,7 @@ def recomm_combi(algo, userIDs, total_games, games, top_n):
 def get_unplayed_surprise(ratings, total_games, userID):
     played_games = ratings[ratings['userId']==userID]['gameId'].tolist()
     unplayed_games = [game for game in total_games if game not in played_games]
-    print(f'특정{userID} 유저가 플레이한 게임 수: {len(played_games)}\n 추천한 게임 개수: {len(unplayed_games)}\n 전체 게임수:{len(total_games)}')
+    print(f'{userID} 유저가 플레이한 게임 수: {len(played_games)}\n 플레이하지 않은 게임 수: {len(unplayed_games)}')
     return unplayed_games
 
 def recomm_game_by_surprise(algo, userID, unplayed_games, games, top_n=10):

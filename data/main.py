@@ -26,6 +26,7 @@ conn = pymysql.connect(
         db='billboard', 
         charset='utf8'
     )
+
 def init():
     print("init_start")
     global ratings, total_games, games
@@ -38,11 +39,18 @@ def init():
     sql = "SELECT userId, gameId, rating FROM review"
     ratings = pd.read_sql(sql, conn)
 
-    print("read_rating_end")
-    
-    data = Dataset.load_from_df(ratings[["userId", "gameId", "rating"]], reader)
-    train_set = data.build_full_trainset()
-    algo.fit(train_set)
+    print("read ratings end")
+
+    # data_folds = DatasetAutoFolds(reader=reader, df=ratings[['userId','gameId','rating']].dropna())
+    data_folds = Dataset.load_from_df(ratings.to_numpy(), reader)
+    trainset = data_folds.build_full_trainset()
+    # print(len(trainset))
+
+    # data_folds2 = DatasetAutoFolds(ratings_file="./ratings949.csv", reader=reader)
+    # trainset2 = data_folds2.build_full_trainset()
+    # print(len(trainset2))
+
+    algo.fit(trainset)
 
     print("init_end")
 
