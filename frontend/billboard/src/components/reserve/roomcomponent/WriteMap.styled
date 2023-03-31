@@ -12,7 +12,7 @@ height: 100%;
   display: flex;
   #map {
     width: 50%;
-    height: 50%;
+    height: 54%;
     position: absolute;
     overflow: hidden;
     border-radius: 20px;
