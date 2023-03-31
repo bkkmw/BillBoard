@@ -176,11 +176,13 @@ public class BoardGameController {
         String url = "http://j8a505.p.ssafy.io:8000/recommendation/" + userId;
         System.out.println("============");
         System.out.println(url);
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        Integer[] ids = restTemplate.getForObject(url, Integer[].class);
 
+        System.out.println(ids);
 
-        System.out.println(response.getBody());
-        resultMap.put("response",response.getBody());
+        List<BoardGameDto.BoardGameInfo> games = boardGameService.getBoardGameListByIds(ids);
+
+        resultMap.put("games", games);
         status = HttpStatus.OK;
         System.out.println("resultmap");
         System.out.println(resultMap.get("response"));
@@ -222,9 +224,11 @@ public class BoardGameController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<List<String>> request = new HttpEntity<>(list, headers);
         String url = "http://j8a505.p.ssafy.io:8000/recommendation";
-        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-        System.out.println(response.getBody());
-        resultMap.put("response",response.getBody());
+        Integer[] ids = restTemplate.postForObject(url, request, Integer[].class);
+
+        List<BoardGameDto.BoardGameInfo> games = boardGameService.getBoardGameListByIds(ids);
+
+        resultMap.put("games", games);
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
 

@@ -45,4 +45,5 @@ public interface BoardGameService {
 
     public void insertAllGames() throws Exception;
 
+    public List<BoardGameDto.BoardGameInfo> getBoardGameListByIds(Integer[] ids);
 }

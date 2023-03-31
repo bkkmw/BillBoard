@@ -662,4 +662,18 @@ public class BoardGameServiceImpl implements BoardGameService{
         }
         boardGameRepository.saveAll(games);
     }
+
+    public List<BoardGameDto.BoardGameInfo> getBoardGameListByIds(Integer[] ids){
+        List<BoardGameDto.BoardGameInfo> games = new ArrayList<>();
+        for(int id : ids){
+            BoardGame boardGame = boardGameRepository.findById(id).get();
+            games.add(new BoardGameDto.BoardGameInfo().builder()
+                    .gameId(boardGame.getGameId())
+                    .name(boardGame.getName())
+                    .image(boardGame.getImage())
+                    .build());
+        }
+
+        return games;
+    }
 }
