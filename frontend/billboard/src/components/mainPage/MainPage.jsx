@@ -98,16 +98,13 @@ const Main = () => {
         >
           {boardAverage.map((data, index) => (
             <SwiperSlide key={index}>
-<<<<<<< frontend/billboard/src/components/mainPage/MainPage.jsx
-              <img
-                src={data.image}
-                alt="Slide 1"
-                style={{ height: "300px", objectFit: "fill" }}
-              />
-=======
-                <Link to={`/detail/${data.gameId}`}>
-                <img style={{ height: "300px", objectFit: "fill" }} src={data.image} alt="Slide 1" /></Link>
->>>>>>> frontend/billboard/src/components/mainPage/MainPage.jsx
+              <Link to={`/detail/${data.gameId}`}>
+                <img
+                  style={{ height: "300px", objectFit: "fill" }}
+                  src={data.image}
+                  alt="Slide 1"
+                />
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -127,16 +124,13 @@ const Main = () => {
         >
           {boardRanking.map((data, index) => (
             <SwiperSlide key={index}>
-<<<<<<< frontend/billboard/src/components/mainPage/MainPage.jsx
-              <img
-                src={data.image}
-                alt="Slide 1"
-                style={{ height: "300px", objectFit: "fill" }}
-              />
-=======
-                <Link to={`/detail/${data.gameId}`}>
-                <img style={{ height: "300px", objectFit: "fill" }} src={data.image} alt="Slide 1" /></Link>
->>>>>>> frontend/billboard/src/components/mainPage/MainPage.jsx
+              <Link to={`/detail/${data.gameId}`}>
+                <img
+                  style={{ height: "300px", objectFit: "fill" }}
+                  src={data.image}
+                  alt="Slide 1"
+                />
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -156,16 +150,13 @@ const Main = () => {
         >
           {boardWeight.map((data, index) => (
             <SwiperSlide key={index}>
-<<<<<<< frontend/billboard/src/components/mainPage/MainPage.jsx
-              <img
-                src={data.image}
-                alt="Slide 1"
-                style={{ height: "300px", objectFit: "fill" }}
-              />
-=======
-                <Link to={`/detail/${data.gameId}`}>
-                <img style={{ height: "300px", objectFit: "fill" }} src={data.image} alt="Slide 1" /></Link>
->>>>>>> frontend/billboard/src/components/mainPage/MainPage.jsx
+              <Link to={`/detail/${data.gameId}`}>
+                <img
+                  style={{ height: "300px", objectFit: "fill" }}
+                  src={data.image}
+                  alt="Slide 1"
+                />
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -184,16 +175,13 @@ const Main = () => {
           >
             {boardReview.map((data, index) => (
               <SwiperSlide key={index}>
-<<<<<<< frontend/billboard/src/components/mainPage/MainPage.jsx
-                <img
-                  src={data.image}
-                  alt="Slide 1"
-                  style={{ height: "300px", objectFit: "fill" }}
-                />
-=======
                 <Link to={`/detail/${data.gameId}`}>
-                <img style={{ height: "300px", objectFit: "fill" }} src={data.image} alt="Slide 1" /></Link>
->>>>>>> frontend/billboard/src/components/mainPage/MainPage.jsx
+                  <img
+                    style={{ height: "300px", objectFit: "fill" }}
+                    src={data.image}
+                    alt="Slide 1"
+                  />
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -213,16 +201,13 @@ const Main = () => {
           >
             {boardDate.map((data, index) => (
               <SwiperSlide key={index}>
-<<<<<<< frontend/billboard/src/components/mainPage/MainPage.jsx
-                <img
-                  src={data.image}
-                  alt="Slide 1"
-                  style={{ height: "300px", objectFit: "fill" }}
-                />
-=======
                 <Link to={`/detail/${data.gameId}`}>
-                <img style={{ height: "300px", objectFit: "fill" }} src={data.image} alt="Slide 1" /></Link>
->>>>>>> frontend/billboard/src/components/mainPage/MainPage.jsx
+                  <img
+                    style={{ height: "300px", objectFit: "fill" }}
+                    src={data.image}
+                    alt="Slide 1"
+                  />
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
