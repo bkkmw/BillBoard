@@ -151,6 +151,7 @@ const GameReview = (props) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          marginTop: "2rem",
         }}
       >
         <Table
@@ -167,7 +168,8 @@ const GameReview = (props) => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1rem",
+              fontSize: "1.5rem",
+              marginBottom: "3rem",
             },
           }}
           rowKey={(record) => record.userId}

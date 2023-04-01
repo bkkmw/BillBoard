@@ -191,7 +191,7 @@ const Room = () => {
                       marginLeft: "1.5rem",
                     }}
                   >
-                    Players
+                    참가자
                   </span>
                   <div
                     style={{
