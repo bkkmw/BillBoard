@@ -99,10 +99,9 @@ const Main = () => {
         >
           {boardAverage.map((data, index) => (
             <SwiperSlide key={index}>
-
               <Link to={`/detail/${data.gameId}`} state={data}>
                 <img
-                  style={{ height: "300px", objectFit: "fill" }}
+                  style={{ width: "350px", height: "350px", objectFit: "fill" }}
                   src={data.image}
                   alt="Slide 1"
                 />
@@ -127,13 +126,11 @@ const Main = () => {
           {boardRanking.map((data, index) => (
             <SwiperSlide key={index}>
               <Link to={`/detail/${data.gameId}`}>
-
                 <img
-                  style={{ height: "300px", objectFit: "fill" }}
+                  style={{ width: "350px", height: "350px", objectFit: "fill" }}
                   src={data.image}
                   alt="Slide 1"
                 />
-
               </Link>
             </SwiperSlide>
           ))}
@@ -155,13 +152,11 @@ const Main = () => {
           {boardWeight.map((data, index) => (
             <SwiperSlide key={index}>
               <Link to={`/detail/${data.gameId}`}>
-
                 <img
-                  style={{ height: "300px", objectFit: "fill" }}
+                  style={{ width: "350px", height: "350px", objectFit: "fill" }}
                   src={data.image}
                   alt="Slide 1"
                 />
-
               </Link>
             </SwiperSlide>
           ))}
@@ -181,14 +176,16 @@ const Main = () => {
           >
             {boardReview.map((data, index) => (
               <SwiperSlide key={index}>
-
                 <Link to={`/detail/${data.gameId}`} state={data}>
                   <img
-                    style={{ height: "300px", objectFit: "fill" }}
+                    style={{
+                      width: "350px",
+                      height: "350px",
+                      objectFit: "fill",
+                    }}
                     src={data.image}
                     alt="Slide 1"
                   />
-
                 </Link>
               </SwiperSlide>
             ))}
@@ -210,13 +207,15 @@ const Main = () => {
             {boardDate.map((data, index) => (
               <SwiperSlide key={index}>
                 <Link to={`/detail/${data.gameId}`}>
-
                   <img
-                    style={{ height: "300px", objectFit: "fill" }}
+                    style={{
+                      width: "350px",
+                      height: "350px",
+                      objectFit: "fill",
+                    }}
                     src={data.image}
                     alt="Slide 1"
                   />
-
                 </Link>
               </SwiperSlide>
             ))}
