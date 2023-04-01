@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useRef } from "react";
 import GameroomSearch from "./GameroomSearch";
 import { useState } from "react";
-import { Button, Modal } from 'antd';
+import { Button, Modal } from "antd";
 import Detail from "../detail/DetailPage";
 import { useDispatch, useSelector } from "react-redux";
 import { selectgameroom, setIsInGame } from "../../store/gameroom";
@@ -24,9 +24,9 @@ const RoomRight = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const [gameDetail, setGameDetail] = useState()
+  const [gameDetail, setGameDetail] = useState();
 
-  const inputRef = useRef()
+  const inputRef = useRef();
   return (<>
     {!isInGame ?
       <div
@@ -38,30 +38,64 @@ const RoomRight = () => {
         }}
       >
         <GameroomSearch setGameDetail={setGameDetail} showModal={showModal} />
-        <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
-          bodyStyle={{ overflowY: 'auto', maxHeight: `${window.innerHeight * 0.8}` }}
-          width={window.innerWidth * 0.8}>
+        <Modal
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          bodyStyle={{
+            overflowY: "auto",
+            maxHeight: `${window.innerHeight * 0.8}`,
+          }}
+          width={window.innerWidth * 0.8}
+        >
           <Detail gameDetail={gameDetail} />
         </Modal>
-        <Button
+        <div
           style={{
-            fontSize: "1.5rem",
-            width: "8vw",
-            height: "6vh",
-            marginLeft: "17vw",
-          }} onClick={() => {
-            dispatch(setIsInGame(true))
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
           }}
-          disabled={gameInfo.gameId ? false : true}
         >
-          게임 시작
-        </Button>
-        <GameResult
-          isModalOpen={openGameResult} setIsModalOpen={setOpenGameResult}
-        />
-      </div> : <InGame setOpenGameResult={setOpenGameResult} />}
+          <img
+            alt="보드게임"
+            style={{
+              fontSize: "1.5rem",
+              width: "8vw",
+              height: "6vh",
+            }}
+          ></img>
+          <span
+            style={{
+              fontSize: "1.5rem",
+              width: "8vw",
+              height: "6vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            이름
+          </span>
+          <Button
+            style={{
+              fontSize: "1.5rem",
+              width: "8vw",
+              height: "6vh",
+            }} onClick={() => {
+              dispatch(setIsInGame(true))
+            }}
+            disabled={gameInfo.gameId ? false : true}
+          >
+            게임 시작
+          </Button>
+          <GameResult
+            isModalOpen={openGameResult} setIsModalOpen={setOpenGameResult}
+          />
+        </div> : <InGame setOpenGameResult={setOpenGameResult} />}
 
-  </>
+      </>
+    </div >
 
     // * 밑에 있는게 게임중 보이는 화면 *
 
