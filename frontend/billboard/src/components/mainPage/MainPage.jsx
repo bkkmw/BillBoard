@@ -30,7 +30,7 @@ import { FreeMode, Pagination, Navigation } from "swiper";
 import { Link } from "react-router-dom";
 const Main = () => {
   const dispatch = useDispatch();
-  const [isSearch, setIsSearch] = useState(false)
+  const [isSearch, setIsSearch] = useState(false);
   const [gameData, setGameData] = useState({
     name: "",
     maxplaytime: 1000,
@@ -55,13 +55,13 @@ const Main = () => {
   const [boardDate, setBoardDate] = useState([]);
   const boards = (data) => {
     dispatch(getBoardGames(data)).then((response) => {
-      console.log(response)
+      // console.log(response)
       setBoardAverage(response.payload["average"]);
       setBoardRanking(response.payload["rank"]);
       setBoardWeight(response.payload["weights"]);
       setBoardReview(response.payload["review"]);
       setBoardDate(response.payload["yearpublished"]);
-      setIsSearch(false)
+      setIsSearch(false);
     });
   };
   // 기본 추천 목록조회 api
@@ -69,166 +69,194 @@ const Main = () => {
     boards(gameData);
   }, []);
 
-  return (<>{boardDate &&
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "spaceBetween",
-        marginTop: "12vh",
-        width: "70vw",
-      }}
-    >
-      <span style={{ fontSize: "3rem", marginBottom: "2rem" }}>유저별</span>
-      <UserRecommend />
+  return (
+    <>
+      {boardDate && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "spaceBetween",
+            marginTop: "12vh",
+            width: "70vw",
+          }}
+        >
+          <span style={{ fontSize: "3rem", marginBottom: "2rem" }}>유저별</span>
+          <UserRecommend />
 
-
-      <div>
-        <span style={{ fontSize: "3rem" }}>평균순</span>
-        <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
-          freeMode={true}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[FreeMode, Pagination, Navigation]}
-          className="boardAverage"
-          style={{ marginTop: "2rem", marginBottom: "2rem" }}
-        >
-          {boardAverage.map((data, index) => (
-            <SwiperSlide key={index}>
-              <Link to={`/detail/${data.gameId}`} state={data}>
-                <img
-                  style={{ width: "350px", height: "350px", objectFit: "fill" }}
-                  src={data.image}
-                  alt="Slide 1"
-                />
-              </Link>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-      <div>
-        <span style={{ fontSize: "3rem" }}>랭킹순</span>
-        <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
-          freeMode={true}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[FreeMode, Pagination, Navigation]}
-          className="boardRanking"
-          style={{ marginTop: "2rem", marginBottom: "2rem" }}
-        >
-          {boardRanking.map((data, index) => (
-            <SwiperSlide key={index}>
-              <Link to={`/detail/${data.gameId}`} state={data}>
-                <img
-                  style={{ width: "350px", height: "350px", objectFit: "fill" }}
-                  src={data.image}
-                  alt="Slide 1"
-                />
-              </Link>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-      <div>
-        <span style={{ fontSize: "3rem" }}>난이도순</span>
-        <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
-          freeMode={true}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[FreeMode, Pagination, Navigation]}
-          className="boardWeight"
-          style={{ marginTop: "2rem", marginBottom: "2rem" }}
-        >
-          {boardWeight.map((data, index) => (
-            <SwiperSlide key={index}>
-              <Link to={`/detail/${data.gameId}`} state={data}>
-                <img
-                  style={{ width: "350px", height: "350px", objectFit: "fill" }}
-                  src={data.image}
-                  alt="Slide 1"
-                />
-              </Link>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        <div>
-          <span style={{ fontSize: "3rem" }}>리뷰순</span>
-          <Swiper
-            slidesPerView={3}
-            spaceBetween={30}
-            freeMode={true}
-            pagination={{
-              clickable: true,
-            }}
-            navigation={true}
-            modules={[FreeMode, Pagination, Navigation]}
-            className="boardReview"
-            style={{ marginTop: "2rem", marginBottom: "2rem" }}
-          >
-            {boardReview.map((data, index) => (
-              <SwiperSlide key={index}>
-                <Link to={`/detail/${data.gameId}`} state={data}>
-                  <img
-                    style={{
-                      width: "350px",
-                      height: "350px",
-                      objectFit: "fill",
-                    }}
-                    src={data.image}
-                    alt="Slide 1"
-                  />
-                </Link>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          <div>
+            <span style={{ fontSize: "3rem" }}>평균순</span>
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={30}
+              freeMode={true}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              modules={[FreeMode, Pagination, Navigation]}
+              className="boardAverage"
+              style={{ marginTop: "2rem", marginBottom: "2rem" }}
+            >
+              {boardAverage.map((data, index) => (
+                <SwiperSlide key={index}>
+                  <Link to={`/detail/${data.gameId}`} state={data}>
+                    <img
+                      style={{
+                        width: "350px",
+                        height: "350px",
+                        objectFit: "fill",
+                      }}
+                      src={data.image}
+                      alt="Slide 1"
+                    />
+                  </Link>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          <div>
+            <span style={{ fontSize: "3rem" }}>랭킹순</span>
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={30}
+              freeMode={true}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              modules={[FreeMode, Pagination, Navigation]}
+              className="boardRanking"
+              style={{ marginTop: "2rem", marginBottom: "2rem" }}
+            >
+              {boardRanking.map((data, index) => (
+                <SwiperSlide key={index}>
+                  <Link to={`/detail/${data.gameId}`} state={data}>
+                    <img
+                      style={{
+                        width: "350px",
+                        height: "350px",
+                        objectFit: "fill",
+                      }}
+                      src={data.image}
+                      alt="Slide 1"
+                    />
+                  </Link>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          <div>
+            <span style={{ fontSize: "3rem" }}>난이도순</span>
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={30}
+              freeMode={true}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              modules={[FreeMode, Pagination, Navigation]}
+              className="boardWeight"
+              style={{ marginTop: "2rem", marginBottom: "2rem" }}
+            >
+              {boardWeight.map((data, index) => (
+                <SwiperSlide key={index}>
+                  <Link to={`/detail/${data.gameId}`} state={data}>
+                    <img
+                      style={{
+                        width: "350px",
+                        height: "350px",
+                        objectFit: "fill",
+                      }}
+                      src={data.image}
+                      alt="Slide 1"
+                    />
+                  </Link>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <div>
+              <span style={{ fontSize: "3rem" }}>리뷰순</span>
+              <Swiper
+                slidesPerView={3}
+                spaceBetween={30}
+                freeMode={true}
+                pagination={{
+                  clickable: true,
+                }}
+                navigation={true}
+                modules={[FreeMode, Pagination, Navigation]}
+                className="boardReview"
+                style={{ marginTop: "2rem", marginBottom: "2rem" }}
+              >
+                {boardReview.map((data, index) => (
+                  <SwiperSlide key={index}>
+                    <Link to={`/detail/${data.gameId}`} state={data}>
+                      <img
+                        style={{
+                          width: "350px",
+                          height: "350px",
+                          objectFit: "fill",
+                        }}
+                        src={data.image}
+                        alt="Slide 1"
+                      />
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+            <div>
+              <span style={{ fontSize: "3rem" }}>출시일순</span>
+              <Swiper
+                slidesPerView={3}
+                spaceBetween={30}
+                freeMode={true}
+                pagination={{
+                  clickable: true,
+                }}
+                navigation={true}
+                modules={[FreeMode, Pagination, Navigation]}
+                className="boardDate"
+                style={{ marginTop: "2rem", marginBottom: "2rem" }}
+              >
+                {boardDate.map((data, index) => (
+                  <SwiperSlide key={index}>
+                    <Link to={`/detail/${data.gameId}`} state={data}>
+                      <img
+                        style={{
+                          height: "300px",
+                          objectFit: "fill",
+                        }}
+                        src={data.image}
+                        alt="Slide 1"
+                      />
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          </div>
         </div>
-        <div>
-          <span style={{ fontSize: "3rem" }}>출시일순</span>
-          <Swiper
-            slidesPerView={3}
-            spaceBetween={30}
-            freeMode={true}
-            pagination={{
-              clickable: true,
-            }}
-            navigation={true}
-            modules={[FreeMode, Pagination, Navigation]}
-            className="boardDate"
-            style={{ marginTop: "2rem", marginBottom: "2rem" }}
-          >
-            {boardDate.map((data, index) => (
-              <SwiperSlide key={index}>
-                <Link to={`/detail/${data.gameId}`} state={data}>
-                  <img
-                    style={{
-                      height: "300px",
-                      objectFit: "fill",
-                    }}
-                    src={data.image}
-                    alt="Slide 1"
-                  />
-                </Link>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      </div>
-
-    </div>}
-    <GameSearch open={isSearch} onClose={() => { setIsSearch(false) }} setGameData={setGameData} gameData={gameData} search={boards} />
-    <Button onClick={() => { setIsSearch(true) }}>검색</Button></>
+      )}
+      <GameSearch
+        open={isSearch}
+        onClose={() => {
+          setIsSearch(false);
+        }}
+        setGameData={setGameData}
+        gameData={gameData}
+        search={boards}
+      />
+      <Button
+        onClick={() => {
+          setIsSearch(true);
+        }}
+      >
+        검색
+      </Button>
+    </>
   );
 };
 
