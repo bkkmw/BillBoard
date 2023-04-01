@@ -1,15 +1,25 @@
-import * as React from "react";
-import Button from "@mui/joy/Button";
-import Input from "@mui/joy/Input";
-import Card from "@mui/material/Card";
-import Grid from "@mui/material/Grid";
-import Checkbox from "@mui/material/Checkbox";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import React, { useEffect } from "react";
+import { useRef } from "react";
+import GameroomSearch from "./GameroomSearch";
+import { useState } from "react";
+import { Button, Modal } from 'antd';
+import Detail from "../detail/DetailPage";
 
 const RoomRight = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const [gameDetail, setGameDetail] = useState()
+
+  const inputRef = useRef()
+
   return (
     <div
       style={{
@@ -19,78 +29,12 @@ const RoomRight = () => {
         width: "50vw",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-        }}
-      >
-        <Button
-          type="primary"
-          style={{
-            fontSize: "1.5rem",
-            width: "8vw",
-            height: "6vh",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          추천 받기
-        </Button>
-        <Input
-          placeholder="게임 이름을 입력하시오"
-          style={{ width: "25rem", fontSize: "1.5rem" }}
-        ></Input>
-        <Button style={{ fontSize: "1.5rem", marginRight: "1.2rem" }}>
-          Submit
-        </Button>
-      </div>
-      <Grid style={{ width: "42vw", height: "50vh", overflowY: "scroll" }}>
-        <div
-          style={{
-            width: "42vw",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "2rem",
-            paddingLeft: "1.3rem",
-          }}
-        >
-          <Card sx={{ width: "12vw" }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="150"
-                image="https://cataas.com/cat"
-                alt="green iguana"
-              />
-              <CardContent
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                  style={{
-                    display: "flex",
-
-                    alignItems: "center",
-
-                    marginBottom: "0",
-                  }}
-                >
-                  Lizard
-                </Typography>
-                <Checkbox />
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </div>
-      </Grid>
+      <GameroomSearch setGameDetail={setGameDetail} showModal={showModal} />
+      <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+        bodyStyle={{ overflowY: 'auto', maxHeight: `${window.innerHeight * 0.8}` }}
+        width={window.innerWidth * 0.8}>
+        <Detail gameDetail={gameDetail} />
+      </Modal>
       <Button
         style={{
           fontSize: "1.5rem",
@@ -102,6 +46,7 @@ const RoomRight = () => {
         게임 시작
       </Button>
     </div>
+
   );
 };
 
