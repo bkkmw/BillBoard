@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GameDetail from "./GameDetail";
 import GameDescription from "./GameDescription";
 import GameVideo from "./GameVideo";
@@ -6,10 +6,20 @@ import GameReview from "./GameReview";
 import { useLocation } from "react-router";
 import { Margin } from "@mui/icons-material";
 
-const Detail = () => {
+const Detail = ({ gameDetail }) => {
   const location = useLocation();
-  // console.log(location);
-  const details = location.state;
+  let details;
+  // console.log(location.state);
+  if (gameDetail) {
+    details = gameDetail
+  } else {
+    details = location.state;
+  }
+
+
+
+
+
   return (
     <div style={{ width: "100%", height: "75vh" }}>
       <GameDetail details={details} />
