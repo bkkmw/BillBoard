@@ -34,8 +34,8 @@ const GameVide = (props) => {
 
   return (
     <div>
-      <span className={style.font}>Video</span>
-      <YouTube videoId={videoUrl} opts={opts} />
+      <span className={style.font}>영상</span>
+      <YouTube videoId={videoUrl} opts={opts} style={{ marginTop: "1.5rem" }} />
     </div>
   );
 };
