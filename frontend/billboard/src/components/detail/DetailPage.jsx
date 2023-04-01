@@ -11,14 +11,10 @@ const Detail = ({ gameDetail }) => {
   let details;
   // console.log(location.state);
   if (gameDetail) {
-    details = gameDetail
+    details = gameDetail;
   } else {
     details = location.state;
   }
-
-
-
-
 
   return (
     <div style={{ width: "100%", height: "75vh" }}>

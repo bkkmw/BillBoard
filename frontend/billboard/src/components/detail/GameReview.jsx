@@ -51,14 +51,14 @@ const GameReview = (props) => {
 
   return (
     <div>
-      <span className={style.font}>Review</span>
-
+      <span className={style.font}>리뷰</span>
       <div
         className="fontSize"
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          marginTop: "2rem",
         }}
       >
         <Table
