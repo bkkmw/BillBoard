@@ -23,12 +23,22 @@ export const doLogin = createAsyncThunk(
 );
 
 const initialState = {
-  login: false,
+  // login: false,
+
+  // loginUser: {
+  //   userId: "",
+  //   nickName: "",
+  //   email: "",
+  //   experience: -1,
+  //   matchCount: -1,
+  //   winCount: -1,
+  // },
+  login: true,
 
   loginUser: {
-    userId: "",
-    nickName: "",
-    email: "",
+    userId: "hwangsan",
+    nickName: "황산",
+    email: "cloudclick0217@gmail.com",
     experience: -1,
     matchCount: -1,
     winCount: -1,
@@ -41,7 +51,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(doLogin.pending, (state) => {});
+    builder.addCase(doLogin.pending, (state) => { });
     builder.addCase(doLogin.fulfilled, (state, action) => {
       // console.log("시바", action.payload.data.userInfo.nickname);
       state.login = true;
@@ -56,7 +66,7 @@ const userSlice = createSlice({
       state.refreshToken = action.payload.data.refreshToken;
       // console.log("hi", action.payload.userInfo);
     });
-    builder.addCase(doLogin.rejected, (state) => {});
+    builder.addCase(doLogin.rejected, (state) => { });
     builder.addCase(PURGE, () => {
       return initialState;
     });

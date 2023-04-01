@@ -30,6 +30,7 @@ import { FreeMode, Pagination, Navigation } from "swiper";
 import { Link } from "react-router-dom";
 const Main = () => {
   const dispatch = useDispatch();
+  const [isSearch, setIsSearch] = useState(false)
   const [gameData, setGameData] = useState({
     name: "",
     maxplaytime: 1000,
@@ -52,23 +53,23 @@ const Main = () => {
   const [boardWeight, setBoardWeight] = useState([]);
   const [boardReview, setBoardReview] = useState([]);
   const [boardDate, setBoardDate] = useState([]);
-
+  const boards = (data) => {
+    dispatch(getBoardGames(data)).then((response) => {
+      console.log(response)
+      setBoardAverage(response.payload["average"]);
+      setBoardRanking(response.payload["rank"]);
+      setBoardWeight(response.payload["weights"]);
+      setBoardReview(response.payload["review"]);
+      setBoardDate(response.payload["yearpublished"]);
+      setIsSearch(false)
+    });
+  };
   // 기본 추천 목록조회 api
   useEffect(() => {
-    const boards = () => {
-      dispatch(getBoardGames(gameData)).then((response) => {
-        // console.log("ajdla", response.payload["average"]);
-        setBoardAverage(response.payload["average"]);
-        setBoardRanking(response.payload["rank"]);
-        setBoardWeight(response.payload["weights"]);
-        setBoardReview(response.payload["review"]);
-        setBoardDate(response.payload["yearpublished"]);
-      });
-    };
-    boards();
+    boards(gameData);
   }, []);
 
-  return (
+  return (<>{boardDate &&
     <div
       style={{
         display: "flex",
@@ -80,7 +81,7 @@ const Main = () => {
     >
       <span style={{ fontSize: "3rem", marginBottom: "2rem" }}>유저별</span>
       <UserRecommend />
-      <GameSearch />
+
 
       <div>
         <span style={{ fontSize: "3rem" }}>평균순</span>
@@ -222,7 +223,10 @@ const Main = () => {
           </Swiper>
         </div>
       </div>
-    </div>
+
+    </div>}
+    <GameSearch open={isSearch} onClose={() => { setIsSearch(false) }} setGameData={setGameData} gameData={gameData} search={boards} />
+    <Button onClick={() => { setIsSearch(true) }}>검색</Button></>
   );
 };
 
