@@ -49,7 +49,7 @@ const GameDetail = (props) => {
             flexDirection: "row",
           }}
         >
-          <span className={stlyes.font2}>My rating</span>
+          <span className={stlyes.font2}>내 점수</span>
           <Rate
             style={{
               fontSize: "3rem",
