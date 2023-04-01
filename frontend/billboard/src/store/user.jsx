@@ -23,28 +23,16 @@ export const doLogin = createAsyncThunk(
 );
 
 const initialState = {
-  // login: false,
-
-  // loginUser: {
-  //   userId: "",
-  //   nickName: "",
-  //   email: "",
-  //   experience: -1,
-  //   matchCount: -1,
-  //   winCount: -1,
-  // },
-  login: true,
+  login: false,
 
   loginUser: {
-    userId: "hwangsan",
-    nickName: "황산",
-    email: "cloudclick0217@gmail.com",
+    userId: "",
+    nickName: "",
+    email: "",
     experience: -1,
     matchCount: -1,
     winCount: -1,
   },
-  accessToken: "",
-  refreshToken: "",
 };
 const userSlice = createSlice({
   name: "user",
