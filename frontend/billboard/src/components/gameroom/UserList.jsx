@@ -96,7 +96,7 @@ const UserList = () => {
         </Col>
       </Row>
       <UserListDrawer setOpen={setOpen} showDrawer={showDrawer} onClose={onClose} open={open} userList={userList} addUser={addUser} />
-      <RoomEntry isModalOpen={isModalOpen} handleCancel={handleCancel} rooms={roomEntries} />
+      <RoomEntry isModalOpen={isModalOpen} handleCancel={handleCancel} rooms={roomEntries} addUser={addUser} />
     </div>
   );
 };
