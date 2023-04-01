@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useRef } from "react";
 import GameRating from "./GameRating";
 import { Link } from "react-router-dom";
 import { Rate } from "antd";
@@ -11,24 +11,35 @@ import { useSelector, useDispatch } from "react-redux";
 const GameDetail = (props) => {
   const dispatch = useDispatch();
   const { loginUser } = useSelector((state) => state.user);
+
   // 즐겨찾기 등록, 해제
-  const [isFavorite, setIsFavorite] = useState(false);
+  // Get initial isFavorite value from localStorage or set to false if not found
+  const initialIsFavorite =
+    JSON.parse(localStorage.getItem(props.details.gameId)) || false;
+  // Create a mutable reference to isFavorite using useRef
+  const isFavoriteRef = useRef(initialIsFavorite);
+  // Set the state of isFavorite to the value of the reference
+  const [isFavorite, setIsFavorite] = useState(isFavoriteRef.current);
+
   const handleFavorite = () => {
     const reqData = { gameId: props.details.gameId, userId: loginUser.userId };
-    {
-      if (isFavorite === false) {
-        dispatch(createFavorites(reqData)).then(() => {
-          setIsFavorite(true);
-        });
-      } else {
-        dispatch(deleteFavorites(reqData)).then(() => {
-          setIsFavorite(false);
-        });
-      }
+    if (isFavoriteRef.current === false) {
+      dispatch(createFavorites(reqData)).then(() => {
+        isFavoriteRef.current = true;
+        setIsFavorite(true);
+        // Save the updated isFavorite value to localStorage
+        localStorage.setItem(props.details.gameId, JSON.stringify(true));
+      });
+    } else {
+      dispatch(deleteFavorites(reqData)).then(() => {
+        isFavoriteRef.current = false;
+        setIsFavorite(false);
+        // Save the updated isFavorite value to localStorage
+        localStorage.setItem(props.details.gameId, JSON.stringify(false));
+      });
     }
   };
 
-  // console.log(props.details);
   return (
     <div className={stlyes.background}>
       <img
