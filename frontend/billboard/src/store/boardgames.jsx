@@ -94,10 +94,14 @@ export const deleteFavorites = createAsyncThunk(
 //보드게임 리뷰 등록
 export const createReviews = createAsyncThunk(
   "boardgames/createReviews",
-  async (reqData) => {
+  async (data) => {
     try {
       const response = await httpClient.post("boardgames/review", {
-        reqData,
+        gameId: data.gameId,
+        userId: data.userId,
+        rating: data.rating,
+        comment: data.comment,
+        name: data.name,
       });
       console.log(response);
       return response.data;
@@ -154,12 +158,13 @@ export const updateReviews = createAsyncThunk(
 //보드게임 리뷰 삭제
 export const deleteReviews = createAsyncThunk(
   "boardgames/deleteReviews",
-  async (reqData) => {
+  async (data) => {
     try {
       const response = await httpClient.delete("boardgames/review", {
-        reqData,
+        gameId: data.gameId,
+        userId: data.userId,
       });
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);
