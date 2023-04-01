@@ -7,26 +7,27 @@ import { Table, Button } from "antd";
 import "./GamePagination.css";
 
 const GameReview = (props) => {
-  const [dataSource, setDataSource] = useState([]);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(2000);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    fetchRecords(1);
-  }, []);
+
   const columns = [
     {
-      title: "ID",
-      dataIndex: "_id",
+      key: "userId",
+      title: "아이디",
+      dataIndex: "userId",
     },
     {
-      title: "Name",
-      dataIndex: "name",
+      key: "rating",
+      title: "평점",
+      dataIndex: "rating",
     },
     {
-      title: "Trips",
-      dataIndex: "trips",
+      key: "review",
+      title: "리뷰",
+      dataIndex: "comment",
     },
     {
+      key: "delete",
       title: "Delete",
       render: (index, record) => (
         <Button onClick={() => handleDelete(record)}>Delete</Button>
@@ -34,24 +35,9 @@ const GameReview = (props) => {
     },
   ];
 
-  const fetchRecords = (page) => {
-    setLoading(true);
-    axios
-      .get(`https://api.instantwebtools.net/v1/passenger?page=${page}&size=10`)
-      .then((res) => {
-        const dataWithKeys = res.data.data.map((row) => ({
-          ...row,
-          key: row._id, // Use the _id field as the unique key
-        }));
-        setDataSource(dataWithKeys);
-        setTotalPages(res.data.totalPages);
-        setLoading(false);
-      });
-  };
-
   return (
     <div>
-      <span className={style.font}>Review</span>
+      <span className={style.font}>리뷰</span>
 
       <div
         className="fontSize"
@@ -65,23 +51,20 @@ const GameReview = (props) => {
           className="my-table"
           loading={loading}
           columns={columns}
-          dataSource={dataSource}
+          dataSource={props.reviews}
           style={{ width: "70vw" }}
           pagination={{
             pageSize: 10,
             total: totalPages,
-            onChange: (page) => {
-              fetchRecords(page);
-            },
             showSizeChanger: false,
             style: {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              fontSize: "1.5rem",
+              fontSize: "1rem",
             },
           }}
-          rowKey={(record) => record.key}
+          rowKey={(record) => record.userId}
         ></Table>
       </div>
     </div>

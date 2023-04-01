@@ -4,19 +4,7 @@ import TextField from "@mui/material/TextField";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
-import {
-  Button,
-  Checkbox,
-  Col,
-  Form,
-
-  Rate,
-  Row,
-
-  Slider,
-
-  Drawer
-} from 'antd';
+import { Button, Checkbox, Col, Form, Rate, Row, Slider, Drawer } from "antd";
 
 const formItemLayout = {
   labelCol: {
@@ -27,24 +15,23 @@ const formItemLayout = {
   },
 };
 export default function GameSearch({ open, onClose, gameData, search }) {
-  const inputRef = useRef()
+  const inputRef = useRef();
   const onFinish = (values) => {
-    let newData = { ...gameData }
+    let newData = { ...gameData };
     for (const [value, v] of Object.entries(values)) {
       if (value === "Genre" && v !== undefined) {
         for (const genre of v) {
-          newData[genre] = 'true'
+          newData[genre] = "true";
         }
-        continue
-      }
-      else if (v) {
-        newData[value] = v
+        continue;
+      } else if (v) {
+        newData[value] = v;
       }
     }
-    newData = { ...newData, 'name': inputRef.current.value }
-    search(newData)
-    console.log(newData)
-  }
+    newData = { ...newData, name: inputRef.current.value };
+    search(newData);
+    // console.log(newData)
+  };
   const checkboxes = [
     ["strategy", "전략 게임"],
     ["family", "가족 게임"],
@@ -53,10 +40,17 @@ export default function GameSearch({ open, onClose, gameData, search }) {
     ["thematic", "영화적 게임"],
     ["war", "전쟁 게임"],
     ["customizable", "커스텀 게임"],
-    ["children", "어린이 게임"]]
+    ["children", "어린이 게임"],
+  ];
 
   return (
-    <Drawer title="Basic Drawer" placement="left" onClose={onClose} open={open} width={520}>
+    <Drawer
+      title="Basic Drawer"
+      placement="left"
+      onClose={onClose}
+      open={open}
+      width={520}
+    >
       <Box
         sx={{
           width: "70vw",
@@ -64,7 +58,12 @@ export default function GameSearch({ open, onClose, gameData, search }) {
           marginBottom: "3rem",
         }}
       >
-        <TextField fullWidth label="게임 이름을 입력하시오" id="gamesearch" inputRef={inputRef} />
+        <TextField
+          fullWidth
+          label="게임 이름을 입력하시오"
+          id="gamesearch"
+          inputRef={inputRef}
+        />
       </Box>
       <Form
         name="validate_other"
@@ -74,48 +73,48 @@ export default function GameSearch({ open, onClose, gameData, search }) {
           maxWidth: 600,
         }}
       >
-
         <Form.Item name="maxplaytime" label="플레이시간">
-          <Slider max={150}
+          <Slider
+            max={150}
             marks={{
-              0: '0',
-              30: '30',
-              60: '60',
-              90: '90',
-              120: '120',
-              150: '150',
+              0: "0",
+              30: "30",
+              60: "60",
+              90: "90",
+              120: "120",
+              150: "150",
             }}
           />
         </Form.Item>
         <Form.Item name="maxplayers" label="인원수">
-          <Slider max={15}
+          <Slider
+            max={15}
             marks={{
-              0: '1',
-              2: '2',
-              4: '4',
-              6: '6',
-              10: '10',
-              15: '15',
+              0: "1",
+              2: "2",
+              4: "4",
+              6: "6",
+              10: "10",
+              15: "15",
             }}
           />
         </Form.Item>
         <Form.Item name="averageWeight" label="난이도">
-          <Slider max={5}
+          <Slider
+            max={5}
             marks={{
-              0: '0',
-              1: '1',
-              2: '2',
-              3: '3',
-              4: '4',
-              5: '5',
+              0: "0",
+              1: "1",
+              2: "2",
+              3: "3",
+              4: "4",
+              5: "5",
             }}
           />
         </Form.Item>
         <Form.Item name="average" label="평점">
           <Rate />
         </Form.Item>
-
-
 
         <Form.Item name="Genre" label="genre">
           <Checkbox.Group>
@@ -126,15 +125,14 @@ export default function GameSearch({ open, onClose, gameData, search }) {
                     <Checkbox
                       value={genre[0]}
                       style={{
-                        lineHeight: '32px',
+                        lineHeight: "32px",
                       }}
                     >
                       {genre[1]}
                     </Checkbox>
                   </Col>
-                )
+                );
               })}
-
             </Row>
           </Checkbox.Group>
         </Form.Item>
@@ -168,6 +166,5 @@ export default function GameSearch({ open, onClose, gameData, search }) {
     //   </Button>
     //   <hr />
     // </Box>
-
   );
 }

@@ -109,12 +109,10 @@ export const createReviews = createAsyncThunk(
 //보드게임 리뷰 조회
 export const getReviews = createAsyncThunk(
   "boardgames/getReviews",
-  async (reqData) => {
+  async (data) => {
     try {
-      const response = await httpClient.get(
-        `boardgames/review/${reqData.gameId}`
-      );
-      console.log(response);
+      const response = await httpClient.get(`boardgames/review/${data}`);
+      // console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);
