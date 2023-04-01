@@ -29,6 +29,7 @@ const ReserveFind = () => {
   useEffect(() => {
     dispatch(getRoom())
       .then((data) => {
+        console.log(data)
         setRooms((rooms) => data.payload.rooms);
         getFilter();
       })
@@ -126,9 +127,8 @@ const ReserveFind = () => {
                     paddingRight: "2rem",
                     paddingLeft: "2rem",
                   }}
-                  className={`san ${
-                    item === date.toLocaleDateString() && "list_item_select"
-                  }`}
+                  className={`san ${item === date.toLocaleDateString() && "list_item_select"
+                    }`}
                   onClick={() => {
                     setDate(new Date(item));
                   }}
@@ -165,9 +165,8 @@ const ReserveFind = () => {
             dataSource={sortedRooms}
             renderItem={(item) => (
               <List.Item
-                className={`list_item_hover ${
-                  item === date.toLocaleDateString() && "list_item_select"
-                }`}
+                className={`list_item_hover ${item === date.toLocaleDateString() && "list_item_select"
+                  }`}
                 style={{
                   padding: "1.5rem",
                   textAlign: "start",
@@ -189,7 +188,7 @@ const ReserveFind = () => {
                       fontWeight: "bolder",
                     }}
                   >
-                    {item.date.slice(11,16)}
+                    {item.date.slice(11, 16)}
                   </span>
                   <div
                     style={{
