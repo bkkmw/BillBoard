@@ -1,67 +1,23 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
-
-// import { Card, Col, Row } from "antd";
-
-// // const { Meta } = Card;
-// const ProfileLatestList = () => {
-//   return (
-//     <div
-//       style={{
-//         display: "flex",
-//         flexDirection: "column",
-//         marginTop: "3rem",
-//         marginBottom: "3rem",
-//       }}
-//     >
-//       <span style={{ fontSize: "3rem", marginBottom: "1.5rem" }}>최신기록</span>
-//       <Row gutter={(20, 20)}>
-//         <Col span={12}>
-//           {/* <Link to = {`detail/:${gameid}`}/> */}
-//           <Link to="/">
-//             <Card
-//               hoverable
-//               style={{
-//                 width: 240,
-//                 border: "1px solid #000000",
-//               }}
-//               cover={
-//                 <img
-//                   alt="example"
-//                   src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-//                 />
-//               }
-//             >
-//               <span>안녕하세요</span>
-//               {/* <Meta
-//                 title="Europe Street beat"
-//                 description="www.instagram.com"
-//               /> */}
-//             </Card>
-//           </Link>
-//         </Col>
-//       </Row>
-//     </div>
-//   );
-// };
-
-// export default ProfileLatestList;
+import React from "react";
 
 import { Link } from "react-router-dom";
-import * as React from "react";
+
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-// const { Meta } = Card;
-const ProfileLatestList = () => {
+
+const ProfileLatestList = (props) => {
+  const recentGames = props.user.recentGames;
+  const userInfo = props.user.userInfo;
+  // console.log(recentGames);
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-evenly",
+        // justifyContent: "space-evenly",
       }}
     >
       <span
@@ -72,61 +28,35 @@ const ProfileLatestList = () => {
           textAlign: "start",
         }}
       >
-        최신기록
+        최근 플레이한 게임
       </span>
       <div
         style={{
           width: "57vw",
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
+          // justifyContent: "space-around",
+          gap: "30px",
         }}
       >
-        <Card sx={{ width: "18vw" }}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              height="320"
-              image="https://cataas.com/cat"
-              alt="green iguana"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-        <Card sx={{ width: "18vw" }}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              height="320"
-              image="https://cataas.com/cat"
-              alt="green iguana"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-        <Card sx={{ width: "18vw" }}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              height="320"
-              image="https://cataas.com/cat"
-              alt="green iguana"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+        {recentGames.map((recentgame, index) => {
+          return (
+            <Card key={index} sx={{ width: "18vw" }}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="320"
+                  image={recentgame.image}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {recentgame.name}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );

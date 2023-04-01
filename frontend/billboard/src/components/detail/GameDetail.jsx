@@ -46,7 +46,6 @@ const GameDetail = (props) => {
           <Rate style={{ fontSize: "3rem" }} />
         </div>
         <div className={style.background4}>
-          <button className={style.button}>방 개설</button>
           <button
             style={{ backgroundColor: isFavorite ? "red" : "green" }}
             onClick={handleFavorite}
@@ -71,3 +70,35 @@ const GameDetail = (props) => {
 };
 
 export default GameDetail;
+
+// import { React, useState, useEffect } from "react";
+
+// const GameDetail = (props) => {
+//   // Get initial state of button from localStorage, or set to not clicked
+//   const [isButtonClicked, setIsButtonClicked] = useState(
+//     localStorage.getItem("isButtonClicked") === "true" ? true : false
+//   );
+
+//   // Save the button's clicked state to localStorage whenever it changes
+//   useEffect(() => {
+//     localStorage.setItem("isButtonClicked", isButtonClicked);
+//   }, [isButtonClicked]);
+
+//   const handleButtonClick = () => {
+//     // Toggle the clicked state when button is clicked
+//     setIsButtonClicked(!isButtonClicked);
+//   };
+
+//   return (
+//     <div>
+//       <button
+//         style={{ backgroundColor: isButtonClicked ? "red" : "green" }}
+//         onClick={handleButtonClick}
+//       >
+//         Click me!
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default GameDetail;

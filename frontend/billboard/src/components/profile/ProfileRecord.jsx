@@ -5,11 +5,11 @@ import ProfileRating from "./ProfileRating";
 
 import style from "./ProfileRecord.module.css";
 
-const ProfileRecord = () => {
+const ProfileRecord = (props) => {
   return (
     <div className={style.background}>
-      <ProfileRating />
-      <ProfileLatestList />
+      <ProfileRating user={props.user} />
+      <ProfileLatestList user={props.user} />
     </div>
   );
 };
