@@ -119,13 +119,14 @@ const Main = () => {
           pagination={{
             clickable: true,
           }}
-          modules={[FreeMode, Pagination]}
+          navigation={true}
+          modules={[FreeMode, Pagination, Navigation]}
           className="boardRanking"
           style={{ marginTop: "2rem", marginBottom: "2rem" }}
         >
           {boardRanking.map((data, index) => (
             <SwiperSlide key={index}>
-              <Link to={`/detail/${data.gameId}`}>
+              <Link to={`/detail/${data.gameId}`} state={data}>
                 <img
                   style={{ width: "350px", height: "350px", objectFit: "fill" }}
                   src={data.image}
@@ -145,13 +146,14 @@ const Main = () => {
           pagination={{
             clickable: true,
           }}
-          modules={[FreeMode, Pagination]}
+          navigation={true}
+          modules={[FreeMode, Pagination, Navigation]}
           className="boardWeight"
           style={{ marginTop: "2rem", marginBottom: "2rem" }}
         >
           {boardWeight.map((data, index) => (
             <SwiperSlide key={index}>
-              <Link to={`/detail/${data.gameId}`}>
+              <Link to={`/detail/${data.gameId}`} state={data}>
                 <img
                   style={{ width: "350px", height: "350px", objectFit: "fill" }}
                   src={data.image}
@@ -170,7 +172,8 @@ const Main = () => {
             pagination={{
               clickable: true,
             }}
-            modules={[FreeMode, Pagination]}
+            navigation={true}
+            modules={[FreeMode, Pagination, Navigation]}
             className="boardReview"
             style={{ marginTop: "2rem", marginBottom: "2rem" }}
           >
@@ -200,17 +203,17 @@ const Main = () => {
             pagination={{
               clickable: true,
             }}
-            modules={[FreeMode, Pagination]}
+            navigation={true}
+            modules={[FreeMode, Pagination, Navigation]}
             className="boardDate"
             style={{ marginTop: "2rem", marginBottom: "2rem" }}
           >
             {boardDate.map((data, index) => (
               <SwiperSlide key={index}>
-                <Link to={`/detail/${data.gameId}`}>
+                <Link to={`/detail/${data.gameId}`} state={data}>
                   <img
                     style={{
-                      width: "350px",
-                      height: "350px",
+                      height: "300px",
                       objectFit: "fill",
                     }}
                     src={data.image}

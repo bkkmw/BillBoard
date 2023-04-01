@@ -1,6 +1,6 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useRouteLoaderData } from "react-router-dom";
 
 import ProfileFavorites from "./ProfileFavorites";
@@ -9,9 +9,24 @@ import ProfileRecord from "./ProfileRecord";
 import { selectUser } from "../../store/user";
 import style from "./ProfilePage.module.css";
 
+import { userProfile } from "../../store/profile";
+
 const Profile = () => {
+  // 유저 프로필 조회
+  const [user, SetUser] = useState(null);
   const userId = useRouteLoaderData("profile");
-  // const userId = useSelector(selectUser).loginUser.userId;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const getUser = () => {
+      dispatch(userProfile(userId)).then((res) => {
+        if (res.payload.userInfo) {
+          SetUser(res.payload);
+        }
+      });
+    };
+    getUser();
+  }, []);
+
   return (
     <div
       style={{
@@ -20,15 +35,19 @@ const Profile = () => {
         borderRadius: "3rem",
       }}
     >
-      <ProfileInfo />
-      <hr
-        style={{ width: "80vw", marginTop: "1.5rem", marginBottom: "1rem" }}
-      />
-      <ProfileRecord />
-      <hr
-        style={{ width: "80vw", marginTop: "1.5rem", marginBottom: "1.5rem" }}
-      />
-      <ProfileFavorites />
+      {user && (
+        <>
+          <ProfileInfo user={user} />
+          <hr
+            style={{ width: "80vw", marginTop: "1.5rem", marginBottom: "1rem" }}
+          />
+          <ProfileRecord user={user} />
+          <hr
+            style={{ width: "80vw", marginTop: "1.5rem", marginBottom: "1rem" }}
+          />
+          <ProfileFavorites user={user} />
+        </>
+      )}
     </div>
   );
 };

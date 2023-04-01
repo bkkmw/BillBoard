@@ -15,7 +15,7 @@ const Detail = () => {
       <hr style={{ width: "74vw" }} />
       <GameDescription details={details} />
       <hr style={{ width: "74vw" }} />
-      {/* <GameVideo key="key" /> */}
+      <GameVideo key="key" details={details} />
       <hr style={{ width: "74vw" }} />
       <GameReview details={details} />
     </div>
