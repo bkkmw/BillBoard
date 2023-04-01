@@ -79,6 +79,7 @@ const GameReview = (props) => {
               justifyContent: "center",
               alignItems: "center",
               fontSize: "1.5rem",
+              marginBottom: "3rem",
             },
           }}
           rowKey={(record) => record.key}
