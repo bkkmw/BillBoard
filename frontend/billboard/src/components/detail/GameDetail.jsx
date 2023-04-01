@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import GameRating from "./GameRating";
 import { Link } from "react-router-dom";
 import { Rate } from "antd";
-import style from "./GameDetail.module.css";
+import stlyes from "./GameDetail.module.css";
 
 import { createFavorites, deleteFavorites } from "../../store/boardgames";
 
@@ -30,40 +30,55 @@ const GameDetail = (props) => {
 
   // console.log(props.details);
   return (
-    <div className={style.background}>
+    <div className={stlyes.background}>
       <img
         src={props.details.image}
         alt="5"
         style={{ height: "40vh", width: "25vw" }}
       ></img>
-      <div className={style.background2}>
-        <div className={style.background3}>
+      <div className={stlyes.background2}>
+        <div className={stlyes.background3}>
           <GameRating value={5} maxValue={10} />
-          <span className={style.font}>{props.details.name}</span>
+          <span className={stlyes.font}>{props.details.name}</span>
         </div>
-        <div>
-          <span className={style.font2}>My rating</span>
-          <Rate style={{ fontSize: "3rem" }} />
+        <div
+          style={{
+            width: "40vw",
+            height: "7vh",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <span className={stlyes.font2}>My rating</span>
+          <Rate
+            style={{
+              fontSize: "3rem",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          />
         </div>
-        <div className={style.background4}>
-          <button className={style.button}>방 개설</button>
+        <div className={stlyes.background4}>
           <button
             style={{ backgroundColor: isFavorite ? "red" : "green" }}
             onClick={handleFavorite}
-            className={style.button}
+            className={stlyes.button}
           >
             즐겨찾기
           </button>
         </div>
-        <div className={style.background5}>
-          <span className={style.font2}>
+        <div className={stlyes.background5}>
+          <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
             {`${props.details.minplayers} ~ ${props.details.maxplayers} 명`}
           </span>
-          <span className={style.font2}>
+          <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
             {" "}
             {`${props.details.minplaytime} ~ ${props.details.maxplaytime} 분`}
           </span>
-          <span className={style.font2}>{props.details.minage}세 이용가</span>
+          <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
+            {props.details.minage}세 이용가
+          </span>
         </div>
       </div>
     </div>
@@ -71,3 +86,35 @@ const GameDetail = (props) => {
 };
 
 export default GameDetail;
+
+// import { React, useState, useEffect } from "react";
+
+// const GameDetail = (props) => {
+//   // Get initial state of button from localStorage, or set to not clicked
+//   const [isButtonClicked, setIsButtonClicked] = useState(
+//     localStorage.getItem("isButtonClicked") === "true" ? true : false
+//   );
+
+//   // Save the button's clicked state to localStorage whenever it changes
+//   useEffect(() => {
+//     localStorage.setItem("isButtonClicked", isButtonClicked);
+//   }, [isButtonClicked]);
+
+//   const handleButtonClick = () => {
+//     // Toggle the clicked state when button is clicked
+//     setIsButtonClicked(!isButtonClicked);
+//   };
+
+//   return (
+//     <div>
+//       <button
+//         stlyes={{ backgroundColor: isButtonClicked ? "red" : "green" }}
+//         onClick={handleButtonClick}
+//       >
+//         Click me!
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default GameDetail;
