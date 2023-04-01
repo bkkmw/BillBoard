@@ -7,7 +7,7 @@
 
 // const Gameroom = () => {
 //   const dispatch = useDispatch();
-//   const [openGameResult, setOpenGameResult] = useState(false);
+//   
 //   const [userList, setUserList] = useState([]);
 //   const [isInGame, setIsInGame] = useState(false);
 
@@ -42,13 +42,7 @@
 //           >
 //             게임 결과 입력
 //           </Button>
-//           <GameResult
-//             isModalOpen={openGameResult}
-//             setIsModalOpen={setOpenGameResult}
-//             userList={userList}
-//             setUserList={setUserList}
-//             setIsInGame={setIsInGame}
-//           />
+
 //         </>
 //       )}
 //     </div>
@@ -60,8 +54,16 @@
 import React, { useEffect, useState } from "react";
 import RoomLeft from "./RoomLeft";
 import RoomRight from "./RoomRight";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { selectgameroom, setGameroomInit } from "../../store/gameroom";
 
 const Gameroom = () => {
+  const dispatch = useDispatch()
+  const endGame = () => {
+    dispatch(setGameroomInit())
+  }
   return (
     <div
       style={{
@@ -77,6 +79,11 @@ const Gameroom = () => {
     >
       <RoomLeft />
       <RoomRight />
+
+      <Button color="warning" onClick={() => {
+        endGame()
+
+      }}>게임종료</Button>
     </div>
   );
 };

@@ -37,13 +37,10 @@ const GameroomSearch = ({ setGameDetail, showModal }) => {
     const [boardReview, setBoardReview] = useState([]);
     const boards = (name) => {
         dispatch(getBoardGames({ ...gameData, 'name': name })).then((response) => {
-            console.log(response)
+
             setBoardReview(response.payload["review"]);
         });
     };
-    useEffect(() => {
-        console.log(selectgameInfo)
-    }, [selectgameInfo])
     return (
         <>
             <div

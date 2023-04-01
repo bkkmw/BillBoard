@@ -35,7 +35,7 @@ const RoomEntry = ({ isModalOpen, handleCancel, rooms, addUser }) => {
                         <Collapse accordion>
                             {rooms.map((room, idx) => (<Panel header={`방이름:${room.roomInfo.title}`} key={room + idx}>
                                 {room.entries.map((entry, i) => (<>
-                                    <div>id:{entry.user.userId}</div>
+                                    <div key={entry + i}>id:{entry.user.userId}</div>
                                 </>))}
                                 <Button onClick={() => { submitPlayer(room.entries) }}>예약선택</Button>
                             </Panel>))}

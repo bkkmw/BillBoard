@@ -14,6 +14,19 @@ export const getuser = createAsyncThunk(
         }
     }
 )
+export const postHistory = createAsyncThunk(
+    "gameroom/postHistory",
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await httpClient.post("history", data)
+            console.log(response)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
+)
 export const getentries = createAsyncThunk(
     "gameroom/getentries",
     async (userId, { rejectWithValue }) => {
@@ -28,12 +41,27 @@ export const getentries = createAsyncThunk(
     }
 
 )
+export const postGameHistory = createAsyncThunk(
+    "gameroom/postGameHistory",
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await httpClient.post('/histories', data)
+            console.log(response)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
+)
 
 
 
 const initialState = {
     players: [],
-    gameInfo: { gameId: '' }
+    gameInfo: { gameId: '' },
+    isInGame: false,
+    playTime: 0
 
 }
 const gameroomSlice = createSlice({
@@ -45,6 +73,25 @@ const gameroomSlice = createSlice({
         },
         setGame: (state, action) => {
             state.gameInfo = action.payload
+        },
+        setIsInGame: (state, action) => {
+            state.isInGame = action.payload
+        },
+        setPlayTime: (state, action) => {
+            state.playTime = action.payload
+        },
+        setGameroomInit: (state, action) => {
+            console.log('초기화')
+            // state = {
+            //     players: [],
+            //     gameInfo: { gameId: '' },
+            //     isInGame: false,
+            //     playTime: 0
+            // }
+            state.players = []
+            state.gameInfo = { gameId: '' }
+            state.isInGame = false
+            state.playTime = 0
         }
 
     },
@@ -56,6 +103,9 @@ const gameroomSlice = createSlice({
 export default gameroomSlice.reducer;
 export const {
     setPlayer,
-    setGame
+    setGame,
+    setIsInGame,
+    setPlayTime,
+    setGameroomInit
 } = gameroomSlice.actions
 export const selectgameroom = (state) => state.gameroom
