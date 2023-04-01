@@ -98,7 +98,6 @@ const Main = () => {
         >
           {boardAverage.map((data, index) => (
             <SwiperSlide key={index}>
-
               <Link to={`/detail/${data.gameId}`} state={data}>
                 <img
                   style={{ height: "300px", objectFit: "fill" }}
@@ -119,20 +118,19 @@ const Main = () => {
           pagination={{
             clickable: true,
           }}
-          modules={[FreeMode, Pagination]}
+          navigation={true}
+          modules={[FreeMode, Pagination, Navigation]}
           className="boardRanking"
           style={{ marginTop: "2rem", marginBottom: "2rem" }}
         >
           {boardRanking.map((data, index) => (
             <SwiperSlide key={index}>
-              <Link to={`/detail/${data.gameId}`}>
-
+              <Link to={`/detail/${data.gameId}`} state={data}>
                 <img
                   style={{ height: "300px", objectFit: "fill" }}
                   src={data.image}
                   alt="Slide 1"
                 />
-
               </Link>
             </SwiperSlide>
           ))}
@@ -147,20 +145,19 @@ const Main = () => {
           pagination={{
             clickable: true,
           }}
-          modules={[FreeMode, Pagination]}
+          navigation={true}
+          modules={[FreeMode, Pagination, Navigation]}
           className="boardWeight"
           style={{ marginTop: "2rem", marginBottom: "2rem" }}
         >
           {boardWeight.map((data, index) => (
             <SwiperSlide key={index}>
-              <Link to={`/detail/${data.gameId}`}>
-
+              <Link to={`/detail/${data.gameId}`} state={data}>
                 <img
                   style={{ height: "300px", objectFit: "fill" }}
                   src={data.image}
                   alt="Slide 1"
                 />
-
               </Link>
             </SwiperSlide>
           ))}
@@ -174,20 +171,19 @@ const Main = () => {
             pagination={{
               clickable: true,
             }}
-            modules={[FreeMode, Pagination]}
+            navigation={true}
+            modules={[FreeMode, Pagination, Navigation]}
             className="boardReview"
             style={{ marginTop: "2rem", marginBottom: "2rem" }}
           >
             {boardReview.map((data, index) => (
               <SwiperSlide key={index}>
-
                 <Link to={`/detail/${data.gameId}`} state={data}>
                   <img
                     style={{ height: "300px", objectFit: "fill" }}
                     src={data.image}
                     alt="Slide 1"
                   />
-
                 </Link>
               </SwiperSlide>
             ))}
@@ -202,20 +198,22 @@ const Main = () => {
             pagination={{
               clickable: true,
             }}
-            modules={[FreeMode, Pagination]}
+            navigation={true}
+            modules={[FreeMode, Pagination, Navigation]}
             className="boardDate"
             style={{ marginTop: "2rem", marginBottom: "2rem" }}
           >
             {boardDate.map((data, index) => (
               <SwiperSlide key={index}>
-                <Link to={`/detail/${data.gameId}`}>
-
+                <Link to={`/detail/${data.gameId}`} state={data}>
                   <img
-                    style={{ height: "300px", objectFit: "fill" }}
+                    style={{
+                      height: "300px",
+                      objectFit: "fill",
+                    }}
                     src={data.image}
                     alt="Slide 1"
                   />
-
                 </Link>
               </SwiperSlide>
             ))}

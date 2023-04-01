@@ -29,6 +29,19 @@ export const getBoardGames = createAsyncThunk(
     }
   }
 );
+// 보드게임 상세 조회
+export const getDetails = createAsyncThunk(
+  "boardgames/getDetails",
+  async (data) => {
+    try {
+      const response = await httpClient.get(`boardgames/${data}`);
+      // console.log(response);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
 
 // 보드게임 즐겨찾기 등록
 export const createFavorites = createAsyncThunk(
@@ -52,12 +65,10 @@ export const createFavorites = createAsyncThunk(
 // 보드게임 즐겨찾기 조회
 export const getFavorites = createAsyncThunk(
   "boardgames/getFavorites",
-  async (reqData) => {
+  async (userId) => {
     try {
-      const response = await httpClient.get(
-        `boardgames/favorite/${reqData.userId}`
-      );
-      console.log(response);
+      const response = await httpClient.get(`boardgames/favorite/${userId}`);
+      // console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);

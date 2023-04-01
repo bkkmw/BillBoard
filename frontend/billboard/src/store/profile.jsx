@@ -35,6 +35,19 @@ export const followdelete = createAsyncThunk(
   }
 );
 
+//프로필 페이지 조회
+export const userProfile = createAsyncThunk(
+  "profile/userProfile",
+  async (userId) => {
+    try {
+      const response = await httpClient.get(`users/${userId}`);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+
 // const initialState = {};
 // const profileSlice = createSlice({
 //   name: "reserve",
