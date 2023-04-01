@@ -33,15 +33,13 @@ const initialState = {
     matchCount: -1,
     winCount: -1,
   },
-  accessToken: "",
-  refreshToken: "",
 };
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(doLogin.pending, (state) => {});
+    builder.addCase(doLogin.pending, (state) => { });
     builder.addCase(doLogin.fulfilled, (state, action) => {
       // console.log("시바", action.payload.data.userInfo.nickname);
       state.login = true;
@@ -56,7 +54,7 @@ const userSlice = createSlice({
       state.refreshToken = action.payload.data.refreshToken;
       // console.log("hi", action.payload.userInfo);
     });
-    builder.addCase(doLogin.rejected, (state) => {});
+    builder.addCase(doLogin.rejected, (state) => { });
     builder.addCase(PURGE, () => {
       return initialState;
     });

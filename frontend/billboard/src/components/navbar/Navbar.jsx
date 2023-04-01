@@ -26,6 +26,9 @@ const Navbar = () => {
   // useEffect(() => {
   //   console.log(userID);
   // });
+  useEffect(() => {
+    console.log(login, loginUser, userID)
+  }, [])
   const doLogout = async () => {
     if (window.confirm("로그아웃 하실?")) {
       try {
