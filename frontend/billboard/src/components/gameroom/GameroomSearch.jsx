@@ -42,6 +42,7 @@ const GameroomSearch = ({ setGameDetail, showModal }) => {
         });
     };
     useEffect(() => {
+        boards('')
         console.log(selectgameInfo);
     }, [selectgameInfo]);
     return (

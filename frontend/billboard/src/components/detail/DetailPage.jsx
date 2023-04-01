@@ -16,11 +16,21 @@ import { Margin } from "@mui/icons-material";
 
 
 const Detail = ({ gameDetail }) => {
+  let details;
+  let gameId
+  // console.log(location.state);
+
   const location = useLocation();
 
   const dispatch = useDispatch();
-  const gameId = useRouteLoaderData("detail");
-  const details = location.state;
+  if (gameDetail) {
+    details = gameDetail;
+    gameId = gameDetail.gameId
+  } else {
+    details = location.state;
+    gameId = useRouteLoaderData("detail");
+  }
+  // const details = location.state;
   const [reviews, setReviews] = useState(null);
   // 보드게임 리뷰 조회
   useEffect(() => {
@@ -32,13 +42,7 @@ const Detail = ({ gameDetail }) => {
     handleReviews();
   }, []);
 
-  // let details;
-  // // console.log(location.state);
-  // if (gameDetail) {
-  //   details = gameDetail;
-  // } else {
-  //   details = location.state;
-  // }
+
 
 
   return (

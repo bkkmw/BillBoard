@@ -92,10 +92,10 @@ const RoomRight = () => {
           <GameResult
             isModalOpen={openGameResult} setIsModalOpen={setOpenGameResult}
           />
-        </div> : <InGame setOpenGameResult={setOpenGameResult} />}
+        </div>       </div > : <InGame setOpenGameResult={setOpenGameResult} />}
 
-      </>
-    </div >
+  </>
+
 
     // * 밑에 있는게 게임중 보이는 화면 *
 
