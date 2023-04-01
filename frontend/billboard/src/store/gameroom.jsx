@@ -32,7 +32,8 @@ export const getentries = createAsyncThunk(
 
 
 const initialState = {
-    players: []
+    players: [],
+    gameInfo: { gameId: '' }
 
 }
 const gameroomSlice = createSlice({
@@ -41,6 +42,9 @@ const gameroomSlice = createSlice({
     reducers: {
         setPlayer: (state, action) => {
             state.players = action.payload
+        },
+        setGame: (state, action) => {
+            state.gameInfo = action.payload
         }
 
     },
@@ -51,6 +55,7 @@ const gameroomSlice = createSlice({
 
 export default gameroomSlice.reducer;
 export const {
-    setPlayer
+    setPlayer,
+    setGame
 } = gameroomSlice.actions
 export const selectgameroom = (state) => state.gameroom
