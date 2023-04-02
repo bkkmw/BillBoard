@@ -28,7 +28,7 @@ public interface BoardGameService {
     public boolean addFavoriteBoardGame(String userId, @RequestBody int gameId);
 
     //보드게임 즐겨찾기 조회
-    public List<FavoriteDto.Favorite> getFavoriteBoardGames(String userId);
+    public List<BoardGameDto.BoardGame> getFavoriteBoardGames(String userId);
     //보드게임 즐겨찾기 삭제
     public boolean removeFavoriteBoardGame(FavoriteID favoriteID);
 
