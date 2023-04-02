@@ -482,22 +482,21 @@ public class BoardGameServiceImpl implements BoardGameService{
     }
     //보드게임 즐겨찾기 조회
     @Override
-    public List<FavoriteDto.Favorite> getFavoriteBoardGames(String userId) {
+    public List<BoardGameDto.BoardGame> getFavoriteBoardGames(String userId) {
         if(!userRepository.existsByUserId(userId))
             return null;
 
 
         List<Favorite> favoritesEntity = favoriteRepository.findAllByUserId(userId);
-        List<FavoriteDto.Favorite> favorites = new ArrayList<>();
-
+        List<BoardGameDto.BoardGame> boardgames = new ArrayList<>();
         for (Favorite fv: favoritesEntity) {
-            FavoriteDto.Favorite fvd = FavoriteDto.Favorite.builder()
-                    .gameId(fv.getGameId())
-                    .userId(fv.getUserId())
-                    .build();
-            favorites.add(fvd);
+            int gameId = fv.getGameId();
+            BoardGame bg = boardGameRepository.findById(gameId).get();
+            BoardGameDto.BoardGame bgt = buildBoardGame(bg);
+            boardgames.add(bgt);
+
         }
-       return favorites;
+       return boardgames;
     }
     //보드게임 즐겨찾기 해제
     @Override
