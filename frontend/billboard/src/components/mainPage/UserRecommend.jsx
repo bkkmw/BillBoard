@@ -24,7 +24,7 @@ export default function UserRecommend() {
   const [recommDatas, setRecommDatas] = useState([]);
   const dispatch = useDispatch();
   const { loginUser } = useSelector((state) => state.user);
-
+  // 유저별 1인 추천
   useEffect(() => {
     const userId = loginUser.userId;
     dispatch(recommendGame(userId)).then((res) => {
