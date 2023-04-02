@@ -27,20 +27,7 @@ const ProfileFavorites = () => {
     };
     handleFavorite();
   }, []);
-  // 보드게임 상세 조회
-  // const getDetailData = (data) => {
-  //   // console.log("1111", data);
-  //   setGameId(data);
-  // };
-  // // console.log("22222", gameId);
-  // useEffect(() => {
-  //   if (gameId) {
-  //     dispatch(getDetails(gameId)).then((res) => {
-  //       console.log(res.payload);
-  //       setFavoriteData(res.payload);
-  //     });
-  //   }
-  // }, [gameId]);
+  console.log(favorites);
 
   return (
     <div
@@ -72,30 +59,26 @@ const ProfileFavorites = () => {
         >
           {favorites.map((favorite, index) => {
             return (
-              // <Link
-              //   key={index}
-              //   to={`/detail/${favorite.gameId}`}
-              //   state={favoriteData}
-              // >
-              <Card
+              <Link
                 key={index}
-                // onClick={() => getDetailData(favorite.gameId)}
-                sx={{ width: "18vw" }}
+                to={`/detail/${favorite.gameId}`}
+                state={favorite}
               >
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="320"
-                    // image={favorite.image}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {favorite.gameId}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-              // </Link>
+                <Card key={index} sx={{ width: "18vw" }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="320"
+                      image={favorite.image}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {favorite.name}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Link>
             );
           })}
         </div>
