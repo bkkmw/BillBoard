@@ -12,6 +12,7 @@ import Review from './Review';
 const { Meta } = Card;
 
 const UserList = () => {
+  const isInGame = useSelector(selectgameroom).isInGame
   const gameHistory = useSelector(selectgameroom).gameHistory
   const dispatch = useDispatch()
   const userList = useSelector(selectgameroom).players
@@ -87,13 +88,14 @@ const UserList = () => {
           return (<Col span={24} key={`${i}${user.userId}`}><Card style={{ width: 300 }}>
             <p>id:{user.userId}</p>
             <p>score:{user.winCount}</p>
-            <Button type="primary" onClick={() => getEntries(user.userId)}>
-              예약정보 불러오기
-            </Button>
-            <Button type='primary' onClick={() => postReview(user.userId)}>
-              리뷰남기기
-            </Button>
-            <CloseCircleOutlined onClick={() => { delUser(user.id) }} />
+            {!isInGame && <>
+              <Button type="primary" onClick={() => getEntries(user.userId)}>
+                예약정보 불러오기
+              </Button>{gameHistory.length > 0 && <>
+                <Button type='primary' onClick={() => postReview(user.userId)}>
+                  리뷰남기기
+                </Button></>}
+              <CloseCircleOutlined onClick={() => { delUser(user.id) }} /></>}
 
 
 
