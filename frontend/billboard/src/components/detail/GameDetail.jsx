@@ -39,6 +39,9 @@ const GameDetail = (props) => {
       });
     }
   };
+  // 내 평점
+  const existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+  console.log(existingReviews[existingReviews.length - 1]["rating"]);
 
   return (
     <div className={stlyes.background}>
@@ -62,6 +65,8 @@ const GameDetail = (props) => {
         >
           <span className={stlyes.font2}>내 점수</span>
           <Rate
+            value={existingReviews[existingReviews.length - 1]["rating"]}
+            count={10}
             style={{
               fontSize: "3rem",
               display: "flex",
@@ -97,35 +102,3 @@ const GameDetail = (props) => {
 };
 
 export default GameDetail;
-
-// import { React, useState, useEffect } from "react";
-
-// const GameDetail = (props) => {
-//   // Get initial state of button from localStorage, or set to not clicked
-//   const [isButtonClicked, setIsButtonClicked] = useState(
-//     localStorage.getItem("isButtonClicked") === "true" ? true : false
-//   );
-
-//   // Save the button's clicked state to localStorage whenever it changes
-//   useEffect(() => {
-//     localStorage.setItem("isButtonClicked", isButtonClicked);
-//   }, [isButtonClicked]);
-
-//   const handleButtonClick = () => {
-//     // Toggle the clicked state when button is clicked
-//     setIsButtonClicked(!isButtonClicked);
-//   };
-
-//   return (
-//     <div>
-//       <button
-//         stlyes={{ backgroundColor: isButtonClicked ? "red" : "green" }}
-//         onClick={handleButtonClick}
-//       >
-//         Click me!
-//       </button>
-//     </div>
-//   );
-// };
-
-// export default GameDetail;
