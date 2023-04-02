@@ -40,7 +40,14 @@ const ProfileInfo = (props) => {
         <div className={style.background3}>
           <ProfileFollowing />
           <ProfileFollower />
-          <Button onClick={deleteUser} sx={{ margin: 3 }}>
+          <Button
+            onClick={deleteUser}
+            style={{
+              width: "6rem",
+              height: "2.5rem",
+              fontsize: "1.2rem",
+            }}
+          >
             회원 탈퇴
           </Button>
         </div>
