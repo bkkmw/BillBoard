@@ -7,6 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
+import "./ProfileLatestList2.css";
 
 const ProfileLatestList = (props) => {
   const recentGames = props.user.recentGames;
@@ -24,7 +25,7 @@ const ProfileLatestList = (props) => {
         style={{
           fontSize: "3rem",
           fontWeight: "bolder",
-          marginBottom: "1.5rem",
+          marginTop: "0.5rem",
           textAlign: "start",
         }}
       >
@@ -33,13 +34,70 @@ const ProfileLatestList = (props) => {
       <div
         style={{
           width: "57vw",
+          height: "45vh",
           display: "flex",
           flexDirection: "row",
+          flexWrap: "wrap",
           // justifyContent: "space-around",
-          gap: "30px",
+          // gap: "30px",
+          // marginTop: "10vh",
+          overflowY: "scroll",
         }}
       >
         {recentGames.map((recentgame, index) => {
+          return (
+            <div className="flip" key={index}>
+              <div className="card">
+                <div className="front">
+                  <Card sx={{ width: "18vw" }}>
+                    <CardActionArea>
+                      <CardMedia
+                        component="img"
+                        height="320"
+                        image={recentgame.image}
+                        style={{ objectFit: "fill" }}
+                      />
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                          style={{ height: "3vh", overflowY: "scroll" }}
+                        >
+                          {recentgame.name}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </div>
+                <div className="back">
+                  <Card sx={{ width: "18vw" }}>
+                    <CardActionArea>
+                      <CardMedia
+                        component="img"
+                        height="320"
+                        image={recentgame.image}
+                        style={{ objectFit: "fill" }}
+                      />
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                          style={{ height: "3vh", overflowY: "scroll" }}
+                        >
+                          {recentgame.name}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* {recentGames.map((recentgame, index) => {
           return (
             <Card key={index} sx={{ width: "18vw" }}>
               <CardActionArea>
@@ -56,7 +114,7 @@ const ProfileLatestList = (props) => {
               </CardActionArea>
             </Card>
           );
-        })}
+        })} */}
       </div>
     </div>
   );
