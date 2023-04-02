@@ -7,14 +7,21 @@ import { selectUser } from '../../store/user';
 import { action } from '../../store/store';
 import { getentries, selectgameroom, setPlayer } from '../../store/gameroom';
 import RoomEntry from './RoomEntry';
+import Review from './Review';
+
 const { Meta } = Card;
+
 const UserList = () => {
+  const isInGame = useSelector(selectgameroom).isInGame
+  const gameHistory = useSelector(selectgameroom).gameHistory
   const dispatch = useDispatch()
   const userList = useSelector(selectgameroom).players
   const myinfo = useSelector(selectUser).loginUser
   const [open, setOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReviewOpen, setIsReviewOpen] = useState(false)
   const [roomEntries, SetRoomEntries] = useState([])
+  const [reviewId, setReviewId] = useState('')
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -69,6 +76,10 @@ const UserList = () => {
       }
     })
   }
+  const postReview = (userId) => {
+    setReviewId(userId)
+    setIsReviewOpen(true)
+  }
 
   return (
     <div>
@@ -77,10 +88,14 @@ const UserList = () => {
           return (<Col span={24} key={`${i}${user.userId}`}><Card style={{ width: 300 }}>
             <p>id:{user.userId}</p>
             <p>score:{user.winCount}</p>
-            <Button type="primary" onClick={() => getEntries(user.userId)}>
-              예약정보 불러오기
-            </Button>
-            <CloseCircleOutlined onClick={() => { delUser(user.id) }} />
+            {!isInGame && <>
+              <Button type="primary" onClick={() => getEntries(user.userId)}>
+                예약정보 불러오기
+              </Button>{gameHistory.length > 0 && <>
+                <Button type='primary' onClick={() => postReview(user.userId)}>
+                  리뷰남기기
+                </Button></>}
+              <CloseCircleOutlined onClick={() => { delUser(user.id) }} /></>}
 
 
 
@@ -97,6 +112,7 @@ const UserList = () => {
       </Row>
       <UserListDrawer setOpen={setOpen} showDrawer={showDrawer} onClose={onClose} open={open} userList={userList} addUser={addUser} />
       <RoomEntry isModalOpen={isModalOpen} handleCancel={handleCancel} rooms={roomEntries} addUser={addUser} />
+      <Review isReviewOpen={isReviewOpen} setIsReviewOpen={setIsReviewOpen} userId={reviewId} gameHistory={gameHistory} />
     </div>
   );
 };

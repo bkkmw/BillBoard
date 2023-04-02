@@ -9,7 +9,6 @@ const RoomLeft = () => {
   const dispatch = useDispatch();
   const [openGameResult, setOpenGameResult] = useState(false);
 
-  const [isInGame, setIsInGame] = useState(false);
 
 
   return (

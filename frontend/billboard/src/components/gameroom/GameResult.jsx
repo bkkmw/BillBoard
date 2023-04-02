@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { postGameHistory, selectgameroom, setGame, setPlayTime, setPlayer } from '../../store/gameroom';
+import { postGameHistory, selectgameroom, setGame, setGameEnd, setPlayTime, setPlayer } from '../../store/gameroom';
 
 
 const GameResult = ({ isModalOpen, setIsModalOpen }) => {
@@ -40,8 +40,7 @@ const GameResult = ({ isModalOpen, setIsModalOpen }) => {
       .then((res) => {
         console.log(res)
         handleOk()
-        dispatch(setPlayTime(0.0))
-        dispatch(setGame({ 'gameId': "" }))
+        dispatch(setGameEnd())
       })
       .catch((err) => {
         console.log(err)
