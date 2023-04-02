@@ -41,6 +41,20 @@ export const getentries = createAsyncThunk(
     }
 
 )
+export const getCombiRecom = createAsyncThunk(
+    "gameroom/getCombiRecom",
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await httpClient.post(`/boardgames/recommend`, data)
+            console.log(response)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err;
+        }
+    }
+
+)
 export const postGameHistory = createAsyncThunk(
     "gameroom/postGameHistory",
     async (data, { rejectWithValue }) => {

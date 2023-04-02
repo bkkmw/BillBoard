@@ -7,6 +7,11 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { display } from "@mui/system";
 
+
+import { Modal } from "antd";
+
+import KakaoMapT from "./KakaoMapT";
+import ReserveForm from "./ReserveForm";
 let dateList = [];
 for (let i = 0; i < 7; i++) {
   const today = new Date();
@@ -16,7 +21,7 @@ for (let i = 0; i < 7; i++) {
 
 const ReserveFind = () => {
   const dispatch = useDispatch();
-
+  const [modalOpen, setModalOpen] = useState(false);
   const [address, setAddress] = useState("");
   const [isAddressOpen, setIsAddressOpen] = useState(false);
   const [isChildAddressOpen, setIsChildAddressOpen] = useState(false);
@@ -90,25 +95,34 @@ const ReserveFind = () => {
           style={{ width: "70vw", marginTop: "10vh", marginRight: "2rem" }}
         >
           <Row>
-            <Button
-              type="primary"
-              onClick={() => {
-                setIsAddressOpen(true);
-              }}
-              style={{
-                width: address === "" ? "10vw" : "33vw",
-                // width: "10vw",
-                height: "7vh",
-                borderRadius: "2rem",
-                marginBottom: "1rem",
-                fontSize: "2rem",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {address === "" ? "지역별" : address}
-            </Button>
+            <Col span={12}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  setIsAddressOpen(true);
+                }}
+                style={{
+                  width: address === "" ? "10vw" : "33vw",
+                  // width: "10vw",
+                  height: "7vh",
+                  borderRadius: "2rem",
+                  marginBottom: "1rem",
+                  fontSize: "2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {address === "" ? "지역별" : address}
+              </Button>
+            </Col>
+
+            {/*  */}
+
+            {/*  */}
+
+
+
           </Row>
           <Row>
             <List
@@ -161,6 +175,14 @@ const ReserveFind = () => {
             overflowY: "scroll",
           }}
         >
+
+          <Button
+            onClick={() => {
+              setModalOpen(true);
+            }}
+          >
+            예약하러 왔니?
+          </Button>
           <List
             dataSource={sortedRooms}
             renderItem={(item) => (
@@ -219,6 +241,20 @@ const ReserveFind = () => {
         </Col>
       </Row>
       {/* <div>x:{coordinate.x}, y:{coordinate.y}</div> */}
+      <div id="modal">
+        <Modal
+          footer={null}
+          bodyStyle={{ height: window.innerHeight * 0.8 }}
+          open={modalOpen}
+          title="지도"
+          width={window.innerWidth * 0.8}
+          onCancel={() => {
+            setModalOpen(false);
+          }}
+        >
+          <ReserveForm />
+        </Modal>
+      </div>
     </div>
   );
 };
