@@ -51,19 +51,6 @@ const GameReview = (props) => {
   };
 
   // 리뷰 등록
-  // const reviewPost = (e) => {
-  //   console.log(e.target.rating.value);
-  //   const data = {
-  //     gameId: props.details.gameId,
-  //     userId: loginUser.userId,
-  //     name: props.details.name,
-  //     rating: e.target.rating.value,
-  //     comment: e.target.comment.value,
-  //   };
-  //   dispatch(createReviews(data)).then((res) => {
-  //     window.location.reload();
-  //   });
-  // };
   const reviewPost = (e) => {
     e.preventDefault();
     const newReview = {
@@ -76,10 +63,11 @@ const GameReview = (props) => {
     const existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
     const updatedReviews = [...existingReviews, newReview];
     localStorage.setItem("reviews", JSON.stringify(updatedReviews));
-    dispatch(createReviews(newReview)).then((res) => {
-      window.location.reload();
-    });
+    dispatch(createReviews(newReview));
+    handleClose();
+    // window.location.reload();
   };
+
   const columns = [
     {
       key: "userId",
