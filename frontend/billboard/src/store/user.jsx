@@ -40,7 +40,16 @@ const initialState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    updateToken: (state, action) => {
+      state.loginUser.accessToken = action.payload;
+      // console.log(state.loginUser.accessToken);
+    },
+    clearUserInfo: (state) => {
+      state.loginUser.refreshToken = "";
+      // console.log("CLEARED");
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(doLogin.pending, (state) => {});
     builder.addCase(doLogin.fulfilled, (state, action) => {
@@ -65,5 +74,5 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-// export const { setUserId } = userSlice.actions;
+export const { setUserId, updateToken, clearUserInfo } = userSlice.actions;
 export const selectUser = (state) => state.user;
