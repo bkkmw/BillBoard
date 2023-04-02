@@ -104,7 +104,7 @@ public class BoardGameController {
     public ResponseEntity<?> getFavoriteBoardGames(@PathVariable String userId) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
-        List<FavoriteDto.Favorite> favorites = boardGameService.getFavoriteBoardGames(userId);
+        List<BoardGameDto.BoardGame> favorites = boardGameService.getFavoriteBoardGames(userId);
         if(favorites == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         if(favorites.size() == 0)
