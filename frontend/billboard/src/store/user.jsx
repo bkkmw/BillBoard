@@ -5,7 +5,7 @@ import { PURGE } from "redux-persist";
 import httpClient from "../utils/axios";
 
 // actions
-
+// 로그인
 export const doLogin = createAsyncThunk(
   "userLogin",
   async (userData, { rejectWithValue }) => {
@@ -39,7 +39,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(doLogin.pending, (state) => { });
+    builder.addCase(doLogin.pending, (state) => {});
     builder.addCase(doLogin.fulfilled, (state, action) => {
       // console.log("시바", action.payload.data.userInfo.nickname);
       state.login = true;
@@ -54,7 +54,7 @@ const userSlice = createSlice({
       state.refreshToken = action.payload.data.refreshToken;
       // console.log("hi", action.payload.userInfo);
     });
-    builder.addCase(doLogin.rejected, (state) => { });
+    builder.addCase(doLogin.rejected, (state) => {});
     builder.addCase(PURGE, () => {
       return initialState;
     });
