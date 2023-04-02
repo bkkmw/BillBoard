@@ -1,4 +1,3 @@
-
 import { React, useState, useEffect } from "react";
 import { useRouteLoaderData } from "react-router";
 
@@ -14,10 +13,9 @@ import { getReviews } from "../../store/boardgames";
 
 import { Margin } from "@mui/icons-material";
 
-
 const Detail = ({ gameDetail }) => {
   let details;
-  let gameId
+  let gameId;
   // console.log(location.state);
 
   const location = useLocation();
@@ -25,7 +23,7 @@ const Detail = ({ gameDetail }) => {
   const dispatch = useDispatch();
   if (gameDetail) {
     details = gameDetail;
-    gameId = gameDetail.gameId
+    gameId = gameDetail.gameId;
   } else {
     details = location.state;
     gameId = useRouteLoaderData("detail");
@@ -42,9 +40,6 @@ const Detail = ({ gameDetail }) => {
     handleReviews();
   }, []);
 
-
-
-
   return (
     <div style={{ width: "100%", height: "75vh" }}>
       <GameDetail details={details} />
@@ -55,7 +50,6 @@ const Detail = ({ gameDetail }) => {
       {/* <GameVideo key="key" details={details} /> */}
       <hr style={{ width: "74vw", margin: "3vh 0 3vh 0" }} />
       <GameReview details={details} reviews={reviews} />
-
     </div>
   );
 };

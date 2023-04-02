@@ -1,9 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import GameDetail from "../detail/GameDetail";
 import GameDescription from "../detail/GameDescription";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import { recommendGame } from "../../store/boardgames";
 
 // Import Swiper styles
 import "swiper/css";
@@ -17,6 +21,17 @@ import { Autoplay, Pagination, Navigation } from "swiper";
 import { width } from "@mui/system";
 
 export default function UserRecommend() {
+  const [recommDatas, setRecommDatas] = useState([]);
+  const dispatch = useDispatch();
+  const { loginUser } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    const userId = loginUser.userId;
+    dispatch(recommendGame(userId)).then((res) => {
+      setRecommDatas(res.payload.games);
+    });
+  }, []);
+  // console.log(recommDatas);
   return (
     <>
       <Swiper
@@ -34,15 +49,21 @@ export default function UserRecommend() {
         className="mySwiper"
         style={{ maxWidth: "70vw", maxHeight: "50vh", marginBottom: "2rem" }}
       >
-        <SwiperSlide>Slide1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
+        {recommDatas.map((data, index) => (
+          <SwiperSlide key={index}>
+            {/* <Link to={`/detail/${data.gameId}`} state={data}> */}
+            <img
+              style={{
+                width: "350px",
+                height: "350px",
+                objectFit: "fill",
+              }}
+              src={data.image}
+              alt="Slide 1"
+            />
+            {/* </Link> */}
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );

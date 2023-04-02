@@ -138,7 +138,19 @@ export const getUserReviews = createAsyncThunk(
     }
   }
 );
-// 보드게임 추천
+// 보드게임 1인 추천
+export const recommendGame = createAsyncThunk(
+  "boardgames/recommendGame",
+  async (userId) => {
+    try {
+      const response = await httpClient.get(`boardgames/recommend/${userId}`);
+      // console.log("hi", response.data);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
 
 // 보드게임 리뷰 수정
 export const updateReviews = createAsyncThunk(

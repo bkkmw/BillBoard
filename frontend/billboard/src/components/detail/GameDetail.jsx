@@ -40,8 +40,9 @@ const GameDetail = (props) => {
     }
   };
   // 내 평점
-  const existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
-  console.log(existingReviews[existingReviews.length - 1]["rating"]);
+  // const existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+  // localStorage.setItem("reviews", JSON.stringify(existingReviews));
+  // console.log(existingReviews[existingReviews.length - 1]["rating"]);
 
   return (
     <div className={stlyes.background}>
@@ -65,7 +66,11 @@ const GameDetail = (props) => {
         >
           <span className={stlyes.font2}>내 점수</span>
           <Rate
-            value={existingReviews[existingReviews.length - 1]["rating"]}
+            // value={
+            //   existingReviews
+            //     ? existingReviews[existingReviews.length - 1]["rating"]
+            //     : null
+            // }
             count={10}
             style={{
               fontSize: "3rem",
