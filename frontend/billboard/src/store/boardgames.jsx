@@ -177,7 +177,7 @@ const boardgamesSlice = createSlice({
   name: "boardgames",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => { },
 });
 
 export default boardgamesSlice.reducer;
