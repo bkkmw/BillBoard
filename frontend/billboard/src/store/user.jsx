@@ -14,6 +14,7 @@ export const doLogin = createAsyncThunk(
         userId: userData.userId,
         password: userData.password,
       });
+      console.log("dsajkl", response);
       return response;
     } catch (e) {
       console.log(e);
@@ -32,6 +33,8 @@ const initialState = {
     experience: -1,
     matchCount: -1,
     winCount: -1,
+    accessToken: "",
+    refreshToken: "",
   },
 };
 const userSlice = createSlice({
@@ -41,7 +44,6 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(doLogin.pending, (state) => {});
     builder.addCase(doLogin.fulfilled, (state, action) => {
-      // console.log("시바", action.payload.data.userInfo.nickname);
       state.login = true;
       state.loginUser.nickName = action.payload.data.userInfo.nickname;
       state.loginUser.userId = action.payload.data.userInfo.userId;
@@ -56,7 +58,8 @@ const userSlice = createSlice({
     });
     builder.addCase(doLogin.rejected, (state) => {});
     builder.addCase(PURGE, () => {
-      return initialState;
+      initialState;
+      console.log("gkdls", initialState);
     });
   },
 });
