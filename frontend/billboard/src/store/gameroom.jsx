@@ -61,7 +61,8 @@ const initialState = {
     players: [],
     gameInfo: { gameId: '' },
     isInGame: false,
-    playTime: 0
+    playTime: 0,
+    gameHistory: []
 
 }
 const gameroomSlice = createSlice({
@@ -92,6 +93,12 @@ const gameroomSlice = createSlice({
             state.gameInfo = { gameId: '' }
             state.isInGame = false
             state.playTime = 0
+            state.gameHistory = []
+        },
+        setGameEnd: (state, action) => {
+            state.gameHistory = [state.gameInfo, ...state.gameHistory,]
+            state.gameInfo = { gameId: '' }
+            state.playTime = 0
         }
 
     },
@@ -106,6 +113,7 @@ export const {
     setGame,
     setIsInGame,
     setPlayTime,
-    setGameroomInit
+    setGameroomInit,
+    setGameEnd
 } = gameroomSlice.actions
 export const selectgameroom = (state) => state.gameroom
