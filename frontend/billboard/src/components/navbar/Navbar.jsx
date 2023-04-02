@@ -76,11 +76,11 @@ const Navbar = () => {
                 게임방{" "}
               </Link>
             )}
-            {login && (
+            {/* {login && (
               <Link to={"/reserve"} className={style.link}>
                 예약{" "}
               </Link>
-            )}
+            )} */}
             {login && (
               <Link to={"/main"} className={style.link}>
                 메인페이지
@@ -92,7 +92,7 @@ const Navbar = () => {
               </Link>
             )}
             {login && (
-              <Link to={"/reserve/find"} className={style.link}>
+              <Link to={"/reserve"} className={style.link}>
                 매칭
               </Link>
             )}

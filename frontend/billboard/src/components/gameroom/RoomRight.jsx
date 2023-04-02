@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectgameroom, setIsInGame } from "../../store/gameroom";
 import InGame from "./InGame";
 import GameResult from "./GameResult";
+import GameRecommend from "./GameRecommend";
 
 const RoomRight = () => {
   const gameInfo = useSelector(selectgameroom).gameInfo
@@ -15,6 +16,7 @@ const RoomRight = () => {
   const [openGameResult, setOpenGameResult] = useState(false);
   const isInGame = useSelector(selectgameroom).isInGame
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isInRecommend, setIsInRecommend] = useState(true)
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -36,8 +38,20 @@ const RoomRight = () => {
           justifyContent: "space-evenly",
           width: "50vw",
         }}
-      >
-        <GameroomSearch setGameDetail={setGameDetail} showModal={showModal} />
+      >                <Button
+        type="primary"
+        style={{
+          fontSize: "1.5rem",
+          width: "8vw",
+          height: "6vh",
+          display: "flex",
+          justifyContent: "center",
+        }}
+        onClick={() => { setIsInRecommend(!isInRecommend) }}>
+          {isInRecommend ? '검색하기' : '추천받기'}
+        </Button>
+        {isInRecommend ? <GameRecommend /> :
+          <GameroomSearch setGameDetail={setGameDetail} showModal={showModal} />}
         <Modal
           open={isModalOpen}
           onOk={handleOk}
