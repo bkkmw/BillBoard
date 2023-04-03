@@ -28,7 +28,7 @@ const Profile = () => {
     };
     getUser();
   }, [userId]);
-  console.log("안녕하세용?", user);
+  // console.log("안녕하세용?", user);
   return (
     <div
       style={{

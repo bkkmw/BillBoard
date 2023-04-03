@@ -1,16 +1,16 @@
-/*global kakao*/ 
+/*global kakao*/
 import { useEffect, useState } from "react";
 
 import * as S from "./WriteMap.styled";
 
-const {kakao} = window;
+const { kakao } = window;
 
-export default function KakaoMapT({setLocation}) {
-  const [address, setAddress] = useState('')
+export default function KakaoMapT({ setLocation }) {
+  const [address, setAddress] = useState("");
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
-    "//dapi.kakao.com/v2/maps/sdk.js?appkey=53df67d0f937225bf2314c1685df256a&libraries=services&autoload=false";
+      "//dapi.kakao.com/v2/maps/sdk.js?appkey=53df67d0f937225bf2314c1685df256a&libraries=services&autoload=false";
     document.head.appendChild(script);
 
     script.onload = () => {
@@ -46,8 +46,8 @@ export default function KakaoMapT({setLocation}) {
         });
 
         function searchPlaces() {
-          const keyword = document.getElementById("keyword").value
-          console.log(keyword)
+          const keyword = document.getElementById("keyword").value;
+          // console.log(keyword)
           if (!keyword.replace(/^\s+|\s+$/g, "")) {
             alert("키워드를 입력해주세요!");
             return false;
@@ -85,8 +85,8 @@ export default function KakaoMapT({setLocation}) {
             marker,
             "click",
             function (mouseEvent) {
-              console.log(place)
-              setLocation(place)
+              // console.log(place)
+              setLocation(place);
               setAddress(place);
               infowindow.setContent(`
               <div style="padding:5px;z-index:1;color:black">
@@ -135,7 +135,7 @@ export default function KakaoMapT({setLocation}) {
               itemEl.addEventListener("click", function (e) {
                 displayInfowindow(marker, title);
                 setAddress(places[i]);
-                setLocation(places[i])
+                setLocation(places[i]);
                 map.panTo(placePosition);
               });
             })(marker, places[i].place_name);
@@ -246,9 +246,11 @@ export default function KakaoMapT({setLocation}) {
         }
 
         function displayInfowindow(marker, title) {
-          console.log(title)
+          // console.log(title);
           const content =
-            '<div style="padding:5px;z-index:1;color:black">' + title + "</div>";
+            '<div style="padding:5px;z-index:1;color:black">' +
+            title +
+            "</div>";
 
           infowindow.setContent(content);
           infowindow.open(map, marker);
@@ -273,9 +275,7 @@ export default function KakaoMapT({setLocation}) {
   const onClickSearchBarOpen = () => {
     setIsOpen(!isOpen);
   };
-  const heightMenu = {
-    
-  }
+  const heightMenu = {};
   return (
     <S.MapSection className="map_wrap" isOpen={isOpen}>
       <div id="map"></div>
