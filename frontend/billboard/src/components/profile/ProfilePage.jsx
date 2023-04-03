@@ -12,10 +12,12 @@ import style from "./ProfilePage.module.css";
 import { userProfile } from "../../store/profile";
 
 const Profile = () => {
-  // 유저 프로필 조회
   const [user, SetUser] = useState(null);
   const userId = useRouteLoaderData("profile");
   const dispatch = useDispatch();
+  const { loginUser } = useSelector((state) => state.user);
+
+  // 유저 프로필 조회
   useEffect(() => {
     const getUser = () => {
       dispatch(userProfile(userId)).then((res) => {
@@ -25,8 +27,8 @@ const Profile = () => {
       });
     };
     getUser();
-  }, []);
-
+  }, [userId]);
+  console.log("안녕하세용?", user);
   return (
     <div
       style={{

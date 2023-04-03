@@ -61,8 +61,8 @@ const userSlice = createSlice({
       state.loginUser.userId = action.payload.data.userInfo.userId;
       state.loginUser.matchCount = action.payload.data.userInfo.matchCount;
       state.loginUser.winCount = action.payload.data.userInfo.winCount;
-      state.accessToken = action.payload.data.accessToken;
-      state.refreshToken = action.payload.data.refreshToken;
+      state.loginUser.accessToken = action.payload.data.accessToken;
+      state.loginUser.refreshToken = action.payload.data.refreshToken;
       // console.log("hi", action.payload.userInfo);
     });
     builder.addCase(doLogin.rejected, (state) => {});

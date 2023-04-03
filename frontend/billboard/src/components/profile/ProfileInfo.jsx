@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import ProfilButton from "./ProfilButton";
 import ProfileExp from "./ProfileExp";
@@ -8,16 +8,22 @@ import ProfileFollower from "./ProfileFollower";
 
 import style from "./ProfileInfo.module.css";
 import axios from "axios";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
+
+import { Link, useRouteLoaderData } from "react-router-dom";
 
 import { Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import httpClient from "../../utils/axios";
 
 const ProfileInfo = (props) => {
-  // console.log("하이이잉", props.user.userInfo);
+  const userId = useRouteLoaderData("profile");
+
+  const [myprofile, setMyProfile] = useState(true);
+
   const { loginUser } = useSelector((state) => state.user);
   const nickname = props.user.userInfo.nickname;
+  const username = props.user.userInfo.userId;
   const deleteUser = async () => {
     const userId = loginUser.userId;
     if (window.confirm("정말 회원 탈퇴하시겠습니까?")) {
@@ -32,29 +38,40 @@ const ProfileInfo = (props) => {
       }
     }
   };
+  useEffect(() => {
+    if (loginUser.userId === userId) {
+      setMyProfile(true);
+    } else {
+      setMyProfile(false);
+    }
+  }, [userId]);
   return (
     <div className={style.background}>
       <div className={style.background2}>
-        <span className={style.fontsize}>{nickname}</span>
+        <span className={style.fontsize}>
+          {nickname ? `닉네임 : ${nickname}` : `ID : ${username}`}
+        </span>
         <ProfileExp />
         <div className={style.background3}>
-          <ProfileFollowing />
-          <ProfileFollower />
-          <Button
-            onClick={deleteUser}
-            style={{
-              width: "6rem",
-              height: "2.5rem",
-              fontsize: "1.2rem",
-            }}
-          >
-            회원 탈퇴
-          </Button>
+          {myprofile && <ProfileFollowing />}
+          {myprofile && <ProfileFollower />}
+          {myprofile && (
+            <Button
+              onClick={deleteUser}
+              style={{
+                width: "6rem",
+                height: "2.5rem",
+                fontsize: "1.2rem",
+              }}
+            >
+              회원 탈퇴
+            </Button>
+          )}
         </div>
       </div>
       <div className={style.background4}>
-        <ProfilButton />
-        <ProfileSearch />
+        {!myprofile && <ProfilButton />}
+        {myprofile && <ProfileSearch />}
       </div>
     </div>
   );

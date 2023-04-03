@@ -88,7 +88,7 @@ const Navbar = () => {
             )}
             {login && (
               <Link to={`/profile/${userID}`} className={style.link}>
-                프로필페이지
+                프로필
               </Link>
             )}
             {login && (
