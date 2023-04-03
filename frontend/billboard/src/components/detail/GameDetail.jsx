@@ -3,40 +3,45 @@ import GameRating from "./GameRating";
 import { Link } from "react-router-dom";
 import { Form, Rate } from "antd";
 import stlyes from "./GameDetail.module.css";
-import { createFavorites, deleteFavorites, getUserReviews } from "../../store/boardgames";
+import {
+  createFavorites,
+  deleteFavorites,
+  getUserReviews,
+} from "../../store/boardgames";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../store/user";
 
 const GameDetail = (props) => {
-  const inputRef = useRef()
-  const userId = useSelector(selectUser).loginUser.userId
-  const [rating, setRating] = useState(0)
+  const inputRef = useRef();
+  const userId = useSelector(selectUser).loginUser.userId;
+  const [rating, setRating] = useState(0);
   const dispatch = useDispatch();
   const { loginUser } = useSelector((state) => state.user);
-  const gameId = props.details.gameId
-  useEffect(()=>{
-    dispatch(getUserReviews({ 'userId': userId })).then((res) => {
-      for (const review of res.payload.reviews) {
+  const gameId = props.details.gameId;
+  useEffect(() => {
+    dispatch(getUserReviews({ userId: userId }))
+      .then((res) => {
+        for (const review of res.payload.reviews) {
           if (review.gameId === gameId) {
-            setRating(review.rating)
-            console.log(review.rating)
-            
+            setRating(review.rating);
+            // console.log(review.rating)
+
             // 디폴트 값
             inputRef.current?.setFieldsValue({
-              rating: `${review.rating}`
-          
-            })
-              break
-              
+              rating: `${review.rating}`,
+            });
+            break;
           }
-      }
-  }).catch((err) => { console.log(err) })
-
-  },[])
-  useEffect(()=>{
-    console.log(inputRef)
-  }, [inputRef])
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  useEffect(() => {
+    // console.log(inputRef);
+  }, [inputRef]);
 
   // 즐겨찾기 등록, 해제
   // Get initial isFavorite value from localStorage or set to false if not found
@@ -64,7 +69,6 @@ const GameDetail = (props) => {
         localStorage.setItem(props.details.gameId, JSON.stringify(false));
       });
     }
-
   };
   // 내 평점
   // const existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
@@ -93,23 +97,20 @@ const GameDetail = (props) => {
         >
           <span className={stlyes.font2}>내 점수</span>
           <Form ref={inputRef}>
-            <Form.Item
-            name="rating">
-            <Rate
-            count={10}
-            style={{
-              fontSize: "3rem",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          id="myRating"
-          disabled={true}
-          />
+            <Form.Item name="rating">
+              <Rate
+                count={10}
+                style={{
+                  fontSize: "3rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                id="myRating"
+                disabled={true}
+              />
             </Form.Item>
-
           </Form>
-
         </div>
         <div className={stlyes.background4}>
           <button

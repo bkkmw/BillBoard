@@ -32,7 +32,6 @@ const UserList = () => {
     setIsModalOpen(false);
   };
   const delUser = (id) => {
-
     const newUserList = userList.filter((user) => {
       return user.userId !== id;
     });
@@ -41,13 +40,13 @@ const UserList = () => {
   const addUser = (userinfo) => {
     var index = userList.findIndex((user) => user.userId === userinfo.userId);
     if (index === -1) {
-      console.log("리스트에 없는 유저");
+      // console.log("리스트에 없는 유저");
       const newUserList = [...userList, userinfo];
-      console.log(newUserList);
+      // console.log(newUserList);
       dispatch(setPlayer(newUserList));
     } else {
-      console.log("리스트에 있는 유저");
-      console.log();
+      // console.log("리스트에 있는 유저");
+      // console.log();
     }
   };
   useEffect(() => {
@@ -61,10 +60,10 @@ const UserList = () => {
   };
   const getEntries = (userId) => {
     dispatch(getentries(userId)).then((res) => {
-      console.log(res);
+      // console.log(res);
       if (res.payload.status === 200) {
         console.log("예약정보 불러오기 성공");
-        console.log(res);
+        // console.log(res);
         SetRoomEntries(res.payload.data.rooms);
         showModal();
       } else if (res.payload.status === 204) {

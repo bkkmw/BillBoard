@@ -33,7 +33,7 @@ const ReserveFind = () => {
   useEffect(() => {
     dispatch(getRoom())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setRooms((rooms) => data.payload.rooms);
         getFilter();
       })
