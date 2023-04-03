@@ -13,7 +13,7 @@ let tokenInterceptor;
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loginUser, logIn } = useSelector((state) => state.user);
+  const { loginUser, login } = useSelector((state) => state.user);
   // jwt 토큰
   useEffect(() => {
     // 인터셉터 제거
@@ -72,7 +72,7 @@ function App() {
         }
       }
     );
-    if (!logIn) navigate("/login");
+    if (!login) navigate("/login");
   }, []);
 
   useEffect(() => {
