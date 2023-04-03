@@ -18,6 +18,7 @@ public class BoardGameDto {
         private String name;
         private String thumbnail;
         private String image;
+        private String video;
         private String description;
         private int yearpublished;
         private int minplayers;
@@ -38,8 +39,6 @@ public class BoardGameDto {
         private String wargamerank;
         private String customizablerank;
         private String childrengamerank;
-
-
     }
 
     @Getter
@@ -58,15 +57,10 @@ public class BoardGameDto {
     @Builder
     public static class BoardGameDetail {
         private String name;
-
         private int maxplaytime;
-
         private int maxplayers;
-
         private double average;
-
         private double averageweight;
-
         private String strategygamerank;
         private String familygamerank;
         private String partygamerank;
