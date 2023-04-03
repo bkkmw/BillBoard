@@ -5,18 +5,26 @@ import { useDispatch } from 'react-redux';
 import { getuser } from '../../store/gameroom';
 
 const { Option } = Select;
-const UserListDrawer = ({showDrawer, onClose, setOpen,open}) => {
+const UserListDrawer = ({ showDrawer, onClose, setOpen, open, addUser }) => {
   const dispatch = useDispatch()
   const onFinish = (values) => {
-    dispatch(getuser(values)).then((res)=>{
+    dispatch(getuser(values)).then((res) => {
       console.log(res)
-      if (res.payload.response.status === 200) {
+      if (res.payload.status === 200) {
         console.log('로그인 성공')
+        // userId가 null로 와서 추가해줌
+        const userInfo = { ...res.payload.data.userInfo, 'userId': values.userId }
+        addUser(userInfo)
+        console.log(userInfo)
+        // addUser(userInfo)
       }
       else if (res.payload.response.status === 401) {
         console.log('아이디랑 비번이 일치하지 않음')
       }
     })
+      .catch((err) => {
+        console.log(err)
+      })
   }
   return (
     <>
@@ -38,7 +46,7 @@ const UserListDrawer = ({showDrawer, onClose, setOpen,open}) => {
           </Space>
         }
       >
-        <Form layout="vertical" 
+        <Form layout="vertical"
           onFinish={onFinish}
         >
           <Row gutter={16}>
@@ -74,8 +82,8 @@ const UserListDrawer = ({showDrawer, onClose, setOpen,open}) => {
                 <Input placeholder="Please enter user password" />
               </Form.Item>
               <Form.Item>
-          <Button type={'primary'} htmlType={"submit"}>Submit</Button>
-        </Form.Item>
+                <Button type={'primary'} htmlType={"submit"}>Submit</Button>
+              </Form.Item>
             </Col>
           </Row>
         </Form>

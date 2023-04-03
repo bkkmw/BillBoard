@@ -7,7 +7,7 @@ import persistStore from "redux-persist/es/persistStore";
 import storage from "redux-persist/lib/storage";
 
 import user from "./user";
-
+import gameroom from "./gameroom";
 // Todo: redux-persist에 유지할 내용 수정 예정
 const persistConfig = {
   key: "root",
@@ -19,6 +19,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user,
+  gameroom
 });
 
 const PersistedReducer = persistReducer(persistConfig, rootReducer);
