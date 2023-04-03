@@ -26,6 +26,7 @@ const Review = ({ isReviewOpen, setIsReviewOpen, userId, gameHistory }) => {
     const dispatch = useDispatch()
     const [reviewInfo, setReviewInfo] = useState()
     const inputRef = useRef()
+
     useEffect(() => {
         inputRef.current?.setFieldsValue({
             comment: "",
