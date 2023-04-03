@@ -226,7 +226,8 @@ const Main = () => {
                     <Link to={`/detail/${data.gameId}`} state={data}>
                       <img
                         style={{
-                          height: "300px",
+                          width: "350px",
+                          height: "350px",
                           objectFit: "fill",
                         }}
                         src={data.image}
