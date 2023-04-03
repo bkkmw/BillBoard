@@ -27,7 +27,7 @@ const RoomRight = () => {
     setIsModalOpen(false);
   };
   const [gameDetail, setGameDetail] = useState();
-
+  const [propGameId, setpropGameId] = useState();
   const inputRef = useRef();
   return (<>
     {!isInGame ?
@@ -50,7 +50,7 @@ const RoomRight = () => {
         onClick={() => { setIsInRecommend(!isInRecommend) }}>
           {isInRecommend ? '검색하기' : '추천받기'}
         </Button>
-        {isInRecommend ? <GameRecommend /> :
+        {isInRecommend ? <GameRecommend setpropGameId={setpropGameId} showModal={showModal}/> :
           <GameroomSearch setGameDetail={setGameDetail} showModal={showModal} />}
         <Modal
           open={isModalOpen}
@@ -62,7 +62,7 @@ const RoomRight = () => {
           }}
           width={window.innerWidth * 0.8}
         >
-          <Detail gameDetail={gameDetail} />
+          <Detail gameDetail={gameDetail} propGameId={propGameId}/>
         </Modal>
         <div
           style={{

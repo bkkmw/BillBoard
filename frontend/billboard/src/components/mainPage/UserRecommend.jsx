@@ -8,7 +8,6 @@ import GameDescription from "../detail/GameDescription";
 import { useSelector, useDispatch } from "react-redux";
 
 import { recommendGame } from "../../store/boardgames";
-
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -19,6 +18,7 @@ import "swiper/css/navigation";
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper";
 import { width } from "@mui/system";
+import { Link } from "react-router-dom";
 
 export default function UserRecommend() {
   const [recommDatas, setRecommDatas] = useState([]);
@@ -51,7 +51,7 @@ export default function UserRecommend() {
       >
         {recommDatas.map((data, index) => (
           <SwiperSlide key={index}>
-            {/* <Link to={`/detail/${data.gameId}`} state={data}> */}
+            <Link to={`/detail/${data.gameId}`} state={{'gameId':data.gameId, 'isProps':true}}>
             <img
               style={{
                 width: "350px",
@@ -61,7 +61,7 @@ export default function UserRecommend() {
               src={data.image}
               alt="Slide 1"
             />
-            {/* </Link> */}
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
