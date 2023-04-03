@@ -7,7 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-import "./ProfileLatestList2.css";
+import style from "./ProfileLatestList.module.css";
 
 const ProfileLatestList = (props) => {
   const recentGames = props.user.recentGames;
@@ -46,9 +46,9 @@ const ProfileLatestList = (props) => {
       >
         {recentGames.map((recentgame, index) => {
           return (
-            <div className="flip" key={index}>
-              <div className="card">
-                <div className="front">
+            <div className={style.flip} key={index}>
+              <div className={style.card}>
+                <div className={style.front}>
                   <Card sx={{ width: "18vw" }}>
                     <CardActionArea>
                       <CardMedia
@@ -70,7 +70,7 @@ const ProfileLatestList = (props) => {
                     </CardActionArea>
                   </Card>
                 </div>
-                <div className="back">
+                <div className={style.back}>
                   <Card sx={{ width: "18vw" }}>
                     <CardActionArea>
                       <CardMedia
