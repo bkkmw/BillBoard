@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBoardGames } from "../../store/boardgames";
 import { selectgameroom, setGame } from "../../store/gameroom";
 
-const GameRecommend = () => {
+const GameRecommend = ({setpropGameId, showModal}) => {
     const players = useSelector(selectgameroom).players
     const selectgameInfo = useSelector(selectgameroom).gameInfo;
     const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const GameRecommend = () => {
                                     image={`${game.image}`}
                                     alt="green iguana"
                                     onClick={() => {
-                                        setGameDetail(game);
+                                        setpropGameId(game.gameId);
                                         showModal();
                                     }}
                                     style={{ objectFit: "fill" }}
