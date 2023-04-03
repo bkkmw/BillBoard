@@ -17,6 +17,7 @@ import {
   createReviews,
 } from "../../store/boardgames";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouteLoaderData } from "react-router";
 
 const boxstyle = {
   position: "absolute",
@@ -36,17 +37,32 @@ const GameReview = (props) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { loginUser } = useSelector((state) => state.user);
+
+  const [deleteData, setDeleteData] = useState([]);
+  const gameId = useRouteLoaderData("detail");
   const [isReviewOpen, setIsReviewOpen] = useState(false)
+
   // 리뷰 등록 모달
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // console.log(typeof gameId);
+
+  useEffect(() => {
+    setDeleteData({
+      userId: loginUser.userId,
+      gameId: gameId,
+    });
+  }, []);
+
+  // console.log(deleteData);
   // 리뷰 삭제
-  const handleDelete = (data) => {
-    // console.log("dalkjf", data);
+  const handleDelete = () => {
+    const data = deleteData;
+    // console.log(data);
     dispatch(deleteReviews(data)).then((res) => {
-      console.log("gkdl", res);
+      console.log(res);
     });
   };
 
@@ -88,7 +104,7 @@ const GameReview = (props) => {
       key: "delete",
       title: "Delete",
       render: (index, record) => (
-        <Button onClick={() => handleDelete(record)}>Delete</Button>
+        <Button onClick={() => handleDelete()}>Delete</Button>
       ),
     },
   ];

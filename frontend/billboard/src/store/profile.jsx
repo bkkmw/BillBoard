@@ -4,12 +4,13 @@ import httpClient from "../utils/axios";
 export const follow = createAsyncThunk(
   "profile/follow",
   async (data, { rejectWithValue }) => {
+    console.log(data);
     try {
       const response = await httpClient.post("/followes", {
-        fromUserId: data.fromUserId,
-        toUserId: data.toUserId,
+        fromUserId: data.fromUserId, //내 아이디
+        toUserId: data.toUserId, //상대방 아이디
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.log(error);
       return rejectWithValue(error);
@@ -27,7 +28,7 @@ export const followdelete = createAsyncThunk(
           toUserId: del.toUserId,
         },
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.log(error);
       return rejectWithValue(error);
@@ -48,6 +49,31 @@ export const userProfile = createAsyncThunk(
   }
 );
 
+//유저가 팔로우한 목록 조회
+export const iFollowYou = createAsyncThunk(
+  "profile/iFollowYou",
+  async (userId) => {
+    try {
+      const response = await httpClient.get(`followes/from/${userId}`);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
+
+//유저를 팔로잉중인 목록 조회
+export const YouFollowMe = createAsyncThunk(
+  "profile/YouFollowMe",
+  async (userId) => {
+    try {
+      const response = await httpClient.get(`followes/to/${userId}`);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
 // const initialState = {};
 // const profileSlice = createSlice({
 //   name: "reserve",

@@ -171,13 +171,14 @@ export const updateReviews = createAsyncThunk(
 export const deleteReviews = createAsyncThunk(
   "boardgames/deleteReviews",
   async (data) => {
+    // console.log(data.gameId, data.userId);
     try {
       const response = await httpClient.delete("boardgames/review", {
         gameId: data.gameId,
         userId: data.userId,
       });
       // console.log(response);
-      return response.data;
+      return response;
     } catch (e) {
       console.log(e);
     }
@@ -189,7 +190,7 @@ const boardgamesSlice = createSlice({
   name: "boardgames",
   initialState,
   reducers: {},
-  extraReducers: (builder) => { },
+  extraReducers: (builder) => {},
 });
 
 export default boardgamesSlice.reducer;

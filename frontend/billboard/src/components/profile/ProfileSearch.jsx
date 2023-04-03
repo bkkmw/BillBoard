@@ -18,13 +18,13 @@ const ProfileSearch = () => {
   };
   return (
     <>
+      <h1>친구찾기</h1>
       <Button icon={<SearchOutlined />} type="primary" onClick={showModal} />
       <Modal
         bodyStyle={{ height: "50vh", overflowY: "scroll" }}
         open={isModalOpen}
         title="친구 찾기"
         onCancel={handleCancel}
-        onOk={handleOk}
         style={{ top: "20%" }}
       >
         <div>
