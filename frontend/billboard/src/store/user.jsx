@@ -5,7 +5,7 @@ import { PURGE } from "redux-persist";
 import httpClient from "../utils/axios";
 
 // actions
-
+// 로그인
 export const doLogin = createAsyncThunk(
   "userLogin",
   async (userData, { rejectWithValue }) => {
@@ -14,6 +14,7 @@ export const doLogin = createAsyncThunk(
         userId: userData.userId,
         password: userData.password,
       });
+      console.log("dsajkl", response);
       return response;
     } catch (e) {
       console.log(e);
@@ -32,18 +33,26 @@ const initialState = {
     experience: -1,
     matchCount: -1,
     winCount: -1,
+    accessToken: "",
+    refreshToken: "",
   },
-  accessToken: "",
-  refreshToken: "",
 };
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    updateToken: (state, action) => {
+      state.loginUser.accessToken = action.payload;
+      // console.log(state.loginUser.accessToken);
+    },
+    clearUserInfo: (state) => {
+      state.loginUser.refreshToken = "";
+      // console.log("CLEARED");
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(doLogin.pending, (state) => {});
     builder.addCase(doLogin.fulfilled, (state, action) => {
-      // console.log("시바", action.payload.data.userInfo.nickname);
       state.login = true;
       state.loginUser.nickName = action.payload.data.userInfo.nickname;
       state.loginUser.userId = action.payload.data.userInfo.userId;
@@ -52,17 +61,18 @@ const userSlice = createSlice({
       state.loginUser.userId = action.payload.data.userInfo.userId;
       state.loginUser.matchCount = action.payload.data.userInfo.matchCount;
       state.loginUser.winCount = action.payload.data.userInfo.winCount;
-      state.accessToken = action.payload.data.accessToken;
-      state.refreshToken = action.payload.data.refreshToken;
+      state.loginUser.accessToken = action.payload.data.accessToken;
+      state.loginUser.refreshToken = action.payload.data.refreshToken;
       // console.log("hi", action.payload.userInfo);
     });
     builder.addCase(doLogin.rejected, (state) => {});
     builder.addCase(PURGE, () => {
-      return initialState;
+      initialState;
+      console.log("gkdls", initialState);
     });
   },
 });
 
 export default userSlice.reducer;
-// export const { setUserId } = userSlice.actions;
+export const { setUserId, updateToken, clearUserInfo } = userSlice.actions;
 export const selectUser = (state) => state.user;

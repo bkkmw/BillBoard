@@ -159,6 +159,7 @@ const Room = () => {
     reload();
   }, [modalOpen]);
 
+
   return (
     <>
       {roomData && (
@@ -191,7 +192,7 @@ const Room = () => {
                       marginLeft: "1.5rem",
                     }}
                   >
-                    Players
+                    참가자
                   </span>
                   <div
                     style={{
@@ -222,7 +223,8 @@ const Room = () => {
                 }}
               >
                 <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
-                  3월 29일 수요일 16:00
+                  {new Date(roomData.roomInfo.date).getMonth()}월 {new Date(roomData.roomInfo.date).getDate()}일
+                
                 </span>
                 <span style={{ fontSize: "3rem", fontWeight: "bolder" }}>
                   {roomData.roomInfo.title}

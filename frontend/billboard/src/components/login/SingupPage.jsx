@@ -17,6 +17,7 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import { TextField } from "@mui/material";
 
 import { useForm, FormProvider, useWatch } from "react-hook-form";
 
@@ -25,7 +26,7 @@ import { useSelector } from "react-redux";
 const Singup = () => {
   const navigate = useNavigate();
   const [emailSended, setEmailSended] = useState(false);
-
+  const [authKey, setAuthKey] = useState("");
   //회원가입 유효성 검사
 
   const form = useForm({
@@ -78,6 +79,7 @@ const Singup = () => {
 
   // 이메일 인증
   const certificateEmail = async () => {
+    alert("이메일로 인증번호를 발송했습니다.");
     const email = form.watch("UserEmail");
     // console.log("안녕", email);ㄴ
     try {
@@ -86,10 +88,44 @@ const Singup = () => {
       });
       console.log(response);
     } catch (e) {
-      console.log(e);
+      // console.log(e.response.status);
+      if (e.response.status === 409) {
+        alert("사용중인 이메일 입니다.");
+      }
     }
     setEmailSended(true);
   };
+  // 이메일 인증번호 확인
+
+  const handleAuthKeyChange = (event) => {
+    setAuthKey(event.target.value);
+  };
+
+  const EmailAuth = async (e) => {
+    e.preventDefault();
+    const email = form.watch("UserEmail");
+    console.log("끼에에ㅔㅇ", email, authKey);
+    try {
+      const response = await httpClient.post("users/check-authkey", {
+        email: email,
+        authKey: authKey,
+      });
+      // console.log(response.data);
+      if (response.data.status === 200) {
+        alert("이메일 인증 성공!");
+      }
+    } catch (e) {
+      console.log(e);
+      if (e.response.status === 410) {
+        alert("인증 기한이 만료되었습니다. 다시 인증번호를 발급 받으세요");
+      } else if (e.response.status === 404) {
+        alert("일치하지 않는 이메일 입니다.");
+      } else if (e.response.status === 401) {
+        alert("인증번호가 틀렸습니다.");
+      }
+    }
+  };
+
   return (
     <FormProvider {...form}>
       <Container
@@ -134,22 +170,33 @@ const Singup = () => {
                   이메일 인증
                 </Button>
               </Grid>
-            </Grid>
-
-            <Button
-              fullWidth
-              sx={{ mt: 3, mb: 2 }}
-              type="submit"
-              variant="outlined"
-              disabled={!form.formState.isValid}
-            >
-              회원 가입
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link component={RouterLink} to={"/login"} variant="body2">
-                  Already have an account? 로그인 ㄱㄱ
-                </Link>
+              <Grid item xs={8}>
+                <TextField
+                  id="authKey"
+                  value={authKey}
+                  onChange={handleAuthKeyChange}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Button onClick={EmailAuth} variant="contained">
+                  인증번호 확인
+                </Button>
+              </Grid>
+              <Button
+                fullWidth
+                sx={{ mt: 3, mb: 2 }}
+                type="submit"
+                variant="outlined"
+                disabled={!form.formState.isValid}
+              >
+                회원 가입
+              </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link component={RouterLink} to={"/login"} variant="body2">
+                    Already have an account? 로그인 ㄱㄱ
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
           </Box>

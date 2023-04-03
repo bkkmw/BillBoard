@@ -45,12 +45,14 @@ const UserSearch = () => {
 
       {userList &&
         userList.map((userLists, index) => {
-          // console.log(userLists.userId);
+          console.log(userLists);
           return (
             <div key={index}>
               <Button sx={{}}>
                 <span>{index + 1}.</span>
-                <Link to={`/profile/${userLists.userId}`}>{userLists.userId}</Link>
+                <Link to={`/profile/${userLists.userId}`}>
+                  {userLists.userId}
+                </Link>
               </Button>
             </div>
           );

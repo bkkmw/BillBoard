@@ -26,6 +26,9 @@ const Navbar = () => {
   // useEffect(() => {
   //   console.log(userID);
   // });
+  // useEffect(() => {
+  //   console.log(login, loginUser, userID)
+  // }, [])
   const doLogout = async () => {
     if (window.confirm("로그아웃 하실?")) {
       try {
@@ -73,11 +76,11 @@ const Navbar = () => {
                 게임방{" "}
               </Link>
             )}
-            {login && (
+            {/* {login && (
               <Link to={"/reserve"} className={style.link}>
                 예약{" "}
               </Link>
-            )}
+            )} */}
             {login && (
               <Link to={"/main"} className={style.link}>
                 메인페이지
@@ -85,11 +88,11 @@ const Navbar = () => {
             )}
             {login && (
               <Link to={`/profile/${userID}`} className={style.link}>
-                프로필페이지
+                프로필
               </Link>
             )}
             {login && (
-              <Link to={"/reserve/find"} className={style.link}>
+              <Link to={"/reserve"} className={style.link}>
                 매칭
               </Link>
             )}

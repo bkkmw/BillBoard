@@ -44,11 +44,11 @@ const router = createBrowserRouter([
         children: [{}],
       },
 
-      {
-        path: "reserve",
-        element: <Reserve />,
-        children: [{}],
-      },
+      // {
+      //   path: "reserve",
+      //   element: <Reserve />,
+      //   children: [{}],
+      // },
       {
         path: "room/:roomId",
         element: <Room />,
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
       },
       {
         path: "detail/:gameId",
-        element: <DetailPage/>,
+        element: <DetailPage />,
         id: "detail",
         children: [{}],
         loader: async ({ params }) => {
@@ -68,7 +68,7 @@ const router = createBrowserRouter([
         }
       },
       {
-        path: "reserve/find",
+        path: "reserve",
         element: <ReserveFind />,
         children: [{}],
       },

@@ -7,6 +7,10 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { display } from "@mui/system";
 
+import { Modal } from "antd";
+
+import KakaoMapT from "./KakaoMapT";
+import ReserveForm from "./ReserveForm";
 let dateList = [];
 for (let i = 0; i < 7; i++) {
   const today = new Date();
@@ -16,7 +20,7 @@ for (let i = 0; i < 7; i++) {
 
 const ReserveFind = () => {
   const dispatch = useDispatch();
-
+  const [modalOpen, setModalOpen] = useState(false);
   const [address, setAddress] = useState("");
   const [isAddressOpen, setIsAddressOpen] = useState(false);
   const [isChildAddressOpen, setIsChildAddressOpen] = useState(false);
@@ -29,6 +33,7 @@ const ReserveFind = () => {
   useEffect(() => {
     dispatch(getRoom())
       .then((data) => {
+        console.log(data);
         setRooms((rooms) => data.payload.rooms);
         getFilter();
       })
@@ -70,7 +75,6 @@ const ReserveFind = () => {
         if (
           new Date(room.date).toLocaleDateString() === date.toLocaleDateString()
         ) {
-
           filter.push(room);
         }
       }
@@ -89,25 +93,31 @@ const ReserveFind = () => {
           style={{ width: "70vw", marginTop: "10vh", marginRight: "2rem" }}
         >
           <Row>
-            <Button
-              type="primary"
-              onClick={() => {
-                setIsAddressOpen(true);
-              }}
-              style={{
-                width: address === "" ? "10vw" : "33vw",
-                // width: "10vw",
-                height: "7vh",
-                borderRadius: "2rem",
-                marginBottom: "1rem",
-                fontSize: "2rem",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {address === "" ? "지역별" : address}
-            </Button>
+            <Col span={24}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  setIsAddressOpen(true);
+                }}
+                style={{
+                  width: address === "" ? "10vw" : "33vw",
+                  // width: "10vw",
+                  height: "7vh",
+                  borderRadius: "2rem",
+                  marginBottom: "1rem",
+                  fontSize: "2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {address === "" ? "지역별" : address}
+              </Button>
+            </Col>
+
+            {/*  */}
+
+            {/*  */}
           </Row>
           <Row>
             <List
@@ -147,63 +157,78 @@ const ReserveFind = () => {
             setCoordinate={setCoordinate}
           />
         </Col>
-        <Col
-          span={17}
-          style={{
-            width: "70vw",
-            height: "68.5vh",
-            marginTop: "19vh",
-            borderTop: "1.5rem solid #d9d9d9",
-            borderBottom: "2rem solid #d9d9d9",
-            borderLeft: "1rem solid #d9d9d9",
-            borderRight: "1rem solid #d9d9d9",
-            borderRadius: "1.5rem",
-            overflowY: "scroll",
-          }}
-        >
-          <List
-            dataSource={sortedRooms}
-            renderItem={(item) => (
-              <List.Item
-                className={`list_item_hover ${
-                  item === date.toLocaleDateString() && "list_item_select"
-                }`}
-                style={{
-                  padding: "1.5rem",
-                  textAlign: "start",
-                  fontSize: "1.5rem",
-                }}
-              >
-                <Link
-                  to={`/room/${item.roomId}`}
+        <Col style={{ marginTop: "10vh", width: "50vw" }}>
+          <Button
+            onClick={() => {
+              setModalOpen(true);
+            }}
+            style={{
+              width: "10vw",
+              height: "7vh",
+              borderRadius: "2rem",
+              marginLeft: "40vw",
+              marginBottom: "1rem",
+              fontSize: "1.5rem",
+            }}
+          >
+            방만들기
+          </Button>
+          <Col
+            span={24}
+            style={{
+              height: "68.5vh",
+              margin: "0",
+              borderTop: "1.5rem solid #d9d9d9",
+              borderBottom: "2rem solid #d9d9d9",
+              borderLeft: "1rem solid #d9d9d9",
+              borderRight: "1rem solid #d9d9d9",
+              borderRadius: "1.5rem",
+              overflowY: "scroll",
+            }}
+          >
+            <List
+              dataSource={sortedRooms}
+              renderItem={(item) => (
+                <List.Item
+                  className={`list_item_hover ${
+                    item === date.toLocaleDateString() && "list_item_select"
+                  }`}
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    color: "black",
+                    padding: "1.5rem",
+                    textAlign: "start",
+                    fontSize: "1.5rem",
                   }}
                 >
-                  <span
-                    style={{
-                      paddingRight: "1.5rem",
-                      paddingTop: "2.5vh",
-                      fontWeight: "bolder",
-                    }}
-                  >
-                    {item.date.slice(11,16)}
-                  </span>
-                  <div
+                  <Link
+                    to={`/room/${item.roomId}`}
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "start",
+                      flexDirection: "row",
+                      color: "black",
                     }}
                   >
-                    <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
-                      {item.title}
+                    <span
+                      style={{
+                        paddingRight: "1.5rem",
+                        paddingTop: "2.5vh",
+                        fontWeight: "bolder",
+                      }}
+                    >
+                      {item.date.slice(11, 16)}
                     </span>
-                    <span>{`${item.location} ${item.personCount}/${item.personLimit}`}</span>
-                  </div>
-                  {/* {`날짜:${item.date},
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "start",
+                      }}
+                    >
+                      <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
+                        {item.title}
+                      </span>
+                      <span>{`${item.location} ${item.personCount}/${item.personLimit}`}</span>
+                    </div>
+                    {/* {`날짜:${item.date},
                   방장ID:${item.hostID},
                   location:${item.location},
                   personCount:${item.personCount},
@@ -213,13 +238,28 @@ const ReserveFind = () => {
                   lat:${item.lat},
                   lng:${item.lng}
               `} */}
-                </Link>
-              </List.Item>
-            )}
-          />
+                  </Link>
+                </List.Item>
+              )}
+            />
+          </Col>
         </Col>
       </Row>
       {/* <div>x:{coordinate.x}, y:{coordinate.y}</div> */}
+      <div id="modal">
+        <Modal
+          footer={null}
+          bodyStyle={{ height: window.innerHeight * 0.8 }}
+          open={modalOpen}
+          title="지도"
+          width={window.innerWidth * 0.8}
+          onCancel={() => {
+            setModalOpen(false);
+          }}
+        >
+          <ReserveForm />
+        </Modal>
+      </div>
     </div>
   );
 };

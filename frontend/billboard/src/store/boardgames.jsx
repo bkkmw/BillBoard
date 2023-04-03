@@ -29,6 +29,19 @@ export const getBoardGames = createAsyncThunk(
     }
   }
 );
+// 보드게임 상세 조회
+export const getDetails = createAsyncThunk(
+  "boardgames/getDetails",
+  async (data) => {
+    try {
+      const response = await httpClient.get(`boardgames/${data}`);
+      // console.log(response);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
 
 // 보드게임 즐겨찾기 등록
 export const createFavorites = createAsyncThunk(
@@ -52,12 +65,10 @@ export const createFavorites = createAsyncThunk(
 // 보드게임 즐겨찾기 조회
 export const getFavorites = createAsyncThunk(
   "boardgames/getFavorites",
-  async (reqData) => {
+  async (userId) => {
     try {
-      const response = await httpClient.get(
-        `boardgames/favorite/${reqData.userId}`
-      );
-      console.log(response);
+      const response = await httpClient.get(`boardgames/favorite/${userId}`);
+      // console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -83,10 +94,14 @@ export const deleteFavorites = createAsyncThunk(
 //보드게임 리뷰 등록
 export const createReviews = createAsyncThunk(
   "boardgames/createReviews",
-  async (reqData) => {
+  async (data) => {
     try {
       const response = await httpClient.post("boardgames/review", {
-        reqData,
+        gameId: data.gameId,
+        userId: data.userId,
+        rating: data.rating,
+        comment: data.comment,
+        name: data.name,
       });
       console.log(response);
       return response.data;
@@ -98,12 +113,10 @@ export const createReviews = createAsyncThunk(
 //보드게임 리뷰 조회
 export const getReviews = createAsyncThunk(
   "boardgames/getReviews",
-  async (reqData) => {
+  async (data) => {
     try {
-      const response = await httpClient.get(
-        `boardgames/review/${reqData.gameId}`
-      );
-      console.log(response);
+      const response = await httpClient.get(`boardgames/review/${data}`);
+      // console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -125,7 +138,19 @@ export const getUserReviews = createAsyncThunk(
     }
   }
 );
-// 보드게임 추천
+// 보드게임 1인 추천
+export const recommendGame = createAsyncThunk(
+  "boardgames/recommendGame",
+  async (userId) => {
+    try {
+      const response = await httpClient.get(`boardgames/recommend/${userId}`);
+      // console.log("hi", response.data);
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
 
 // 보드게임 리뷰 수정
 export const updateReviews = createAsyncThunk(
@@ -145,13 +170,15 @@ export const updateReviews = createAsyncThunk(
 //보드게임 리뷰 삭제
 export const deleteReviews = createAsyncThunk(
   "boardgames/deleteReviews",
-  async (reqData) => {
+  async (data) => {
+    // console.log(data.gameId, data.userId);
     try {
       const response = await httpClient.delete("boardgames/review", {
-        reqData,
+        gameId: data.gameId,
+        userId: data.userId,
       });
-      console.log(response);
-      return response.data;
+      // console.log(response);
+      return response;
     } catch (e) {
       console.log(e);
     }
