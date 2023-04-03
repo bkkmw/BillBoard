@@ -54,7 +54,7 @@ export const createFavorites = createAsyncThunk(
           gameId: reqData.gameId,
         }
       );
-      console.log("등록", response);
+      // console.log("등록", response);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -103,7 +103,7 @@ export const createReviews = createAsyncThunk(
         comment: data.comment,
         name: data.name,
       });
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -131,7 +131,7 @@ export const getUserReviews = createAsyncThunk(
       const response = await httpClient.get(
         `boardgames/review/user/${reqData.userId}`
       );
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);
@@ -160,7 +160,7 @@ export const updateReviews = createAsyncThunk(
       const response = await httpClient.put("boardgames/review", {
         reqData,
       });
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (e) {
       console.log(e);

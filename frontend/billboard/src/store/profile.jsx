@@ -4,7 +4,7 @@ import httpClient from "../utils/axios";
 export const follow = createAsyncThunk(
   "profile/follow",
   async (data, { rejectWithValue }) => {
-    console.log(data);
+    // console.log(data);
     try {
       const response = await httpClient.post("/followes", {
         fromUserId: data.fromUserId, //내 아이디

@@ -45,7 +45,7 @@ const UserSearch = () => {
 
       {userList &&
         userList.map((userLists, index) => {
-          console.log(userLists);
+          // console.log(userLists);
           return (
             <div key={index}>
               <Button sx={{}}>

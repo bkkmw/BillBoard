@@ -29,7 +29,7 @@ const ProfilButton = () => {
     const data = { fromUserId: loginUser.userId, toUserId: toUserId };
     dispatch(follow(data))
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((error) => {
         console.log(error);
@@ -42,14 +42,14 @@ const ProfilButton = () => {
     const data = { fromUserId: loginUser.userId, toUserId: toUserId };
     dispatch(followdelete(data))
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((error) => {
         console.log(error);
       });
     setFriend(false);
   };
-  console.log(friendData);
+  // console.log(friendData);
   return (
     <div>
       <Button
