@@ -53,7 +53,7 @@ const Detail = ({ gameDetail, propGameId }) => {
     const handleReviews = () => {
       dispatch(getReviews(gameId)).then((res) => {
         setReviews(res.payload.reviews);
-        console.log(res)
+        console.log(res);
       });
     };
     handleReviews();
@@ -68,7 +68,6 @@ const Detail = ({ gameDetail, propGameId }) => {
       <GameDetail details={details} />
       <hr style={{ width: "74vw", marginBottom: "3vh" }} />
       <GameDescription details={details} />
-
       <hr style={{ width: "74vw", margin: "3vh 0 3vh 0" }} />
       {/* <GameVideo key="key" details={details} /> */}
       <hr style={{ width: "74vw", margin: "3vh 0 3vh 0" }} />
