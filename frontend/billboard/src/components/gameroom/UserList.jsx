@@ -32,8 +32,9 @@ const UserList = () => {
     setIsModalOpen(false);
   };
   const delUser = (id) => {
+
     const newUserList = userList.filter((user) => {
-      return user.id !== id;
+      return user.userId !== id;
     });
     dispatch(setPlayer(newUserList))
   };
@@ -95,7 +96,7 @@ const UserList = () => {
                 <Button type='primary' onClick={() => postReview(user.userId)}>
                   리뷰남기기
                 </Button></>}
-              <CloseCircleOutlined onClick={() => { delUser(user.id) }} /></>}
+              <CloseCircleOutlined onClick={() => { delUser(user.userId) }} /></>}
 
 
 
