@@ -32,8 +32,9 @@ const UserList = () => {
     setIsModalOpen(false);
   };
   const delUser = (id) => {
+
     const newUserList = userList.filter((user) => {
-      return user.id !== id;
+      return user.userId !== id;
     });
     dispatch(setPlayer(newUserList));
   };
@@ -109,7 +110,7 @@ const UserList = () => {
                         )}
                         <CloseCircleOutlined
                           onClick={() => {
-                            delUser(user.id);
+                            delUser(user.userId);
                           }}
                         />
                       </>
@@ -119,7 +120,6 @@ const UserList = () => {
               );
             })}
         </Col>
-
         <Col span={24}>
           <Card
             style={{ width: 300 }}

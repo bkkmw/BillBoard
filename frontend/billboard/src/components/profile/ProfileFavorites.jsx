@@ -28,7 +28,7 @@ const ProfileFavorites = () => {
     };
     handleFavorite();
   }, []);
-  console.log(favorites);
+  // console.log(favorites);
 
   return (
     <div

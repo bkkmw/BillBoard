@@ -68,7 +68,7 @@ const Main = () => {
   useEffect(() => {
     boards(gameData);
   }, []);
-  console.log(boardAverage);
+  // console.log(boardAverage);
   return (
     <>
       {boardDate && (

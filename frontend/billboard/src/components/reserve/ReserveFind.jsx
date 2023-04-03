@@ -171,7 +171,7 @@ const ReserveFind = () => {
               fontSize: "1.5rem",
             }}
           >
-            예약하러 왔니?
+            방만들기
           </Button>
           <Col
             span={24}
