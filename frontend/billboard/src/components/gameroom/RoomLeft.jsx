@@ -9,8 +9,6 @@ const RoomLeft = () => {
   const dispatch = useDispatch();
   const [openGameResult, setOpenGameResult] = useState(false);
 
-
-
   return (
     <div style={{ width: "50vw" }}>
       <Row>
