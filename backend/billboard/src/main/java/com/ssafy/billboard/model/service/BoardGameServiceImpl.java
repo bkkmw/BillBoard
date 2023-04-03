@@ -616,6 +616,7 @@ public class BoardGameServiceImpl implements BoardGameService{
                 .usersrated(bg.getUsersrated())
                 .wargamerank(bg.getWargamerank())
                 .yearpublished(bg.getYearpublished())
+                .video(bg.getVideo())
                 .build();
         return bgt;
     }
@@ -674,5 +675,14 @@ public class BoardGameServiceImpl implements BoardGameService{
         }
 
         return games;
+    }
+
+    public boolean updateVideo(int gameId, String video){
+        if(!boardGameRepository.existsById(gameId))
+            return false;
+        BoardGame boardGame = boardGameRepository.findById(gameId).get();
+        boardGame.updateVideo(video);
+        boardGameRepository.save(boardGame);
+        return true;
     }
 }

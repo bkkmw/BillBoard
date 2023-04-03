@@ -20,7 +20,7 @@ public class BoardGame implements Persistable<Integer> {
     @Column(nullable = false)
     private int gameId;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, length = 300)
@@ -28,6 +28,9 @@ public class BoardGame implements Persistable<Integer> {
 
     @Column(nullable = false, length = 300)
     private String image;
+
+    @Column(length = 300)
+    private String video;
 
     @Column(nullable = false, length = 6000)
     private String description;
@@ -97,5 +100,9 @@ public class BoardGame implements Persistable<Integer> {
     @Override
     public boolean isNew() {
         return true;
+    }
+
+    public void updateVideo(String video){
+        this.video = video;
     }
 }

@@ -26,7 +26,6 @@ public class History extends BaseTimeEntity {
     @Column(name = "count")
     private int count;
 
-
     public void updateCount() {
         this.count = this.count + 1;
     }
