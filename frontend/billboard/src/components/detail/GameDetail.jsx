@@ -1,16 +1,42 @@
-import { React, useState, useRef } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import GameRating from "./GameRating";
 import { Link } from "react-router-dom";
-import { Rate } from "antd";
+import { Form, Rate } from "antd";
 import stlyes from "./GameDetail.module.css";
-
-import { createFavorites, deleteFavorites } from "../../store/boardgames";
+import { createFavorites, deleteFavorites, getUserReviews } from "../../store/boardgames";
 
 import { useSelector, useDispatch } from "react-redux";
+import { selectUser } from "../../store/user";
 
 const GameDetail = (props) => {
+  const inputRef = useRef()
+  const userId = useSelector(selectUser).loginUser.userId
+  const [rating, setRating] = useState(0)
   const dispatch = useDispatch();
   const { loginUser } = useSelector((state) => state.user);
+  const gameId = props.details.gameId
+  useEffect(()=>{
+    dispatch(getUserReviews({ 'userId': userId })).then((res) => {
+      for (const review of res.payload.reviews) {
+          if (review.gameId === gameId) {
+            setRating(review.rating)
+            console.log(rating)
+            
+            // 디폴트 값
+            inputRef.current?.setFieldsValue({
+              rating: `${rating}`
+          
+            })
+              break
+              
+          }
+      }
+  }).catch((err) => { console.log(err) })
+
+  },[])
+  useEffect(()=>{
+    console.log(inputRef)
+  }, [inputRef])
 
   // 즐겨찾기 등록, 해제
   // Get initial isFavorite value from localStorage or set to false if not found
@@ -38,6 +64,7 @@ const GameDetail = (props) => {
         localStorage.setItem(props.details.gameId, JSON.stringify(false));
       });
     }
+
   };
   // 내 평점
   // const existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
@@ -53,7 +80,7 @@ const GameDetail = (props) => {
       ></img>
       <div className={stlyes.background2}>
         <div className={stlyes.background3}>
-          <GameRating value={5} maxValue={10} />
+          <GameRating value={props.details.average} maxValue={10} />
           <span className={stlyes.font}>{props.details.name}</span>
         </div>
         <div
@@ -65,12 +92,10 @@ const GameDetail = (props) => {
           }}
         >
           <span className={stlyes.font2}>내 점수</span>
-          <Rate
-            // value={
-            //   existingReviews
-            //     ? existingReviews[existingReviews.length - 1]["rating"]
-            //     : null
-            // }
+          <Form ref={inputRef}>
+            <Form.Item
+            name="rating">
+            <Rate
             count={10}
             style={{
               fontSize: "3rem",
@@ -78,7 +103,13 @@ const GameDetail = (props) => {
               justifyContent: "center",
               alignItems: "center",
             }}
+          id="myRating"
+          disabled={true}
           />
+            </Form.Item>
+
+          </Form>
+
         </div>
         <div className={stlyes.background4}>
           <button

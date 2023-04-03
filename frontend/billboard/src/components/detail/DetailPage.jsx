@@ -7,13 +7,16 @@ import GameVideo from "./GameVideo";
 import GameReview from "./GameReview";
 import { useLocation } from "react-router";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { getReviews } from "../../store/boardgames";
 
 import { Margin } from "@mui/icons-material";
 
 const Detail = ({ gameDetail }) => {
+
+
+
   let details;
   let gameId;
   // console.log(location.state);
@@ -35,6 +38,7 @@ const Detail = ({ gameDetail }) => {
     const handleReviews = () => {
       dispatch(getReviews(gameId)).then((res) => {
         setReviews(res.payload.reviews);
+        console.log(res)
       });
     };
     handleReviews();
@@ -50,6 +54,7 @@ const Detail = ({ gameDetail }) => {
       {/* <GameVideo key="key" details={details} /> */}
       <hr style={{ width: "74vw", margin: "3vh 0 3vh 0" }} />
       <GameReview details={details} reviews={reviews} />
+
     </div>
   );
 };
