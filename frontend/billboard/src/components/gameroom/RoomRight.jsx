@@ -27,11 +27,43 @@ const RoomRight = () => {
     setIsModalOpen(false);
   };
   const [gameDetail, setGameDetail] = useState();
-
+  const [propGameId, setpropGameId] = useState();
   const inputRef = useRef();
-  return (
-    <>
-      {!isInGame ? (
+  return (<>
+    {!isInGame ?
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+          width: "50vw",
+        }}
+      >                <Button
+        type="primary"
+        style={{
+          fontSize: "1.5rem",
+          width: "8vw",
+          height: "6vh",
+          display: "flex",
+          justifyContent: "center",
+        }}
+        onClick={() => { setIsInRecommend(!isInRecommend) }}>
+          {isInRecommend ? '검색하기' : '추천받기'}
+        </Button>
+        {isInRecommend ? <GameRecommend setpropGameId={setpropGameId} showModal={showModal}/> :
+          <GameroomSearch setGameDetail={setGameDetail} showModal={showModal} />}
+        <Modal
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          bodyStyle={{
+            overflowY: "auto",
+            maxHeight: `${window.innerHeight * 0.8}`,
+          }}
+          width={window.innerWidth * 0.8}
+        >
+          <Detail gameDetail={gameDetail} propGameId={propGameId}/>
+        </Modal>
         <div
           style={{
             display: "flex",
