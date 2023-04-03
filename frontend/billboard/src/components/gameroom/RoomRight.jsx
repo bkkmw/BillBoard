@@ -22,9 +22,11 @@ const RoomRight = () => {
   };
   const handleOk = () => {
     setIsModalOpen(false);
+    setpropGameId()
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setpropGameId()
   };
   const [gameDetail, setGameDetail] = useState();
   const [propGameId, setpropGameId] = useState();
