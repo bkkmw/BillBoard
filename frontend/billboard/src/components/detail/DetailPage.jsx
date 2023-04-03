@@ -32,20 +32,17 @@ const Detail = ({ gameDetail, propGameId }) => {
       console.log(1)
       gameId = propGameId
       getDetailInfo(propGameId)
-    } else if (location.state.isProps) {
-      console.log(location.state)
-      console.log(2)
-      gameId = location.state.gameId
-      getDetailInfo(location.state.gameId)
     } else if (gameDetail) {
-      console.log(3)
       setDetails(gameDetail)
       gameId = gameDetail.gameId;
+    } else if (location.state.isProps) {
+      gameId = location.state.gameId
+      getDetailInfo(location.state.gameId)
     } else {
       setDetails(location.state);
       gameId = location.state.gameId
     }
-  },[])
+  },[propGameId, gameDetail])
 
 
 
