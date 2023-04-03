@@ -12,7 +12,7 @@ export default function GameRating({ value, maxValue }) {
     >
       <span className={style.bar} style={{ transform: `rotate(${deg}deg)` }} />
       <span className={style.result}>
-        <span>{value}</span>
+        <span>{value.toFixed(2)}</span>
       </span>
     </div>
   );
