@@ -20,11 +20,11 @@ const GameDetail = (props) => {
       for (const review of res.payload.reviews) {
           if (review.gameId === gameId) {
             setRating(review.rating)
-            console.log(rating)
+            console.log(review.rating)
             
             // 디폴트 값
             inputRef.current?.setFieldsValue({
-              rating: `${rating}`
+              rating: `${review.rating}`
           
             })
               break
