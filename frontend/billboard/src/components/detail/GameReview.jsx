@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import Review from "../gameroom/Review"
+import Review from "../gameroom/Review";
 import { Table } from "antd";
 import "./GamePagination.css";
 import {
@@ -99,6 +99,9 @@ const GameReview = (props) => {
       key: "review",
       title: "리뷰",
       dataIndex: "comment",
+      style: {
+        wordBreak: "keep-all",
+      },
     },
     {
       key: "delete",
@@ -112,10 +115,15 @@ const GameReview = (props) => {
   return (
     <div>
       <span className={style.font}>리뷰</span>
-      <Button type='primary' onClick={() => setIsReviewOpen(true)}>
-                  리뷰남기기
-                </Button>
-      <Review  isReviewOpen={isReviewOpen} setIsReviewOpen={setIsReviewOpen} userId={loginUser.userId} gameHistory={[{...props.details}]} />
+      <Button type="primary" onClick={() => setIsReviewOpen(true)}>
+        리뷰남기기
+      </Button>
+      <Review
+        isReviewOpen={isReviewOpen}
+        setIsReviewOpen={setIsReviewOpen}
+        userId={loginUser.userId}
+        gameHistory={[{ ...props.details }]}
+      />
       <Modal open={open} onClose={handleClose}>
         <Box sx={boxstyle}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
