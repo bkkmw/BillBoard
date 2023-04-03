@@ -174,8 +174,11 @@ export const deleteReviews = createAsyncThunk(
     // console.log(data.gameId, data.userId);
     try {
       const response = await httpClient.delete("boardgames/review", {
-        gameId: data.gameId,
-        userId: data.userId,
+        data: {
+          gameId: data.gameId,
+          userId: data.userId,
+        }
+
       });
       // console.log(response);
       return response;
@@ -190,7 +193,7 @@ const boardgamesSlice = createSlice({
   name: "boardgames",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => { },
 });
 
 export default boardgamesSlice.reducer;
