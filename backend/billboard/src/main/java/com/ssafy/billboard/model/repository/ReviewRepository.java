@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, ReviewID> {
     List<Review> findAllByGameId(int gameId);
+    List<Review> findAllByGameIdOrderByCreatedTimeDesc(int gameId);
+
     List<Review> findAllByUserId(String userId);
 }
