@@ -101,7 +101,7 @@ const ReserveFind = () => {
                   setIsAddressOpen(true);
                 }}
                 style={{
-                  width: address === "" ? "10vw" : "33vw",
+                  width: address === "" ? "10vw" : "auto",
                   // width: "10vw",
                   height: "7vh",
                   borderRadius: "2rem",
