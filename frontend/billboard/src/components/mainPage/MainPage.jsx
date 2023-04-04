@@ -12,6 +12,10 @@ import {
   Grid,
 } from "@mui/material";
 
+import CardContent from "@mui/material/CardContent";
+import { CardActionArea } from "@mui/material";
+import Typography from "@mui/material/Typography";
+
 import DetailPage from "../detail/DetailPage";
 
 import { getBoardGames } from "../../store/boardgames";
@@ -68,27 +72,63 @@ const Main = () => {
   useEffect(() => {
     boards(gameData);
   }, []);
-  // console.log(boardAverage);
   return (
     <>
+      <div style={{ marginTop: "10vh", height: "2vh" }}>
+        <GameSearch
+          open={isSearch}
+          onClose={() => {
+            setIsSearch(false);
+          }}
+          setGameData={setGameData}
+          gameData={gameData}
+          search={boards}
+        />
+        <Button
+          fullWidth
+          size="large"
+          variant="contained"
+          sx={{ color: "black" }}
+          onClick={() => {
+            setIsSearch(true);
+          }}
+        >
+          게임 검색
+        </Button>
+      </div>
       {boardDate && (
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "spaceBetween",
-            marginTop: "12vh",
-            width: "70vw",
+            marginTop: "3rem",
+            marginBottom: "10vh",
+            width: "80vw",
           }}
         >
-          <span style={{ fontSize: "3rem", marginBottom: "2rem" }}>유저별</span>
+          <Typography
+            align="center"
+            variant="h3"
+            color="black"
+            style={{ fontSize: "2rem" }}
+          >
+            맞춤 추천
+          </Typography>
           <UserRecommend />
 
           <div>
-            <span style={{ fontSize: "3rem" }}>평균순</span>
+            <Typography
+              align="left"
+              variant="h3"
+              color="black"
+              style={{ fontSize: "2rem" }}
+            >
+              평점 높은 게임
+            </Typography>
             <Swiper
-              slidesPerView={3}
-              spaceBetween={30}
+              slidesPerView={4}
+              spaceBetween={40}
               freeMode={true}
               pagination={{
                 clickable: true,
@@ -96,30 +136,60 @@ const Main = () => {
               navigation={true}
               modules={[FreeMode, Pagination, Navigation]}
               className="boardAverage"
-              style={{ marginTop: "2rem", marginBottom: "2rem" }}
+              style={{
+                marginTop: "2rem",
+                marginBottom: "2rem",
+                padding: "2rem",
+              }}
             >
               {boardAverage.map((data, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide key={index} style={{ height: "9vh" }}>
                   <Link to={`/detail/${data.gameId}`} state={data}>
-                    <img
-                      style={{
-                        width: "350px",
-                        height: "350px",
-                        objectFit: "fill",
-                      }}
-                      src={data.image}
-                      alt="Slide 1"
-                    />
+                    <Card sx={{ width: "20vw", height: "100%" }}>
+                      <CardActionArea>
+                        <CardMedia
+                          sx={{ borderRadius: "16px" }}
+                          component="img"
+                          height="100%"
+                          image={data.image}
+                          style={{ objectFit: "fill" }}
+                        />
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            style={{
+                              height: "5.5vh",
+                              overflowY: "scroll",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            {data.name}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
                   </Link>
                 </SwiperSlide>
               ))}
             </Swiper>
           </div>
           <div>
-            <span style={{ fontSize: "3rem" }}>랭킹순</span>
+            {/* <span style={{ fontSize: "2rem" }}>랭킹순</span> */}
+            <Typography
+              align="left"
+              variant="h3"
+              color="black"
+              style={{ fontSize: "2rem" }}
+            >
+              랭킹 높은 게임
+            </Typography>
             <Swiper
-              slidesPerView={3}
-              spaceBetween={30}
+              slidesPerView={4}
+              spaceBetween={40}
               freeMode={true}
               pagination={{
                 clickable: true,
@@ -130,27 +200,53 @@ const Main = () => {
               style={{ marginTop: "2rem", marginBottom: "2rem" }}
             >
               {boardRanking.map((data, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide key={index} style={{ height: "9vh" }}>
                   <Link to={`/detail/${data.gameId}`} state={data}>
-                    <img
-                      style={{
-                        width: "350px",
-                        height: "350px",
-                        objectFit: "fill",
-                      }}
-                      src={data.image}
-                      alt="Slide 1"
-                    />
+                    <Card sx={{ width: "20vw", height: "100%" }}>
+                      <CardActionArea>
+                        <CardMedia
+                          sx={{ borderRadius: "16px" }}
+                          component="img"
+                          height="100%"
+                          image={data.image}
+                          style={{ objectFit: "fill" }}
+                        />
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            style={{
+                              height: "5.5vh",
+                              overflowY: "scroll",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            {data.name}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
                   </Link>
                 </SwiperSlide>
               ))}
             </Swiper>
           </div>
           <div>
-            <span style={{ fontSize: "3rem" }}>난이도순</span>
+            {/* <span style={{ fontSize: "2rem" }}>난이도순</span> */}
+            <Typography
+              align="left"
+              variant="h3"
+              color="black"
+              style={{ fontSize: "2rem" }}
+            >
+              어려운 게임
+            </Typography>
             <Swiper
-              slidesPerView={3}
-              spaceBetween={30}
+              slidesPerView={4}
+              spaceBetween={40}
               freeMode={true}
               pagination={{
                 clickable: true,
@@ -161,26 +257,52 @@ const Main = () => {
               style={{ marginTop: "2rem", marginBottom: "2rem" }}
             >
               {boardWeight.map((data, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide key={index} style={{ height: "9vh" }}>
                   <Link to={`/detail/${data.gameId}`} state={data}>
-                    <img
-                      style={{
-                        width: "350px",
-                        height: "350px",
-                        objectFit: "fill",
-                      }}
-                      src={data.image}
-                      alt="Slide 1"
-                    />
+                    <Card sx={{ width: "20vw", height: "100%" }}>
+                      <CardActionArea>
+                        <CardMedia
+                          sx={{ borderRadius: "16px" }}
+                          component="img"
+                          height="100%"
+                          image={data.image}
+                          style={{ objectFit: "fill" }}
+                        />
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            style={{
+                              height: "5.5vh",
+                              overflowY: "scroll",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            {data.name}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
                   </Link>
                 </SwiperSlide>
               ))}
             </Swiper>
             <div>
-              <span style={{ fontSize: "3rem" }}>리뷰순</span>
+              {/* <span style={{ fontSize: "2rem" }}>리뷰순</span> */}
+              <Typography
+                align="left"
+                variant="h3"
+                color="black"
+                style={{ fontSize: "2rem" }}
+              >
+                리뷰 많은 게임
+              </Typography>
               <Swiper
-                slidesPerView={3}
-                spaceBetween={30}
+                slidesPerView={4}
+                spaceBetween={40}
                 freeMode={true}
                 pagination={{
                   clickable: true,
@@ -191,27 +313,53 @@ const Main = () => {
                 style={{ marginTop: "2rem", marginBottom: "2rem" }}
               >
                 {boardReview.map((data, index) => (
-                  <SwiperSlide key={index}>
+                  <SwiperSlide key={index} style={{ height: "9vh" }}>
                     <Link to={`/detail/${data.gameId}`} state={data}>
-                      <img
-                        style={{
-                          width: "350px",
-                          height: "350px",
-                          objectFit: "fill",
-                        }}
-                        src={data.image}
-                        alt="Slide 1"
-                      />
+                      <Card sx={{ width: "20vw", height: "100%" }}>
+                        <CardActionArea>
+                          <CardMedia
+                            sx={{ borderRadius: "16px" }}
+                            component="img"
+                            height="100%"
+                            image={data.image}
+                            style={{ objectFit: "fill" }}
+                          />
+                          <CardContent>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="div"
+                              style={{
+                                height: "5.5vh",
+                                overflowY: "scroll",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              {data.name}
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
                     </Link>
                   </SwiperSlide>
                 ))}
               </Swiper>
             </div>
             <div>
-              <span style={{ fontSize: "3rem" }}>출시일순</span>
+              {/* <span style={{ fontSize: "2rem" }}>출시일순</span> */}
+              <Typography
+                align="left"
+                variant="h3"
+                color="black"
+                style={{ fontSize: "2rem" }}
+              >
+                최신 게임
+              </Typography>
               <Swiper
-                slidesPerView={3}
-                spaceBetween={30}
+                slidesPerView={4}
+                spaceBetween={40}
                 freeMode={true}
                 pagination={{
                   clickable: true,
@@ -222,17 +370,35 @@ const Main = () => {
                 style={{ marginTop: "2rem", marginBottom: "2rem" }}
               >
                 {boardDate.map((data, index) => (
-                  <SwiperSlide key={index}>
+                  <SwiperSlide key={index} style={{ height: "9vh" }}>
                     <Link to={`/detail/${data.gameId}`} state={data}>
-                      <img
-                        style={{
-                          width: "350px",
-                          height: "350px",
-                          objectFit: "fill",
-                        }}
-                        src={data.image}
-                        alt="Slide 1"
-                      />
+                      <Card sx={{ width: "20vw", height: "100%" }}>
+                        <CardActionArea>
+                          <CardMedia
+                            sx={{ borderRadius: "16px" }}
+                            component="img"
+                            height="100%"
+                            image={data.image}
+                            style={{ objectFit: "fill" }}
+                          />
+                          <CardContent>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="div"
+                              style={{
+                                height: "5.5vh",
+                                overflowY: "scroll",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              {data.name}
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
                     </Link>
                   </SwiperSlide>
                 ))}
@@ -241,22 +407,6 @@ const Main = () => {
           </div>
         </div>
       )}
-      <GameSearch
-        open={isSearch}
-        onClose={() => {
-          setIsSearch(false);
-        }}
-        setGameData={setGameData}
-        gameData={gameData}
-        search={boards}
-      />
-      <Button
-        onClick={() => {
-          setIsSearch(true);
-        }}
-      >
-        검색
-      </Button>
     </>
   );
 };
