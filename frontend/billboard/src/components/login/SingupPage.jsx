@@ -104,7 +104,7 @@ const Singup = () => {
   const EmailAuth = async (e) => {
     e.preventDefault();
     const email = form.watch("UserEmail");
-    console.log("끼에에ㅔㅇ", email, authKey);
+    // console.log("끼에에ㅔㅇ", email, authKey);
     try {
       const response = await httpClient.post("users/check-authkey", {
         email: email,

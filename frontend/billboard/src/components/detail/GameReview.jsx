@@ -60,7 +60,7 @@ const GameReview = (props) => {
   // 리뷰 삭제
   const handleDelete = () => {
     const data = deleteData;
-    // console.log(data);
+    console.log(data);
     dispatch(deleteReviews(data)).then((res) => {
       console.log(res);
     });
@@ -106,9 +106,13 @@ const GameReview = (props) => {
     {
       key: "delete",
       title: "Delete",
-      render: (index, record) => (
-        <Button onClick={() => handleDelete()}>Delete</Button>
-      ),
+      render: (index, record) => {
+        if (loginUser.userId === record.userId) {
+          return (<>
+            <Button onClick={() => handleDelete()}>Delete</Button></>
+          )
+        }
+      },
     },
   ];
 

@@ -11,13 +11,13 @@ const EmailCertificate = (props) => {
   //이메일 인증번호 api
   const email = props.email;
   const emailCertificate = async () => {
-    console.log("하하", email, authkey);
+    // console.log("하하", email, authkey);
     try {
       const response = await httpClient.post("users/check-authkey", {
         email: email,
         authKey: authkey,
       });
-      console.log(response);
+      // console.log(response);
     } catch (e) {
       console.log(e);
     }

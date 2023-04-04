@@ -32,7 +32,6 @@ const UserList = () => {
     setIsModalOpen(false);
   };
   const delUser = (id) => {
-
     const newUserList = userList.filter((user) => {
       return user.userId !== id;
     });
@@ -41,15 +40,33 @@ const UserList = () => {
   const addUser = (userinfo) => {
     var index = userList.findIndex((user) => user.userId === userinfo.userId);
     if (index === -1) {
-      console.log("리스트에 없는 유저");
+      // console.log("리스트에 없는 유저");
       const newUserList = [...userList, userinfo];
-      console.log(newUserList);
+      // console.log(newUserList);
       dispatch(setPlayer(newUserList));
     } else {
-      console.log("리스트에 있는 유저");
-      console.log();
+      // console.log("리스트에 있는 유저");
+      // console.log();
     }
   };
+  const addEntry = (entries) => {
+    let newUserList = [...userList];
+    for (const entry of entries) {
+      var index = userList.findIndex((user) => user.userId === entry.user.userId);
+      if (index === -1) {
+        const userInfo = {
+          email: entry.user.email,
+          experience: entry.user.experience,
+          matchCount: entry.user.matchCount,
+          nickname: entry.user.nickname,
+          userId: entry.user.userId,
+          winCount: entry.user.winCount,
+        };
+        newUserList = [...newUserList, userInfo]
+      }    
+    }
+    dispatch(setPlayer(newUserList));
+  }
   useEffect(() => {
     addUser(myinfo);
   }, []);
@@ -61,10 +78,10 @@ const UserList = () => {
   };
   const getEntries = (userId) => {
     dispatch(getentries(userId)).then((res) => {
-      console.log(res);
+      // console.log(res);
       if (res.payload.status === 200) {
         console.log("예약정보 불러오기 성공");
-        console.log(res);
+        // console.log(res);
         SetRoomEntries(res.payload.data.rooms);
         showModal();
       } else if (res.payload.status === 204) {
@@ -143,7 +160,7 @@ const UserList = () => {
         isModalOpen={isModalOpen}
         handleCancel={handleCancel}
         rooms={roomEntries}
-        addUser={addUser}
+        addEntry={addEntry}
       />
       <Review
         isReviewOpen={isReviewOpen}

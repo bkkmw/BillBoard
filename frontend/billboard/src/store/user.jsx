@@ -14,7 +14,7 @@ export const doLogin = createAsyncThunk(
         userId: userData.userId,
         password: userData.password,
       });
-      console.log("dsajkl", response);
+      // console.log("dsajkl", response);
       return response;
     } catch (e) {
       console.log(e);
@@ -68,7 +68,7 @@ const userSlice = createSlice({
     builder.addCase(doLogin.rejected, (state) => {});
     builder.addCase(PURGE, () => {
       initialState;
-      console.log("gkdls", initialState);
+      // console.log("gkdls", initialState);
     });
   },
 });

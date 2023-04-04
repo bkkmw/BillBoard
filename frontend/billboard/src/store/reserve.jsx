@@ -14,7 +14,7 @@ export const makeRoom = createAsyncThunk(
         lat: reserveData.lat,
         lng: reserveData.lng,
       });
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -45,7 +45,7 @@ export const correctRoom = createAsyncThunk(
         location: data.values.location,
         date: data.values.date,
       });
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
