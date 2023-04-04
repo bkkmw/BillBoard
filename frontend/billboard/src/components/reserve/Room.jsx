@@ -141,24 +141,57 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Room = () => {
   // Todo: userId값 받아오기
+  let dateStrLocalized
   const userId = useSelector(selectUser).loginUser.userId;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const roomId = useRouteLoaderData("room");
   const [modalOpen, setModalOpen] = useState(false);
   const [roomData, setRoomData] = useState();
+  const [date, setDate] = useState()
   const reload = () => {
     dispatch(getRoomInfo(roomId)).then((res) => {
       setRoomData(res.payload.room);
+
     });
   };
   useEffect(() => {
     reload();
+
   }, []);
   useEffect(() => {
     reload();
   }, [modalOpen]);
+  useEffect(() => {
+    if (roomData) {
+      const date = new Date(roomData.roomInfo.date);
+      // const kstDate = new Date(date.getTime() + (9 * 60 * 60 * 1000));
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false,
+        timeZone: "UTC",
+        weekday: 'long'
+      };
+      setDate(date.toLocaleString(undefined, options))
+    }
+  }, [roomData])
+  // const date = new Date(roomData.roomInfo.date).getMonth() + 1;
 
+  // // 날짜 출력
+  // const year = date.getFullYear();
+  // const month = date.getMonth() + 1;
+  // const day = date.getDate();
+  // console.log(`${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`);
+
+  // // 시간 출력
+  // const hour = date.getHours();
+  // const minute = date.getMinutes();
+  // const second = date.getSeconds();
+  // console.log(`${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}:${second < 10 ? '0' : ''}${second}`);
 
   return (
     <>
@@ -223,8 +256,8 @@ const Room = () => {
                 }}
               >
                 <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
-                  {new Date(roomData.roomInfo.date).getMonth()}월 {new Date(roomData.roomInfo.date).getDate()}일
-                
+                  {date}
+
                 </span>
                 <span style={{ fontSize: "3rem", fontWeight: "bolder" }}>
                   {roomData.roomInfo.title}
