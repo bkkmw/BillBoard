@@ -60,9 +60,9 @@ const GameResult = ({ isModalOpen, setIsModalOpen }) => {
   };
   return (
     <>
-      <Modal title="Basic Modal" open={isModalOpen} footer={null}>
-        <>{playTime}</>
-        <h3>winners</h3>
+      <Modal title="게임 결과" open={isModalOpen} footer={null}>
+        <>플레이 시간 : {playTime}</>
+        <h3>승자</h3>
         {winners.map((user, i) => {
           return (
             <Button
@@ -79,30 +79,39 @@ const GameResult = ({ isModalOpen, setIsModalOpen }) => {
           );
         })}
         <hr />
-        <h3>players</h3>
-        {players.map((user, i) => {
-          return (
-            <Button
-              key={`${i}${user.userId}`}
-              onClick={() => {
-                setWinners([...winners, user]);
-                setPlayers(
-                  players.filter((player) => player.userId !== user.userId)
-                );
-              }}
-            >
-              {user.userId}
-            </Button>
-          );
-        })}
-
-        <Button
-          onClick={() => {
-            setResult();
+        <h3>참가자</h3>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          submit
-        </Button>
+          <div>
+            {players.map((user, i) => {
+              return (
+                <Button
+                  key={`${i}${user.userId}`}
+                  onClick={() => {
+                    setWinners([...winners, user]);
+                    setPlayers(
+                      players.filter((player) => player.userId !== user.userId)
+                    );
+                  }}
+                >
+                  {user.userId}
+                </Button>
+              );
+            })}
+          </div>
+
+          <Button
+            onClick={() => {
+              setResult();
+            }}
+          >
+            제출
+          </Button>
+        </div>
       </Modal>
     </>
   );
