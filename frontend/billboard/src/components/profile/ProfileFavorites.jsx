@@ -106,7 +106,7 @@ const ProfileFavorites = () => {
                             image={favorite.image}
                             style={{
                               objectFit: "fill",
-                              transform: "rotateY(180deg)",
+                              // transform: "rotateY(180deg)",
                             }}
                           />
                           <CardContent>
@@ -120,7 +120,7 @@ const ProfileFavorites = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                transform: "rotateY(180deg)",
+                                // transform: "rotateY(180deg)",
                               }}
                             >
                               {favorite.name}
