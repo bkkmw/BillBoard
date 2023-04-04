@@ -512,13 +512,14 @@ public class BoardGameServiceImpl implements BoardGameService{
        }
         return false; //현재 false 리턴 안되는 오류
     }
-    //리뷰 등록
+    //보드게임 리뷰 등록
     @Override
     public boolean addBoardGameReview(ReviewDto.Review reviewDto) {
         //리뷰 등록하면 보드게임 db에 수정이 필요하다
        String userId = reviewDto.getUserId();
        int gameId = reviewDto.getGameId();
-        if(userRepository.existsByUserId(userId) && boardGameRepository.existsById(gameId)){
+       System.out.println("gameId " + gameId);
+        if(userRepository.existsByUserId(userId)){
             reviewRepository.save(Review.builder()
                     .gameId(reviewDto.getGameId())
                     .name(reviewDto.getName())
@@ -529,17 +530,20 @@ public class BoardGameServiceImpl implements BoardGameService{
             );
             return true;
         }
-
-
+        if(!userRepository.existsByUserId(userId))
+            System.out.println("no user");
+        if(!boardGameRepository.existsById(gameId))
+            System.out.println("no gameId");
         return false;
     }
-    //리뷰 조회
+    //보드게임 리뷰 조회
     @Override
     public List<ReviewDto.Review> getBoardGameReviewsGameId(int gameId) {
         if(!boardGameRepository.existsById(gameId))
             return null;
 
-        List<Review> reviewsEntity = reviewRepository.findAllByGameId(gameId);
+        //List<Review> reviewsEntity = reviewRepository.findAllByGameId(gameId);
+        List<Review> reviewsEntity = reviewRepository.findAllByGameIdOrderByCreatedTimeDesc(gameId);
         List<ReviewDto.Review> reviews =  getReviews(reviewsEntity);
         return reviews;
     }

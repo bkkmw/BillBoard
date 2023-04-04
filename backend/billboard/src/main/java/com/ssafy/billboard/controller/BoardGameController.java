@@ -130,6 +130,7 @@ public class BoardGameController {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
         boolean isRemoved = boardGameService.addBoardGameReview(reviewDto);
+        System.out.println(isRemoved);
         if(!isRemoved)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         status = HttpStatus.OK;
