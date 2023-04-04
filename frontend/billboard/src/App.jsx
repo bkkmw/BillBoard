@@ -14,6 +14,12 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loginUser, login } = useSelector((state) => state.user);
+
+  // 로그아웃시 내브바가 안사라지는 이슈
+  function excludeHeader() {
+    if (location.pathname.startsWith("/login")) return true;
+    else return false;
+  }
   // jwt 토큰
   useEffect(() => {
     // 인터셉터 제거
@@ -48,7 +54,7 @@ function App() {
               .then(async (res) => {
                 console.log("refresh!!");
                 if (res != null && res.data.msg === "success") {
-                  dispatchEvent(updateToken(res.data["new accessToken"]));
+                  dispatch(updateToken(res.data["new accessToken"]));
                   originalRequest.headers.Authorization = `Bearer ${res.data["new accessToken"]}`;
                   const finalResponse = await httpClient(originalRequest);
                   return finalResponse;
@@ -59,7 +65,7 @@ function App() {
               })
               .catch(() => {
                 console.log("refresh token expired do logout");
-                dispatchEvent(clearUserInfo());
+                dispatch(clearUserInfo());
                 window.alert("세션이 만료되었습니다. 다시 로그인");
                 doLogOut();
                 navigate("/login");
@@ -84,7 +90,8 @@ function App() {
 
   return (
     <div>
-      <Navbar />
+      {!excludeHeader() && <Navbar />}
+      {/* <Navbar /> */}
       <Outlet />
     </div>
   );

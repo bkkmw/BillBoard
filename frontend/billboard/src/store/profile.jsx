@@ -4,13 +4,15 @@ import httpClient from "../utils/axios";
 export const follow = createAsyncThunk(
   "profile/follow",
   async (data, { rejectWithValue }) => {
-    // console.log(data);
+    console.log(data);
     try {
       const response = await httpClient.post("/followes", {
-        fromUserId: data.fromUserId, //내 아이디
-        toUserId: data.toUserId, //상대방 아이디
+        data: {
+          fromUserId: data.fromUserId, //내 아이디
+          toUserId: data.toUserId, //상대방 아이디
+        },
       });
-      return response;
+      return response.data;
     } catch (error) {
       console.log(error);
       return rejectWithValue(error);
@@ -28,7 +30,7 @@ export const followdelete = createAsyncThunk(
           toUserId: del.toUserId,
         },
       });
-      return response;
+      return response.data;
     } catch (error) {
       console.log(error);
       return rejectWithValue(error);

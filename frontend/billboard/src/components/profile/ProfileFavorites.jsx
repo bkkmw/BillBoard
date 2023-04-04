@@ -6,10 +6,10 @@ import style from "./ProfileFavorites.module.css";
 import { getDetails, getFavorites } from "../../store/boardgames";
 
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
 import { CardActionArea } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { Start } from "@mui/icons-material";
 
 const ProfileFavorites = () => {
@@ -23,11 +23,14 @@ const ProfileFavorites = () => {
   useEffect(() => {
     const handleFavorite = () => {
       dispatch(getFavorites(userId)).then((res) => {
-        setFavorites(res.payload.favorites);
+        // console.log(res);
+        if (res.payload !== undefined) {
+          setFavorites(res.payload.favorites);
+        }
       });
     };
     handleFavorite();
-  }, []);
+  }, [userId]);
   // console.log(favorites);
 
   return (

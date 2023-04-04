@@ -22,6 +22,7 @@ const Profile = () => {
     const getUser = () => {
       dispatch(userProfile(userId)).then((res) => {
         if (res.payload.userInfo) {
+          console.log(res.payload.userInfo.isFollowing);
           SetUser(res.payload);
         }
       });
