@@ -9,6 +9,7 @@ import { selectgameroom, setIsInGame } from "../../store/gameroom";
 import InGame from "./InGame";
 import GameResult from "./GameResult";
 import GameRecommend from "./GameRecommend";
+import Wating from "./wating";
 
 const RoomRight = () => {
   const gameInfo = useSelector(selectgameroom).gameInfo
@@ -52,7 +53,7 @@ const RoomRight = () => {
         onClick={() => { setIsInRecommend(!isInRecommend) }}>
           {isInRecommend ? '검색하기' : '추천받기'}
         </Button>
-        {isInRecommend ? <GameRecommend setpropGameId={setpropGameId} showModal={showModal}/> :
+        {isInRecommend ? <GameRecommend setpropGameId={setpropGameId} showModal={showModal} /> :
           <GameroomSearch setGameDetail={setGameDetail} showModal={showModal} />}
         <Modal
           open={isModalOpen}
@@ -64,7 +65,7 @@ const RoomRight = () => {
           }}
           width={window.innerWidth * 0.8}
         >
-          <Detail gameDetail={gameDetail} propGameId={propGameId}/>
+          <Detail gameDetail={gameDetail} propGameId={propGameId} />
         </Modal>
         <div
           style={{
@@ -109,7 +110,7 @@ const RoomRight = () => {
             isModalOpen={openGameResult} setIsModalOpen={setOpenGameResult}
           />
         </div>       </div > : <InGame setOpenGameResult={setOpenGameResult} />}
-
+    <Wating />
   </>
 
 
