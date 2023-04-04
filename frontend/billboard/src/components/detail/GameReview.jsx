@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Review from "../gameroom/Review";
@@ -40,14 +40,12 @@ const GameReview = (props) => {
 
   const [deleteData, setDeleteData] = useState([]);
   const gameId = useRouteLoaderData("detail");
-  const [isReviewOpen, setIsReviewOpen] = useState(false)
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
 
   // 리뷰 등록 모달
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  // console.log(typeof gameId);
 
   useEffect(() => {
     setDeleteData({
@@ -56,7 +54,6 @@ const GameReview = (props) => {
     });
   }, []);
 
-  // console.log(deleteData);
   // 리뷰 삭제
   const handleDelete = () => {
     const data = deleteData;
@@ -105,12 +102,13 @@ const GameReview = (props) => {
     },
     {
       key: "delete",
-      title: "Delete",
       render: (index, record) => {
         if (loginUser.userId === record.userId) {
-          return (<>
-            <Button onClick={() => handleDelete()}>Delete</Button></>
-          )
+          return (
+            <>
+              <Button onClick={() => handleDelete()}>Delete</Button>
+            </>
+          );
         }
       },
     },
@@ -118,10 +116,18 @@ const GameReview = (props) => {
 
   return (
     <div>
-      <span className={style.font}>리뷰</span>
-      <Button type="primary" onClick={() => setIsReviewOpen(true)}>
-        리뷰남기기
-      </Button>
+      <Grid display="flex">
+        <Typography fontSize="3rem" align="left" className={style.font}>
+          게시판
+        </Typography>
+        <Button
+          size="large"
+          type="primary"
+          onClick={() => setIsReviewOpen(true)}
+        >
+          댓글달기
+        </Button>
+      </Grid>
       <Review
         isReviewOpen={isReviewOpen}
         setIsReviewOpen={setIsReviewOpen}
