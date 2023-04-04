@@ -5,22 +5,12 @@ import { Collapse } from "antd";
 
 const { Panel } = Collapse;
 
-const RoomEntry = ({ isModalOpen, handleCancel, rooms, addUser }) => {
+const RoomEntry = ({ isModalOpen, handleCancel, rooms, addEntry }) => {
   useEffect(() => {
     // console.log(rooms)
   }, [rooms]);
   const submitPlayer = (entries) => {
-    for (const entry of entries) {
-      const userInfo = {
-        email: entry.user.email,
-        experience: entry.user.experience,
-        matchCount: entry.user.matchCount,
-        nickname: entry.user.nickname,
-        userId: entry.user.userId,
-        winCount: entry.user.winCount,
-      };
-      addUser(userInfo);
-    }
+    addEntry(entries)
     handleCancel();
   };
   return (
