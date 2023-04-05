@@ -14,7 +14,7 @@ const RoomEntry = ({ entries, roomId, reload, hostId }) => {
   useEffect(() => {
     // console.log(entries)
     for (const entry of entries) {
-      if (entry.user.userId === userId) {
+      if (entry.userId === userId) {
         setIsInEntry(true);
       }
     }
@@ -44,8 +44,9 @@ const RoomEntry = ({ entries, roomId, reload, hostId }) => {
           return (
             <>
                     <Chip
-        avatar={<Avatar alt="avatar" src={`https://avatars.dicebear.com/api/identicon/${entry.user.userId}.svg`} />}
-        label={entry.user.userId}
+        avatar={<Avatar alt="avatar" src={`https://avatars.dicebear.com/api/identicon/${entry.userId}.svg`} />}
+        label={entry.userId}
+        // 이부분바꾸기
         variant="outlined"
         key={entry + i}
       />

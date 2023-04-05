@@ -78,15 +78,15 @@ const UserList = () => {
   const addEntry = (entries) => {
     let newUserList = [...userList];
     for (const entry of entries) {
-      var index = userList.findIndex((user) => user.userId === entry.user.userId);
+      var index = userList.findIndex((user) => user.userId === entry.userId);
       if (index === -1) {
         const userInfo = {
-          email: entry.user.email,
-          experience: entry.user.experience,
-          matchCount: entry.user.matchCount,
-          nickname: entry.user.nickname,
-          userId: entry.user.userId,
-          winCount: entry.user.winCount,
+          email: entry.email,
+          experience: entry.experience,
+          matchCount: entry.matchCount,
+          nickname: entry.nickname,
+          userId: entry.userId,
+          winCount: entry.winCount,
           score:0
         };
         newUserList = [...newUserList, userInfo]
