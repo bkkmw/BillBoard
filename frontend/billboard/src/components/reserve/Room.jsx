@@ -444,7 +444,7 @@ import { deleteReply, getReply, makeReply } from "../../store/reserve";
 import RoomEntry from "./roomcomponent/RoomEntry";
 import RoomReply from "./roomcomponent/RoomReply";
 import { CloseCircleOutlined } from "@ant-design/icons";
-import { Button, Modal } from "antd";
+import { Button, Col, Modal, Row } from "antd";
 import ReserveForm from "./ReserveForm";
 import RoomLocation from "./roomcomponent/RoomLocation";
 import { styled } from "@mui/material/styles";
@@ -453,6 +453,20 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { fontWeight } from "@mui/system";
 import { selectUser } from "../../store/user";
+import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
+const options = [
+  '방 정보 수정',
+  '방 삭제',
+
+];
+const ITEM_HEIGHT = 48;
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -465,6 +479,15 @@ const Item = styled(Paper)(({ theme }) => ({
 const Room = () => {
   // Todo: userId값 받아오기
   let dateStrLocalized;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const userId = useSelector(selectUser).loginUser.userId;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -475,6 +498,7 @@ const Room = () => {
   const reload = () => {
     dispatch(getRoomInfo(roomId)).then((res) => {
       setRoomData(res.payload.room);
+      console.log(res.payload.room)
     });
   };
   useEffect(() => {
@@ -488,7 +512,6 @@ const Room = () => {
       const date = new Date(roomData.roomInfo.date);
       // const kstDate = new Date(date.getTime() + (9 * 60 * 60 * 1000));
       const options = {
-        year: "numeric",
         month: "long",
         day: "numeric",
         hour: "numeric",
@@ -576,9 +599,27 @@ const Room = () => {
                   padding: "2rem 2rem 2rem 2rem",
                 }}
               >
-                <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
-                  {date}
-                </span>
+                <Row>
+                  {/* <Col span={20}> */}
+                  <span style={{ fontSize: "1.5rem", fontWeight: "bolder", textAlign: "start" }}>
+                    {date}
+                  </span>
+                  {/* </Col> */}
+                  {/* <Col span={4}> */}
+                  {roomData.roomInfo.hostId === userId &&
+                    <IconButton
+                      aria-label="more"
+                      id="long-button"
+                      aria-controls={open ? 'long-menu' : undefined}
+                      aria-expanded={open ? 'true' : undefined}
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>}
+                  {/* </Col> */}
+                </Row>
+
                 <span style={{ fontSize: "3rem", fontWeight: "bolder" }}>
                   {roomData.roomInfo.title}
                 </span>
@@ -587,53 +628,60 @@ const Room = () => {
                 </span>
 
                 {roomData.replies.map((reply, idx) => {
-                  return (
-                    <div key={idx}>
+                  return (<Row>
+                    <div key={idx + reply}>
                       <div
                         style={{
                           paddingTop: "1rem",
                           display: "flex",
                           flexDirection: "row",
-                          justifyContent: "space-between",
+                          justifyContent: "flexStart",
+                          textAlign: "start"
                         }}
                       >
-                        <div>
-                          <div style={{ fontSize: "2rem", textAlign: "start" }}>
-                            {reply.userId}
-                          </div>
-                          <div
+
+                        <Col span={6}>
+                          <Chip
+                            avatar={<Avatar alt="avatar" src={`https://avatars.dicebear.com/api/identicon/${reply.userId}.svg`} />}
+                            label={reply.userId}
+                            // 이부분바꾸기
+                            variant="outlined"
+                            key={reply + idx}
+                          /></Col>
+                        <Col span={17}>
+                          <span
                             style={{
-                              fontSize: "2rem",
+                              fontSize: "1rem",
                               textAlign: "start",
                               wordBreak: "keep-all",
                             }}
                           >
                             {reply.content}
-                          </div>
-                        </div>
-                        {reply.userId === userId && (
-                          <>
-                            <CloseCircleOutlined
-                              style={{
-                                fontSize: "1.5rem",
-                                color: "red",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                              onClick={() => {
-                                dispatch(deleteReply(reply.replyId)).then(
-                                  (res) => {
-                                    reload();
-                                  }
-                                );
-                              }}
-                            />
-                          </>
-                        )}
+                          </span></Col>
+                        <Col span={1}>
+                          {reply.userId === userId && (
+                            <>
+                              <CloseCircleOutlined
+                                style={{
+                                  fontSize: "1.5rem",
+                                  color: "red",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                                onClick={() => {
+                                  dispatch(deleteReply(reply.replyId)).then(
+                                    (res) => {
+                                      reload();
+                                    }
+                                  );
+                                }}
+                              />
+                            </>
+                          )}</Col>
                       </div>
                       <hr style={{ width: "27.5vw" }} />
-                    </div>
+                    </div></Row>
                   );
                 })}
               </Item>
@@ -646,8 +694,60 @@ const Room = () => {
               </Grid>
             </Grid>
           </Grid>
+          <Menu
+            id="long-menu"
+            MenuListProps={{
+              'aria-labelledby': 'long-button',
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                maxHeight: ITEM_HEIGHT * 4.5,
+                width: '20ch',
+              },
+            }}
+          >
+
+            <MenuItem onClick={() => {
+              // Todo: 500오류 해결해야함
+              dispatch(deleteRoom(roomId)).then((res) => {
+                console.log(res);
+                navigate("/reserve", { replace: true });
+              });
+            }}>
+              {'방정보 삭제'}
+            </MenuItem>
+            <MenuItem onClick={() => {
+              setModalOpen(true);
+            }}>
+              {'방정보 수정'}
+            </MenuItem>
+
+          </Menu>
+
+          <Modal
+            footer={null}
+            bodyStyle={{ height: window.innerHeight * 0.8 }}
+            open={modalOpen}
+            title="Basic Modal"
+            width={window.innerWidth * 0.8}
+            onCancel={() => {
+              setModalOpen(false);
+            }}
+          >
+            <ReserveForm
+              data={roomData.roomInfo}
+              roomId={roomId}
+              setModalOpen={setModalOpen}
+            />
+          </Modal>
         </Box>
+
+
       )}
+
     </>
   );
 };

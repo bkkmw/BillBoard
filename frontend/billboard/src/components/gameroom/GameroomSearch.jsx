@@ -11,6 +11,7 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBoardGames } from "../../store/boardgames";
 import { selectgameroom, setGame } from "../../store/gameroom";
+import Searching from "../lottie/Searching";
 
 const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecommend }) => {
   const selectgameInfo = useSelector(selectgameroom).gameInfo;
@@ -39,7 +40,10 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
     });
   };
   useEffect(() => {
-    boards("");
+    console.log(boardReview)
+  }, [boardReview])
+  useEffect(() => {
+    // boards("");
     // console.log(selectgameInfo);
   }, [selectgameInfo]);
   return (
@@ -51,17 +55,17 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
           justifyContent: "space-evenly",
         }}
       >  <Button
-      type="primary"
-      style={{
-        fontSize: "1.5rem",
-        width: "8vw",
-        height: "6vh",
-        display: "flex",
-        justifyContent: "center",
-      }}
-      onClick={() => { setIsInRecommend(!isInRecommend) }}>
-        {isInRecommend ? '검색하기' : '추천받기'}
-      </Button>
+        type="primary"
+        style={{
+          fontSize: "1.5rem",
+          width: "8vw",
+          height: "6vh",
+          display: "flex",
+          justifyContent: "center",
+        }}
+        onClick={() => { setIsInRecommend(!isInRecommend) }}>
+          {isInRecommend ? '검색하기' : '추천받기'}
+        </Button>
         <TextField
           fullWidth
           label="게임 이름을 입력하시오"
@@ -79,86 +83,89 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
         </Button>
       </span>
       <Grid style={{ width: "42vw", height: "50vh", overflowY: "scroll" }}>
-        <div
-          style={{
-            width: "42vw",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "2rem",
-            paddingLeft: "1.3rem",
-          }}
-        >
-          {boardReview.map((game, i) => (
-            <Card sx={{ width: "12vw" }} key={game + i}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="160"
-                  image={`${game.image}`}
-                  alt="green iguana"
-                  onClick={() => {
-                    setGameDetail(game);
-                    showModal();
-                  }}
-                  style={{ objectFit: "fill" }}
-                />
-                <CardContent
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-evenly",
-                    padding: "0",
-                  }}
-                >
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
+        {boardReview.length != 0 ?
+          <div
+            style={{
+              width: "42vw",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "2rem",
+              paddingLeft: "1.3rem",
+            }}
+          >
+            {boardReview.map((game, i) => (
+              <Card sx={{ width: "12vw" }} key={game + i}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="160"
+                    image={`${game.image}`}
+                    alt="green iguana"
+                    onClick={() => {
+                      setGameDetail(game);
+                      showModal();
+                    }}
+                    style={{ objectFit: "fill" }}
+                  />
+                  <CardContent
                     style={{
                       display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginBottom: "0",
-                      width: "7vw",
-                      height: "7vh",
-                      overflowY: "scroll",
+                      flexDirection: "row",
+                      justifyContent: "space-evenly",
+                      padding: "0",
                     }}
                   >
-                    {game.name}
-                  </Typography>
-                  {selectgameInfo.gameId === game.gameId ? (
-                    <Button
-                      color="success"
-                      onClick={() => {
-                        dispatch(setGame({ gameId: "" }));
-                      }}
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
                       style={{
-                        width: "4vw",
-                        height: "4vh",
-                        marginTop: "1.5vh",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginBottom: "0",
+                        width: "7vw",
+                        height: "7vh",
+                        overflowY: "scroll",
                       }}
                     >
-                      해제
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => {
-                        dispatch(setGame(game));
-                      }}
-                      style={{
-                        width: "4vw",
-                        height: "4vh",
-                        marginTop: "1.5vh",
-                      }}
-                    >
-                      선택
-                    </Button>
-                  )}
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          ))}
-        </div>
+                      {game.name}
+                    </Typography>
+                    {selectgameInfo.gameId === game.gameId ? (
+                      <Button
+                        color="success"
+                        onClick={() => {
+                          dispatch(setGame({ gameId: "" }));
+                        }}
+                        style={{
+                          width: "4vw",
+                          height: "4vh",
+                          marginTop: "1.5vh",
+                        }}
+                      >
+                        해제
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => {
+                          dispatch(setGame(game));
+                        }}
+                        style={{
+                          width: "4vw",
+                          height: "4vh",
+                          marginTop: "1.5vh",
+                        }}
+                      >
+                        선택
+                      </Button>
+                    )}
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            ))}
+          </div> : <div>
+
+            <Searching />찾고싶은 게임명을 입력하세요</div>}
       </Grid>
     </>
   );
