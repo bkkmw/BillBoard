@@ -24,6 +24,8 @@
     "dotenv": "^16.0.3",
     "fetch-jsonp": "^1.2.3",
     "html-webpack-plugin": "^5.5.0",
+    "lottie-react": "^2.4.0",
+    "lottie-web": "^5.10.2",
     "npm-merge-driver": "^2.3.6",
     "qs": "^6.11.1",
     "react": "^18.2.0",

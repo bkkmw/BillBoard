@@ -2,8 +2,18 @@ import React, { useRef, useState, useEffect } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import GameDetail from "../detail/GameDetail";
-import GameDescription from "../detail/GameDescription";
+import {
+  Modal,
+  Button,
+  Card,
+  CardActions,
+  CardMedia,
+  Grid,
+} from "@mui/material";
+
+import CardContent from "@mui/material/CardContent";
+import { CardActionArea } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -16,7 +26,7 @@ import "swiper/css/navigation";
 // import "./UserRecommend.css";
 
 // import required modules
-import { Autoplay, Pagination, Navigation } from "swiper";
+import { Autoplay, Pagination, Navigation, FreeMode } from "swiper";
 import { width } from "@mui/system";
 import { Link } from "react-router-dom";
 
@@ -31,36 +41,53 @@ export default function UserRecommend() {
       setRecommDatas(res.payload.games);
     });
   }, []);
-  // console.log(recommDatas);
   return (
     <>
       <Swiper
+        slidesPerView={1}
         spaceBetween={30}
-        centeredSlides={true}
-        autoplay={{
-          delay: 10000,
-          disableOnInteraction: false,
-        }}
+        freeMode={true}
         pagination={{
           clickable: true,
         }}
         navigation={true}
-        modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper"
-        style={{ maxWidth: "70vw", maxHeight: "50vh", marginBottom: "2rem" }}
+        modules={[FreeMode, Pagination, Navigation]}
+        className="boardAverage"
+        style={{ marginTop: "2rem", marginBottom: "2rem" }}
       >
         {recommDatas.map((data, index) => (
-          <SwiperSlide key={index}>
-            <Link to={`/detail/${data.gameId}`} state={{'gameId':data.gameId, 'isProps':true}}>
-            <img
-              style={{
-                width: "350px",
-                height: "350px",
-                objectFit: "fill",
-              }}
-              src={data.image}
-              alt="Slide 1"
-            />
+          <SwiperSlide key={index} style={{ height: "9vh" }}>
+            <Link
+              to={`/detail/${data.gameId}`}
+              state={{ gameId: data.gameId, isProps: true }}
+            >
+              <Card sx={{ width: "20vw", height: "100%" }}>
+                <CardActionArea>
+                  <CardMedia
+                    sx={{ borderRadius: "16px" }}
+                    component="img"
+                    height="100%"
+                    image={data.image}
+                    style={{ objectFit: "fill" }}
+                  />
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      style={{
+                        height: "5.5vh",
+                        overflowY: "scroll",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      {data.name}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
             </Link>
           </SwiperSlide>
         ))}

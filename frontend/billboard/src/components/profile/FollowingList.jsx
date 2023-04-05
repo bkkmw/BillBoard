@@ -18,7 +18,7 @@ const FollowingList = () => {
   useEffect(() => {
     const userId = loginUser.userId;
     dispatch(iFollowYou(userId)).then((res) => {
-      console.log("시발ㄹㄹㄹ", res.payload);
+      // console.log("시발ㄹㄹㄹ", res.payload);
       setInitLoading(false);
       setList(res.payload.followings);
     });

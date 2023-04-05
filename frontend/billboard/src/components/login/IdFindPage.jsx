@@ -35,7 +35,7 @@ const IdFindPage = () => {
     httpClient
       .get(`/users/find-id/${userEmail}`)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.status === 200) {
           navigate("/FindResult", { state: { mode: "ID", email: userEmail } });
         }

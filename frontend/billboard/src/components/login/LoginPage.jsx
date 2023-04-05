@@ -19,6 +19,8 @@ import Typography from "@mui/material/Typography";
 
 import { useForm, FormProvider } from "react-hook-form";
 
+import Animation from "../lottie/Animation";
+
 const Login = () => {
   const { login } = useSelector((state) => state.user);
 
@@ -55,22 +57,45 @@ const Login = () => {
   };
   return (
     <FormProvider {...form}>
-      <Grid container component="main" sx={{ height: "100%", width: "100vh" }}>
-        <Grid
+      <Grid
+        container
+        component="main"
+        sx={{
+          height: "100%",
+          width: "70vw",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        {/* <Grid
           item
           xs={6}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random)",
+            // backgroundImage: "url(https://source.unsplash.com/random)",
+            backgroundImage: <LoadingScreen />,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-        />
-        <Grid item square component={Paper} elevation={6} xs={6}>
+        /> */}
+
+        <Grid item xs={5} style={{ height: "40vh" }}>
+          <Animation />
+        </Grid>
+
+        <Grid
+          item
+          square
+          component={Paper}
+          elevation={6}
+          xs={4.5}
+          style={{ height: "40vh" }}
+        >
           <Box
             sx={{
               my: 8,
-              mx: 4,
+              // mx: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -79,13 +104,14 @@ const Login = () => {
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h3">
               Bill Board
             </Typography>
             <Box
               component="form"
               sx={{ mt: 1 }}
               onSubmit={form.handleSubmit(onSubmit)}
+              width={"15vw"}
             >
               <UserId />
               <br />
@@ -105,19 +131,27 @@ const Login = () => {
                 <Grid item xs={4}>
                   <Link
                     component={RouterLink}
-                    fontSize={2}
                     to={"/PswdFindPage"}
+                    style={{ fontSize: "1rem", textDecorationLine: "none" }}
                   >
                     비밀번호찾기
                   </Link>
                 </Grid>
                 <Grid item xs={4}>
-                  <Link component={RouterLink} fontSize={2} to={"/IdFindPage"}>
+                  <Link
+                    component={RouterLink}
+                    to={"/IdFindPage"}
+                    style={{ fontSize: "1rem", textDecorationLine: "none" }}
+                  >
                     아이디찾기
                   </Link>
                 </Grid>
                 <Grid item xs={4}>
-                  <Link component={RouterLink} fontSize={2} to={"/singup"}>
+                  <Link
+                    component={RouterLink}
+                    to={"/singup"}
+                    style={{ fontSize: "1rem", textDecorationLine: "none" }}
+                  >
                     회원가입
                   </Link>
                 </Grid>

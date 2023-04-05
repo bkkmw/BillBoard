@@ -24,7 +24,7 @@ const RoomReply = ({ replies, roomId, reload }) => {
     dispatch(makeReply(data)).then((res) => {
       reload();
     });
-    console.log("Success:", values);
+    // console.log("Success:", values);
     inputRef.current?.setFieldsValue({ reply: "" });
   };
   const onFinishFailed = (errorInfo) => {
