@@ -18,7 +18,7 @@ import httpClient from "../../utils/axios";
 
 const ProfileInfo = (props) => {
   const userId = useRouteLoaderData("profile");
-
+  const user = props.user;
   const [myprofile, setMyProfile] = useState(true);
 
   const { loginUser } = useSelector((state) => state.user);
@@ -29,7 +29,7 @@ const ProfileInfo = (props) => {
     if (window.confirm("정말 회원 탈퇴하시겠습니까?")) {
       try {
         const response = await httpClient.delete(`users/${userId}`);
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.status === 200) {
           alert("회원 탈퇴 되었습니다.");
         }
@@ -47,23 +47,17 @@ const ProfileInfo = (props) => {
   }, [userId]);
   return (
     <div className={style.background}>
-      <div className={style.background2}>
+      <div style={{ width: "75vw" }} className={style.background2}>
         <span className={style.fontsize}>
           {nickname ? `닉네임 : ${nickname}` : `ID : ${username}`}
         </span>
-        <ProfileExp />
+        <ProfileExp user={user} />
         <div className={style.background3}>
           {myprofile && <ProfileFollowing />}
           {myprofile && <ProfileFollower />}
+          {<ProfileSearch />}
           {myprofile && (
-            <Button
-              onClick={deleteUser}
-              style={{
-                width: "6rem",
-                height: "2.5rem",
-                fontsize: "1.2rem",
-              }}
-            >
+            <Button onClick={deleteUser} sx={{ color: "red" }}>
               회원 탈퇴
             </Button>
           )}
@@ -71,7 +65,7 @@ const ProfileInfo = (props) => {
       </div>
       <div className={style.background4}>
         {!myprofile && <ProfilButton />}
-        {myprofile && <ProfileSearch />}
+        {/* {<ProfileSearch />} */}
       </div>
     </div>
   );

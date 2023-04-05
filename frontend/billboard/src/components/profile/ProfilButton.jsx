@@ -19,11 +19,12 @@ const ProfilButton = () => {
 
   useEffect(() => {
     dispatch(userProfile(toUserId)).then((res) => {
-      // console.log(res.payload);
       setFriendData(res.payload.userInfo);
     });
-  }, []);
-  // console.log("sakfjl", friendData);
+  }, [toUserId]);
+
+  console.log(friendData.isFollowing);
+
   // 팔로우
   const friended = () => {
     const data = { fromUserId: loginUser.userId, toUserId: toUserId };
@@ -49,18 +50,15 @@ const ProfilButton = () => {
       });
     setFriend(false);
   };
-  console.log(friendData);
+
   return (
     <div>
-      <Button
-        onClick={!friend ? friended : frienddelete}
-        type="primary"
-        className={style.btn}
-      >
-        {friend === true ? "언팔로우" : "팔로우"}
-      </Button>
       <h1>{friendData.isFollowing}</h1>
-      {/* <Button onClick={frienddelete}> 친구 삭제</Button> */}
+      <Button onClick={friended} type="primary" className={style.btn}>
+        팔로우
+      </Button>
+
+      <Button onClick={frienddelete}>언팔로우</Button>
     </div>
   );
 };

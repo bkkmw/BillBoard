@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import * as S from "./WriteMap.styled"
-const {kakao} = window;
+import React, { useEffect, useState } from "react";
+import * as S from "./WriteMap.styled";
+const { kakao } = window;
 
-const RoomLocation = ({lat, lng}) => {
+const RoomLocation = ({ lat, lng }) => {
   const [isOpen, setIsOpen] = useState(true);
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
-    "//dapi.kakao.com/v2/maps/sdk.js?appkey=53df67d0f937225bf2314c1685df256a&libraries=services&autoload=false";
+      "//dapi.kakao.com/v2/maps/sdk.js?appkey=53df67d0f937225bf2314c1685df256a&libraries=services&autoload=false";
     document.head.appendChild(script);
 
     script.onload = () => {
@@ -21,10 +21,7 @@ const RoomLocation = ({lat, lng}) => {
         };
         const map = new window.kakao.maps.Map(container, options);
 
-        const markerPosition = new window.kakao.maps.LatLng(
-          lat,
-          lng
-        );
+        const markerPosition = new window.kakao.maps.LatLng(lat, lng);
 
         const marker = new window.kakao.maps.Marker({
           position: markerPosition,
@@ -92,7 +89,7 @@ const RoomLocation = ({lat, lng}) => {
               itemEl.addEventListener("click", function (e) {
                 displayInfowindow(marker, title);
                 setAddress(places[i]);
-                setLocation(places[i])
+                setLocation(places[i]);
                 map.panTo(placePosition);
               });
             })(marker, places[i].place_name);
@@ -175,11 +172,12 @@ const RoomLocation = ({lat, lng}) => {
           markers = [];
         }
 
-
         function displayInfowindow(marker, title) {
-          console.log(title)
+          // console.log(title)
           const content =
-            '<div style="padding:5px;z-index:1;color:black">' + title + "</div>";
+            '<div style="padding:5px;z-index:1;color:black">' +
+            title +
+            "</div>";
 
           infowindow.setContent(content);
           infowindow.open(map, marker);
@@ -192,15 +190,11 @@ const RoomLocation = ({lat, lng}) => {
         }
       });
     };
-  }, []);  
+  }, []);
   return (
-
-      <S.MapSection className="map_wrap" isOpen={isOpen}>
+    <S.MapSection className="map_wrap" isOpen={isOpen}>
       <div id="map"></div>
-
     </S.MapSection>
-      
-
   );
 };
 

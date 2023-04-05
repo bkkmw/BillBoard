@@ -66,7 +66,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
     };
   };
   const onFinish = (values) => {
-    console.log(values.date);
+    // console.log(values.date);
     let offset = values.date.$d.getTimezoneOffset() * 60000; //ms단위라 60000곱해줌
     let dateOffset = new Date(values.date.$d.getTime() - offset);
 
@@ -79,7 +79,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
     if (data) {
       dispatch(correctRoom({ values: values, roomId: roomId }))
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setModalOpen(false);
         })
         .catch((error) => {
@@ -88,7 +88,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
     } else {
       dispatch(makeRoom({ ...values, hostId: userId }))
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           navigate(`/room/${data.payload.roomId}`, { replace: true });
         })
         .catch((error) => {

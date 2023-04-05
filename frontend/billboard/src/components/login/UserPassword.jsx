@@ -33,6 +33,12 @@ const UserPassword = () => {
               ref={ref}
               error={Boolean(formState.errors.UserPassword)}
               helperText={formState.errors.UserPassword?.message}
+              style={{ width: "100%" }}
+              InputProps={{
+                endAdornment: (
+                  <Checkbox onClick={handlePswd} checked={showPswd} />
+                ),
+              }}
             />
           )}
           rules={{
@@ -43,8 +49,6 @@ const UserPassword = () => {
             },
           }}
         />
-        <span>비밀번호 보여줌</span>
-        <Checkbox onClick={handlePswd} />
       </Grid>
     </>
   );

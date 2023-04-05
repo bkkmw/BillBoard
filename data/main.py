@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from surprise import Reader, Dataset, SVD
-from SVD_last import recomm_combi, recomm_game_by_surprise, get_unplayed_surprise
+from SVD_last import getGameList, recommendByUser, recommendByUsers
 
 ratings = []
 total_games = []
@@ -12,7 +12,6 @@ games = []
 algo = SVD(n_factors=50, n_epochs=20, random_state=42)
 reader = Reader(line_format='user item rating',
                 sep=',', rating_scale=(0.5, 10))
-
 
 def init():
     print("init_start")
@@ -72,25 +71,22 @@ app.add_middleware(
     # allow_headers=['*']
 )
 
-
-@app.get("/")
-async def root2():
-    return ()
-
-
 @app.post("/")
 async def root():
     return {"message": "Hello World!@#$"}
 
 
 @app.get("/recommendation/{user_id}")
-async def recommend_movie(user_id: str):
-    return recomm_game_by_surprise(algo, user_id, get_unplayed_surprise(ratings, total_games, user_id), 10)
+async def recommend(user_id: str):
+    played, unplayed = getGameList(ratings, total_games, user_id)
+    if(len(played) == 0):
+        return []
+    return recommendByUser(algo, user_id, unplayed, 10)
 
 
 @app.post('/recommendation')
-async def recommend_combination(ids: list):
-    return recomm_combi(algo, ids, total_games, 10)
+async def totalRecommend(ids: list):
+    return recommendByUsers(algo, ids, total_games, 10)
 
 
 @app.post('/recommendation/reset')

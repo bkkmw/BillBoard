@@ -99,7 +99,7 @@ export default function GameSearch({ open, onClose, gameData, search }) {
             }}
           />
         </Form.Item>
-        <Form.Item name="averageWeight" label="난이도">
+        <Form.Item name="averageWeight" label="최대 난이도">
           <Slider
             max={5}
             marks={{
@@ -144,27 +144,10 @@ export default function GameSearch({ open, onClose, gameData, search }) {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Submit
+            확인
           </Button>
         </Form.Item>
       </Form>
     </Drawer>
-    // <Box component="form">
-
-    //   <Grid container spacing={3}>
-    //     {checkboxes.map((checkbox, index) => (
-    //       <Grid item xs={3} key={index}>
-    //         <FormControlLabel
-    //           control={<Checkbox defaultChecked={checkbox.checked} />}
-    //           label={checkbox.label}
-    //         />
-    //       </Grid>
-    //     ))}
-    //   </Grid>
-    //   <Button type="submit" fullWidth variant="outlined">
-    //     제출
-    //   </Button>
-    //   <hr />
-    // </Box>
   );
 }

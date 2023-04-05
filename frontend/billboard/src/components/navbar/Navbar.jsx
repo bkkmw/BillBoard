@@ -23,12 +23,6 @@ const Navbar = () => {
   const { login, loginUser } = useSelector((state) => state.user);
   // 로그아웃 api
   const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-  // useEffect(() => {
-  //   console.log(userID);
-  // });
-  // useEffect(() => {
-  //   console.log(login, loginUser, userID)
-  // }, [])
   const doLogout = async () => {
     if (window.confirm("로그아웃 하실?")) {
       try {
@@ -41,69 +35,65 @@ const Navbar = () => {
       }
       await sleep(1000);
       persistor.purge();
-      navigate("/login");
     }
+    navigate("/login");
   };
 
-  return (
-    <Box position="static">
-      <AppBar style={{ height: "10vh", backgroundColor: "white" }}>
-        <div className={style.background}>
-          <span className={style.logo}>BillBoard</span>
-          <div>
-            {!login && (
-              <Link to={"/login"} className={style.link}>
-                로그인{" "}
-              </Link>
-            )}
-            {!login && (
-              <Link to={"/singup"} className={style.link}>
-                회원가입{" "}
-              </Link>
-            )}
-            {/* {login && (
-              <Button onClick={doLogout} className={style.btn}>
-                로그아웃
-              </Button>
-            )} */}
-            {login && (
-              <Link onClick={doLogout} className={style.link2}>
-                로그아웃
-              </Link>
-            )}
-            {login && (
-              <Link to={"/gameroom"} className={style.link}>
-                게임방{" "}
-              </Link>
-            )}
-            {/* {login && (
-              <Link to={"/reserve"} className={style.link}>
-                예약{" "}
-              </Link>
-            )} */}
-            {login && (
-              <Link to={"/main"} className={style.link}>
-                메인페이지
-              </Link>
-            )}
-            {login && (
-              <Link to={`/profile/${userID}`} className={style.link}>
-                프로필
-              </Link>
-            )}
-            {login && (
-              <Link to={"/reserve"} className={style.link}>
-                매칭
-              </Link>
-            )}
-            {/* <Button variant="outlined" color="white">
-          로그아웃
-        </Button> */}
+  if (login === true) {
+    return (
+      <Box position="static">
+        <AppBar style={{ height: "10vh", backgroundColor: "white" }}>
+          <div className={style.background}>
+            <Link to={"/main"} className={style.link}>
+              <span className={style.logo}>BillBoard</span>
+            </Link>
+            <div>
+              {!login && (
+                <Link to={"/login"} className={style.link}>
+                  로그인{" "}
+                </Link>
+              )}
+              {!login && (
+                <Link to={"/singup"} className={style.link}>
+                  회원가입{" "}
+                </Link>
+              )}
+
+              {login && (
+                <Link
+                  to={"/gameroom"}
+                  className={`${style.link} ${style.blur}`}
+                >
+                  게임하기{" "}
+                </Link>
+              )}
+
+              {login && (
+                <Link to={"/main"} className={style.link}>
+                  추천 보드게임
+                </Link>
+              )}
+              {login && (
+                <Link to={"/reserve"} className={style.link}>
+                  게임예약
+                </Link>
+              )}
+              {login && (
+                <Link to={`/profile/${userID}`} className={style.link}>
+                  프로필
+                </Link>
+              )}
+              {login && (
+                <Link onClick={doLogout} className={style.link2}>
+                  로그아웃
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
-      </AppBar>
-    </Box>
-  );
+        </AppBar>
+      </Box>
+    );
+  }
 };
 
 export default Navbar;
