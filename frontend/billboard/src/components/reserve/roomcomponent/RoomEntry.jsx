@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteEntry, makeEntry } from "../../../store/reserve";
 import { selectUser } from "../../../store/user";
-
+import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 const RoomEntry = ({ entries, roomId, reload, hostId }) => {
   // Todo: userId를 로그인정보에서 들고오기기
   const userId = useSelector(selectUser).loginUser.userId;
@@ -16,6 +18,7 @@ const RoomEntry = ({ entries, roomId, reload, hostId }) => {
         setIsInEntry(true);
       }
     }
+    console.log(entries)
   }, []);
   const clickEvent = () => {
     const data = { roomId: roomId, userId: userId };
@@ -35,15 +38,22 @@ const RoomEntry = ({ entries, roomId, reload, hostId }) => {
   };
   return (
     <div>
-      <div style={{ fontSize: "1.5rem", fontWeight: "bolder" }}>
+      <div style={{ fontSize: "1.5rem", fontWeight: "bolder", width:"40vw", display:"flex", justifyContent:"start", alignItems:"start"}}>
+      <Stack direction="row" spacing={1}>
         {entries.map((entry, i) => {
           return (
             <>
-              {/* <div>유저명: {entry.userId}</div> */}
-              <div key={entry + i}>{entry.userId}</div>
+                    <Chip
+        avatar={<Avatar alt="avatar" src={`https://avatars.dicebear.com/api/identicon/${entry.userId}.svg`} />}
+        label={entry.userId}
+        // 이부분바꾸기
+        variant="outlined"
+        key={entry + i}
+      />
             </>
           );
         })}
+            </Stack>
       </div>
       {userId !== hostId && (
         <Button
@@ -59,3 +69,4 @@ const RoomEntry = ({ entries, roomId, reload, hostId }) => {
 };
 
 export default RoomEntry;
+

@@ -23,7 +23,9 @@ const ProfilButton = () => {
     });
   }, [toUserId]);
 
-  console.log(friendData.isFollowing);
+  // console.log(friendData.isFollowing);
+
+  useEffect(() => {}, []);
 
   // 팔로우
   const friended = () => {
@@ -31,6 +33,7 @@ const ProfilButton = () => {
     dispatch(follow(data))
       .then((res) => {
         console.log(res);
+        setFriendData({ ...friendData, isFollowing: 1 });
       })
       .catch((error) => {
         console.log(error);
@@ -44,6 +47,7 @@ const ProfilButton = () => {
     dispatch(followdelete(data))
       .then((res) => {
         console.log(res);
+        setFriendData({ ...friendData, isFollowing: 0 });
       })
       .catch((error) => {
         console.log(error);
@@ -53,12 +57,16 @@ const ProfilButton = () => {
 
   return (
     <div>
-      <h1>{friendData.isFollowing}</h1>
-      <Button onClick={friended} type="primary" className={style.btn}>
-        팔로우
+      {/* <h1>{friendData.isFollowing}</h1> */}
+      <Button
+        onClick={friendData.isFollowing === 1 ? frienddelete : friended}
+        type="primary"
+        className={style.btn}
+      >
+        {friendData.isFollowing === 1 ? "언팔로우" : "팔로우"}
       </Button>
 
-      <Button onClick={frienddelete}>언팔로우</Button>
+      {/* <Button onClick={frienddelete}>언팔로우</Button> */}
     </div>
   );
 };
