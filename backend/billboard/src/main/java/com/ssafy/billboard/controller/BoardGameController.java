@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -135,10 +136,7 @@ public class BoardGameController {
         if(!isRemoved)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         status = HttpStatus.OK;
-        if(reviewCount.addAndGet(1) >= 100){
-            boardGameService.sendResetRequest();
-            reviewCount.set(0);
-        }
+        reviewCount.getAndAdd(1);
         return new ResponseEntity<Map<String, Object>>(resultMap, status); //빈 {} 리턴 중
     }
 
@@ -181,13 +179,17 @@ public class BoardGameController {
         RestTemplate restTemplate = new RestTemplate();
         //fastapi에 요청 보내기 get 방식
         String url = "http://j8a505.p.ssafy.io:8000/recommendation/" + userId;
-        Integer[] ids = restTemplate.getForObject(url, Integer[].class);
-
-        List<BoardGameDto.BoardGameInfo> games = boardGameService.getBoardGameListByIds(ids);
-
-        resultMap.put("games", games);
-        status = HttpStatus.OK;
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        ResponseEntity<Integer[]> response = restTemplate.getForEntity(url, Integer[].class);
+        if(response.getStatusCode() == HttpStatus.OK) {
+            List<BoardGameDto.BoardGameInfo> games = boardGameService.getBoardGameListByIds(response.getBody());
+            if(games.size() == 0)
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            resultMap.put("games", games);
+            status = HttpStatus.OK;
+            return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
@@ -206,13 +208,17 @@ public class BoardGameController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<List<String>> request = new HttpEntity<>(list, headers);
         String url = "http://j8a505.p.ssafy.io:8000/recommendation";
-        Integer[] ids = restTemplate.postForObject(url, request, Integer[].class);
-
-        List<BoardGameDto.BoardGameInfo> games = boardGameService.getBoardGameListByIds(ids);
-
-        resultMap.put("games", games);
-        status = HttpStatus.OK;
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        ResponseEntity<Integer[]> response = restTemplate.postForEntity(url, request, Integer[].class);
+        if(response.getStatusCode() == HttpStatus.OK) {
+            List<BoardGameDto.BoardGameInfo> games = boardGameService.getBoardGameListByIds(response.getBody());
+            if(games.size() == 0)
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            resultMap.put("games", games);
+            status = HttpStatus.OK;
+            return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     //보드게임 리뷰 삭제
@@ -227,10 +233,7 @@ public class BoardGameController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         status = HttpStatus.OK;
-        if(reviewCount.addAndGet(1) >= 100){
-            boardGameService.sendResetRequest();
-            reviewCount.set(0);
-        }
+        reviewCount.getAndAdd(1);
         return new ResponseEntity<Map<String, Object>>(resultMap, status); //빈 {} 리턴 중
     }
 
@@ -245,5 +248,13 @@ public class BoardGameController {
         if(boardGameService.updateVideo(gameId, videoMap.get("video")))
             return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Scheduled(cron = "0 0/1 * * * *")
+    public void checkReviewCount(){
+        if(reviewCount.get() >= 5){
+            reviewCount.set(0);
+            boardGameService.sendResetRequest();
+        }
     }
 }
