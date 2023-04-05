@@ -24,7 +24,7 @@ const ReserveForm = ({ data, roomId, setModalOpen }) => {
     <div>
       <Row>
         <Col span={12}>
-          <div style={{ height: window.innerHeight * 0.8 }}>
+          <div style={{ height: window.innerHeight * 0.6 }}>
             <KakaoMapT setLocation={setLocation} />
           </div>
         </Col>
