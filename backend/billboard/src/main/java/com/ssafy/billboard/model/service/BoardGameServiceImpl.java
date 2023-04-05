@@ -10,7 +10,12 @@ import com.ssafy.billboard.model.repository.ReviewRepository;
 import com.ssafy.billboard.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -688,5 +693,16 @@ public class BoardGameServiceImpl implements BoardGameService{
         boardGame.updateVideo(video);
         boardGameRepository.save(boardGame);
         return true;
+    }
+
+    @Scheduled(cron = "0 0 0/3 * * *")
+    public void sendResetRequest(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<List<String>> request = new HttpEntity<>(headers);
+        String url = "http://j8a505.p.ssafy.io:8000/recommendation/reset";
+
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForLocation(url, request);
     }
 }
