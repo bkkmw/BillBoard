@@ -65,6 +65,10 @@ public class RoomServiceImpl implements RoomService {
     public RoomDto.RoomDetailInfo getRoom(long roomId){
         if(roomRepository.existsById(roomId)) {
             Room room = roomRepository.findByRoomId(roomId);
+            List<RoomDto.EntryInfo> entryInfos = new ArrayList<>();
+            for(Entry e : room.getEntries())
+                entryInfos.add(RoomDto.EntryInfo.builder()
+                        .userId(e.getUser().getUserId()).build());
             return RoomDto.RoomDetailInfo.builder()
                     .roomInfo(RoomDto.RoomInfo.builder()
                             .roomId(room.getRoomId())
@@ -77,7 +81,7 @@ public class RoomServiceImpl implements RoomService {
                             .lng(room.getLng())
                             .date(room.getDate())
                             .build())
-                    .entries(room.getEntries())
+                    .entries(entryInfos)
                     .replies(getReplies(roomId))
                     .build();
         }
@@ -182,6 +186,10 @@ public class RoomServiceImpl implements RoomService {
         List<RoomDto.RoomReservationInfo> rooms = new ArrayList<>();
         for(Entry entry : entries){
             Room room = entry.getRoom();
+            List<RoomDto.EntryInfo> entryInfos = new ArrayList<>();
+            for(Entry e : room.getEntries())
+                entryInfos.add(RoomDto.EntryInfo.builder()
+                        .userId(e.getUser().getUserId()).build());
             rooms.add(RoomDto.RoomReservationInfo.builder()
                     .roomInfo(RoomDto.RoomInfo.builder()
                             .roomId(room.getRoomId())
@@ -194,7 +202,7 @@ public class RoomServiceImpl implements RoomService {
                             .lng(room.getLng())
                             .date(room.getDate())
                             .build())
-                    .entries(room.getEntries())
+                    .entries(entryInfos)
                     .build());
         }
         return rooms;
