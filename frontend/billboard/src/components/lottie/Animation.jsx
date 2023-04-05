@@ -21,7 +21,7 @@ const Animation = (props) => {
     });
   }, []);
 
-  return <div id="container" style={{ width: "auto", height: "40vh" }}></div>;
+  return <div id="container" style={{ width: "auto", height: "50vh" }}></div>;
 };
 
 export default Animation;

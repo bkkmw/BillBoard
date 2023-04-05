@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import lottie from "lottie-web";
-import animation1 from "../../assets/game/26970-gard-game.json";
-import animation2 from "../../assets/game/75379-lebleby-games-demo-animation.json";
-import animation3 from "../../assets/game/112229-game-asset.json";
-import animation4 from "../../assets/game/120311-game.json";
+import animation1 from "../../assets/map/44851-find-pin-map.json";
+import animation2 from "../../assets/map/45382-pin-on-map.json";
+import animation3 from "../../assets/map/54970-world-map.json";
+import animation4 from "../../assets/map/108414-geography-teacher.json";
 
 const animations = [animation1, animation2, animation3, animation4];
 
-const Animation = (props) => {
+const Animation3 = (props) => {
   useEffect(() => {
     const container = document.querySelector("#container");
     const randomIndex = Math.floor(Math.random() * animations.length);
@@ -20,7 +20,7 @@ const Animation = (props) => {
     });
   }, []);
 
-  return <div id="container" style={{ width: "auto", height: "55vh" }}></div>;
+  return <div id="container" style={{ width: "auto", height: "30vh" }}></div>;
 };
 
-export default Animation;
+export default Animation3;
