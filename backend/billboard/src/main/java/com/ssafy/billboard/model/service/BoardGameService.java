@@ -39,4 +39,6 @@ public interface BoardGameService {
     public List<BoardGameDto.BoardGameInfo> getBoardGameListByIds(Integer[] ids);
     public void insertAllGames() throws Exception;
     public boolean updateVideo(int gameId, String video);
+
+    public void sendResetRequest();
 }
