@@ -1,0 +1,12 @@
+.background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.font {
+  font-size: 3rem;
+  font-weight: bolder;
+  margin-bottom: 1rem;
+}
