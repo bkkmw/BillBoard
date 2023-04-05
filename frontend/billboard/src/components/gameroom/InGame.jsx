@@ -7,6 +7,7 @@ import Detail from "../detail/DetailPage";
 import { useDispatch, useSelector } from "react-redux";
 import { selectgameroom, setIsInGame } from "../../store/gameroom";
 import Stopwatch from "./Stopwatch";
+import Animation4 from "../lottie/Animation4";
 
 const InGame = ({ setOpenGameResult }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const InGame = ({ setOpenGameResult }) => {
         flexDirection: "column",
         justifyContent: "space-evenly",
         width: "43vw",
+        marginTop: "1.5rem",
         marginRight: "1.5rem",
       }}
     >
@@ -48,31 +50,27 @@ const InGame = ({ setOpenGameResult }) => {
           }}
         >
           <Stopwatch />
-          <img
-            src="https://cataas.com/cat"
-            alt="보드게임"
-            style={{ width: "18vw", height: "30vh", marginLeft: "13vw" }}
-          />
-          <span style={{ fontSize: "2vw", marginTop: "3vh" }}>보드게임</span>
+          <Animation4 />
+          <Button
+            style={{
+              width: "10vw",
+              height: "5vh",
+              fontSize: "2rem",
+              marginLeft: "17vw",
+              marginTop: "0.5vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={() => {
+              dispatch(setIsInGame(false));
+              setOpenGameResult(true);
+            }}
+          >
+            게임 종료
+          </Button>
         </div>
       </div>
-      <Button
-        style={{
-          width: "10vw",
-          height: "5vh",
-          fontSize: "2rem",
-          marginLeft: "17vw",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        onClick={() => {
-          dispatch(setIsInGame(false));
-          setOpenGameResult(true);
-        }}
-      >
-        게임 종료
-      </Button>
     </div>
   );
 };
