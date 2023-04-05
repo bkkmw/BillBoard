@@ -7,6 +7,7 @@ import httpClient from "./utils/axios";
 import { useSelector, useDispatch } from "react-redux";
 import { updateToken, clearUserInfo } from "./store/user";
 import { doLogOut } from "./utils/logOut";
+import { Link } from "react-router-dom";
 
 let tokenInterceptor;
 
@@ -14,6 +15,14 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loginUser, login } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (login) {
+      navigate("/main"); // login 값이 true이면 메인 페이지로 리다이렉트
+    } else {
+      navigate("/login"); // login 값이 false이면 로그인 페이지로 리다이렉트
+    }
+  }, [login]);
 
   // 로그아웃시 내브바가 안사라지는 이슈
   function excludeHeader() {
@@ -91,7 +100,7 @@ function App() {
   return (
     <div>
       {!excludeHeader() && <Navbar />}
-      {/* <Navbar /> */}
+
       <Outlet />
     </div>
   );
