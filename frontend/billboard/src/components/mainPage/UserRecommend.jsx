@@ -37,14 +37,18 @@ export default function UserRecommend() {
   // 유저별 1인 추천
   useEffect(() => {
     const userId = loginUser.userId;
-    dispatch(recommendGame(userId)).then((res) => {
-      setRecommDatas(res.payload.games);
-    });
+    dispatch(recommendGame(userId))
+      .then((res) => {
+        setRecommDatas(res.payload.games);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
   return (
     <>
       <Swiper
-        slidesPerView={1}
+        slidesPerView={4}
         spaceBetween={30}
         freeMode={true}
         pagination={{
