@@ -2,9 +2,9 @@ import pandas as pd
 import pymysql
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.cors import CORSMiddleware
 from surprise import Reader, Dataset, SVD
 from SVD_last import getGameList, recommendByUser, recommendByUsers
+import threading
 
 ratings = []
 total_games = []
@@ -37,7 +37,6 @@ def init():
     algo.fit(trainset)
     print("init_end")
 
-
 def reset():
     print("reset_start")
     global ratings, algo
@@ -51,21 +50,24 @@ def reset():
     )
 
     sql = "SELECT userId, CAST(gameId AS CHAR) AS gameId, rating FROM review"
-    ratings = pd.read_sql(sql, conn)
+    tmp_ratings = pd.read_sql(sql, conn)
     print("read_ratings_end")
 
     data = Dataset.load_from_df(ratings, reader)
     trainset = data.build_full_trainset()
-    algo.fit(trainset)
-    print("reset_end")
+    tmp_algo = SVD(n_factors=50, n_epochs=20, random_state=42)
+    tmp_algo.fit(trainset)
 
+    ratings = tmp_ratings
+    algo = tmp_algo
+    print("reset_end")
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    # allow_origins = origins,
     # # Todo: 일단 포함안함, 나중에 수정할수도 있음
+    # allow_origins = origins,  
     # allow_credentials = False,
     # allow_methods=['*'],
     # allow_headers=['*']
@@ -75,7 +77,6 @@ app.add_middleware(
 async def root():
     return {"message": "Hello World!@#$"}
 
-
 @app.get("/recommendation/{user_id}")
 async def recommend(user_id: str):
     played, unplayed = getGameList(ratings, total_games, user_id)
@@ -83,15 +84,14 @@ async def recommend(user_id: str):
         return []
     return recommendByUser(algo, user_id, unplayed, 10)
 
-
 @app.post('/recommendation')
 async def totalRecommend(ids: list):
     return recommendByUsers(algo, ids, total_games, 10)
 
-
 @app.post('/recommendation/reset')
 async def reset_model():
-    reset()
+    thread = threading.Thread(target=reset, name="reset_model")
+    thread.start()
     return {"message": "reset completed"}
 
 init()

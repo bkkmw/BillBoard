@@ -695,7 +695,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         return true;
     }
 
-    @Scheduled(cron = "0 0 0/3 * * *")
+    @Scheduled(cron = "0 0 0/2 * * *")
     public void sendResetRequest(){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
