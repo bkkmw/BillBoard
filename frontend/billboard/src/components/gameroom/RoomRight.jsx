@@ -2,15 +2,18 @@ import React, { useEffect } from "react";
 import { useRef } from "react";
 import GameroomSearch from "./GameroomSearch";
 import { useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Col, Drawer, Modal, Row, theme } from "antd";
 import Detail from "../detail/DetailPage";
 import { useDispatch, useSelector } from "react-redux";
 import { selectgameroom, setIsInGame } from "../../store/gameroom";
 import InGame from "./InGame";
 import GameResult from "./GameResult";
 import GameRecommend from "./GameRecommend";
+import Animation from "../lottie/Animation2";
+import GameChoice from "./GameChoice";
 
-const RoomRight = () => {
+
+const RoomRight = ({showDrawer}) => {
   const gameInfo = useSelector(selectgameroom).gameInfo
   const dispatch = useDispatch()
   const [openGameResult, setOpenGameResult] = useState(false);
@@ -31,8 +34,25 @@ const RoomRight = () => {
   const [gameDetail, setGameDetail] = useState();
   const [propGameId, setpropGameId] = useState();
   const inputRef = useRef();
+  useEffect(()=>{
+    console.log(gameInfo)
+  },[gameInfo])
   return (<>
-    {!isInGame ?
+  <Row>
+    {!isInGame?
+    <Row>
+      <Col span={24}>
+        {gameInfo.name?<h1>다음 플레이할 게임: {gameInfo.name}</h1>:<h1>플레이할 게임을 선택해 주세요</h1>}
+        
+      </Col>
+      <Col span={24}>
+    <Animation/></Col></Row>:<InGame setOpenGameResult={setOpenGameResult} />}
+  </Row>
+
+  <Row>
+
+  
+{/* {!isInGame ?
       <div
         style={{
           display: "flex",
@@ -105,10 +125,32 @@ const RoomRight = () => {
           >
             게임 시작
           </Button>
+
+        </div>       </div > : <InGame setOpenGameResult={setOpenGameResult} />} */}
+  </Row>
+  {!isInGame&& <> <Button
+        style={{
+          fontSize: "1.5rem",
+          width: "8vw",
+          height: "6vh",
+        }} onClick={() => {
+          dispatch(setIsInGame(true))
+        }}
+        disabled={gameInfo.gameId ? false : true}
+      >
+        게임 시작
+      </Button>
+      <Button style={{
+          fontSize: "1.5rem",
+          width: "8vw",
+          height: "6vh",
+        }} onClick={showDrawer}>게임 찾기</Button>
           <GameResult
             isModalOpen={openGameResult} setIsModalOpen={setOpenGameResult}
-          />
-        </div>       </div > : <InGame setOpenGameResult={setOpenGameResult} />}
+          /></>}
+
+    
+        
   </>
 
 

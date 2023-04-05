@@ -125,6 +125,10 @@ const UserList = () => {
   return (
     <div>
       <Row>
+        <h1>플레이어</h1>
+      </Row>
+      <Row>
+        
         <Col style={{ height: "auto", maxHeight: "50vh", overflowY: "scroll" }}>
           {userList.length !== 0 &&
             userList.map((user, i) => {

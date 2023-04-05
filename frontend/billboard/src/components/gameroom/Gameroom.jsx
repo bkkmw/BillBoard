@@ -58,8 +58,18 @@ import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { selectgameroom, setGameroomInit } from "../../store/gameroom";
+import { Col, Drawer, Row, theme } from "antd";
+import GameChoice from "./GameChoice";
 
 const Gameroom = () => {
+  const { token } = theme.useToken();
+  const [open, setOpen] = useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
   const dispatch = useDispatch()
   const endGame = () => {
     dispatch(setGameroomInit())
@@ -67,6 +77,7 @@ const Gameroom = () => {
   return (
     <div
       style={{
+        position: 'relative',
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-evenly",
@@ -75,10 +86,26 @@ const Gameroom = () => {
         marginTop: "12vh",
         border: "2rem solid #d9d9d9",
         borderRadius: "3rem",
+        background: token.colorFillAlter,
+        overflow: 'hidden',
       }}
     >
-      <RoomLeft />
-      <RoomRight />
+      <Row>
+        <Col span={12}><RoomLeft /></Col>
+        <Col span={12}><RoomRight showDrawer={showDrawer}/></Col>
+        <Drawer
+        placement="right"
+        closable={false}
+        onClose={onClose}
+        open={open}
+        getContainer={false}
+        width={850}
+        
+      >
+        <GameChoice/>
+      </Drawer>
+      </Row>
+
 
       <Button color="warning" onClick={() => {
         endGame()
