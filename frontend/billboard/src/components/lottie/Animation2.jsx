@@ -7,7 +7,7 @@ import animation4 from "../../assets/game/120311-game.json";
 
 const animations = [animation1, animation2, animation3, animation4];
 
-const Animation2 = (props) => {
+const Animation = (props) => {
   useEffect(() => {
     const container = document.querySelector("#container");
     const randomIndex = Math.floor(Math.random() * animations.length);
@@ -20,7 +20,7 @@ const Animation2 = (props) => {
     });
   }, []);
 
-  return <div id="container" style={{ width: "auto", height: "40vh" }}></div>;
+  return <div id="container" style={{ width: "auto", height: "55vh" }}></div>;
 };
 
-export default Animation2;
+export default Animation;
