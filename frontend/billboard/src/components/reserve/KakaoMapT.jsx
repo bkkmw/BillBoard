@@ -285,7 +285,14 @@ export default function KakaoMapT({ setLocation }) {
           <div className="option">
             <div>
               <div id="map_title">
-                <div>원하는 위치를 검색하세요</div>
+                <span
+                  style={{
+                    fontSize: "1.5rem",
+                    marginRight: "1rem",
+                  }}
+                >
+                  원하는 위치를 검색하세요
+                </span>
               </div>
 
               <div id="form">

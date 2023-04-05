@@ -80,7 +80,7 @@ const Login = () => {
           }}
         /> */}
 
-        <Grid item xs={5} style={{ height: "40vh" }}>
+        <Grid item xs={5} style={{ height: "50vh" }}>
           <Animation />
         </Grid>
 
@@ -90,7 +90,7 @@ const Login = () => {
           component={Paper}
           elevation={6}
           xs={4.5}
-          style={{ height: "40vh" }}
+          style={{ height: "50vh" }}
         >
           <Box
             sx={{
@@ -111,7 +111,7 @@ const Login = () => {
               component="form"
               sx={{ mt: 1 }}
               onSubmit={form.handleSubmit(onSubmit)}
-              width={"15vw"}
+              width={"20vw"}
             >
               <UserId />
               <br />
