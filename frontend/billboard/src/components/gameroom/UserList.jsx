@@ -67,7 +67,7 @@ const UserList = () => {
     var index = userList.findIndex((user) => user.userId === userinfo.userId);
     if (index === -1) {
       // console.log("리스트에 없는 유저");
-      const newUserList = [...userList, userinfo];
+      const newUserList = [...userList, {...userinfo, score:0}];
       // console.log(newUserList);
       dispatch(setPlayer(newUserList));
     } else {
@@ -87,6 +87,7 @@ const UserList = () => {
           nickname: entry.user.nickname,
           userId: entry.user.userId,
           winCount: entry.user.winCount,
+          score:0
         };
         newUserList = [...newUserList, userInfo]
       }
@@ -154,7 +155,7 @@ const UserList = () => {
                         <Avatar src={`https://avatars.dicebear.com/api/identicon/${user.userId}.svg`} />
                       </IconButton></Tooltip>}
                       title={user.userId}
-                      description={`score:${user.winCount}`}
+                      description={`score:${user.score}`}
                     />
 
                   </Card>
@@ -198,7 +199,7 @@ const UserList = () => {
               showDrawer();
             }}
           >
-            <p>add user</p>
+            <p>플레이어를 추가하세요</p>
           </Card>
         </Col>
       </Row>

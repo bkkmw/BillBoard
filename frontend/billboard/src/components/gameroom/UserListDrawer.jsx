@@ -88,11 +88,11 @@ const UserListDrawer = ({ showDrawer, onClose, setOpen, open, addUser }) => {
                   },
                 ]}
               >
-                <Input placeholder="Please enter user password" />
+                <Input.Password placeholder="Please enter user password"/>
               </Form.Item>
               <Form.Item>
                 <Button type={"primary"} htmlType={"submit"}>
-                  Submit
+                  불러오기
                 </Button>
               </Form.Item>
             </Col>
