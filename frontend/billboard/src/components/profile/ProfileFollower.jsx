@@ -23,6 +23,7 @@ const ProfileFollower = () => {
         팔로워
       </Button>
       <Modal
+        footer={null}
         bodyStyle={{ maxHeight: "500px", overflowY: "scroll" }} // 스크롤 추가
         open={isModalOpen}
         title="팔로워"

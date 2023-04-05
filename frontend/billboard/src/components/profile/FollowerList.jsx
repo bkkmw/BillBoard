@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import { iFollowYou, YouFollowMe } from "../../store/profile";
-
+import { useRouteLoaderData } from "react-router-dom";
 import { Avatar, List, Skeleton } from "antd";
 import { Link } from "react-router-dom";
 
@@ -13,16 +13,15 @@ const FollowerList = () => {
   const { loginUser } = useSelector((state) => state.user);
   const [initLoading, setInitLoading] = useState(true);
   const [list, setList] = useState([]);
+  const userId = useRouteLoaderData("profile");
 
   //팔로워 목록 조회
   useEffect(() => {
-    const userId = loginUser.userId;
     dispatch(YouFollowMe(userId)).then((res) => {
-      // console.log("시발ㄹㄹㄹ", res.payload.followers);
       setInitLoading(false);
       setList(res.payload.followers);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <List
