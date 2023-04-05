@@ -14,8 +14,8 @@ export const makeRoom = createAsyncThunk(
         lat: reserveData.lat,
         lng: reserveData.lng,
       });
-      // console.log(response);
-      return response.data;
+      console.log(response);
+      return response;
     } catch (error) {
       console.log(error);
       return rejectWithValue(error);
@@ -158,7 +158,7 @@ const reserveSlice = createSlice({
     // ...
     // }
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => { },
 });
 
 export default reserveSlice.reducer;
