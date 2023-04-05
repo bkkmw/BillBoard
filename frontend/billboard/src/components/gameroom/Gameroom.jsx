@@ -60,7 +60,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectgameroom, setGameroomInit } from "../../store/gameroom";
 import { Col, Drawer, Row, theme } from "antd";
 import GameChoice from "./GameChoice";
-
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 const Gameroom = () => {
   const { token } = theme.useToken();
   const [open, setOpen] = useState(false);
@@ -109,8 +109,7 @@ const Gameroom = () => {
 
       <Button color="warning" onClick={() => {
         endGame()
-
-      }}>게임종료</Button>
+      }}><ExitToAppIcon/></Button>
     </div>
   );
 };

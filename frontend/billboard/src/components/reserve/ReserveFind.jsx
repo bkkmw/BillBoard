@@ -6,7 +6,8 @@ import { getRoom } from "../../store/reserve";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { display } from "@mui/system";
-
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 import { Modal } from "antd";
 
 import KakaoMapT from "./KakaoMapT";
@@ -145,6 +146,7 @@ const ReserveFind = () => {
                 >
                   {item}
                 </List.Item>
+                
               )}
             />
           </Row>
@@ -225,7 +227,10 @@ const ReserveFind = () => {
                       <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
                         {item.title}
                       </span>
-                      <span>{`${item.location} ${item.personCount}/${item.personLimit}`}</span>
+                      <Stack direction="row" spacing={1}>
+      <Chip label={`${item.location}`} />
+      <Chip label={`${item.personCount}/${item.personLimit}`}/>
+    </Stack>
                     </div>
                     {/* {`날짜:${item.date},
                   방장ID:${item.hostID},
