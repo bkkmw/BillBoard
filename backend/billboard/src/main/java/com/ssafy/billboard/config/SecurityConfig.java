@@ -81,8 +81,9 @@ public class SecurityConfig {
         // for local test
         corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000");
         corsConfiguration.addAllowedOrigin("http://127.0.0.1:8000");
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
         // ec2 - react
-        corsConfiguration.addAllowedOrigin("https://j8a505.a.ssafy.io:3000");
+        corsConfiguration.addAllowedOrigin("https://j8a505.p.ssafy.io");
         corsConfiguration.addAllowedOrigin("http://j8a505.p.ssafy.io:3000");
 
         corsConfiguration.addAllowedHeader("*");

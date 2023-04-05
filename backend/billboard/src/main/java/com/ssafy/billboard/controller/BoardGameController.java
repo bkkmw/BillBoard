@@ -1,11 +1,12 @@
 package com.ssafy.billboard.controller;
 
 
-import com.ssafy.billboard.model.dto.*;
+import com.ssafy.billboard.model.dto.BoardGameDto;
+import com.ssafy.billboard.model.dto.FavoriteDto;
+import com.ssafy.billboard.model.dto.ReviewDto;
+import com.ssafy.billboard.model.dto.UserDto;
 import com.ssafy.billboard.model.entity.FavoriteID;
-import com.ssafy.billboard.model.entity.Review;
 import com.ssafy.billboard.model.service.BoardGameService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +16,10 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/api/boardgames")
@@ -28,10 +27,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Slf4j
 @RequiredArgsConstructor
 public class BoardGameController {
-
+    private static AtomicInteger reviewCount = new AtomicInteger();
     private static final Logger logger = LoggerFactory.getLogger(BoardGameController.class);
     private final BoardGameService boardGameService;
-
 
     //보드게임 목록 조회
     @GetMapping()
@@ -46,6 +44,7 @@ public class BoardGameController {
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
     //보드게임 조건 조회
     @PostMapping("/condition")
     public ResponseEntity<?> getBoardGameDynamic(@RequestBody BoardGameDto.BoardGameDetail boardGameDetail) {
@@ -67,7 +66,6 @@ public class BoardGameController {
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
-
 
     //보드게임 상세 조회
     @GetMapping("/{gameId}")
@@ -99,6 +97,7 @@ public class BoardGameController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
     }
+
     //보드게임 즐겨찾기 조회
     @GetMapping("favorite/{userId}")
     public ResponseEntity<?> getFavoriteBoardGames(@PathVariable String userId) {
@@ -113,6 +112,7 @@ public class BoardGameController {
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
     //보드게임 즐겨찾기 해제
     @DeleteMapping("favorite/{userId}")
     public ResponseEntity<?> removeFavoriteBoardGame(@PathVariable String userId,@RequestBody FavoriteDto.FavorGameId gameId) {
@@ -131,11 +131,17 @@ public class BoardGameController {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
         boolean isRemoved = boardGameService.addBoardGameReview(reviewDto);
+        System.out.println(isRemoved);
         if(!isRemoved)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         status = HttpStatus.OK;
+        if(reviewCount.addAndGet(1) >= 100){
+            boardGameService.sendResetRequest();
+            reviewCount.set(0);
+        }
         return new ResponseEntity<Map<String, Object>>(resultMap, status); //빈 {} 리턴 중
     }
+
     //보드게임 리뷰 조회
     @GetMapping("review/{gameId}")
     public ResponseEntity<?> getBoardGameReviewsGameId(@PathVariable int gameId) {
@@ -150,6 +156,7 @@ public class BoardGameController {
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
     //보드게임 유저별 리뷰 조회
     @GetMapping("review/user/{userId}")
     public ResponseEntity<?> getBoardGameReviewsUserId(@PathVariable String userId) {
@@ -174,38 +181,13 @@ public class BoardGameController {
         RestTemplate restTemplate = new RestTemplate();
         //fastapi에 요청 보내기 get 방식
         String url = "http://j8a505.p.ssafy.io:8000/recommendation/" + userId;
-        System.out.println("============");
-        System.out.println(url);
         Integer[] ids = restTemplate.getForObject(url, Integer[].class);
-
-        System.out.println(ids);
 
         List<BoardGameDto.BoardGameInfo> games = boardGameService.getBoardGameListByIds(ids);
 
         resultMap.put("games", games);
         status = HttpStatus.OK;
-        System.out.println("resultmap");
-        System.out.println(resultMap.get("response"));
-
-//        ObjectMapper mapper = new ObjectMapper();
-//        JsonNode rootNode = mapper.readTree(response.getBody());
-//        JsonNode resultsNode = rootNode.get("result");
-//        List<GameResult> gameResults = mapper.readValue(resultsNode.toString(), new TypeReference<List<GameResult>>() {});
-// List<String> gameIds = gameResults.stream().map(GameResult::getGameId).collect(Collectors.toList());
-//
-//        String responseBody = response.getBody();
-//        if (responseBody == null) {
-//            // Handle null response body
-//        }
-//        else {
-//            JsonNode rootNode = mapper.readTree(responseBody);
-//            // Process JSON tree
-//        }
-
-
-
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
     }
 
 
@@ -231,20 +213,10 @@ public class BoardGameController {
         resultMap.put("games", games);
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
     }
-
-    @PostMapping()
-    public ResponseEntity<?> insertBoardgames() throws Exception {
-        boardGameService.insertAllGames();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
-    //보드게임 리뷰 수정
 
     //보드게임 리뷰 삭제
-    @DeleteMapping("review")
+    @DeleteMapping("/review")
     public ResponseEntity<?> removeBoardGameReview(@RequestBody ReviewDto.ReviewID reviewDtoID) {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
@@ -254,11 +226,24 @@ public class BoardGameController {
         else if(count == 0)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-
         status = HttpStatus.OK;
+        if(reviewCount.addAndGet(1) >= 100){
+            boardGameService.sendResetRequest();
+            reviewCount.set(0);
+        }
         return new ResponseEntity<Map<String, Object>>(resultMap, status); //빈 {} 리턴 중
     }
 
+    @PostMapping()
+    public ResponseEntity<?> insertBoardgames() throws Exception {
+        boardGameService.insertAllGames();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-
+    @PutMapping("/video/{gameId}")
+    public ResponseEntity<?> updateVideo(@PathVariable int gameId, @RequestBody Map<String, String> videoMap){
+        if(boardGameService.updateVideo(gameId, videoMap.get("video")))
+            return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

@@ -1,5 +1,6 @@
 package com.ssafy.billboard.model.entity;
 
+import com.ssafy.billboard.util.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Builder
 @IdClass(ReviewID.class)
-public class Review {
+public class Review extends BaseTimeEntity {
 
     @Id
     @Column(nullable = false, updatable = false)
