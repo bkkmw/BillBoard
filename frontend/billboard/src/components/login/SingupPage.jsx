@@ -131,7 +131,7 @@ const Singup = () => {
       <Container
         component={Paper}
         elevation={6}
-        sx={{ height: "100%", width: "50vh" }}
+        sx={{ height: "50vh", width: "20vw" }}
       >
         <Box
           sx={{
@@ -141,8 +141,8 @@ const Singup = () => {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
-            Sign up
+          <Typography component="h1" variant="h5" marginTop={"3rem"}>
+            회원가입
           </Typography>
 
           <Box
@@ -172,6 +172,7 @@ const Singup = () => {
               </Grid>
               <Grid item xs={8}>
                 <TextField
+                  fullWidth
                   id="authKey"
                   value={authKey}
                   onChange={handleAuthKeyChange}
@@ -194,7 +195,7 @@ const Singup = () => {
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link component={RouterLink} to={"/login"} variant="body2">
-                    Already have an account? 로그인 ㄱㄱ
+                    로그인
                   </Link>
                 </Grid>
               </Grid>
