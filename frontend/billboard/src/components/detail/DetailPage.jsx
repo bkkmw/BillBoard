@@ -65,7 +65,7 @@ const Detail = ({ gameDetail, propGameId }) => {
           <hr style={{ width: "74vw", marginBottom: "3vh" }} />
           <GameDescription details={details} />
           <hr style={{ width: "74vw", margin: "3vh 0 3vh 0" }} />
-          {/* <GameVideo key="key" details={details} /> */}
+          <GameVideo key="key" details={details} />
           <hr style={{ width: "74vw", margin: "3vh 0 3vh 0" }} />
           <GameReview details={details} reviews={reviews} />
         </div>

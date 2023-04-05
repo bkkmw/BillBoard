@@ -65,6 +65,7 @@ export default function UserRecommend() {
           {recommDatas.map((data, index) => (
             <SwiperSlide key={index} style={{ height: "9vh" }}>
               <Link
+                style={{ textDecoration: "none" }}
                 to={`/detail/${data.gameId}`}
                 state={{ gameId: data.gameId, isProps: true }}
               >
