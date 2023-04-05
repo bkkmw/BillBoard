@@ -27,6 +27,7 @@ const ProfileSearch = () => {
         친구찾기
       </Button>
       <Modal
+        footer={null}
         bodyStyle={{ height: "50vh", overflowY: "scroll" }}
         open={isModalOpen}
         title="친구 찾기"

@@ -96,7 +96,7 @@ const PswdFindPage = () => {
             />
             <span
               className="check-msg"
-              style={{ color: validEmail ? "green" : "red" }}
+              style={{ color: validEmail ? "green" : "black" }}
             >
               {validEmail ? "유효한 Email 입니다." : "~~~@~~~~.~~~"}
             </span>
@@ -112,7 +112,7 @@ const PswdFindPage = () => {
             />
             <span
               className="check-msg"
-              style={{ color: validId ? "green" : "red" }}
+              style={{ color: validId ? "green" : "black" }}
             >
               {validId ? "유효한 아이디 입니다." : "최소 3글자 입니다."}
             </span>

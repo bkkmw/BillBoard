@@ -55,6 +55,7 @@ export const iFollowYou = createAsyncThunk(
   async (userId) => {
     try {
       const response = await httpClient.get(`followes/from/${userId}`);
+      console.log(response.data);
       return response.data;
     } catch (e) {
       console.log(e);

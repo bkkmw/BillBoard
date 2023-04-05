@@ -77,7 +77,7 @@ const IdFindPage = () => {
             />
             <span
               className="check-msg"
-              style={{ color: validEmail ? "green" : "red" }}
+              style={{ color: validEmail ? "green" : "black" }}
             >
               {validEmail ? "유효한 Email 입니다." : "~~~@~~~~.~~~"}
             </span>
