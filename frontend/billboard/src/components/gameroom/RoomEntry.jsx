@@ -27,7 +27,7 @@ const RoomEntry = ({ isModalOpen, handleCancel, rooms, addEntry }) => {
                   >
                     {room.entries.map((entry, i) => (
                       <>
-                        <div key={entry + i}>id:{entry.user.userId}</div>
+                        <div key={entry + i}>id:{entry.userId}</div>
                       </>
                     ))}
                     <Button

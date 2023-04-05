@@ -30,11 +30,11 @@ const GameResult = ({ isModalOpen, setIsModalOpen }) => {
     for (const winner of winners) {
       Result = [
         ...Result.filter((user) => user.userId !== winner.userId),
-        { ...winner, winCount: winner.winCount + 1 },
+        { ...winner, score: winner.score + 1 },
       ];
     }
 
-    const sorted = Result.sort((a, b) => b.winCount - a.winCount);
+    const sorted = Result.sort((a, b) => b.score - a.score);
     dispatch(setPlayer(sorted));
     const data = {
       gameId: gameInfo.gameId,

@@ -17,9 +17,9 @@ function App() {
   const { loginUser, login } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (login) {
+    if (login && location.pathname.endsWith("/")) {
       navigate("/main"); // login 값이 true이면 메인 페이지로 리다이렉트
-    } else {
+    } else if (!login) {
       navigate("/login"); // login 값이 false이면 로그인 페이지로 리다이렉트
     }
   }, [login]);

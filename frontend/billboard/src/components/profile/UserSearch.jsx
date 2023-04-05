@@ -20,9 +20,9 @@ const UserSearch = () => {
         setUserList(response.data.userList);
         // console.log(userList);
       } catch (e) {
-        if (e.response.status !== 400 && e.response.status !== 204) {
-          console.log(e);
-        }
+        // if (e.response.status !== 400 && e.response.status !== 204) {
+        console.log(e);
+        // }
       }
     };
     if (keyword !== "") {
