@@ -59,7 +59,7 @@ public class RoomDto {
     @Builder
     public static class RoomDetailInfo {
         private RoomInfo roomInfo;
-        private List<Entry> entries;
+        private List<EntryInfo> entries;
         private List<ReplyInfo> replies;
     }
 
@@ -69,7 +69,7 @@ public class RoomDto {
     @Builder
     public static class RoomReservationInfo {
         private RoomInfo roomInfo;
-        private List<Entry> entries;
+        private List<EntryInfo> entries;
     }
 
     @Getter
@@ -97,6 +97,14 @@ public class RoomDto {
     @NoArgsConstructor
     @Builder
     public static class EntryInput {
+        private String userId;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class EntryInfo {
         private String userId;
     }
 }
