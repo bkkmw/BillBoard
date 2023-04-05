@@ -9,7 +9,6 @@ import { selectgameroom, setIsInGame } from "../../store/gameroom";
 import InGame from "./InGame";
 import GameResult from "./GameResult";
 import GameRecommend from "./GameRecommend";
-import Wating from "./wating";
 
 const RoomRight = () => {
   const gameInfo = useSelector(selectgameroom).gameInfo
@@ -110,7 +109,6 @@ const RoomRight = () => {
             isModalOpen={openGameResult} setIsModalOpen={setOpenGameResult}
           />
         </div>       </div > : <InGame setOpenGameResult={setOpenGameResult} />}
-    <Wating />
   </>
 
 

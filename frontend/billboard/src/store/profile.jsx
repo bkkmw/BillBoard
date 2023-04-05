@@ -7,10 +7,8 @@ export const follow = createAsyncThunk(
     console.log(data);
     try {
       const response = await httpClient.post("/followes", {
-        data: {
-          fromUserId: data.fromUserId, //내 아이디
-          toUserId: data.toUserId, //상대방 아이디
-        },
+        fromUserId: data.fromUserId, //내 아이디
+        toUserId: data.toUserId, //상대방 아이디
       });
       return response.data;
     } catch (error) {
