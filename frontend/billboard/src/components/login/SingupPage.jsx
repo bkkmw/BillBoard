@@ -131,7 +131,7 @@ const Singup = () => {
       <Container
         component={Paper}
         elevation={6}
-        sx={{ height: "50vh", width: "20vw" }}
+        sx={{ height: "65vh", width: "25vw" }}
       >
         <Box
           sx={{
@@ -141,7 +141,7 @@ const Singup = () => {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5" marginTop={"3rem"}>
+          <Typography component="h1" variant="h5" marginTop={"2rem"}>
             회원가입
           </Typography>
 
@@ -194,7 +194,12 @@ const Singup = () => {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link component={RouterLink} to={"/login"} variant="body2">
+                  <Link
+                    component={RouterLink}
+                    to={"/login"}
+                    variant="body2"
+                    style={{ textDecoration: "none" }}
+                  >
                     로그인
                   </Link>
                 </Grid>
