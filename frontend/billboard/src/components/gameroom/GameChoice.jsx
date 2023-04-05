@@ -16,7 +16,7 @@ export default function GameChoice() {
   const [openGameResult, setOpenGameResult] = useState(false);
   const isInGame = useSelector(selectgameroom).isInGame
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isInRecommend, setIsInRecommend] = useState(true)
+  const [isInRecommend, setIsInRecommend] = useState(false)
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -39,7 +39,8 @@ export default function GameChoice() {
       justifyContent: "space-evenly",
       width: "50vw",
     }}
-  >                <Button
+  >                
+  {/* <Button
     type="primary"
     style={{
       fontSize: "1.5rem",
@@ -50,9 +51,9 @@ export default function GameChoice() {
     }}
     onClick={() => { setIsInRecommend(!isInRecommend) }}>
       {isInRecommend ? '검색하기' : '추천받기'}
-    </Button>
-    {isInRecommend ? <GameRecommend setpropGameId={setpropGameId} showModal={showModal} /> :
-      <GameroomSearch setGameDetail={setGameDetail} showModal={showModal} />}
+    </Button> */}
+    {isInRecommend ? <GameRecommend setpropGameId={setpropGameId} showModal={showModal} setIsInRecommend={setIsInRecommend} isInRecommend={isInRecommend}/> :
+      <GameroomSearch setGameDetail={setGameDetail} showModal={showModal} setIsInRecommend={setIsInRecommend} isInRecommend={isInRecommend}/>}
     <Modal
       open={isModalOpen}
       onOk={handleOk}
@@ -65,7 +66,7 @@ export default function GameChoice() {
     >
       <Detail gameDetail={gameDetail} propGameId={propGameId} />
     </Modal>
-    <div
+    {/* <div
       style={{
         display: "flex",
         flexDirection: "row",
@@ -93,7 +94,7 @@ export default function GameChoice() {
         이름
       </span>
 
-      </div>
+      </div> */}
       </div >
   );
 }

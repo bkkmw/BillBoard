@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBoardGames } from "../../store/boardgames";
 import { selectgameroom, setGame } from "../../store/gameroom";
 
-const GameRecommend = ({ setpropGameId, showModal }) => {
+const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecommend}) => {
   const players = useSelector(selectgameroom).players;
   const selectgameInfo = useSelector(selectgameroom).gameInfo;
   const dispatch = useDispatch();
@@ -25,11 +25,24 @@ const GameRecommend = ({ setpropGameId, showModal }) => {
     const data = players.map((player) => player.userId);
     // console.log(data)
     dispatch(getCombiRecom({ userList: data })).then((res) => {
+      console.log(res)
       setBoardReview(res.payload.data.games);
     });
   }, [players]);
   return (
     <div>
+        <Button
+    type="primary"
+    style={{
+      fontSize: "1.5rem",
+      width: "8vw",
+      height: "6vh",
+      display: "flex",
+      justifyContent: "center",
+    }}
+    onClick={() => { setIsInRecommend(!isInRecommend) }}>
+      {isInRecommend ? '검색하기' : '추천받기'}
+    </Button>
       <Grid style={{ width: "42vw", height: "50vh", overflowY: "scroll" }}>
         <div
           style={{

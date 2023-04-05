@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBoardGames } from "../../store/boardgames";
 import { selectgameroom, setGame } from "../../store/gameroom";
 
-const GameroomSearch = ({ setGameDetail, showModal }) => {
+const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecommend }) => {
   const selectgameInfo = useSelector(selectgameroom).gameInfo;
   const dispatch = useDispatch();
   const inputRef = useRef();
@@ -50,7 +50,18 @@ const GameroomSearch = ({ setGameDetail, showModal }) => {
           flexDirection: "row",
           justifyContent: "space-evenly",
         }}
-      >
+      >  <Button
+      type="primary"
+      style={{
+        fontSize: "1.5rem",
+        width: "8vw",
+        height: "6vh",
+        display: "flex",
+        justifyContent: "center",
+      }}
+      onClick={() => { setIsInRecommend(!isInRecommend) }}>
+        {isInRecommend ? '검색하기' : '추천받기'}
+      </Button>
         <TextField
           fullWidth
           label="게임 이름을 입력하시오"
