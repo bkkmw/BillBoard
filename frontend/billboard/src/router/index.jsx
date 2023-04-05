@@ -13,20 +13,22 @@ import IdFindPage from "../components/login/IdFindPage";
 import PswdFindPage from "../components/login/PswdFindPage";
 import FindResult from "../components/login/FindResultPage";
 import Room from "../components/reserve/Room";
-import DetailPage from "../components/detail/DetailPage"
+import DetailPage from "../components/detail/DetailPage";
+import { Link } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      {
-        path: "landing",
-        element: <Landding />,
-        children: [{}],
-      },
+      // {
+      //   path: "landing",
+      //   element: <Landding />,
+      //   children: [{}],
+      // },
       {
         path: "main",
         element: <Main />,
+
         children: [{}],
       },
       {
@@ -36,7 +38,7 @@ const router = createBrowserRouter([
         id: "profile",
         loader: async ({ params }) => {
           return params.userId;
-        }
+        },
       },
       {
         path: "gameroom",
@@ -56,7 +58,7 @@ const router = createBrowserRouter([
         children: [{}],
         loader: async ({ params }) => {
           return params.roomId;
-        }
+        },
       },
       {
         path: "detail/:gameId",
@@ -65,7 +67,7 @@ const router = createBrowserRouter([
         children: [{}],
         loader: async ({ params }) => {
           return params.gameId;
-        }
+        },
       },
       {
         path: "reserve",
