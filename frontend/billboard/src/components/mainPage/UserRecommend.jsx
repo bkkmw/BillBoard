@@ -9,6 +9,7 @@ import {
   CardActions,
   CardMedia,
   Grid,
+  Box,
 } from "@mui/material";
 
 import CardContent from "@mui/material/CardContent";
@@ -37,65 +38,70 @@ export default function UserRecommend() {
   // 유저별 1인 추천
   useEffect(() => {
     const userId = loginUser.userId;
-    dispatch(recommendGame(userId))
-      .then((res) => {
+    dispatch(recommendGame(userId)).then((res) => {
+      // console.log("호에엥", res);
+      if (res.payload === undefined) {
+        setRecommDatas(["리뷰를 등록하면 유저별 추천을 받을 수 있습니다."]);
+      } else {
         setRecommDatas(res.payload.games);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+      }
+    });
   }, []);
+  // console.log(recommDatas[0]);
   return (
-    <>
-      <Swiper
-        slidesPerView={4}
-        spaceBetween={30}
-        freeMode={true}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[FreeMode, Pagination, Navigation]}
-        className="boardAverage"
-        style={{ marginTop: "2rem", marginBottom: "2rem" }}
-      >
-        {recommDatas.map((data, index) => (
-          <SwiperSlide key={index} style={{ height: "9vh" }}>
-            <Link
-              to={`/detail/${data.gameId}`}
-              state={{ gameId: data.gameId, isProps: true }}
-            >
-              <Card sx={{ width: "20vw", height: "100%" }}>
-                <CardActionArea>
-                  <CardMedia
-                    sx={{ borderRadius: "16px" }}
-                    component="img"
-                    height="100%"
-                    image={data.image}
-                    style={{ objectFit: "fill" }}
-                  />
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      style={{
-                        height: "5.5vh",
-                        overflowY: "scroll",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {data.name}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Link>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </>
+    <Box>
+      {recommDatas.length === 1 ? (
+        <h1>{recommDatas[0]}</h1>
+      ) : (
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={20}
+          freeMode={true}
+          navigation={true}
+          modules={[FreeMode, Pagination, Navigation]}
+          className="boardAverage"
+          style={{ marginTop: "2rem", marginBottom: "2rem" }}
+        >
+          {recommDatas.map((data, index) => (
+            <SwiperSlide key={index} style={{ height: "9vh" }}>
+              <Link
+                to={`/detail/${data.gameId}`}
+                state={{ gameId: data.gameId, isProps: true }}
+              >
+                <Card sx={{ width: "20vw", height: "100%" }}>
+                  <CardActionArea>
+                    <CardMedia
+                      sx={{ borderRadius: "16px" }}
+                      component="img"
+                      image={data.image}
+                      style={{ height: "40vh" }}
+                    />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        style={{
+                          height: "5.5vh",
+                          overflowY: "scroll",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          maxWidth: "30ch",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {data.name}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
+    </Box>
   );
 }
