@@ -92,7 +92,11 @@ const IdFindPage = () => {
               NEXT
             </Button>
             <footer>
-              <Link component={RouterLink} to="/login">
+              <Link
+                component={RouterLink}
+                to="/login"
+                style={{ textDecoration: "none" }}
+              >
                 뒤로 가기
               </Link>
             </footer>

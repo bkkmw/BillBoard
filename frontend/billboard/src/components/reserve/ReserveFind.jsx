@@ -73,8 +73,14 @@ const ReserveFind = () => {
       let filter = [];
       for (const room of rooms) {
         if (
-
-          new Date(room.date).toLocaleDateString(undefined, { timeZone: "UTC", day: "numeric" }) === date.toLocaleDateString(undefined, { timeZone: 'Asia/Seoul', day: "numeric" })
+          new Date(room.date).toLocaleDateString(undefined, {
+            timeZone: "UTC",
+            day: "numeric",
+          }) ===
+          date.toLocaleDateString(undefined, {
+            timeZone: "Asia/Seoul",
+            day: "numeric",
+          })
         ) {
           filter.push(room);
         }
@@ -137,8 +143,9 @@ const ReserveFind = () => {
                     paddingRight: "2rem",
                     paddingLeft: "2rem",
                   }}
-                  className={`san ${item === date.toLocaleDateString() && "list_item_select"
-                    }`}
+                  className={`san ${
+                    item === date.toLocaleDateString() && "list_item_select"
+                  }`}
                   onClick={() => {
                     setDate(new Date(item));
                   }}
@@ -190,8 +197,9 @@ const ReserveFind = () => {
               dataSource={sortedRooms}
               renderItem={(item) => (
                 <List.Item
-                  className={`list_item_hover ${item === date.toLocaleDateString() && "list_item_select"
-                    }`}
+                  className={`list_item_hover ${
+                    item === date.toLocaleDateString() && "list_item_select"
+                  }`}
                   style={{
                     padding: "1.5rem",
                     textAlign: "start",
@@ -247,11 +255,12 @@ const ReserveFind = () => {
       {/* <div>x:{coordinate.x}, y:{coordinate.y}</div> */}
       <div id="modal">
         <Modal
+          style={{ marginTop: "10vh" }}
           footer={null}
-          bodyStyle={{ height: window.innerHeight * 0.8 }}
+          bodyStyle={{ height: window.innerHeight * 0.6 }}
           open={modalOpen}
-          title="지도"
-          width={window.innerWidth * 0.8}
+          title={<span style={{ fontSize: "2rem" }}>지도</span>}
+          width={window.innerWidth * 0.7}
           onCancel={() => {
             setModalOpen(false);
           }}

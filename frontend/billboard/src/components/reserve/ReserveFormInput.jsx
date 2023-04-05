@@ -7,6 +7,8 @@ import { correctRoom, makeRoom } from "../../store/reserve";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router";
 import { selectUser } from "../../store/user";
+import { fontSize } from "@mui/system";
+import Animation3 from "../lottie/Animation3";
 
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
@@ -113,7 +115,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
         onFinish={onFinish}
       >
         <Form.Item
-          label="방제목"
+          label={<span style={{ fontSize: "1.3rem" }}>방제목</span>}
           name="title"
           rules={[
             {
@@ -125,7 +127,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
           <Input />
         </Form.Item>
         <Form.Item
-          label="날짜"
+          label={<span style={{ fontSize: "1.3rem" }}>날짜</span>}
           name="date"
           rules={[
             {
@@ -143,7 +145,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
           />
         </Form.Item>
         <Form.Item
-          label="장소"
+          label={<span style={{ fontSize: "1.3rem" }}>장소</span>}
           name="location"
           rules={[
             {
@@ -155,7 +157,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
           <Input readOnly={true} />
         </Form.Item>
         <Form.Item
-          label="인원"
+          label={<span style={{ fontSize: "1.3rem" }}>인원</span>}
           name="personLimit"
           rules={[
             {
@@ -166,12 +168,21 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
         >
           <InputNumber min={2} max={8} />
         </Form.Item>
-        <Form.Item>
-          <Button type={"primary"} htmlType={"submit"}>
+        <Form.Item style={{ display: "flex", justifyContent: "end " }}>
+          <Button
+            type={"primary"}
+            htmlType={"submit"}
+            style={{
+              width: "5vw",
+              height: "5vh",
+              fontSize: "1.5rem",
+            }}
+          >
             제출
           </Button>
         </Form.Item>
       </Form>
+      <Animation3 />
     </>
   );
 };

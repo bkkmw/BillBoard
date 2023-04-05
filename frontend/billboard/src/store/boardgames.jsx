@@ -147,7 +147,7 @@ export const recommendGame = createAsyncThunk(
       // console.log("hi", response.data);
       return response.data;
     } catch (e) {
-      console.log(e);
+      console.log("500에러", e);
     }
   }
 );
@@ -177,8 +177,7 @@ export const deleteReviews = createAsyncThunk(
         data: {
           gameId: data.gameId,
           userId: data.userId,
-        }
-
+        },
       });
       // console.log(response);
       return response;
@@ -193,7 +192,7 @@ const boardgamesSlice = createSlice({
   name: "boardgames",
   initialState,
   reducers: {},
-  extraReducers: (builder) => { },
+  extraReducers: (builder) => {},
 });
 
 export default boardgamesSlice.reducer;
