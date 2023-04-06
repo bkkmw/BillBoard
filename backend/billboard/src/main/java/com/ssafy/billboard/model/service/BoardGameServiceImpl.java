@@ -82,7 +82,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
         jpqlBuilder.append(" AND b.maxplayers >= :maxplayers"); // 같다?
         jpqlBuilder.append(" AND b.average >= :average");
-        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
+        jpqlBuilder.append(" AND b.averageweight <= :averageweight");
         if(name != null && !name.isEmpty()) {
             jpqlBuilder.append(" AND b.name LIKE :name");
         }
@@ -213,7 +213,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
         jpqlBuilder.append(" AND b.maxplayers >= :maxplayers"); // 같다?
         jpqlBuilder.append(" AND b.average >= :average");
-        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
+        jpqlBuilder.append(" AND b.averageweight <= :averageweight");
         if(name != null && !name.isEmpty()) {
             jpqlBuilder.append(" AND b.name LIKE :name");
         }
@@ -344,7 +344,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
         jpqlBuilder.append(" AND b.maxplayers >= :maxplayers"); // 같다?
         jpqlBuilder.append(" AND b.average >= :average");
-        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
+        jpqlBuilder.append(" AND b.averageweight <= :averageweight");
         if(name != null && !name.isEmpty()) {
             jpqlBuilder.append(" AND b.name LIKE :name");
         }
@@ -475,7 +475,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
         jpqlBuilder.append(" AND b.maxplayers >= :maxplayers"); // 같다?
         jpqlBuilder.append(" AND b.average >= :average");
-        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
+        jpqlBuilder.append(" AND b.averageweight <= :averageweight");
         if(name != null && !name.isEmpty()) {
             jpqlBuilder.append(" AND b.name LIKE :name");
         }
@@ -606,7 +606,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
         jpqlBuilder.append(" AND b.maxplayers >= :maxplayers"); // 같다?
         jpqlBuilder.append(" AND b.average >= :average");
-        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
+        jpqlBuilder.append(" AND b.averageweight <= :averageweight");
         if(name != null && !name.isEmpty()) {
             jpqlBuilder.append(" AND b.name LIKE :name");
         }
