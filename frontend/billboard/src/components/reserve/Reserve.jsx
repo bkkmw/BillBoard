@@ -21,6 +21,7 @@ const Reserve = () => {
       <Link to="/">메인페이지로</Link>
       <div id="modal">
         <Modal
+          style={{ marginTop: "10vh" }}
           footer={null}
           bodyStyle={{ height: window.innerHeight * 0.8 }}
           open={modalOpen}
