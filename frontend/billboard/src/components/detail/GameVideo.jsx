@@ -5,7 +5,7 @@ import YouTube from "react-youtube";
 
 const GameVide = (props) => {
   const [videoUrl, setVideoUrl] = useState("");
-  const KEY = import.meta.env.VITE_APP_YOUTUBE_API_KEY;
+  const KEY = import.meta.env.VITE_APP_YOUTUBE_API_KEY_2;
 
   // 유튜브 긁어오기 api
   // console.log(videoUrl);
