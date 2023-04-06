@@ -25,7 +25,7 @@ public class RoomController {
         if(roomId == -1)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         resultMap.put("roomId", roomId);
-        return new ResponseEntity<>(resultMap, HttpStatus.CREATED);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping()
