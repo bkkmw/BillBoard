@@ -113,7 +113,7 @@ export default function GameSearch({ open, onClose, gameData, search }) {
           />
         </Form.Item>
         <Form.Item name="average" label="평점">
-          <Rate />
+          <Rate count={10} />
         </Form.Item>
 
         <Form.Item name="Genre" label="genre">
