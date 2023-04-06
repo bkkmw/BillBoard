@@ -65,7 +65,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         int maxplayers = boardGameDetail.getMaxplayers();
         double average = boardGameDetail.getAverage();
         double averageweight = boardGameDetail.getAverageweight();
-
+        boolean isChecked = false;
         String strategygamerank = boardGameDetail.getStrategygamerank();
         String familygamerank = boardGameDetail.getFamilygamerank();
         String partygamerank = boardGameDetail.getPartygamerank();
@@ -79,39 +79,90 @@ public class BoardGameServiceImpl implements BoardGameService{
 
 
         StringBuilder jpqlBuilder = new StringBuilder("SELECT b FROM BoardGame b WHERE 1=1");
+        jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
+        jpqlBuilder.append(" AND b.maxplayers >= :maxplayers"); // 같다?
+        jpqlBuilder.append(" AND b.average >= :average");
+        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
         if(name != null && !name.isEmpty()) {
             jpqlBuilder.append(" AND b.name LIKE :name");
         }
 
         if(strategygamerank != null && !strategygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.strategygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+
+            jpqlBuilder.append(" b.strategygamerank IS NOT NULL");
         }
         if(familygamerank != null && !familygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.familygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.familygamerank IS NOT NULL");
         }
         if(partygamerank != null && !partygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.partygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.partygamerank IS NOT NULL");
         }
         if(abstractgamerank != null && !abstractgamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.abstractgamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.abstractgamerank IS NOT NULL");
         }
         if(thematicrank != null && !thematicrank.isEmpty()) {
-            jpqlBuilder.append(" AND b.thematicrank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.thematicrank IS NOT NULL");
         }
         if(wargamerank != null && !wargamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.wargamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.wargamerank IS NOT NULL");
         }
         if(customizablerank != null && !customizablerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.customizablerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.customizablerank IS NOT NULL");
         }
         if(childrengamerank != null && !childrengamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.childrengamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.childrengamerank IS NOT NULL");
         }
 
-        jpqlBuilder.append(" AND b.maxplaytime < :maxplaytime");
-        jpqlBuilder.append(" AND b.maxplayers > :maxplayers"); // 같다?
-        jpqlBuilder.append(" AND b.average > :average");
-        jpqlBuilder.append(" AND b.averageweight > :averageweight");
+        if(isChecked)
+            jpqlBuilder.append(" ) ");
 
         jpqlBuilder.append(" ORDER BY b.boardgamerank  ASC");
 
@@ -132,7 +183,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         List<BoardGameDto.BoardGame> boardgames = new ArrayList<>();
         for (BoardGame bg: boardgamesEntity) {
             BoardGameDto.BoardGame bgt = buildBoardGame(bg);
-        boardgames.add(bgt);
+            boardgames.add(bgt);
         }
         return boardgames;
 
@@ -145,7 +196,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         int maxplayers = boardGameDetail.getMaxplayers();
         double average = boardGameDetail.getAverage();
         double averageweight = boardGameDetail.getAverageweight();
-
+        boolean isChecked = false;
         String strategygamerank = boardGameDetail.getStrategygamerank();
         String familygamerank = boardGameDetail.getFamilygamerank();
         String partygamerank = boardGameDetail.getPartygamerank();
@@ -159,39 +210,90 @@ public class BoardGameServiceImpl implements BoardGameService{
 
 
         StringBuilder jpqlBuilder = new StringBuilder("SELECT b FROM BoardGame b WHERE 1=1");
+        jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
+        jpqlBuilder.append(" AND b.maxplayers >= :maxplayers"); // 같다?
+        jpqlBuilder.append(" AND b.average >= :average");
+        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
         if(name != null && !name.isEmpty()) {
             jpqlBuilder.append(" AND b.name LIKE :name");
         }
 
         if(strategygamerank != null && !strategygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.strategygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+
+            jpqlBuilder.append(" b.strategygamerank IS NOT NULL");
         }
         if(familygamerank != null && !familygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.familygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.familygamerank IS NOT NULL");
         }
         if(partygamerank != null && !partygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.partygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.partygamerank IS NOT NULL");
         }
         if(abstractgamerank != null && !abstractgamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.abstractgamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.abstractgamerank IS NOT NULL");
         }
         if(thematicrank != null && !thematicrank.isEmpty()) {
-            jpqlBuilder.append(" AND b.thematicrank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.thematicrank IS NOT NULL");
         }
         if(wargamerank != null && !wargamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.wargamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.wargamerank IS NOT NULL");
         }
         if(customizablerank != null && !customizablerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.customizablerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.customizablerank IS NOT NULL");
         }
         if(childrengamerank != null && !childrengamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.childrengamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.childrengamerank IS NOT NULL");
         }
 
-        jpqlBuilder.append(" AND b.maxplaytime < :maxplaytime");
-        jpqlBuilder.append(" AND b.maxplayers > :maxplayers"); // 같다?
-        jpqlBuilder.append(" AND b.average > :average");
-        jpqlBuilder.append(" AND b.averageweight > :averageweight");
+        if(isChecked)
+            jpqlBuilder.append(" ) ");
 
         jpqlBuilder.append(" ORDER BY b.average  DESC");
 
@@ -225,7 +327,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         int maxplayers = boardGameDetail.getMaxplayers();
         double average = boardGameDetail.getAverage();
         double averageweight = boardGameDetail.getAverageweight();
-
+        boolean isChecked = false;
         String strategygamerank = boardGameDetail.getStrategygamerank();
         String familygamerank = boardGameDetail.getFamilygamerank();
         String partygamerank = boardGameDetail.getPartygamerank();
@@ -239,39 +341,90 @@ public class BoardGameServiceImpl implements BoardGameService{
 
 
         StringBuilder jpqlBuilder = new StringBuilder("SELECT b FROM BoardGame b WHERE 1=1");
+        jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
+        jpqlBuilder.append(" AND b.maxplayers >= :maxplayers"); // 같다?
+        jpqlBuilder.append(" AND b.average >= :average");
+        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
         if(name != null && !name.isEmpty()) {
             jpqlBuilder.append(" AND b.name LIKE :name");
         }
 
         if(strategygamerank != null && !strategygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.strategygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+
+            jpqlBuilder.append(" b.strategygamerank IS NOT NULL");
         }
         if(familygamerank != null && !familygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.familygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.familygamerank IS NOT NULL");
         }
         if(partygamerank != null && !partygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.partygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.partygamerank IS NOT NULL");
         }
         if(abstractgamerank != null && !abstractgamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.abstractgamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.abstractgamerank IS NOT NULL");
         }
         if(thematicrank != null && !thematicrank.isEmpty()) {
-            jpqlBuilder.append(" AND b.thematicrank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.thematicrank IS NOT NULL");
         }
         if(wargamerank != null && !wargamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.wargamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.wargamerank IS NOT NULL");
         }
         if(customizablerank != null && !customizablerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.customizablerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.customizablerank IS NOT NULL");
         }
         if(childrengamerank != null && !childrengamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.childrengamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.childrengamerank IS NOT NULL");
         }
 
-        jpqlBuilder.append(" AND b.maxplaytime < :maxplaytime");
-        jpqlBuilder.append(" AND b.maxplayers > :maxplayers"); // 같다?
-        jpqlBuilder.append(" AND b.average > :average");
-        jpqlBuilder.append(" AND b.averageweight > :averageweight");
+        if(isChecked)
+            jpqlBuilder.append(" ) ");
 
         jpqlBuilder.append(" ORDER BY b.yearpublished  DESC");
 
@@ -305,7 +458,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         int maxplayers = boardGameDetail.getMaxplayers();
         double average = boardGameDetail.getAverage();
         double averageweight = boardGameDetail.getAverageweight();
-
+        boolean isChecked = false;
         String strategygamerank = boardGameDetail.getStrategygamerank();
         String familygamerank = boardGameDetail.getFamilygamerank();
         String partygamerank = boardGameDetail.getPartygamerank();
@@ -319,39 +472,90 @@ public class BoardGameServiceImpl implements BoardGameService{
 
 
         StringBuilder jpqlBuilder = new StringBuilder("SELECT b FROM BoardGame b WHERE 1=1");
+        jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
+        jpqlBuilder.append(" AND b.maxplayers >= :maxplayers"); // 같다?
+        jpqlBuilder.append(" AND b.average >= :average");
+        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
         if(name != null && !name.isEmpty()) {
             jpqlBuilder.append(" AND b.name LIKE :name");
         }
 
         if(strategygamerank != null && !strategygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.strategygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+
+            jpqlBuilder.append(" b.strategygamerank IS NOT NULL");
         }
         if(familygamerank != null && !familygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.familygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.familygamerank IS NOT NULL");
         }
         if(partygamerank != null && !partygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.partygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.partygamerank IS NOT NULL");
         }
         if(abstractgamerank != null && !abstractgamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.abstractgamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.abstractgamerank IS NOT NULL");
         }
         if(thematicrank != null && !thematicrank.isEmpty()) {
-            jpqlBuilder.append(" AND b.thematicrank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.thematicrank IS NOT NULL");
         }
         if(wargamerank != null && !wargamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.wargamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.wargamerank IS NOT NULL");
         }
         if(customizablerank != null && !customizablerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.customizablerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.customizablerank IS NOT NULL");
         }
         if(childrengamerank != null && !childrengamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.childrengamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.childrengamerank IS NOT NULL");
         }
 
-        jpqlBuilder.append(" AND b.maxplaytime < :maxplaytime");
-        jpqlBuilder.append(" AND b.maxplayers > :maxplayers"); // 같다?
-        jpqlBuilder.append(" AND b.average > :average");
-        jpqlBuilder.append(" AND b.averageweight > :averageweight");
+        if(isChecked)
+            jpqlBuilder.append(" ) ");
 
         jpqlBuilder.append(" ORDER BY b.averageweight DESC");
 
@@ -385,7 +589,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         int maxplayers = boardGameDetail.getMaxplayers();
         double average = boardGameDetail.getAverage();
         double averageweight = boardGameDetail.getAverageweight();
-
+        boolean isChecked = false;
         String strategygamerank = boardGameDetail.getStrategygamerank();
         String familygamerank = boardGameDetail.getFamilygamerank();
         String partygamerank = boardGameDetail.getPartygamerank();
@@ -399,39 +603,90 @@ public class BoardGameServiceImpl implements BoardGameService{
 
 
         StringBuilder jpqlBuilder = new StringBuilder("SELECT b FROM BoardGame b WHERE 1=1");
+        jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
+        jpqlBuilder.append(" AND b.maxplayers >= :maxplayers"); // 같다?
+        jpqlBuilder.append(" AND b.average >= :average");
+        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
         if(name != null && !name.isEmpty()) {
             jpqlBuilder.append(" AND b.name LIKE :name");
         }
 
         if(strategygamerank != null && !strategygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.strategygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+
+            jpqlBuilder.append(" b.strategygamerank IS NOT NULL");
         }
         if(familygamerank != null && !familygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.familygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.familygamerank IS NOT NULL");
         }
         if(partygamerank != null && !partygamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.partygamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.partygamerank IS NOT NULL");
         }
         if(abstractgamerank != null && !abstractgamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.abstractgamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.abstractgamerank IS NOT NULL");
         }
         if(thematicrank != null && !thematicrank.isEmpty()) {
-            jpqlBuilder.append(" AND b.thematicrank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.thematicrank IS NOT NULL");
         }
         if(wargamerank != null && !wargamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.wargamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.wargamerank IS NOT NULL");
         }
         if(customizablerank != null && !customizablerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.customizablerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.customizablerank IS NOT NULL");
         }
         if(childrengamerank != null && !childrengamerank.isEmpty()) {
-            jpqlBuilder.append(" AND b.childrengamerank IS NOT NULL");
+            if(isChecked){
+                jpqlBuilder.append(" OR ");
+            } else {
+                isChecked = true;
+                jpqlBuilder.append(" AND ( ");
+            }
+            jpqlBuilder.append(" b.childrengamerank IS NOT NULL");
         }
 
-        jpqlBuilder.append(" AND b.maxplaytime < :maxplaytime");
-        jpqlBuilder.append(" AND b.maxplayers > :maxplayers"); // 같다?
-        jpqlBuilder.append(" AND b.average > :average");
-        jpqlBuilder.append(" AND b.averageweight > :averageweight");
+        if(isChecked)
+            jpqlBuilder.append(" ) ");
 
         jpqlBuilder.append(" ORDER BY b.usersrated DESC");
 
@@ -694,6 +949,61 @@ public class BoardGameServiceImpl implements BoardGameService{
         boardGameRepository.save(boardGame);
         return true;
     }
+
+    
+    public List<BoardGame> makeQuery(String[] str,String[] value,String name,int maxplaytime,int maxplayers,
+                                     double average,double averageweight) {
+        boolean isChecked = false;
+        StringBuilder jpqlBuilder = new StringBuilder("SELECT b FROM BoardGame b WHERE 1=1");
+        jpqlBuilder.append(" AND b.maxplaytime <= :maxplaytime");
+        jpqlBuilder.append(" AND b.maxplayers >= :maxplayers");
+        jpqlBuilder.append(" AND b.average <= :average");
+        jpqlBuilder.append(" AND b.averageweight >= :averageweight");
+        if (name != null && !name.isEmpty()) {
+            jpqlBuilder.append(" AND b.name LIKE :name");
+        }
+
+        for (int i = 0; i < 8; i++) {
+            String genre = str[i];
+            String v = value[i];
+
+            if (genre != null && !genre.isEmpty()) {
+                if (isChecked) {
+                    jpqlBuilder.append(" OR ");
+                } else {
+                    isChecked = true;
+                    jpqlBuilder.append(" AND ( ");
+                }
+
+                jpqlBuilder.append(" b.");
+                jpqlBuilder.append(v);
+                jpqlBuilder.append(" IS NOT NULL ");
+            }
+        }
+        if(isChecked)
+        jpqlBuilder.append(" ) ");
+        jpqlBuilder.append(" ORDER BY b.boardgamerank  ASC");
+
+        TypedQuery<BoardGame> query = entityManager.createQuery(jpqlBuilder.toString(), BoardGame.class);
+        query.setMaxResults(20);
+        if(name != null && !name.isEmpty()) {
+            query.setParameter("name", "%" + name + "%");
+        }
+
+        query.setParameter("maxplaytime", maxplaytime);
+        query.setParameter("maxplayers", maxplayers);
+        query.setParameter("average", average);
+        query.setParameter("averageweight", averageweight);
+        String jpqlQuery = query.unwrap(org.hibernate.query.Query.class).getQueryString();
+        System.out.println(jpqlQuery);
+
+
+        List<BoardGame> boardgamesEntity = query.getResultList();
+        System.out.println(boardgamesEntity.size());
+        return boardgamesEntity;
+    }
+
+
 
     @Scheduled(cron = "0 0 0/3 * * *")
     public void sendResetRequest(){
