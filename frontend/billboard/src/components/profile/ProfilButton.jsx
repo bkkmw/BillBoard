@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
-import { Button } from "antd";
+// import { Button, Modal } from "antd";
+import { Button } from "@mui/material";
 import style from "./ProfilButton.module.css";
 import { useState, useEffect } from "react";
 import httpClient from "../../utils/axios";
@@ -10,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { useRouteLoaderData } from "react-router";
 import { useSelector } from "react-redux";
 import { userProfile } from "../../store/profile";
+
 const ProfilButton = () => {
   const dispatch = useDispatch();
   const [friend, setFriend] = useState(false);
@@ -57,16 +59,14 @@ const ProfilButton = () => {
 
   return (
     <div>
-      {/* <h1>{friendData.isFollowing}</h1> */}
       <Button
+        sx={{
+          color: friendData.isFollowing === 1 ? "#E74646" : "black",
+        }}
         onClick={friendData.isFollowing === 1 ? frienddelete : friended}
-        type="primary"
-        className={style.btn}
       >
         {friendData.isFollowing === 1 ? "언팔로우" : "팔로우"}
       </Button>
-
-      {/* <Button onClick={frienddelete}>언팔로우</Button> */}
     </div>
   );
 };

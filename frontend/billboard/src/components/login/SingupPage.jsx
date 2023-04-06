@@ -79,14 +79,17 @@ const Singup = () => {
 
   // 이메일 인증
   const certificateEmail = async () => {
-    alert("이메일로 인증번호를 발송했습니다.");
+    // alert("이메일로 인증번호를 발송했습니다.");
     const email = form.watch("UserEmail");
     // console.log("안녕", email);ㄴ
     try {
       const response = await httpClient.post("users/email-auth", {
         email: email,
       });
-      console.log(response);
+      // console.log(response);
+      if (response.data.status === 200) {
+        alert("이메일을 확인해 주세요");
+      }
     } catch (e) {
       // console.log(e.response.status);
       if (e.response.status === 409) {
@@ -101,8 +104,8 @@ const Singup = () => {
     setAuthKey(event.target.value);
   };
 
-  const EmailAuth = async (e) => {
-    e.preventDefault();
+  const EmailAuth = async () => {
+    // e.preventDefault();
     const email = form.watch("UserEmail");
     // console.log("끼에에ㅔㅇ", email, authKey);
     try {
