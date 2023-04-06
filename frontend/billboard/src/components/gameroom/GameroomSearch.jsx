@@ -13,15 +13,20 @@ import { getBoardGames } from "../../store/boardgames";
 import { selectgameroom, setGame } from "../../store/gameroom";
 import Searching from "../lottie/Searching";
 
-const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecommend }) => {
+const GameroomSearch = ({
+  setGameDetail,
+  showModal,
+  setIsInRecommend,
+  isInRecommend,
+}) => {
   const selectgameInfo = useSelector(selectgameroom).gameInfo;
   const dispatch = useDispatch();
   const inputRef = useRef();
   const [gameData, setGameData] = useState({
     name: "",
     maxplaytime: 1000,
-    maxplayers: 5,
-    average: 0,
+    maxplayers: 0,
+    average: 5,
     averageWeight: 0,
     strategy: "",
     family: "",
