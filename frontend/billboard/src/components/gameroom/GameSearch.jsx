@@ -1,4 +1,4 @@
-import { React, useEffect, useRef, useState } from "react";
+import { React, forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FormGroup from "@mui/material/FormGroup";
@@ -14,8 +14,9 @@ const formItemLayout = {
     span: 14,
   },
 };
-export default function GameSearch({ open, onClose, gameData, search }) {
+const GameSearch = forwardRef(({ gameData, search }, ref) => {
   const inputRef = useRef();
+
   const onFinish = (values) => {
     let newData = { ...gameData };
     for (const [value, v] of Object.entries(values)) {
@@ -30,8 +31,11 @@ export default function GameSearch({ open, onClose, gameData, search }) {
     }
     newData = { ...newData, name: inputRef.current.value };
     search(newData);
-    // console.log(newData)
+
   };
+  useImperativeHandle(ref, () => ({
+    onFinish
+  }))
   const checkboxes = [
     ["strategy", "전략 게임"],
     ["family", "가족 게임"],
@@ -44,27 +48,7 @@ export default function GameSearch({ open, onClose, gameData, search }) {
   ];
 
   return (
-    <Drawer
-      title="Basic Drawer"
-      placement="left"
-      onClose={onClose}
-      open={open}
-      width={520}
-    >
-      <Box
-        sx={{
-          width: "70vw",
-          maxWidth: "100%",
-          marginBottom: "3rem",
-        }}
-      >
-        <TextField
-          fullWidth
-          label="게임 이름을 입력하시오"
-          id="gamesearch"
-          inputRef={inputRef}
-        />
-      </Box>
+    <>
       <Form
         name="validate_other"
         {...formItemLayout}
@@ -143,11 +127,9 @@ export default function GameSearch({ open, onClose, gameData, search }) {
             offset: 6,
           }}
         >
-          <Button type="primary" htmlType="submit">
-            확인
-          </Button>
         </Form.Item>
-      </Form>
-    </Drawer>
+      </Form></>
   );
-}
+})
+
+export default GameSearch

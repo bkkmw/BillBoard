@@ -60,8 +60,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectgameroom, setGameroomInit } from "../../store/gameroom";
 import { Col, Drawer, Row, theme } from "antd";
 import GameChoice from "./GameChoice";
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+
+
+import GameSearch from "./GameSearch";
 const Gameroom = () => {
+  const [isSearch, setIsSearch] = useState(false);
+  const gameInfo = useSelector(selectgameroom).gameInfo
   const { token } = theme.useToken();
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
@@ -71,9 +75,10 @@ const Gameroom = () => {
     setOpen(false);
   };
   const dispatch = useDispatch()
-  const endGame = () => {
-    dispatch(setGameroomInit())
-  }
+
+  useEffect(() => {
+    setOpen(false)
+  }, [gameInfo])
   return (
     <div
       style={{
@@ -91,25 +96,25 @@ const Gameroom = () => {
       }}
     >
       <Row>
-        <Col span={12}><RoomLeft /></Col>
-        <Col span={12}><RoomRight showDrawer={showDrawer}/></Col>
+        <Col span={6}><RoomLeft /></Col>
+        <Col span={6}></Col>
+        <Col span={12}><RoomRight showDrawer={showDrawer} /></Col>
         <Drawer
-        placement="right"
-        closable={false}
-        onClose={onClose}
-        open={open}
-        getContainer={false}
-        width={850}
-        
-      >
-        <GameChoice/>
-      </Drawer>
+          placement="right"
+          closable={false}
+          onClose={onClose}
+          open={open}
+          getContainer={false}
+          width={850}
+
+        >
+          <GameChoice />
+
+        </Drawer>
       </Row>
 
 
-      <Button color="warning" onClick={() => {
-        endGame()
-      }}><ExitToAppIcon/></Button>
+
     </div>
   );
 };

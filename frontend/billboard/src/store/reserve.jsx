@@ -14,7 +14,6 @@ export const makeRoom = createAsyncThunk(
         lat: reserveData.lat,
         lng: reserveData.lng,
       });
-      console.log(response);
       return response;
     } catch (error) {
       console.log(error);

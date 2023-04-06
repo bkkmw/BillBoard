@@ -31,12 +31,10 @@ const RoomRight = ({showDrawer}) => {
     setIsModalOpen(false);
     setpropGameId()
   };
+
   const [gameDetail, setGameDetail] = useState();
   const [propGameId, setpropGameId] = useState();
   const inputRef = useRef();
-  useEffect(()=>{
-    console.log(gameInfo)
-  },[gameInfo])
   return (<>
   <Row>
     {!isInGame?

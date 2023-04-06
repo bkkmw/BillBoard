@@ -3,6 +3,8 @@ import { React, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useRouteLoaderData } from "react-router-dom";
 
+import GameStart from "../GameStart";
+
 import ProfileFavorites from "./ProfileFavorites";
 import ProfileInfo from "./ProfileInfo";
 import ProfileRecord from "./ProfileRecord";
@@ -22,22 +24,22 @@ const Profile = () => {
     const getUser = () => {
       dispatch(userProfile(userId)).then((res) => {
         if (res.payload.userInfo) {
-          console.log(res.payload.userInfo);
           SetUser(res.payload);
         }
       });
     };
     getUser();
   }, [userId]);
-  // console.log("안녕하세용?", user);
   return (
     <div
       style={{
         marginTop: "12vh",
+        width: "80vw",
         border: "2rem solid #d9d9d9",
         borderRadius: "3rem",
       }}
     >
+      <GameStart />
       {user && (
         <>
           <ProfileInfo user={user} />

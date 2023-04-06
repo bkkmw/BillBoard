@@ -12,6 +12,8 @@ import { getBoardGames } from "../../store/boardgames";
 import { selectgameroom, setGame } from "../../store/gameroom";
 import Noting from "../lottie/Noting";
 import Animation4 from "../lottie/Animation4";
+import Loading from "../lottie/Loading";
+
 const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecommend }) => {
   const players = useSelector(selectgameroom).players;
   const selectgameInfo = useSelector(selectgameroom).gameInfo;
@@ -19,6 +21,7 @@ const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecomme
   const [gameData, setGameData] = useState();
   const [boardReview, setBoardReview] = useState([]);
   const [isNothing, setIsNothing] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     // console.log(selectgameInfo);
   }, [selectgameInfo]);
@@ -26,7 +29,11 @@ const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecomme
     const data = players.map((player) => player.userId);
     // console.log(data)
     dispatch(getCombiRecom({ userList: data })).then((res) => {
-      if (res.payload.response.status === 500) {
+      setIsLoading(false)
+      if (res.payload.status === 200) {
+        setBoardReview(res.payload.data.games)
+      }
+      else if (res.payload.response.status === 500) {
         console.log('500에러')
         setIsNothing(true)
       }
@@ -35,7 +42,11 @@ const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecomme
     });
   }, [players]);
   return (
-    <div>
+    <div>{isLoading?
+    <>
+    {players.map((player)=>{return(<>{player.userId}님 </>)})}의 취향을 종합해 결과를 받아오는중입니다
+    <Loading/></>:<>
+      
       <Button
         type="primary"
         style={{
@@ -135,7 +146,7 @@ const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecomme
           </div>
         </Grid>
       }
-    </div>
+    </>}</div>
   );
 };
 

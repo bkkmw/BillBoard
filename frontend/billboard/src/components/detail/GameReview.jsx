@@ -58,8 +58,8 @@ const GameReview = (props) => {
   const handleDelete = () => {
     const data = deleteData;
     console.log(data);
-    dispatch(deleteReviews(data)).then((res) => {
-      console.log(res);
+    dispatch(deleteReviews(data)).then(() => {
+      window.location.reload();
     });
   };
 
@@ -76,8 +76,12 @@ const GameReview = (props) => {
     const existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
     const updatedReviews = [...existingReviews, newReview];
     localStorage.setItem("reviews", JSON.stringify(updatedReviews));
-    dispatch(createReviews(newReview));
-    handleClose();
+    dispatch(
+      createReviews(newReview).then(() => {
+        window.location.reload();
+      })
+    );
+    // handleClose();
     // window.location.reload();
   };
 
@@ -106,7 +110,7 @@ const GameReview = (props) => {
         if (loginUser.userId === record.userId) {
           return (
             <>
-              <Button onClick={() => handleDelete()}>Delete</Button>
+              <Button onClick={() => handleDelete()}>삭제</Button>
             </>
           );
         }
@@ -118,7 +122,7 @@ const GameReview = (props) => {
     <div>
       <Grid display="flex">
         <Typography fontSize="3rem" align="left" className={style.font}>
-          게시판
+          리뷰
         </Typography>
         <Button
           size="large"
@@ -165,7 +169,7 @@ const GameReview = (props) => {
               label="리뷰"
             />
             <hr />
-            <Button type="submit">제출</Button>
+            <Button type="submit">예약</Button>
           </Box>
         </Box>
       </Modal>

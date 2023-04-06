@@ -5,7 +5,7 @@ import { CloseCircleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../store/user";
 import { action } from "../../store/store";
-import { getentries, selectgameroom, setPlayer } from "../../store/gameroom";
+import { getentries, selectgameroom, setGameroomInit, setPlayer } from "../../store/gameroom";
 import RoomEntry from "./RoomEntry";
 import Review from "./Review";
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
@@ -21,6 +21,8 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { LevelingSys } from "../profile/ProfileExp";
 
 const { Meta } = Card;
 
@@ -39,6 +41,9 @@ const UserList = () => {
   const [roomEntries, SetRoomEntries] = useState([]);
   const [reviewId, setReviewId] = useState("");
   const [menuId, setMenuId] = useState()
+  const endGame = () => {
+    dispatch(setGameroomInit())
+  }
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -67,7 +72,7 @@ const UserList = () => {
     var index = userList.findIndex((user) => user.userId === userinfo.userId);
     if (index === -1) {
       // console.log("리스트에 없는 유저");
-      const newUserList = [...userList, {...userinfo, score:0}];
+      const newUserList = [...userList, { ...userinfo, score: 0 }];
       // console.log(newUserList);
       dispatch(setPlayer(newUserList));
     } else {
@@ -87,7 +92,7 @@ const UserList = () => {
           nickname: entry.nickname,
           userId: entry.userId,
           winCount: entry.winCount,
-          score:0
+          score: 0
         };
         newUserList = [...newUserList, userInfo]
       }
@@ -96,6 +101,7 @@ const UserList = () => {
   }
   useEffect(() => {
     addUser(myinfo);
+    console.log(myinfo)
   }, []);
   const showDrawer = () => {
     setOpen(true);
@@ -126,10 +132,12 @@ const UserList = () => {
   return (
     <div>
       <Row>
-        <h1>플레이어</h1>
+        <h1>플레이어</h1>   <ExitToAppIcon style={{ height: "auto", marginLeft: "1vh" }} onClick={() => {
+          endGame()
+        }} />
       </Row>
       <Row>
-        
+
         <Col style={{ height: "auto", maxHeight: "50vh", overflowY: "scroll" }}>
           {userList.length !== 0 &&
             userList.map((user, i) => {
@@ -154,7 +162,7 @@ const UserList = () => {
                       >
                         <Avatar src={`https://avatars.dicebear.com/api/identicon/${user.userId}.svg`} />
                       </IconButton></Tooltip>}
-                      title={user.userId}
+                      title={`LV.${LevelingSys(user.experience)} ${user.userId}`}
                       description={`score:${user.score}`}
                     />
 

@@ -24,12 +24,12 @@ const Navbar = () => {
   // 로그아웃 api
   const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
   const doLogout = async () => {
-    if (window.confirm("로그아웃 하실?")) {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
       try {
         const response = await httpClient.post(
           `/users/logout/${loginUser.userId}`
         );
-        console.log("로그아웃", login);
+        // console.log("로그아웃", login);
       } catch (e) {
         console.log(e);
       }
@@ -64,14 +64,14 @@ const Navbar = () => {
                   추천 보드게임
                 </Link>
               )}
-              {login && (
+              {/* {login && (
                 <Link
                   to={"/gameroom"}
                   className={`${style.link} ${style.blur}`}
                 >
                   게임하기{" "}
                 </Link>
-              )}
+              )} */}
 
               {login && (
                 <Link to={"/reserve"} className={style.link}>

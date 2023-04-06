@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import { Button, TextField } from "@mui/material";
+import { TextField, Button } from "@mui/material";
+// import { Button, Modal } from "antd";
 import { useDispatch } from "react-redux";
 
 import httpClient from "../../utils/axios";
@@ -48,7 +49,7 @@ const UserSearch = () => {
           // console.log(userLists);
           return (
             <div key={index}>
-              <Button sx={{}}>
+              <Button variant="outlined" sx={{}}>
                 <span>{index + 1}.</span>
                 <Link to={`/profile/${userLists.userId}`}>
                   {userLists.userId}

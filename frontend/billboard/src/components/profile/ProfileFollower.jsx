@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
+import { Button } from "@mui/material";
 
 import FollowerList from "./FollowerList";
 

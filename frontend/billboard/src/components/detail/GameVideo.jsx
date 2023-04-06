@@ -5,7 +5,7 @@ import YouTube from "react-youtube";
 
 const GameVide = (props) => {
   const [videoUrl, setVideoUrl] = useState("");
-  const KEY = import.meta.env.VITE_APP_YOUTUBE_API_KEY;
+  const KEY = import.meta.env.VITE_APP_YOUTUBE_API_KEY_2;
 
   // 유튜브 긁어오기 api
   // console.log(videoUrl);
@@ -34,8 +34,14 @@ const GameVide = (props) => {
 
   return (
     <div>
-      <span className={style.font}>영상</span>
-      <YouTube videoId={videoUrl} opts={opts} style={{ marginTop: "1.5rem" }} />
+      <span style={{ display: "flex" }} className={style.font}>
+        영상
+      </span>
+      <YouTube
+        videoId={videoUrl}
+        opts={opts}
+        style={{ marginTop: "1.5rem", display: "flex" }}
+      />
     </div>
   );
 };

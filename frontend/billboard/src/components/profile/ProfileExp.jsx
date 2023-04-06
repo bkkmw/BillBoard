@@ -5,7 +5,9 @@ import { Progress, Space } from "antd";
 import { Grid } from "@mui/material";
 const ProfileExp = (props) => {
   // 레벨링 시스템
+
   const experience = props.user.userInfo.experience;
+  console.log(props.user)
   let total = experience;
   let start = 15;
   let level = 0;
@@ -50,3 +52,24 @@ const ProfileExp = (props) => {
 };
 
 export default ProfileExp;
+export const LevelingSys = (exp) => {
+  console.log(exp)
+  const experience = exp
+  let total = experience;
+  let start = 15;
+  let level = 0;
+  let x, need;
+  while (total >= 0) {
+    need = start;
+    total -= need;
+    level++;
+    start = Math.pow(start, 1.2);
+    x = need + total;
+  }
+
+  let result = 0;
+  if (need !== 0) {
+    result = ((x / need) * 100).toFixed(2);
+  }
+  return level
+}

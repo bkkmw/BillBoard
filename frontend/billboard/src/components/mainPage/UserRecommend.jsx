@@ -39,7 +39,7 @@ export default function UserRecommend() {
   useEffect(() => {
     const userId = loginUser.userId;
     dispatch(recommendGame(userId)).then((res) => {
-      // console.log("호에엥", res);
+      console.log("호에엥", res);
       if (res.payload === undefined) {
         setRecommDatas(["리뷰를 등록하면 유저별 추천을 받을 수 있습니다."]);
       } else {
@@ -60,36 +60,51 @@ export default function UserRecommend() {
           navigation={true}
           modules={[FreeMode, Pagination, Navigation]}
           className="boardAverage"
-          style={{ marginTop: "2rem", marginBottom: "2rem" }}
+          style={{
+            marginTop: "2rem",
+            marginBottom: "2rem",
+            paddingTop: "3rem",
+            paddingBottom: "3rem",
+          }}
         >
           {recommDatas.map((data, index) => (
-            <SwiperSlide key={index} style={{ height: "9vh" }}>
+            <SwiperSlide
+              key={index}
+              style={{
+                backgroundColor: "transparent",
+                height: "10vh",
+                width: "25vw",
+              }}
+            >
               <Link
+                style={{ textDecoration: "none" }}
                 to={`/detail/${data.gameId}`}
                 state={{ gameId: data.gameId, isProps: true }}
               >
-                <Card sx={{ width: "20vw", height: "100%" }}>
+                <Card sx={{ borderRadius: "2rem", width: "20vw" }}>
                   <CardActionArea>
                     <CardMedia
-                      sx={{ borderRadius: "16px" }}
+                      sx={{}}
                       component="img"
                       image={data.image}
-                      style={{ height: "40vh" }}
+                      style={{
+                        height: "30vh",
+                        objectFit: "fill",
+                        marginTop: "11rem",
+                      }}
                     />
                     <CardContent>
                       <Typography
                         gutterBottom
                         variant="h5"
-                        component="div"
+                        // component="div"
                         style={{
-                          height: "5.5vh",
+                          height: "5vh",
                           overflowY: "scroll",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                          maxWidth: "30ch",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
+                          textDecoration: "none",
                         }}
                       >
                         {data.name}

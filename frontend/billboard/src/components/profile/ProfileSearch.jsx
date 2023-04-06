@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
+import { Button } from "@mui/material";
 
 import UserSearch from "./UserSearch";
+import { useSelector } from "react-redux";
+import { useRouteLoaderData } from "react-router";
 
 const ProfileSearch = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { loginUser } = useSelector((state) => state.user);
+  const yourId = useRouteLoaderData("profile");
+
+  // 모달창 끄기
+  useEffect(() => {
+    if (loginUser.userId !== yourId) {
+      setIsModalOpen(false);
+    }
+  }, [yourId]);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -19,9 +31,13 @@ const ProfileSearch = () => {
   return (
     <>
       <Button
-        size="large"
+        style={{
+          width: "7rem",
+          height: "2.5rem",
+        }}
+        // size="large"
         icon={<SearchOutlined />}
-        type="primary"
+        // type="primary"
         onClick={showModal}
       >
         친구찾기
