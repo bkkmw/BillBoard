@@ -157,7 +157,11 @@ const Main = () => {
                   style={{ height: "10vh", width: "25vw" }}
                   // style={{ height: "20%", width: "100%" }}
                 >
-                  <Link to={`/detail/${data.gameId}`} state={data}>
+                  <Link
+                    to={`/detail/${data.gameId}`}
+                    state={data}
+                    style={{ textDecoration: "none" }}
+                  >
                     <Card
                       sx={{
                         width: "20vw",
@@ -232,7 +236,11 @@ const Main = () => {
                   key={index}
                   style={{ height: "9vh", width: "25vw" }}
                 >
-                  <Link to={`/detail/${data.gameId}`} state={data}>
+                  <Link
+                    to={`/detail/${data.gameId}`}
+                    state={data}
+                    style={{ textDecoration: "none" }}
+                  >
                     <Card sx={{ width: "20vw" }}>
                       <CardActionArea>
                         <CardMedia
@@ -297,7 +305,11 @@ const Main = () => {
                   key={index}
                   style={{ height: "9vh", width: "25vw" }}
                 >
-                  <Link to={`/detail/${data.gameId}`} state={data}>
+                  <Link
+                    to={`/detail/${data.gameId}`}
+                    state={data}
+                    style={{ textDecoration: "none" }}
+                  >
                     <Card sx={{ width: "20vw" }}>
                       <CardActionArea>
                         <CardMedia
@@ -362,7 +374,11 @@ const Main = () => {
                   key={index}
                   style={{ height: "9vh", width: "25vw" }}
                 >
-                  <Link to={`/detail/${data.gameId}`} state={data}>
+                  <Link
+                    to={`/detail/${data.gameId}`}
+                    state={data}
+                    style={{ textDecoration: "none" }}
+                  >
                     <Card sx={{ width: "20vw" }}>
                       <CardActionArea>
                         <CardMedia
@@ -427,7 +443,11 @@ const Main = () => {
                   key={index}
                   style={{ height: "9vh", width: "25vw" }}
                 >
-                  <Link to={`/detail/${data.gameId}`} state={data}>
+                  <Link
+                    to={`/detail/${data.gameId}`}
+                    state={data}
+                    style={{ textDecoration: "none" }}
+                  >
                     <Card sx={{ width: "20vw" }}>
                       <CardActionArea>
                         <CardMedia
