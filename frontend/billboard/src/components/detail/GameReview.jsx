@@ -169,7 +169,7 @@ const GameReview = (props) => {
               label="리뷰"
             />
             <hr />
-            <Button type="submit">제출</Button>
+            <Button type="submit">예약</Button>
           </Box>
         </Box>
       </Modal>

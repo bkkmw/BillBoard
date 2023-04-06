@@ -9,6 +9,7 @@ import { Navigate, useNavigate } from "react-router";
 import { selectUser } from "../../store/user";
 import { fontSize } from "@mui/system";
 import Animation3 from "../lottie/Animation3";
+import httpClient from "../../utils/axios";
 
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
@@ -81,14 +82,14 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
     if (data) {
       dispatch(correctRoom({ values: values, roomId: roomId }))
         .then((res) => {
-          // console.log(res);
+          console.log(res);
           setModalOpen(false);
         })
         .catch((error) => {
           console.log(error);
         });
     } else {
-      console.log(values)
+      console.log('방만들기')
       dispatch(makeRoom({ ...values, hostId: userId }))
         .then((res) => {
           console.log(res);
@@ -96,8 +97,11 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
         .catch((error) => {
           console.log(error);
         });
+
+
+  }
     }
-  };
+  ;
   return (
     <>
       <Form
@@ -178,7 +182,7 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
               fontSize: "1.5rem",
             }}
           >
-            제출
+            예약
           </Button>
         </Form.Item>
       </Form>

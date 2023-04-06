@@ -48,11 +48,12 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
   }, [selectgameInfo]);
   return (
     <>
-      <span
+      <div
         style={{
+          width:"auto",
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-evenly",
+          // justifyContent: "space-evenly",
         }}
       >  <Button
         type="primary"
@@ -62,6 +63,7 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
           height: "6vh",
           display: "flex",
           justifyContent: "center",
+          marginRight:"1vw"
         }}
         onClick={() => { setIsInRecommend(!isInRecommend) }}>
           {isInRecommend ? '검색하기' : '추천받기'}
@@ -71,7 +73,8 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
           label="게임 이름을 입력하시오"
           id="gamesearch"
           inputRef={inputRef}
-          style={{ width: "23vw" }}
+          style={{ width: "23vw", 
+          marginRight:"1vw"}}
         />
         <Button
           style={{ fontSize: "1.5rem", marginRight: "1.2rem" }}
@@ -79,9 +82,9 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
             boards(inputRef.current.value);
           }}
         >
-          제출
+          검색
         </Button>
-      </span>
+      </div>
       <Grid style={{ width: "42vw", height: "50vh", overflowY: "scroll" }}>
         {boardReview.length != 0 ?
           <div
