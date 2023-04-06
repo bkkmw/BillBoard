@@ -24,12 +24,12 @@ const Navbar = () => {
   // 로그아웃 api
   const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
   const doLogout = async () => {
-    if (window.confirm("로그아웃 하실?")) {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
       try {
         const response = await httpClient.post(
           `/users/logout/${loginUser.userId}`
         );
-        console.log("로그아웃", login);
+        // console.log("로그아웃", login);
       } catch (e) {
         console.log(e);
       }

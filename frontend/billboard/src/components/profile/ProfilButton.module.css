@@ -3,4 +3,12 @@
   height: 2.5rem;
   font-size: 1.2rem;
   padding: 0;
+  background-color: #1890ff;
+  color: #fff;
+}
+
+.btn-active {
+  /* active (followed) style */
+  background-color: #52c41a;
+  color: #fff;
 }
