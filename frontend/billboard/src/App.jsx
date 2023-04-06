@@ -42,6 +42,7 @@ function App() {
         if (response != undefined && response.status === 200) {
           return response;
         }
+        return response;
       },
       // 오류응답 처리
       function (error) {
