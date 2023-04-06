@@ -22,6 +22,7 @@ const UserListDrawer = ({ showDrawer, onClose, setOpen, open, addUser }) => {
       .then((res) => {
         // console.log(res)
         if (res.payload.status === 200) {
+          setOpen(false)
           console.log("로그인 성공");
           // userId가 null로 와서 추가해줌
           const userInfo = {
@@ -88,7 +89,7 @@ const UserListDrawer = ({ showDrawer, onClose, setOpen, open, addUser }) => {
                   },
                 ]}
               >
-                <Input.Password placeholder="Please enter user password"/>
+                <Input.Password placeholder="Please enter user password" />
               </Form.Item>
               <Form.Item>
                 <Button type={"primary"} htmlType={"submit"}>

@@ -27,6 +27,7 @@ const Det = () => {
         onOk={handleOk}
         style={{ top: "15%" }}
         width={window.innerWidth * 0.8}
+        footer={null}
       >
         <div>
           <DetailPage />

@@ -35,10 +35,6 @@ const RoomRight = ({showDrawer}) => {
   const [gameDetail, setGameDetail] = useState();
   const [propGameId, setpropGameId] = useState();
   const inputRef = useRef();
-  useEffect(()=>{
-    console.log(gameInfo)
-    setOpenGameResult(false)
-  },[gameInfo])
   return (<>
   <Row>
     {!isInGame?

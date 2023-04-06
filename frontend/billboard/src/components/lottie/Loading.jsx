@@ -3,8 +3,9 @@ import lottie from "lottie-web";
 import loading from "../../assets/78259-loading.json";
 
 const Loading = (porps) => {
-  const container = document.querySelector("#container");
+  
   useEffect(() => {
+    const container = document.querySelector("#loading");
     lottie.loadAnimation({
       container: container,
       renderer: "svg",
@@ -14,7 +15,7 @@ const Loading = (porps) => {
     });
   }, []);
 
-  return <div id="container" style={{}}></div>;
+  return <div id="loading" style={{ width: "auto", height: "50vh" }}></div>;
 };
 
 export default Loading;
