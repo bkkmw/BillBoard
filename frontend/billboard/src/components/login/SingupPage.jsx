@@ -111,7 +111,7 @@ const Singup = () => {
         authKey: authKey,
       });
       // console.log(response.data);
-      if (response.data.status === 200) {
+      if (response.status === 200) {
         alert("이메일 인증 성공!");
       }
     } catch (e) {
