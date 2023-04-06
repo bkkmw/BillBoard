@@ -3,8 +3,9 @@ import lottie from "lottie-web";
 import noting from "../../assets/126314-empty-box-by-partho.json";
 
 const Noting = (porps) => {
-  const container = document.querySelector("#container");
+
   useEffect(() => {
+    const container = document.querySelector("#nothing");
     lottie.loadAnimation({
       container: container,
       renderer: "svg",
@@ -14,7 +15,7 @@ const Noting = (porps) => {
     });
   }, []);
 
-  return <div id="container" style={{}}></div>;
+  return <div id="nothing" style={{ width: "auto", height: "50vh" }}></div>;
 };
 
 export default Noting;

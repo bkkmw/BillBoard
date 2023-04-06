@@ -24,14 +24,12 @@ const Profile = () => {
     const getUser = () => {
       dispatch(userProfile(userId)).then((res) => {
         if (res.payload.userInfo) {
-          console.log(res.payload.userInfo);
           SetUser(res.payload);
         }
       });
     };
     getUser();
   }, [userId]);
-  // console.log("안녕하세용?", user);
   return (
     <div
       style={{

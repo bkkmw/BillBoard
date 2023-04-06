@@ -19,14 +19,14 @@ export default function KakaoMapT({ setLocation }) {
 
         const container = document.getElementById("map");
         const options = {
-          center: new window.kakao.maps.LatLng(38.2313466, 128.2139293),
+          center: new window.kakao.maps.LatLng(37.5012860931305, 127.039604663862),
           level: 1,
         };
         const map = new window.kakao.maps.Map(container, options);
 
         const markerPosition = new window.kakao.maps.LatLng(
-          38.2313466,
-          128.2139293
+          37.5012860931305,
+          127.039604663862
         );
 
         const marker = new window.kakao.maps.Marker({

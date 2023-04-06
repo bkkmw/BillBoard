@@ -46,53 +46,62 @@ const ProfileLatestList = (props) => {
       >
         {recentGames.map((recentgame, index) => {
           return (
+
             <div className={style.flip} key={index}>
-              <div className={style.card}>
-                <div className={style.front}>
-                  <Card sx={{ width: "18vw" }}>
-                    <CardActionArea>
-                      <CardMedia
-                        component="img"
-                        height="320"
-                        image={recentgame.image}
-                        style={{ objectFit: "fill" }}
-                      />
-                      <CardContent>
-                        <Typography
-                          gutterBottom
-                          variant="h5"
-                          component="div"
-                          style={{ height: "3vh", overflowY: "scroll" }}
-                        >
-                          {recentgame.name}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
+              <Link
+                to={`/detail/${recentgame.gameId}`}
+                state={{ gameId: recentgame.gameId, isProps: true }}
+              >
+                <div className={style.card}>
+                  <div className={style.front}>
+
+                    <Card sx={{ width: "18vw" }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="320"
+                          image={recentgame.image}
+                          style={{ objectFit: "fill" }}
+                        />
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            style={{ height: "3vh", overflowY: "scroll" }}
+                          >
+                            {recentgame.name}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+
+                  </div>
+                  <div className={style.back}>
+                    <Card sx={{ width: "18vw" }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="320"
+                          image={recentgame.image}
+                          style={{ objectFit: "fill" }}
+                        />
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            style={{ height: "3vh", overflowY: "scroll" }}
+                          >
+                            {recentgame.name}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+
+                  </div>
                 </div>
-                <div className={style.back}>
-                  <Card sx={{ width: "18vw" }}>
-                    <CardActionArea>
-                      <CardMedia
-                        component="img"
-                        height="320"
-                        image={recentgame.image}
-                        style={{ objectFit: "fill" }}
-                      />
-                      <CardContent>
-                        <Typography
-                          gutterBottom
-                          variant="h5"
-                          component="div"
-                          style={{ height: "3vh", overflowY: "scroll" }}
-                        >
-                          {recentgame.name}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </div>
-              </div>
+              </Link>
             </div>
           );
         })}
@@ -116,7 +125,7 @@ const ProfileLatestList = (props) => {
           );
         })} */}
       </div>
-    </div>
+    </div >
   );
 };
 
