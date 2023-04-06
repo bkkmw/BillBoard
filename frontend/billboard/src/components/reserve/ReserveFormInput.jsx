@@ -92,6 +92,8 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
       console.log('방만들기')
       dispatch(makeRoom({ ...values, hostId: userId }))
         .then((res) => {
+          navigate(`/room/${res.payload.data.roomId}`)  
+          
           console.log(res);
         })
         .catch((error) => {
