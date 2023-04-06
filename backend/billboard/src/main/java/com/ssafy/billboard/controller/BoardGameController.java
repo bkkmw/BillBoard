@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/api/boardgames")
@@ -26,7 +27,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class BoardGameController {
-
+    private static AtomicInteger reviewCount = new AtomicInteger();
     private static final Logger logger = LoggerFactory.getLogger(BoardGameController.class);
     private final BoardGameService boardGameService;
 
@@ -130,9 +131,14 @@ public class BoardGameController {
         HttpStatus status = null;
         Map<String, Object> resultMap = new HashMap<>();
         boolean isRemoved = boardGameService.addBoardGameReview(reviewDto);
+        System.out.println(isRemoved);
         if(!isRemoved)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         status = HttpStatus.OK;
+        if(reviewCount.addAndGet(1) >= 100){
+            boardGameService.sendResetRequest();
+            reviewCount.set(0);
+        }
         return new ResponseEntity<Map<String, Object>>(resultMap, status); //빈 {} 리턴 중
     }
 
@@ -221,6 +227,10 @@ public class BoardGameController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         status = HttpStatus.OK;
+        if(reviewCount.addAndGet(1) >= 100){
+            boardGameService.sendResetRequest();
+            reviewCount.set(0);
+        }
         return new ResponseEntity<Map<String, Object>>(resultMap, status); //빈 {} 리턴 중
     }
 

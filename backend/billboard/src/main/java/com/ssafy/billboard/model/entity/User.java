@@ -70,7 +70,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     public void updateCount(boolean isWin, int playTime) {
         this.matchCount = this.matchCount + 1;
         if(isWin) this.winCount = this.winCount + 1;
-        this.experience = this.experience + (int)(((isWin) ? 1.5 : 1.0) * playTime);
+        this.experience = this.experience + 20 + (int)(((isWin) ? 1.5 : 1.0) * playTime);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

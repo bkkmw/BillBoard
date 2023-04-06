@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -21,8 +20,8 @@ public class JwtTokenProvider {
     private final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
     private final SecretKey SECRET_KEY;
 
-    private final long ACCESS_TOKEN_EXPIRES_AT = 1 * 60 * 1000L;
-    private final long REFRESH_TOKEN_EXPIRES_AT = 1 * 3 * 60 * 1000L;
+    private final long ACCESS_TOKEN_EXPIRES_AT = 5 * 60 * 60 * 1000L;
+    private final long REFRESH_TOKEN_EXPIRES_AT = 7 * 24 * 60 * 60 * 1000L;
 
     public JwtTokenProvider(@Value("${jwt.secret-key}")String key) {
         byte[] keyBytes = Decoders.BASE64.decode(key);
