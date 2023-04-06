@@ -42,8 +42,8 @@ const Main = () => {
   const [gameData, setGameData] = useState({
     name: "",
     maxplaytime: 1000,
-    maxplayers: 5,
-    average: 0,
+    maxplayers: 0,
+    average: 5,
     averageWeight: 0,
     strategy: "",
     family: "",
