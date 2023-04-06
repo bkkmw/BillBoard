@@ -3,6 +3,7 @@ package com.ssafy.billboard.controller;
 import com.ssafy.billboard.model.dto.MailDto;
 import com.ssafy.billboard.model.dto.UserDto;
 import com.ssafy.billboard.model.service.UserService;
+import com.ssafy.billboard.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @Tag(name="[User] User API")
 @Slf4j
 @RequiredArgsConstructor
@@ -35,7 +36,8 @@ public class UserController {
 
         int res = userService.signup(userSignUpDto);
 
-        status = (res >= 0) ? HttpStatus.OK : HttpStatus.CONFLICT;
+        status = (res >= 0) ? HttpStatus.OK :
+                (res == -1) ? HttpStatus.CONFLICT : HttpStatus.BAD_REQUEST;
 
         return new ResponseEntity<Void>(status);
     }
@@ -47,13 +49,17 @@ public class UserController {
         Map<String, Object> resultMap = new HashMap<>();
         logger.trace("find user : {}", userId);
 
-        UserDto.UserInfoDto userInfoDto = userService.getUserInfo(userId);
+        String curUserId = SecurityUtil.getUserId();
+        logger.debug("current user ID : {}", curUserId);
 
-        if(userInfoDto == null) {
+        UserDto.UserWithHistoryDto userWithHistoryDto = userService.getUserInfo(curUserId, userId);
+
+        if(userWithHistoryDto == null) {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
-        resultMap.put("userInfo", userInfoDto);
+        resultMap.put("userInfo", userWithHistoryDto.getUserInfoDto());
+        resultMap.put("recentGames", userWithHistoryDto.getRecentGames());
         status = HttpStatus.OK;
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -80,14 +86,16 @@ public class UserController {
         logger.trace("login : {}, {}", userLoginDto.getUserId(), userLoginDto.getPassword());
 
         // Type should be changed
-        UserDto.UserInfoDto userInfoDto = userService.login(userLoginDto);
+        UserDto.UserWithTokenDto userWithTokenDto = userService.login(userLoginDto);
 
-        if(userInfoDto == null){
+        if(userWithTokenDto == null){
             return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
         }
 
         status = HttpStatus.OK;
-        resultMap.put("userInfo", userInfoDto);
+        resultMap.put("userInfo", userWithTokenDto.getUserInfoDto());
+        resultMap.put("accessToken", userWithTokenDto.getAccessToken());
+        resultMap.put("refreshToken", userWithTokenDto.getRefreshToken());
 
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -106,7 +114,7 @@ public class UserController {
     }
 
     @Operation(summary = "check ID duplication", description = ".")
-    @GetMapping("/check_id/{userId}")
+    @GetMapping("/check-id/{userId}")
     public ResponseEntity<?> duplicatedId(@PathVariable("userId") String userId) {
         HttpStatus status = null;
         logger.trace("check ID : {}", userId);
@@ -118,7 +126,7 @@ public class UserController {
     }
 
     @Operation(summary = "Send email with auth key for signup", description = ".")
-    @PostMapping("/email_auth")
+    @PostMapping("/email-auth")
     public ResponseEntity<?> sendAuthEmail(@RequestBody MailDto.MailAuthDto mailAuthDto) {
         HttpStatus status;
         logger.trace("email auth request");
@@ -133,7 +141,7 @@ public class UserController {
     }
 
     @Operation(summary = "check auth key", description = ".")
-    @PostMapping("/check_authkey")
+    @PostMapping("/check-authkey")
     public ResponseEntity<?> checkAuthKey(@RequestBody MailDto.MailCheckDto mailCheckDto) {
         HttpStatus status;
         logger.trace("check email auth key");
@@ -176,5 +184,40 @@ public class UserController {
                 : HttpStatus.NOT_FOUND;
 
         return new ResponseEntity<Void>(status);
+    }
+
+    @Operation(summary = "check user id & pw", description = ".")
+    @PostMapping("/check-password")
+    public ResponseEntity<?> confirmPw(@RequestBody UserDto.UserLoginDto userLoginDto) {
+        HttpStatus status;
+        Map<String, Object> resultMap = new HashMap<>();
+        logger.trace("check user password : {}, {}", userLoginDto.getUserId(), userLoginDto.getPassword());
+
+        UserDto.UserInfoDto userInfoDto = userService.confirmPw(userLoginDto);
+
+        if(userInfoDto == null) return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+
+        status = HttpStatus.OK;
+        resultMap.put("userInfo", userInfoDto);
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @Operation(summary = "search user by keyword(userId)", description = ".")
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<?> searchByUserId(@PathVariable("keyword") String keyword) {
+        HttpStatus status;
+        Map<String, Object> resultMap = new HashMap<>();
+        logger.trace("search user by : {}", keyword);
+
+        List<UserDto.UserInfoDto> userInfoList = userService.searchByUserId(keyword);
+
+        if(userInfoList == null) return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        if(userInfoList.size() == 0) return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
+        resultMap.put("userList", userInfoList);
+        status = HttpStatus.OK;
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 }

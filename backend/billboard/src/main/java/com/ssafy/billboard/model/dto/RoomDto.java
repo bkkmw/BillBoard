@@ -4,6 +4,7 @@ import com.ssafy.billboard.model.entity.Entry;
 import com.ssafy.billboard.model.entity.Reply;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class RoomDto {
         private String title;
         private int personLimit;
         private String location;
+        private String lat;
+        private String lng;
         private Date date;
     }
 
@@ -29,6 +32,8 @@ public class RoomDto {
         private String title;
         private int personLimit;
         private String location;
+        private String lat;
+        private String lng;
         private Date date;
     }
 
@@ -43,6 +48,8 @@ public class RoomDto {
         private int personCount;
         private int personLimit;
         private String location;
+        private String lat;
+        private String lng;
         private Date date;
     }
 
@@ -52,8 +59,17 @@ public class RoomDto {
     @Builder
     public static class RoomDetailInfo {
         private RoomInfo roomInfo;
-        private List<Entry> entries;
-        private List<Reply> replies;
+        private List<EntryInfo> entries;
+        private List<ReplyInfo> replies;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class RoomReservationInfo {
+        private RoomInfo roomInfo;
+        private List<EntryInfo> entries;
     }
 
     @Getter
@@ -61,7 +77,6 @@ public class RoomDto {
     @NoArgsConstructor
     @Builder
     public static class ReplyInput {
-        private long roomId;
         private String content;
         private String userId;
     }
@@ -71,8 +86,10 @@ public class RoomDto {
     @NoArgsConstructor
     @Builder
     public static class ReplyInfo {
+        private long replyId;
         private String content;
         private String userId;
+        private LocalDateTime createdTime;
     }
 
     @Getter
@@ -80,7 +97,14 @@ public class RoomDto {
     @NoArgsConstructor
     @Builder
     public static class EntryInput {
-        private long roomId;
+        private String userId;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class EntryInfo {
         private String userId;
     }
 }

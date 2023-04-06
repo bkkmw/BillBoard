@@ -13,7 +13,12 @@ import { getBoardGames } from "../../store/boardgames";
 import { selectgameroom, setGame } from "../../store/gameroom";
 import Searching from "../lottie/Searching";
 
-const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecommend }) => {
+const GameroomSearch = ({
+  setGameDetail,
+  showModal,
+  setIsInRecommend,
+  isInRecommend,
+}) => {
   const selectgameInfo = useSelector(selectgameroom).gameInfo;
   const dispatch = useDispatch();
   const inputRef = useRef();
@@ -40,8 +45,8 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
     });
   };
   useEffect(() => {
-    console.log(boardReview)
-  }, [boardReview])
+    console.log(boardReview);
+  }, [boardReview]);
   useEffect(() => {
     // boards("");
     // console.log(selectgameInfo);
@@ -50,31 +55,36 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
     <>
       <div
         style={{
-          width:"auto",
+          width: "auto",
           display: "flex",
           flexDirection: "row",
+          marginLeft: "2.5rem",
           // justifyContent: "space-evenly",
         }}
-      >  <Button
-        type="primary"
-        style={{
-          fontSize: "1.5rem",
-          width: "8vw",
-          height: "6vh",
-          display: "flex",
-          justifyContent: "center",
-          marginRight:"1vw"
-        }}
-        onClick={() => { setIsInRecommend(!isInRecommend) }}>
-          {isInRecommend ? '검색하기' : '추천받기'}
+      >
+        {" "}
+        <Button
+          type="primary"
+          style={{
+            fontSize: "1.5rem",
+            width: "8vw",
+            height: "6vh",
+            display: "flex",
+            justifyContent: "center",
+            marginRight: "1vw",
+          }}
+          onClick={() => {
+            setIsInRecommend(!isInRecommend);
+          }}
+        >
+          {isInRecommend ? "검색하기" : "추천받기"}
         </Button>
         <TextField
           fullWidth
           label="게임 이름을 입력하시오"
           id="gamesearch"
           inputRef={inputRef}
-          style={{ width: "23vw", 
-          marginRight:"1vw"}}
+          style={{ width: "23vw", marginRight: "1vw" }}
         />
         <Button
           style={{ fontSize: "1.5rem", marginRight: "1.2rem" }}
@@ -86,7 +96,7 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
         </Button>
       </div>
       <Grid style={{ width: "42vw", height: "50vh", overflowY: "scroll" }}>
-        {boardReview.length != 0 ?
+        {boardReview.length != 0 ? (
           <div
             style={{
               width: "42vw",
@@ -94,6 +104,7 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
               flexWrap: "wrap",
               gap: "2rem",
               paddingLeft: "1.3rem",
+              marginTop: "1.5rem",
             }}
           >
             {boardReview.map((game, i) => (
@@ -166,9 +177,13 @@ const GameroomSearch = ({ setGameDetail, showModal, setIsInRecommend, isInRecomm
                 </CardActionArea>
               </Card>
             ))}
-          </div> : <div>
-
-            <Searching />찾고싶은 게임명을 입력하세요</div>}
+          </div>
+        ) : (
+          <div>
+            <Searching />
+            찾고싶은 게임명을 입력하세요
+          </div>
+        )}
       </Grid>
     </>
   );

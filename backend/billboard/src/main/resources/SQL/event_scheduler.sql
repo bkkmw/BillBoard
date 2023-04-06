@@ -1,0 +1,13 @@
+CREATE EVENT clear_room
+ON SCHEDULE EVERY 1 DAY
+STARTS '2023-03-29 00:00:00'
+COMMENT '날짜 지난 방 삭제'
+DO
+DELETE FROM room where date < DATE_ADD(NOW(),INTERVAL -1 DAY) or updatedTime < DATE_ADD(NOW(),INTERVAL -10 DAY);
+
+CREATE EVENT clear_mailauth
+ON SCHEDULE EVERY 1 DAY
+COMMENT 'delete expired email-auth'
+DO
+DELETE FROM `mailauth` WHERE `updatedTime` < DATE_SUB(NOW(), INTERVAL 30 MINUTE);
+;

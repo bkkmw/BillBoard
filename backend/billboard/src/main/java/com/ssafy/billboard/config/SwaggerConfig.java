@@ -13,6 +13,6 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info().title("BILLBOARD")
                         .description("API")
-                        .version("v0.0"));
+                        .version("v1.0"));
     }
 }
