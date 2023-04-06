@@ -252,7 +252,7 @@ public class BoardGameController {
 
     @Scheduled(cron = "0 0/1 * * * *")
     public void checkReviewCount(){
-        if(reviewCount.get() >= 5){
+        if(reviewCount.get() >= 100){
             reviewCount.set(0);
             boardGameService.sendResetRequest();
         }
