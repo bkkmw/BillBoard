@@ -1,16 +1,106 @@
 import { createBrowserRouter } from "react-router-dom";
-import Main from "../components/main/Main";
-import Profile from "../components/profile/Profile";
+
+import App from "../App";
+import Gameroom from "../components/gameroom/Gameroom";
+import Landding from "../components/landding/Landding";
+import Login from "../components/login/LoginPage";
+import Singup from "../components/login/SingupPage";
+import Main from "../components/mainPage/MainPage";
+import Profile from "../components/profile/ProfilePage";
+import Reserve from "../components/reserve/Reserve";
+import ReserveFind from "../components/reserve/ReserveFind";
+import IdFindPage from "../components/login/IdFindPage";
+import PswdFindPage from "../components/login/PswdFindPage";
+import FindResult from "../components/login/FindResultPage";
+import Room from "../components/reserve/Room";
+import DetailPage from "../components/detail/DetailPage";
+import { Link } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Main />,
-    children: [{}],
-  },
-  {
-    path: "profile",
-    element: <Profile />,
-    children: [{}],
+    element: <App />,
+    children: [
+      // {
+      //   path: "landing",
+      //   element: <Landding />,
+      //   children: [{}],
+      // },
+      {
+        path: "main",
+        element: <Main />,
+
+        children: [{}],
+      },
+      {
+        path: "profile/:userId",
+        element: <Profile />,
+        children: [{}],
+        id: "profile",
+        loader: async ({ params }) => {
+          return params.userId;
+        },
+      },
+      {
+        path: "gameroom",
+        element: <Gameroom />,
+        children: [{}],
+      },
+
+      // {
+      //   path: "reserve",
+      //   element: <Reserve />,
+      //   children: [{}],
+      // },
+      {
+        path: "room/:roomId",
+        element: <Room />,
+        id: "room",
+        children: [{}],
+        loader: async ({ params }) => {
+          return params.roomId;
+        },
+      },
+      {
+        path: "detail/:gameId",
+        element: <DetailPage />,
+        id: "detail",
+        children: [{}],
+        loader: async ({ params }) => {
+          return params.gameId;
+        },
+      },
+      {
+        path: "reserve",
+        element: <ReserveFind />,
+        children: [{}],
+      },
+
+      {
+        path: "login",
+        element: <Login />,
+        children: [{}],
+      },
+      {
+        path: "singup",
+        element: <Singup />,
+        children: [{}],
+      },
+      {
+        path: "IdFindPage",
+        element: <IdFindPage />,
+        children: [{}],
+      },
+      {
+        path: "PswdFindPage",
+        element: <PswdFindPage />,
+        children: [{}],
+      },
+      {
+        path: "FindResult",
+        element: <FindResult />,
+        children: [{}],
+      },
+    ],
   },
 ]);
 

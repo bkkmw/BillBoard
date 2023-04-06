@@ -950,6 +950,7 @@ public class BoardGameServiceImpl implements BoardGameService{
         return true;
     }
 
+
     
     public List<BoardGame> makeQuery(String[] str,String[] value,String name,int maxplaytime,int maxplayers,
                                      double average,double averageweight) {
@@ -1005,7 +1006,7 @@ public class BoardGameServiceImpl implements BoardGameService{
 
 
 
-    @Scheduled(cron = "0 0 0/3 * * *")
+    @Scheduled(cron = "0 0 0/2 * * *")
     public void sendResetRequest(){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
