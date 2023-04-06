@@ -20,7 +20,7 @@ const ProfileInfo = (props) => {
   const userId = useRouteLoaderData("profile");
   const user = props.user;
   const [myprofile, setMyProfile] = useState(true);
-
+  const navigate = useNavigate();
   const { loginUser } = useSelector((state) => state.user);
   const nickname = props.user.userInfo.nickname;
   const username = props.user.userInfo.userId;
@@ -32,6 +32,7 @@ const ProfileInfo = (props) => {
         // console.log(response.data);
         if (response.data.status === 200) {
           alert("회원 탈퇴 되었습니다.");
+          navigate("/login");
         }
       } catch (e) {
         console.log(e);
