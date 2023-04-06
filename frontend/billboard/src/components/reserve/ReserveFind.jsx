@@ -122,7 +122,7 @@ const ReserveFind = () => {
                   alignItems: "center",
                 }}
               >
-                {address === "" ? "지역별" : address}
+                {address === "" ? "거리순" : address}
               </Button>
             </Col>
 
@@ -147,9 +147,8 @@ const ReserveFind = () => {
                     paddingRight: "2rem",
                     paddingLeft: "2rem",
                   }}
-                  className={`san ${
-                    item === date.toLocaleDateString() && "list_item_select"
-                  }`}
+                  className={`san ${item === date.toLocaleDateString() && "list_item_select"
+                    }`}
                   onClick={() => {
                     setDate(new Date(item));
                   }}
@@ -201,9 +200,8 @@ const ReserveFind = () => {
               dataSource={sortedRooms}
               renderItem={(item) => (
                 <List.Item
-                  className={`list_item_hover ${
-                    item === date.toLocaleDateString() && "list_item_select"
-                  }`}
+                  className={`list_item_hover ${item === date.toLocaleDateString() && "list_item_select"
+                    }`}
                   style={{
                     padding: "1.5rem",
                     textAlign: "start",

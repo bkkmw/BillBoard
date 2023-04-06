@@ -60,8 +60,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectgameroom, setGameroomInit } from "../../store/gameroom";
 import { Col, Drawer, Row, theme } from "antd";
 import GameChoice from "./GameChoice";
+
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 const Gameroom = () => {
+  const gameInfo = useSelector(selectgameroom).gameInfo
   const { token } = theme.useToken();
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
@@ -74,6 +76,9 @@ const Gameroom = () => {
   const endGame = () => {
     dispatch(setGameroomInit())
   }
+  useEffect(()=>{
+    setOpen(false)
+  },[gameInfo])
   return (
     <div
       style={{
@@ -91,7 +96,8 @@ const Gameroom = () => {
       }}
     >
       <Row>
-        <Col span={12}><RoomLeft /></Col>
+        <Col span={6}><RoomLeft /></Col>
+        <Col span={6}></Col>
         <Col span={12}><RoomRight showDrawer={showDrawer}/></Col>
         <Drawer
         placement="right"

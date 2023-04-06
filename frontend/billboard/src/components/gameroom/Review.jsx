@@ -63,7 +63,7 @@ const Review = ({ isReviewOpen, setIsReviewOpen, userId, gameHistory }) => {
     };
     return (
         <div>
-            <Modal title="리뷰작성" open={isReviewOpen} onCancel={() => { setIsReviewOpen(false) }}>
+            <Modal footer={null} title="리뷰작성" open={isReviewOpen} onCancel={() => { setIsReviewOpen(false) }}>
 
                 {gameHistory && useId && <>
                     <Form
@@ -98,7 +98,7 @@ const Review = ({ isReviewOpen, setIsReviewOpen, userId, gameHistory }) => {
                             }}
                         >
                             <Button type="primary" htmlType="submit">
-                                Submit
+                                제출
                             </Button>
                         </Form.Item>
                     </Form>

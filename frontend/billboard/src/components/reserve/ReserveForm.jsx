@@ -17,7 +17,7 @@ const ReserveForm = ({ data, roomId, setModalOpen }) => {
     // console.log(userId)
   }, []);
   useEffect(() => {
-    // console.log(location)
+    console.log(location)
   }, [location]);
   const modal = document.getElementById("modal");
   return (
