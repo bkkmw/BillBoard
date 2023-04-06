@@ -60,22 +60,22 @@ const Navbar = () => {
               )}
 
               {login && (
+                <Link to={"/main"} className={style.link}>
+                  추천 보드게임
+                </Link>
+              )}
+              {/* {login && (
                 <Link
                   to={"/gameroom"}
                   className={`${style.link} ${style.blur}`}
                 >
                   게임하기{" "}
                 </Link>
-              )}
+              )} */}
 
               {login && (
-                <Link to={"/main"} className={style.link}>
-                  추천 보드게임
-                </Link>
-              )}
-              {login && (
                 <Link to={"/reserve"} className={style.link}>
-                  게임예약
+                  모임 예약
                 </Link>
               )}
               {login && (

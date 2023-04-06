@@ -88,10 +88,10 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
           console.log(error);
         });
     } else {
+      console.log(values)
       dispatch(makeRoom({ ...values, hostId: userId }))
-        .then((data) => {
-          // console.log(data);
-          navigate(`/room/${data.payload.roomId}`, { replace: true });
+        .then((res) => {
+          console.log(res);
         })
         .catch((error) => {
           console.log(error);

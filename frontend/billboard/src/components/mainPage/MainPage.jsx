@@ -12,7 +12,8 @@ import {
   Grid,
   Box,
 } from "@mui/material";
-
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import GameStart from "../GameStart";
 import CardContent from "@mui/material/CardContent";
 import { CardActionArea } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -78,6 +79,7 @@ const Main = () => {
   }, []);
   return (
     <>
+      <GameStart />
       <div style={{ marginTop: "10vh", height: "2vh", width: "80vw" }}>
         <GameSearch
           open={isSearch}
@@ -88,15 +90,24 @@ const Main = () => {
           gameData={gameData}
           search={boards}
         />
+
         <Button
-          size="large"
-          variant="outlined"
-          sx={{ color: "black", borderRadius: "50%" }}
+          style={{
+            position: "fixed",
+            bottom: "9rem",
+            right: "3rem",
+            backgroundColor: "transparent",
+          }}
           onClick={() => {
             setIsSearch(true);
           }}
         >
-          게임 검색
+          <SearchOutlinedIcon
+            sx={{
+              color: "black",
+              fontSize: "100px",
+            }}
+          />
         </Button>
       </div>
       {boardDate && (
@@ -155,7 +166,6 @@ const Main = () => {
                 <SwiperSlide
                   key={index}
                   style={{ height: "10vh", width: "25vw" }}
-                  // style={{ height: "20%", width: "100%" }}
                 >
                   <Link
                     to={`/detail/${data.gameId}`}
@@ -164,9 +174,8 @@ const Main = () => {
                   >
                     <Card
                       sx={{
+                        borderRadius: "2rem",
                         width: "20vw",
-                        // height: "100%",
-                        // borderRadius: "3rem",
                       }}
                     >
                       <CardActionArea>
@@ -182,9 +191,6 @@ const Main = () => {
                         />
                         <CardContent>
                           <Typography
-                            // gutterBottom
-                            variant="h5"
-                            component="div"
                             style={{
                               height: "5vh",
                               overflowY: "scroll",
@@ -192,10 +198,6 @@ const Main = () => {
                               justifyContent: "center",
                               alignItems: "center",
                               textDecoration: "none",
-
-                              // maxWidth: "40ch", // 최대 너비를 30ch로 제한
-                              // textOverflow: "ellipsis", // 텍스트가 너비를 초과하는 경우 ...으로 표시
-                              // whiteSpace: "nowrap", // 텍스트 줄 바꿈 방지
                             }}
                           >
                             {data.name}
@@ -255,9 +257,6 @@ const Main = () => {
                         />
                         <CardContent>
                           <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="div"
                             style={{
                               height: "5vh",
                               overflowY: "scroll",
@@ -324,9 +323,6 @@ const Main = () => {
                         />
                         <CardContent>
                           <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="div"
                             style={{
                               height: "5vh",
                               overflowY: "scroll",
@@ -393,9 +389,6 @@ const Main = () => {
                         />
                         <CardContent>
                           <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="div"
                             style={{
                               height: "5vh",
                               overflowY: "scroll",
@@ -462,9 +455,6 @@ const Main = () => {
                         />
                         <CardContent>
                           <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="div"
                             style={{
                               height: "5vh",
                               overflowY: "scroll",

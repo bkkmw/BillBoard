@@ -6,9 +6,11 @@ import { getRoom } from "../../store/reserve";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { display } from "@mui/system";
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 import { Modal } from "antd";
+
+import GameStart from "../GameStart";
 
 import KakaoMapT from "./KakaoMapT";
 import ReserveForm from "./ReserveForm";
@@ -95,6 +97,7 @@ const ReserveFind = () => {
 
   return (
     <div style={{ width: "70vw" }}>
+      <GameStart />
       <Row>
         <Col
           span={6}
@@ -119,7 +122,7 @@ const ReserveFind = () => {
                   alignItems: "center",
                 }}
               >
-                {address === "" ? "지역별" : address}
+                {address === "" ? "거리순" : address}
               </Button>
             </Col>
 
@@ -144,16 +147,14 @@ const ReserveFind = () => {
                     paddingRight: "2rem",
                     paddingLeft: "2rem",
                   }}
-                  className={`san ${
-                    item === date.toLocaleDateString() && "list_item_select"
-                  }`}
+                  className={`san ${item === date.toLocaleDateString() && "list_item_select"
+                    }`}
                   onClick={() => {
                     setDate(new Date(item));
                   }}
                 >
                   {item}
                 </List.Item>
-                
               )}
             />
           </Row>
@@ -199,9 +200,8 @@ const ReserveFind = () => {
               dataSource={sortedRooms}
               renderItem={(item) => (
                 <List.Item
-                  className={`list_item_hover ${
-                    item === date.toLocaleDateString() && "list_item_select"
-                  }`}
+                  className={`list_item_hover ${item === date.toLocaleDateString() && "list_item_select"
+                    }`}
                   style={{
                     padding: "1.5rem",
                     textAlign: "start",
@@ -236,9 +236,11 @@ const ReserveFind = () => {
                         {item.title}
                       </span>
                       <Stack direction="row" spacing={1}>
-      <Chip label={`${item.location}`} />
-      <Chip label={`${item.personCount}/${item.personLimit}`}/>
-    </Stack>
+                        <Chip label={`${item.location}`} />
+                        <Chip
+                          label={`${item.personCount}/${item.personLimit}`}
+                        />
+                      </Stack>
                     </div>
                     {/* {`날짜:${item.date},
                   방장ID:${item.hostID},
