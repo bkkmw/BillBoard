@@ -152,24 +152,7 @@ const GameroomSearch = ({
           inputRef={inputRef}
           style={{ width: "23vw", marginRight: "1vw" }}
         />
-        <Button
-          style={{ fontSize: "1.5rem", marginRight: "1.2rem" }}
-          onClick={() => {
-            boards(inputRef.current.value);
-          }}
-          onClick={() => { setIsInRecommend(!isInRecommend) }}>
-            {isInRecommend ? '검색하기' : '추천받기'}
-          </Button>
-          <TextField
-            fullWidth
-            label="게임 이름을 입력하시오"
-            id="gamesearch"
-            inputRef={inputRef}
-            style={{
-              width: "23vw",
-              marginRight: "1vw"
-            }}
-          />
+
           <Form.Item>
             <Button
               type="primary"
@@ -318,6 +301,7 @@ const GameroomSearch = ({
                         width: "7vw",
                         height: "7vh",
                         overflowY: "scroll",
+                        fontSize:"1vw"
                       }}
                     >
                       {game.name}

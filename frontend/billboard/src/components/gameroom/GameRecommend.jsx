@@ -13,6 +13,7 @@ import { selectgameroom, setGame } from "../../store/gameroom";
 import Noting from "../lottie/Noting";
 import Animation4 from "../lottie/Animation4";
 import Loading from "../lottie/Loading";
+import { Row } from "antd";
 
 const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecommend }) => {
   const players = useSelector(selectgameroom).players;
@@ -29,7 +30,7 @@ const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecomme
     const data = players.map((player) => player.userId);
     // console.log(data)
     dispatch(getCombiRecom({ userList: data })).then((res) => {
-      setIsLoading(false)
+      // setIsLoading(false)
       if (res.payload.status === 200) {
         setBoardReview(res.payload.data.games)
       }
@@ -44,7 +45,8 @@ const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecomme
   return (
     <div>{isLoading?
     <>
-    {players.map((player)=>{return(<>{player.userId}님 </>)})}의 취향을 종합해 결과를 받아오는중입니다
+  
+    {players.length}인의 취향을 종합해 결과를 받아오는중입니다
     <Loading/></>:<>
       
       <Button
@@ -107,6 +109,7 @@ const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecomme
                         width: "7vw",
                         height: "7vh",
                         overflowY: "scroll",
+                        fontSize:"1vw"
                       }}
                     >
                       {game.name}
@@ -121,6 +124,7 @@ const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecomme
                           width: "4vw",
                           height: "4vh",
                           marginTop: "1.5vh",
+                      
                         }}
                       >
                         해제
