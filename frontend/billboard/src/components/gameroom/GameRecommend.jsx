@@ -30,7 +30,7 @@ const GameRecommend = ({ setpropGameId, showModal, setIsInRecommend, isInRecomme
     const data = players.map((player) => player.userId);
     // console.log(data)
     dispatch(getCombiRecom({ userList: data })).then((res) => {
-      // setIsLoading(false)
+      setIsLoading(false)
       if (res.payload.status === 200) {
         setBoardReview(res.payload.data.games)
       }
