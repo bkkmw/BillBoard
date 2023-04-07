@@ -30,7 +30,7 @@ const UserEmail = () => {
           required: "이메일을 입력해주세요",
           pattern: {
             value: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
-            message: "이메일 형식 = ~~~@~~~.com",
+            message: "올바르지 않은 이메일 형식입니다",
           },
         }}
       />
