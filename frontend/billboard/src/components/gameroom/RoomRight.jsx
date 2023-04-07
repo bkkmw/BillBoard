@@ -40,7 +40,7 @@ const RoomRight = ({showDrawer}) => {
     {!isInGame?
     <Row>
       <Col span={24}>
-        {gameInfo.name?<h1>다음 플레이할 게임: {gameInfo.name}</h1>:<h1>플레이할 게임을 선택해 주세요</h1>}
+        {gameInfo.name?<h1> 게임을 플레이 하세요! </h1>:<h1>플레이할 게임을 선택해 주세요</h1>}
         
       </Col>
       <Col span={24}>

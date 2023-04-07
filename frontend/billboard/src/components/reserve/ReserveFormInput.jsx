@@ -22,8 +22,9 @@ const range = (start, end) => {
 };
 // eslint-disable-next-line arrow-body-style
 const disabledDate = (current) => {
+  console.log(current)
   // Can not select days before today and today
-  return current && current < dayjs().endOf("day");
+  return current && current < dayjs().add(-1, "day").endOf("day");
 };
 
 const { TextArea } = Input;

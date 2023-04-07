@@ -63,6 +63,7 @@ import GameChoice from "./GameChoice";
 
 
 import GameSearch from "./GameSearch";
+import GameSelectInfo from "./GameSelectInfo";
 const Gameroom = () => {
   const [isSearch, setIsSearch] = useState(false);
   const gameInfo = useSelector(selectgameroom).gameInfo
@@ -97,7 +98,7 @@ const Gameroom = () => {
     >
       <Row>
         <Col span={6}><RoomLeft /></Col>
-        <Col span={6}></Col>
+        <Col span={6}><GameSelectInfo/></Col>
         <Col span={12}><RoomRight showDrawer={showDrawer} /></Col>
         <Drawer
           placement="right"

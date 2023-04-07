@@ -22,7 +22,7 @@ const GameVide = (props) => {
       }
     };
     youtube();
-  }, []);
+  }, [props]);
   // 유튜브 옵션
   const opts = {
     height: "390",
