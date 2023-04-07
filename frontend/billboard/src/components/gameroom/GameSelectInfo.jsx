@@ -12,14 +12,15 @@ import { CardActionArea } from "@mui/material";
 
 const GameSelectInfo = () => {
   const gameInfo = useSelector(selectgameroom).gameInfo
+  const isInGame = useSelector(selectgameroom).isInGame
   useEffect(()=>{
     console.log(gameInfo)
   },[gameInfo])
   return (
-    <div>
+    <div style={{marginLeft:"3vw", width:"18vw"}}>
       {gameInfo.image&&<>
-      <h1> 다음 플레이할 게임 </h1>
-        <Card sx={{ width: "18vw" }}>
+      <h1> {isInGame?'현재 플레이중인 게임':'다음 플레이할 게임'} </h1>
+        <Card sx={{ width: "18vw", borderRadius:"2rem" }}>
           <CardActionArea>
             <CardMedia
               component="img"

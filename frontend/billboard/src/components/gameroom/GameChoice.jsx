@@ -58,9 +58,11 @@ export default function GameChoice() {
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
+      footer={null}
       bodyStyle={{
         overflowY: "auto",
         maxHeight: `${window.innerHeight * 0.8}`,
+        
       }}
       width={window.innerWidth * 0.8}
     >
