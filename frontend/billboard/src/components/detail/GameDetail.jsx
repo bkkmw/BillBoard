@@ -123,7 +123,7 @@ const GameDetail = (props) => {
         </div>
         <div className={stlyes.background5}>
           <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
-            {`${props.details.minplayers} ~ ${props.details.maxplayers} 명`}
+            {`최대 ${props.details.maxplayers} 명`}
           </span>
           <span style={{ fontSize: "2rem", fontWeight: "bolder" }}>
             {" "}
