@@ -14,7 +14,7 @@ const RoomLocation = ({ lat, lng }) => {
       kakao.maps.load(function () {
         let markers = [];
 
-        const container = document.getElementById("map");
+        const container = document.getElementById("roommap");
         const options = {
           center: new window.kakao.maps.LatLng(lat, lng),
           level: 1,
@@ -193,7 +193,7 @@ const RoomLocation = ({ lat, lng }) => {
   }, []);
   return (
     <S.MapSection className="map_wrap" isOpen={isOpen}>
-      <div id="map"></div>
+      <div id="roommap"></div>
     </S.MapSection>
   );
 };

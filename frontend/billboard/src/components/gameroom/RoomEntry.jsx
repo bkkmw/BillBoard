@@ -16,7 +16,7 @@ const RoomEntry = ({ isModalOpen, handleCancel, rooms, addEntry }) => {
   return (
     <div>
       <>
-        <Modal title="Basic Modal" open={isModalOpen} onCancel={handleCancel}>
+        <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
           {rooms && (
             <>
               <Collapse accordion>

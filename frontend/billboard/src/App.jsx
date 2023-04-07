@@ -26,7 +26,13 @@ function App() {
 
   // 로그아웃시 내브바가 안사라지는 이슈
   function excludeHeader() {
-    if (location.pathname.startsWith("/login")) return true;
+    if (
+      location.pathname.startsWith("/login") ||
+      location.pathname.startsWith("/PswdFindPage") ||
+      location.pathname.startsWith("/IdFindPage") ||
+      location.pathname.startsWith("/singup")
+    )
+      return true;
     else return false;
   }
   // jwt 토큰
