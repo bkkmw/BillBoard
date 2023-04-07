@@ -79,7 +79,7 @@ const GameroomSearch = ({
   const boards = (data) => {
 
     dispatch(getBoardGames(data)).then((response) => {
-      // console.log(response);
+      console.log(response);
       setBoardReview(response.payload["review"]);
       openNotification('right')
     });
