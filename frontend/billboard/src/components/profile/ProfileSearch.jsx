@@ -33,7 +33,7 @@ const ProfileSearch = () => {
     <>
       <Button
         style={{
-          position: "fixed",
+          position: "absolute",
           top: "17rem",
           right: "20rem",
           backgroundColor: "transparent",
