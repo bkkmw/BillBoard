@@ -44,7 +44,7 @@ const Main = () => {
     maxplaytime: 1000,
     maxplayers: 0,
     average: 5,
-    averageWeight: 0,
+    averageWeight: 5,
     strategy: "",
     family: "",
     party: "",
