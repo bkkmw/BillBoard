@@ -186,6 +186,20 @@ export const deleteReviews = createAsyncThunk(
     }
   }
 );
+// 보드게임 비디오 저장
+export const updateVideo = createAsyncThunk(
+  "boardgames/updateVideo",
+  async (data) => {
+    try {
+      const response = await httpClient.put(`boardgames/video/${data.gameId}`, {
+        video: data.videoUrl
+      });
+      return response
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
 
 const initialState = {};
 const boardgamesSlice = createSlice({
