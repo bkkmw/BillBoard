@@ -106,6 +106,7 @@ const GameReview = (props) => {
       style: {
         wordBreak: "keep-all",
       },
+      ellipsis: true,
     },
     {
       key: "delete",
