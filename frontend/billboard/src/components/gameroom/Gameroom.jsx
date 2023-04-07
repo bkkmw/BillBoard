@@ -1,34 +1,121 @@
+// import React, { useEffect, useState } from "react";
+// import { Link } from "react-router-dom";
+// import { Button, Col, Row } from "antd";
+// import UserList from "./UserList";
+// import GameResult from "./GameResult";
+// import { useDispatch } from "react-redux";
+
+// const Gameroom = () => {
+//   const dispatch = useDispatch();
+//   
+//   const [userList, setUserList] = useState([]);
+//   const [isInGame, setIsInGame] = useState(false);
+
+//   const delUser = (id) => {
+//     const newUserList = userList.filter((user) => {
+//       return user.id !== id;
+//     });
+//     setUserList(newUserList);
+//   };
+//   return (
+//     <div>
+//       <Row>
+//         <Col span={12}>
+//           <UserList userList={userList} delUser={delUser}></UserList>
+//         </Col>
+//       </Row>
+
+//       {isInGame === false ? (
+//         <Button
+//           onClick={() => {
+//             setIsInGame(true);
+//           }}
+//         >
+//           게임시작
+//         </Button>
+//       ) : (
+//         <>
+//           <Button
+//             onClick={() => {
+//               setOpenGameResult(true);
+//             }}
+//           >
+//             게임 결과 입력
+//           </Button>
+
+//         </>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Gameroom;
+
 import React, { useEffect, useState } from "react";
+import RoomLeft from "./RoomLeft";
+import RoomRight from "./RoomRight";
 import { Link } from "react-router-dom";
-import { Button, Col, Row } from 'antd';
-import UserList from "./UserList";
-import GameResult from "./GameResult";
+import { Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { selectgameroom, setGameroomInit } from "../../store/gameroom";
+import { Col, Drawer, Row, theme } from "antd";
+import GameChoice from "./GameChoice";
 
 
-
+import GameSearch from "./GameSearch";
+import GameSelectInfo from "./GameSelectInfo";
 const Gameroom = () => {
-  const [isInGame, setIsInGame] = useState(false)
-  const [userList, setUserList] = useState([{id:'user1', score:0},{id:'user2',score:0},{id:'user3',score:0}])
-  const [openGameResult, setOpenGameResult] = useState(false)
+  const [isSearch, setIsSearch] = useState(false);
+  const gameInfo = useSelector(selectgameroom).gameInfo
+  const { token } = theme.useToken();
+  const [open, setOpen] = useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+  const dispatch = useDispatch()
 
-  
-  const delUser = (id) =>{
-    const newUserList = userList.filter((user) => {
-      return user.id !== id
-    })
-    setUserList(newUserList)
-  }
+  useEffect(() => {
+    setOpen(false)
+  }, [gameInfo])
   return (
-    <div>
+    <div
+      style={{
+        position: 'relative',
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        width: "85vw",
+        height: "70vh",
+        marginTop: "12vh",
+        border: "2rem solid #d9d9d9",
+        borderRadius: "3rem",
+        background: token.colorFillAlter,
+        overflow: 'hidden',
+      }}
+    >
       <Row>
-        <Col span={12}>
-        <UserList userList={userList} delUser={delUser}></UserList>
-        </Col>
+        <Col span={6}><RoomLeft /></Col>
+        <Col span={6}><GameSelectInfo/></Col>
+        <Col span={12}><RoomRight showDrawer={showDrawer} /></Col>
+        <Drawer
+          placement="right"
+          closable={false}
+          onClose={onClose}
+          open={open}
+          getContainer={false}
+          width={850}
+
+        >
+          <GameChoice />
+
+        </Drawer>
       </Row>
-      
-      
-      {isInGame===false?<Button onClick={()=>{setIsInGame(true)}}>게임시작</Button>:<><Button onClick={()=>{setOpenGameResult(true)}}>게임 결과 입력</Button><GameResult isModalOpen={openGameResult} setIsModalOpen={setOpenGameResult} userList={userList} setUserList={setUserList} setIsInGame={setIsInGame}/></>
-      }
+
+
+
     </div>
   );
 };

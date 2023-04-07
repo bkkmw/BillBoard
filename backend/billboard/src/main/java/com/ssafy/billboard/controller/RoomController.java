@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/room")
+@RequestMapping("/api/rooms")
 @RequiredArgsConstructor
 public class RoomController {
 
@@ -20,9 +20,12 @@ public class RoomController {
 
     @PostMapping()
     public ResponseEntity<?> createRoom(@RequestBody RoomDto.RoomInput roomInput){
-        if(roomService.createRoom(roomInput))
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Map<String, Object> resultMap = new HashMap<>();
+        long roomId = roomService.createRoom(roomInput);
+        if(roomId == -1)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        resultMap.put("roomId", roomId);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @GetMapping()
@@ -59,14 +62,14 @@ public class RoomController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/reply")
-    public ResponseEntity<?> createReply(@RequestBody RoomDto.ReplyInput replyInput){
-        if(roomService.createReply(replyInput))
+    @PostMapping("/{roomId}/replies")
+    public ResponseEntity<?> createReply(@PathVariable long roomId, @RequestBody RoomDto.ReplyInput replyInput){
+        if(roomService.createReply(roomId, replyInput))
             return new ResponseEntity<>(HttpStatus.CREATED);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/reply/{roomId}")
+    @GetMapping("/{roomId}/replies")
     public ResponseEntity<?> getReplies(@PathVariable long roomId){
         Map<String, Object> resultMap = new HashMap<>();
         List<RoomDto.ReplyInfo> replies = roomService.getReplies(roomId);
@@ -78,16 +81,16 @@ public class RoomController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
-    @DeleteMapping("/reply/{replyId}")
+    @DeleteMapping("/replies/{replyId}")
     public ResponseEntity<?> deleteReply(@PathVariable long replyId){
         if(roomService.deleteReply(replyId))
             return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/entry")
-    public ResponseEntity<?> createEntry(@RequestBody RoomDto.EntryInput entryInput){
-        int res = roomService.createEntry(entryInput);
+    @PostMapping("/{roomId}/entries")
+    public ResponseEntity<?> createEntry(@PathVariable long roomId, @RequestBody RoomDto.EntryInput entryInput){
+        int res = roomService.createEntry(roomId, entryInput.getUserId());
         if(res == 1)
             return new ResponseEntity<>(HttpStatus.CREATED);
         else if(res == 0)
@@ -98,10 +101,28 @@ public class RoomController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @DeleteMapping("/entry")
-    public ResponseEntity<?> deleteEntry(@RequestBody RoomDto.EntryInput entryInput){
-        if(roomService.deleteEntry(entryInput))
+    @DeleteMapping("/{roomId}/entries")
+    public ResponseEntity<?> deleteEntry(@PathVariable long roomId, @RequestBody RoomDto.EntryInput entryInput){
+        int res = roomService.deleteEntry(roomId, entryInput.getUserId());
+        if(res == 1)
             return new ResponseEntity<>(HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == 0)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else if(res == -1)
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping("/entries/{userId}")
+    public ResponseEntity<?> getRoomsByEntry(@PathVariable String userId){
+        Map<String, Object> resultMap = new HashMap<>();
+        List<RoomDto.RoomReservationInfo> rooms = roomService.getRoomsByUserId(userId);
+        if(rooms == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(rooms.size() == 0)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        resultMap.put("rooms", rooms);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 }

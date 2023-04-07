@@ -1,6 +1,9 @@
 package com.ssafy.billboard.model.entity;
 
+import com.ssafy.billboard.util.BaseTimeEntity;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -10,19 +13,24 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class Reply {
+public class Reply extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private long replyId;
 
-    @Column(nullable = false)
-    private long roomId;
+    @ManyToOne
+    @JoinColumn(name = "roomId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Room room;
 
-    @Column
+    @Column(length = 60)
     private String content;
 
-    @Column(nullable = false)
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
+
 }
