@@ -90,11 +90,14 @@ const GameReview = (props) => {
       key: "userId",
       title: "아이디",
       dataIndex: "userId",
+      width: "20%",
     },
     {
       key: "rating",
       title: "평점",
       dataIndex: "rating",
+      width: "10%",
+      ellipsis: true,
     },
     {
       key: "review",
@@ -115,6 +118,7 @@ const GameReview = (props) => {
           );
         }
       },
+      width: "7%",
     },
   ];
 
