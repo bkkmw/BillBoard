@@ -54,11 +54,8 @@ const ProfileInfo = (props) => {
         </span>
         <ProfileExp user={user} />
         <div className={style.background3}>
-          {/* {myprofile && <ProfileFollowing />} */}
-          {/* {myprofile && <ProfileFollower />} */}
           <ProfileFollowing />
           <ProfileFollower />
-          {<ProfileSearch />}
           {myprofile && (
             <Button onClick={deleteUser} sx={{ color: "red" }}>
               회원 탈퇴
@@ -67,6 +64,7 @@ const ProfileInfo = (props) => {
           <div className={style.background4}>
             {!myprofile && <ProfilButton />}
           </div>
+          {<ProfileSearch />}
         </div>
       </div>
     </div>

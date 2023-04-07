@@ -22,8 +22,9 @@ const range = (start, end) => {
 };
 // eslint-disable-next-line arrow-body-style
 const disabledDate = (current) => {
+  console.log(current)
   // Can not select days before today and today
-  return current && current < dayjs().endOf("day");
+  return current && current < dayjs().add(-1, "day").endOf("day");
 };
 
 const { TextArea } = Input;
@@ -38,7 +39,17 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
     disabledMinutes: () => range(30, 60),
     disabledSeconds: () => [55, 56],
   });
+
   useEffect(() => {
+    console.log(location)
+    if (location.address_name) {
+      inputRef.current?.setFieldsValue({
+        location: `${location.address_name}`,
+      });
+    }
+  }, [location]);
+  useEffect(() => {
+    console.log(data)
     if (data) {
       inputRef.current?.setFieldsValue({
         title: `${data.title}`,
@@ -47,13 +58,6 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
       });
     }
   }, []);
-  useEffect(() => {
-    if (location) {
-      inputRef.current?.setFieldsValue({
-        location: `${location.road_address_name}`,
-      });
-    }
-  }, [location]);
   const disabledRangeTime = (_, type) => {
     if (type === "start") {
       return {
@@ -92,8 +96,8 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
       console.log('방만들기')
       dispatch(makeRoom({ ...values, hostId: userId }))
         .then((res) => {
-          navigate(`/room/${res.payload.data.roomId}`)  
-          
+          navigate(`/room/${res.payload.data.roomId}`)
+
           console.log(res);
         })
         .catch((error) => {
@@ -101,9 +105,9 @@ const ReserveFormInput = ({ location, data, roomId, setModalOpen }) => {
         });
 
 
-  }
     }
-  ;
+  }
+    ;
   return (
     <>
       <Form

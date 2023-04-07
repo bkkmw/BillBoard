@@ -41,6 +41,7 @@ const GameResult = ({ isModalOpen, setIsModalOpen }) => {
       users: players.map((player) => player.userId),
       winners: winners.map((player) => player.userId),
       playTime: playTime,
+      // playTime:100
     };
     dispatch(postGameHistory(data))
       .then((res) => {
