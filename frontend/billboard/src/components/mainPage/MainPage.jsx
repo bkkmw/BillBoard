@@ -64,7 +64,7 @@ const Main = () => {
   const [boardDate, setBoardDate] = useState([]);
   const boards = (data) => {
     dispatch(getBoardGames(data)).then((response) => {
-      // console.log(response)
+      console.log(response)
       setBoardAverage(response.payload["average"]);
       setBoardRanking(response.payload["rank"]);
       setBoardWeight(response.payload["weights"]);

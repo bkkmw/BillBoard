@@ -726,23 +726,22 @@ const Room = () => {
             </MenuItem>
 
           </Menu>
-
-          <Modal
-            footer={null}
-            bodyStyle={{ height: window.innerHeight * 0.8 }}
-            open={modalOpen}
-            title="Basic Modal"
-            width={window.innerWidth * 0.8}
-            onCancel={() => {
-              setModalOpen(false);
-            }}
-          >
-            <ReserveForm
-              data={roomData.roomInfo}
-              roomId={roomId}
-              setModalOpen={setModalOpen}
-            />
-          </Modal>
+          <div id="modal">
+            <Modal
+              footer={null}
+              bodyStyle={{ height: window.innerHeight * 0.8 }}
+              open={modalOpen}
+              width={window.innerWidth * 0.8}
+              onCancel={() => {
+                setModalOpen(false);
+              }}
+            >
+              <ReserveForm
+                data={roomData.roomInfo}
+                roomId={roomId}
+                setModalOpen={setModalOpen}
+              />
+            </Modal></div>
         </Box>
 
 

@@ -19,6 +19,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useRouteLoaderData } from "react-router";
 
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
+
 const boxstyle = {
   position: "absolute",
   top: "50%",
@@ -90,11 +92,14 @@ const GameReview = (props) => {
       key: "userId",
       title: "아이디",
       dataIndex: "userId",
+      width: "20%",
     },
     {
       key: "rating",
       title: "평점",
       dataIndex: "rating",
+      width: "10%",
+      ellipsis: true,
     },
     {
       key: "review",
@@ -103,6 +108,7 @@ const GameReview = (props) => {
       style: {
         wordBreak: "keep-all",
       },
+      ellipsis: true,
     },
     {
       key: "delete",
@@ -115,21 +121,23 @@ const GameReview = (props) => {
           );
         }
       },
+      width: "7%",
     },
   ];
 
   return (
     <div>
-      <Grid display="flex">
+      <Grid display="flex" justifyContent="space-between">
         <Typography fontSize="3rem" align="left" className={style.font}>
           리뷰
         </Typography>
+
         <Button
-          size="large"
-          type="primary"
+          // size="large"
+          // type="primary"
           onClick={() => setIsReviewOpen(true)}
         >
-          댓글달기
+          <ControlPointIcon sx={{ fontSize: "80px", color: "black" }} />
         </Button>
       </Grid>
       <Review
