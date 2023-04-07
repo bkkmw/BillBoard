@@ -130,7 +130,7 @@ const UserList = () => {
   };
 
   return (
-    <div>
+    <div style={{marginLeft:"4vw"}}>
       <Row>
         <h1>플레이어</h1>   <ExitToAppIcon style={{ height: "auto", marginLeft: "1vh" }} onClick={() => {
           endGame()
@@ -162,7 +162,7 @@ const UserList = () => {
                       >
                         <Avatar src={`https://avatars.dicebear.com/api/identicon/${user.userId}.svg`} />
                       </IconButton></Tooltip>}
-                      title={`LV.${LevelingSys(user.experience)} ${user.userId}`}
+                      title={` ${user.userId}`}
                       description={`score:${user.score}`}
                     />
 
