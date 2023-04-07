@@ -1,6 +1,16 @@
+@import url("https://webfontworld.github.io/gmarket/GmarketSans.css");
+
 #root {
-  max-width: 100%;
-  margin: 0 auto;
+  /* max-width: 100%; */
+  margin: auto;
   padding: 2rem;
   text-align: center;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  font-family: "GmarketSans", sans-serif;
 }

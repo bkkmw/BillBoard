@@ -1,20 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./GameDescription.module.css";
+import { Box } from "@mui/material";
+import { textAlign } from "@mui/system";
+const GameDescription = (props) => {
+  const [expanded, setExpanded] = useState(false);
+  const toggleExpanded = () => {
+    setExpanded(!expanded);
+  };
+  const maxLength = 200;
 
-const GameDescription = () => {
+  const description =
+    expanded || props.details.description.length <= maxLength
+      ? props.details.description
+      : props.details.description.substring(0, maxLength) + "...";
   return (
     <div className={style.background2}>
-      <span className={style.font}>Description</span>
-      <span style={{ width: "74vw" }} className={style.font2}>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique
-        excepturi voluptatem ratione tenetur! Modi, ducimus exercitationem,
-        dolores corrupti blanditiis cupiditate adipisci voluptatum repudiandae
-        impedit tenetur asperiores ullam quod maiores quas? Lorem ipsum dolor
-        sit amet consectetur, adipisicing elit. Similique excepturi voluptatem
-        ratione tenetur! Modi, ducimus exercitationem, dolores corrupti
-        blanditiis cupiditate adipisci voluptatum repudiandae impedit tenetur
-        asperiores ullam quod maiores quas?
+      <span style={{ textAlign: "left" }} className={style.font}>
+        배경
       </span>
+      <Box
+        style={{
+          width: "74vw",
+          marginTop: "3vh",
+          textAlign: "start",
+          wordBreak: "keep-all",
+          cursor: "pointer",
+        }}
+        className={style.font2}
+        onClick={toggleExpanded}
+      >
+        {description}
+      </Box>
     </div>
   );
 };

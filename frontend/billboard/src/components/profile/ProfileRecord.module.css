@@ -1,5 +1,7 @@
 .background {
+  width: 85vw;
+  height: 50vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }

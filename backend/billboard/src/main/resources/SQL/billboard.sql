@@ -6,7 +6,11 @@ DROP TABLE IF EXISTS `reply`;
 DROP TABLE IF EXISTS `room`;
 DROP TABLE IF EXISTS `user`;
 
--- 유저테이블 만들 자리 
+DROP TABLE IF EXISTS `baseaddress`;
+DROP TABLE IF EXISTS `dongcode`;
+DROP TABLE IF EXISTS `guguncode`;
+DROP TABLE IF EXISTS `sidocode`;
+
 CREATE TABLE IF NOT EXISTS `user` (
   `userId` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NULL DEFAULT NULL,
@@ -28,6 +32,8 @@ CREATE TABLE `room` (
 	`title` varchar(45) NOT NULL,
 	`personLimit` int NOT NULL,
 	`location` varchar(45) DEFAULT NULL,
+    `lat` varchar(20) DEFAULT NULL,
+    `lng` varchar(20) DEFAULT NULL,
 	`date` datetime DEFAULT NULL,
 	PRIMARY KEY (`roomId`),
 	FOREIGN KEY (hostId) REFERENCES user (userId) on delete cascade
@@ -59,4 +65,34 @@ CREATE TABLE `follow` (
 	PRIMARY KEY (`followId`),
 	FOREIGN KEY (fromUserId) REFERENCES user (userId) on delete cascade,
 	FOREIGN KEY (toUserId) REFERENCES user (userId) on delete cascade
+);
+
+CREATE TABLE `sidocode` (
+    `sidoCode` varchar(10) NOT NULL,
+    `sidoName` varchar(30) DEFAULT NULL,
+    PRIMARY KEY (`sidoCode`),
+    UNIQUE KEY `sidoName` (`sidoName`)
+);
+
+CREATE TABLE `guguncode` (
+    `gugunCode` VARCHAR(10) NOT NULL,
+    `gugunName` VARCHAR(30) DEFAULT NULL,
+    PRIMARY KEY (`gugunCode`)
+);
+
+CREATE TABLE `dongcode` (
+    `dongCode` varchar(10) NOT NULL,
+    `dongName` varchar(30) DEFAULT NULL,
+    PRIMARY KEY (`dongCode`)
+);
+
+CREATE TABLE `baseaddress` (
+    `dongCode` varchar(10) NOT NULL,
+    `sidoName` varchar(30) DEFAULT NULL,
+    `gugunName` varchar(30) DEFAULT NULL,
+    `dongName` varchar(30) DEFAULT NULL,
+    `lat` varchar(20) DEFAULT NULL,
+    `lng` varchar(20) DEFAULT NULL,
+    PRIMARY KEY (`dongCode`),
+    FOREIGN KEY (`dongCode`) REFERENCES `dongcode` (`dongCode`)
 );

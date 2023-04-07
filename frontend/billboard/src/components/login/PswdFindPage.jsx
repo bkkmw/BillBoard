@@ -48,21 +48,22 @@ const PswdFindPage = () => {
     const userId = event.target.id.value;
 
     httpClient
-      .post("/user/find_password", {
+      .post("/users/find-password", {
         email: userEmail,
-        id: userId,
+        userId: userId,
       })
-      .then(({ status }) => {
-        if (status === 200) {
+      .then((data) => {
+        if (data.status === 200) {
           navigate("/FindResult", {
             state: { mode: "Password", email: userEmail, id: userId },
           });
-        } else {
-          window.alert("200인데 무슨 에러지??");
         }
       })
       .catch((error) => {
         console.log("에러", error);
+        if (error.response.status === 404) {
+          alert("등록되지 않은 아이디,이메일 입니다.");
+        }
       });
   }
   return (
@@ -95,7 +96,7 @@ const PswdFindPage = () => {
             />
             <span
               className="check-msg"
-              style={{ color: validEmail ? "green" : "red" }}
+              style={{ color: validEmail ? "green" : "black" }}
             >
               {validEmail ? "유효한 Email 입니다." : "~~~@~~~~.~~~"}
             </span>
@@ -111,7 +112,7 @@ const PswdFindPage = () => {
             />
             <span
               className="check-msg"
-              style={{ color: validId ? "green" : "red" }}
+              style={{ color: validId ? "green" : "black" }}
             >
               {validId ? "유효한 아이디 입니다." : "최소 3글자 입니다."}
             </span>
@@ -125,7 +126,11 @@ const PswdFindPage = () => {
               NEXT
             </Button>
             <footer>
-              <Link component={RouterLink} to="/login">
+              <Link
+                component={RouterLink}
+                to="/login"
+                style={{ textDecoration: "none" }}
+              >
                 뒤로 가기
               </Link>
             </footer>
