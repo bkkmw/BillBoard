@@ -7,7 +7,8 @@ import { Button } from "@mui/material";
 import UserSearch from "./UserSearch";
 import { useSelector } from "react-redux";
 import { useRouteLoaderData } from "react-router";
-
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 const ProfileSearch = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loginUser } = useSelector((state) => state.user);
@@ -32,15 +33,21 @@ const ProfileSearch = () => {
     <>
       <Button
         style={{
+          position: "fixed",
+          top: "17rem",
+          right: "20rem",
+          backgroundColor: "transparent",
           width: "7rem",
           height: "2.5rem",
         }}
-        // size="large"
-        icon={<SearchOutlined />}
-        // type="primary"
         onClick={showModal}
       >
-        친구찾기
+        <PersonAddIcon
+          sx={{
+            color: "black",
+            fontSize: "70px",
+          }}
+        />
       </Button>
       <Modal
         footer={null}
