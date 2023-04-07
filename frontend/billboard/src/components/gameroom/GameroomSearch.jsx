@@ -58,7 +58,7 @@ const GameroomSearch = ({
     maxplaytime: 1000,
     maxplayers: 0,
     average: 5,
-    averageWeight: 0,
+    averageWeight: 5,
     strategy: "",
     family: "",
     party: "",
@@ -137,7 +137,25 @@ const GameroomSearch = ({
             height: "6vh",
             display: "flex",
             justifyContent: "center",
-            marginRight: "1vw"
+            marginRight: "1vw",
+          }}
+          onClick={() => {
+            setIsInRecommend(!isInRecommend);
+          }}
+        >
+          {isInRecommend ? "검색하기" : "추천받기"}
+        </Button>
+        <TextField
+          fullWidth
+          label="게임 이름을 입력하시오"
+          id="gamesearch"
+          inputRef={inputRef}
+          style={{ width: "23vw", marginRight: "1vw" }}
+        />
+        <Button
+          style={{ fontSize: "1.5rem", marginRight: "1.2rem" }}
+          onClick={() => {
+            boards(inputRef.current.value);
           }}
           onClick={() => { setIsInRecommend(!isInRecommend) }}>
             {isInRecommend ? '검색하기' : '추천받기'}
@@ -256,7 +274,7 @@ const GameroomSearch = ({
         </Collapse>
       </Form>
       <Grid style={{ width: "42vw", height: "50vh", overflowY: "scroll" }}>
-        {boardReview.length != 0 ?
+        {boardReview.length != 0 ? (
           <div
             style={{
               width: "42vw",
@@ -336,9 +354,13 @@ const GameroomSearch = ({
                 </CardActionArea>
               </Card>
             ))}
-          </div> : <div>
-
-            <Searching />찾고싶은 게임명을 입력하세요</div>}
+          </div>
+        ) : (
+          <div>
+            <Searching />
+            찾고싶은 게임명을 입력하세요
+          </div>
+        )}
       </Grid>
 
 
